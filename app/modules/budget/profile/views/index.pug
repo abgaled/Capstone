@@ -1,0 +1,223 @@
+extends ../../home/views/navbar.pug
+
+block content
+        link(rel="stylesheet" href="/stylesheets/orgcouncilprofile.css")
+    
+        each user in tbl_user
+            <div class="content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                <div class="col-6">
+                <div class="card w3-animate-left" >
+                    <h5 class="card-header bg-dark text-white" style="font-size:22;">
+                        value= user.char_userStudNo
+                    <div class="float-right small">
+                        <div id="IdFooter" class="panel-footer text-right">
+                            <ul class="social-network social-circle">  
+                                <li><u>Edit</u> &nbsp<a href="#" class="edit" title="Edit" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    </h5>
+                    <div class="card-body" style="color:#2f4f4f;">
+                        <div class="image float-left">
+                            <img src="/pics/admin.png" class="img-thumbnail" alt="avatar"/>
+                        </div>
+                        <div id="cardtitle" style="margin-left:40%;">
+                        <h4 class="card-title" >
+                            value= user.varchar_userFName +" "
+                            value= user.varchar_userLName
+                        </h4>
+                        </div>
+                        <p class="card-text" style="margin-left:40%;">
+                            <i class="fa fa-envelope-o"></i>&nbsp
+                            value= user.varchar_userEmailAdd
+                            <br>
+                            <i class="fa fa-address-card-o"></i>&nbsp
+                            value= user.varchar_userAddress
+                            <br>
+                        </p>
+
+                    
+                    </div>
+                    </div>
+                </div>
+        
+            
+            <!-- /.container-fluid-->
+            <!-- /.content-wrapper-->
+            
+            <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                        <div class="card mb-6">
+                        <div class="card-header">
+                            <i class="fa fa-bullhorn"></i><b> Created Petitions</b>
+                            </div>
+                        <div class="card-body">
+                                    <div class="card mb-6">
+                                        <div class="card-header">
+                                        <table class="table">
+                                                <thead>
+                                                    <tr class="filters">
+                                                        <th>Subject Code</th>
+                                                        <th>Subject Name</th>
+                                                        <th>Time</th>
+                                                        <th>Days</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each petition in tbl_petition
+                                                    <tr>
+                                                        <td>
+                                                            value=petition.char_subjCode
+                                                        <td>
+                                                            value=petition.varchar_courseName
+                                                        </td>
+                                                        <td>
+                                                            value=petition.varchar_petitTime
+                                                        </td>
+                                                        <td>
+                                                            value=petition.varchar_petitDays
+                                                        </td>
+                                                        <td style="margin-right:4%;margin-bottom:2%;color:white;">
+                                                            a(href=`/student/profile/${petition.int_petitID}/sendlist`): span.fas.fa-file-pdf Send to Dean's Office
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                </div>
+            </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                        <div class="card mb-6">
+                        <div class="card-header">
+                            <i class="fa fa-bullhorn"></i><b> Joined Petitions</b>
+                            </div>
+                        <div class="card-body">
+                                    <div class="card mb-6">
+                                        <div class="card-header">
+                                        <table class="table">
+                                                <thead>
+                                                    <tr class="filters">
+                                                        <th>Subject Code</th>
+                                                        <th>Subject Name</th>
+                                                        <th>Time</th>
+                                                        <th>Days</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each join in tbl_join
+                                                    <tr>
+                                                        <td>
+                                                            value=join.char_subjCode
+                                                        <td>
+                                                            value=join.varchar_courseName
+                                                        </td>
+                                                        <td>
+                                                            value=join.varchar_petitTime
+                                                        </td>
+                                                        <td>
+                                                            value=join.varchar_petitDays
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                </div>
+            </div>
+            </div>
+
+            </div>
+            </div>
+            <footer class="sticky-footer">
+            <div class="container">
+                <div class="text-center">
+                <small>Copyright © Irregular Please 2018</small>
+                </div>
+            </div>
+            </footer>
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fa fa-angle-up"></i>
+            </a>
+            <!-- Bootstrap core JavaScript-->
+            <script src="/adminui/vendor/jquery/jquery.min.js"></script>
+            <script src="/adminui/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <!-- Core plugin JavaScript-->
+            <script src="/adminui/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <!-- Page level plugin JavaScript-->
+            <script src="/adminui/vendor/chart.js/Chart.min.js"></script>
+            <script src="/adminui/vendor/datatables/jquery.dataTables.js"></script>
+            <script src="/adminui/vendor/datatables/dataTables.bootstrap4.js"></script>
+            <!-- Custom scripts for all pages-->
+            <script src="/adminui/js/sb-admin.min.js"></script>
+            <!-- Custom scripts for this page-->
+            <script src="/adminui/js/sb-admin-datatables.min.js"></script>
+            <script src="/adminui/js/sb-admin-charts.min.js"></script>
+        </div>
+        </body>
+    
+
+        each user in tbl_user
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="lineModalLabel">Edit Profile:</h3>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    </div>
+                    <div class="modal-body">
+        
+                        <form method="POST" action="profile/editprofile">
+                        <div class="row">
+                        <div class="form-group col-6">
+                            <label for="editfname">First Name</label>
+                            input(type="text" class="form-control" id="editfname" placeholder="First Name" value=`${user.varchar_userFName}` name="user_fname")
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="editlname">Last Name</label>
+                            input(type="text" class="form-control" id="editlname" placeholder="Last Name" value=`${user.varchar_userLName}` name="user_lname")
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editemail">Email Address</label>
+                            input(type="email" class="form-control" id="editemail" placeholder="Enter email" value=`${user.varchar_userEmailAdd}` name="user_email")
+                        </div>
+                        <label for="editpass">Password</label>
+                        <div class="row">
+                        <div class="form-group col-9">
+                            input(type="password" class="form-control" id="editpass" placeholder="Password" value=`${user.varchar_userPassword}` name="user_password")
+                        </div>
+                        <div class="form-group col-1">
+                            <button type="button" id="eye" onclick="if(user_password.type=='text')password.type='password'; else user_password.type='text';"><i class="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editaddress">Address</label>
+                            input(type="text" class="form-control" id="editaddress" placeholder="Address" value=`${user.varchar_userAddress}` name="user_address")
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-default float-right" id="buttoneditprofile">Submit</button>
+                        
+                        </form>
+
+                    </div>
+                    
+                </div>
+            </div>
+            </div>
+                        
+
+                        
+
+                        

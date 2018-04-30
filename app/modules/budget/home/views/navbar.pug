@@ -1,0 +1,33 @@
+extends ../../../../templates/master.pug
+
+block body
+    <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/citybarangay/styles.css">
+    </head>
+    <body>
+
+    <div id='cssmenu'>
+    <ul>
+        <li><a href='/budget/home' style="font-size:95%;font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;"><span>City Project Application and Benefits Releasing</span></a></li>
+        <li><a href='/budget/home'><span>Home</span></a></li>
+        <li class='active has-sub'><a href='#'><span>Proposals</span></a>
+            <ul>
+            <li><a href='/budget/proposals/new'><span>New Proposals</span></a>
+            </li>
+            <li><a href='/budget/proposals/reviewed'><span>Reviewed Proposals</span></a>
+            </li>
+        </ul>
+        </li>
+        <li><a href='/budget/schedule'><span>Schedule</span></a></li>
+        <li><a href='/budget/reports'><span>Reports</span></a></li>
+        <li><a href='/budget/mailbox'><span>Mailbox</span></a></li>
+        <li class='last'><a href='/logout'><span>Logout</span></a></li>
+    </ul>
+    </div>
+
+    </body>
+
+    block content

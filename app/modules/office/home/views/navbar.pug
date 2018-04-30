@@ -1,0 +1,38 @@
+extends ../../../../templates/master.pug
+
+block body
+    <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/citybarangay/styles.css">
+    </head>
+    <body>
+
+    <div id='cssmenu'>
+    <ul>
+        <li><a href='/office/home' style="font-size:95%;font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;"><span>City Project Application and Benefits Releasing</span></a></li>
+        <li><a href='/office/home'><span>Home</span></a></li>
+        <li class='active has-sub'><a href='#'><span>Projects</span></a>
+            <ul>
+            <li><a href='/office/projects/newproject'><span>New Project</span></a>
+            </li>
+            <li><a href='/office/projects/ongoingproject'><span>Ongoing Projects</span></a>
+            </li>
+            <li><a href='/office/projects/finishedproject'><span>Finished Projects</span></a>
+            </li>
+        </ul>
+        </li>
+        <li><a href='/office/problems'><span>Problems</span></a></li>
+        <li><a href='/office/proposals'><span>Proposals</span></a></li>
+        <li><a href='/office/schedule'><span>Schedule</span></a></li>
+        <li><a href='/office/reports'><span>Reports</span></a></li>
+        <li><a href='/office/mailbox'><span>Mailbox</span></a></li>
+        <li><a href='/office/awards'><span>Awards</span></a></li>
+        <li class='last'><a href='/logout'><span>Logout</span></a></li>
+    </ul>
+    </div>
+
+    </body>
+
+    block content

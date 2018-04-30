@@ -1,0 +1,31 @@
+extends ../../home/views/navbar.pug
+
+block content
+        link(rel="stylesheet" href="/stylesheets/orgcouncilprofile.css")
+    
+        each petition in petition_list
+            <div class="content-wrapper">
+            <div class="container-fluid">
+            <!-- Example DataTables Card-->
+            <div class="card mb-3">
+                <div class="card-header">
+                <i class="fa fa-list-ul"></i> Send Petition List: 
+                    <b>
+                    value=petition.char_subjCode +" "
+                    </b>
+                    a(href=`/student/profile/${petition.int_petitID}/sendlist/verify` class="btn btn-outline-primary waves-effect float-right"): span.fas.fa-file-pdf Send
+                </div>
+                <div class="card-body">
+                <p style="float:right">Created by:  
+                    value= " " + petition.varchar_userFName+" "
+                    value=petition.varchar_userLName
+                <p><b> List of students:</b>
+                <ol type="1">
+                    each petition1 in petition_list1
+                        <li>
+                            value=petition1.varchar_userLName +", " 
+                            value=petition1.varchar_userFName
+                    </ol>
+                </div>
+            </div>
+            </div>
