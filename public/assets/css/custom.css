@@ -1,0 +1,55 @@
+footer.page-footer {
+    background-color: #555658;
+    margin-top: 2rem;
+}
+
+.top-nav-collapse {
+    background-color: #7283A7 !important;
+}
+
+.navbar:not(.top-nav-collapse) {
+    background: transparent !important;
+}
+
+@media (max-width: 768px) {
+    .navbar:not(.top-nav-collapse) {
+        background: #7283A7 !important;
+    }
+}
+
+h1 {
+    letter-spacing: 8px;
+}
+
+h5 {
+    letter-spacing: 3px;
+}
+
+.hr-light {
+    border-top: 3px solid #fff;
+    width: 80px;
+}
+
+@media (max-width: 740px) {
+    .full-height,
+    .full-height body,
+    .full-height header,
+    .full-height header .view {
+        height: 700px;
+    }
+}
+
+.full-height,
+.full-height body,
+.full-height header,
+.full-height header .view {
+    height: 99%;
+}
+
+p {
+    line-height: 1.6rem;
+}
+
+.font-small {
+    font-size: 0.9rem;
+}

@@ -1,6 +1,5 @@
 var express = require('express');
 var homepage = express.Router();
-// var staff = express.Router();
 var signup = express.Router();
 var logoutRouter = express.Router();
 var authMiddleware = require('./middlewares/auth');
@@ -15,7 +14,7 @@ homepage.post('/', (req, res) =>{
     console.log('POST: Home Modal');
 
     var db = require('../../lib/database')();
-    db.query(`SELECT * FROM tbl_user WHERE varchar_userEmail="${req.body.user_email}"`, (err, results, fields) => {
+    db.query(`SELECT * FROM tbl_user WHERE varchar_userEmailAddress="${req.body.user_email}"`, (err, results, fields) => {
         if (err) throw err;
         if (results.length === 0) return res.redirect('/login?incorrect');
 
@@ -23,31 +22,31 @@ homepage.post('/', (req, res) =>{
         
         if (user.varchar_userPassword !== req.body.user_password) return res.redirect('/login?incorrect');
         
-        if(user.varchar_userType == "Admin"){
+        if(user.enum_userType == "Admin"){
             delete user.varchar_userPassword;
             req.session.user = user;
             console.log("Admin User:");
-            console.log('Admin: '+user.varchar_userEmail);
+            console.log('Admin: '+user.varchar_userEmailAddress);
             
             return res.redirect('/admin/dashboard');
             
         }
     
-        if(user.varchar_userType == "Office Staff"){
+        if(user.enum_userType == "Office Staff"){
             delete user.varchar_userPassword;
             req.session.user = user;
             console.log('Office Staff User:');
             return res.redirect('/office/home');
         }
 
-        if(user.varchar_userType == "Barangay Staff"){
+        if(user.enum_userType == "Barangay Staff"){
             delete user.varchar_userPassword;
             req.session.user = user;
             console.log('Barangay Staff User:');
             return res.redirect('/barangay/home');
         }
 
-        if(user.varchar_userType == "Budget Staff"){
+        if(user.enum_userType == "Budget Office Staff"){
             delete user.varchar_userPassword;
             req.session.user = user;
             console.log('Budget Staff User:');

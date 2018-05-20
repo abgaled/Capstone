@@ -1,6 +1,4 @@
 exports.hasAuth = (req, res, next) => {
-    // console.log(req.session);
-    console.log(req.session.user);
     if (req.session && req.session.user && Object.keys(req.session.user).length > 0) return next();
     return res.redirect('/home');
 }
