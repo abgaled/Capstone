@@ -5,29 +5,59 @@ block body
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/citybarangay/styles.css">
+    <!-- jquery ui  -->
+    <link rel="stylesheet" type="text/css" href="/landing/css/jquery-ui.css">
+    <!-- Style CSS -->
+    <link href="/landing/css/style.css" rel="stylesheet">
     </head>
-    <body>
 
-    <div id='cssmenu'>
-    <ul>
-        <li><a href='/barangay/home' style="font-size:95%;font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;"><span>City Project Application and Benefits Releasing</span></a></li>
-        <li><a href='/barangay/home'><span>Home</span></a></li>
-        <li class='active has-sub'><a href='#'><span>Residents</span></a>
-            <ul>
-            <li><a href='/barangay/residents/applications'><span>Applications</span></a>
-            </li>
-            <li><a href='/barangay/residents/beneficiaries'><span>Beneficiaries</span></a>
-            </li>
-        </ul>
-        </li>
-        <li><a href='/barangay/reports'><span>Reports</span></a></li>
-        <li><a href='/barangay/mailbox'><span>Mailbox</span></a></li>
-        <li><a href='/barangay/awards'><span>Awards</span></a></li>
-        <li class='last'><a href='/logout'><span>Logout</span></a></li>
-    </ul>
-    </div>
-
-    </body>
+    <!-- header-section-->
+    <div class="wrapper">
+        <div class="header-wrapper">
+            <!-- header-section-->
+            <div class="header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-2 col-md-3 col-sm-3 col-12">
+                            <div class="logo"> <a href="/barangay/home"><img src="/landing/images/logo.png" alt=""> </a> </div>
+                        </div>
+                        <div class="col-xl-9 col-lg-10 col-md-9 col-sm-12 col-12">
+                            <!-- navigations-->
+                            <div class="navigation">
+                                <div id="navigation">
+                                    <ul>
+                                        <li class="active"><a href="/barangay/home">Home</a></li>
+                                        <li class="has-sub"><a href="#">Residents</a>
+                                            <ul>
+                                                <li><a href="/barangay/residents/applications">Applications</a></li>
+                                                <li><a href="/barangay/residents/beneficiaries">Beneficiaries</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="/barangay/reports">Reports</a></li>
+                                        <li><a href="/barangay/mailbox">Mailbox</a></li>
+                                        <li><a href="/barangay/awards">Awards</a></li>
+                                        <li><a href="/logout">Log-out</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /.navigations-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- /. header-section-->
 
     block content
+
+    <a href="javascript:" id="return-to-top"><i class="fa fa-angle-up"></i></a>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/landing/js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/landing/js/bootstrap.min.js"></script>
+    <script src="/landing/js/menumaker.js"></script>
+    <script src="/landing/js/jquery.sticky.js"></script>
+    <script src="/landing/js/sticky-header.js"></script>
+    <script src="/landing/js/jquery-ui.js"></script>
+    <script src="/landing/js/date.js"></script>
+    <script src="/landing/js/return-to-top.js"></script>

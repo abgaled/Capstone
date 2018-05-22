@@ -143,7 +143,7 @@ button.btn { margin-right: -1px; }
 .space-medium { padding-top: 100px; padding-bottom: 100px; }
 .space-large { padding-top: 140px; padding-bottom: 140px; }
 .space-ex-large { padding-top: 160px; padding-bottom: 160px; }
-.content { padding-top: 80px; padding-bottom: 80px; }
+/* .content { padding-top: 80px; padding-bottom: 80px; } */
 
 /*----------------------
   4.2 Margin Space
@@ -341,7 +341,7 @@ img { width: auto; max-width: 100%; height: auto; margin: 0; padding: 0; border:
 .top-header ul li { float: left; border-right: 1px solid #eee; margin-right: 15px; padding: 6px 39px 6px 0px; }
 .top-header ul li:last-child { border-right: 0px; }
 .top-header-content { font-size: 14px; }
-.top-social { border-right: 1px solid #eee; padding-top: 6px; padding-bottom: 6px; }
+.top-social { border-right: 1px solid #eee; padding-top: 6px; padding-bottom: 6px;  }
 .top-social a { font-size: 14px; color: #36333c; }
 .top-social a:hover { color: #3B5997; }
 .header-wrapper { background-color: #fff; border-bottom: 1px solid #eee; z-index: 9; position: relative; }
@@ -432,9 +432,9 @@ img { width: auto; max-width: 100%; height: auto; margin: 0; padding: 0; border:
 /*----------------------------------------------
    5.4 Page Header
 ----------------------------------------------*/
-.page-header { background: url(../images/pageheader.jpg) no-repeat; margin: 0px; padding-top: 250px; padding-bottom: 0px; border: 0px; background-size: cover; background-position: center; }
+.page-header { background: url(/barangay/images/header.jpg) no-repeat; margin: 0px; padding-top: 250px; padding-bottom: 0px; border: 0px; background-size: cover; background-position: center; }
 .page-caption { padding-top: 37px; padding-bottom: 37px; color: #121113; background-color: #fff; text-align: center; width: 100%; border-top-left-radius: 6px; border-top-right-radius: 6px; }
-.page-title { font-size: 36px; line-height: 1; color: #121113; font-weight: 300; margin-bottom: 0px; }
+.page-title { font-size: 34px; line-height: 1; color: #121113; font-weight: 200; margin-bottom: 0px; text-transform:uppercase; }
 
 /*-----------------------------------
    6. Slider / Hero-section
@@ -662,8 +662,8 @@ img { width: auto; max-width: 100%; height: auto; margin: 0; padding: 0; border:
 /*-------------------------
 10.9 tour-booking
 ---------------------------*/
-.tour-booking-form { border: 1px solid #ededed; border-radius: 8px; padding: 40px; }
-.tour-form-title { border-bottom: 1px solid #ededed; padding-bottom: 25px; margin-bottom: 25px; font-size: 20px; }
+.tour-booking-form { border: 5px solid #ededed; border-radius: 8px; padding: 40px; }
+.tour-form-title { border-bottom: 3px solid #ededed; padding-bottom: 25px; margin-bottom: 25px; font-size: 20px; }
 
 /*--------------------------
 10.10 StyleGuide
