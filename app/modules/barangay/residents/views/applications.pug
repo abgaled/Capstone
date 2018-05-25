@@ -7,7 +7,7 @@ block content
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-caption">
-                            <h1 class="page-title">Resident Application</h1>
+                            <h1 class="page-title" style="color:#3B5997;">Resident Application</h1>
                         </div>
                     </div>
                 </div>
@@ -21,101 +21,46 @@ block content
                     <!-- footer-logo -->
                     <div class="wrapper">
                         <div class="tour-booking-form">
-                            <form>
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                        <h4 class="tour-form-title">Projects open for Application</h4>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label required" for="select">Destination</label>
-                                            <div class="select">
-                                                <select id="select" name="select" class="form-control">
-                                                    <option value="">Where you want to go</option>
-                                                    <option value="">Singapore</option>
-                                                    <option value="">Thailand</option>
-                                                    <option value="">Vietnam</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="datepicker">Check in</label>
-                                            <div class="input-group">
-                                                <input id="datepicker" name="datepicker" type="text" placeholder="Date" class="form-control" required>
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span> </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label required" for="select">Number of Persons:</label>
-                                            <div class="select">
-                                                <select id="select" name="select" class="form-control">
-                                                    <option value="">Number of Persons:</option>
-                                                    <option value="">01</option>
-                                                    <option value="">02</option>
-                                                    <option value="">03</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label required" for="select">Budgets</label>
-                                            <div class="select">
-                                                <select id="select" name="select" class="form-control">
-                                                    <option value="">Stadard</option>
-                                                    <option value="">Stadard</option>
-                                                    <option value="">Stadard</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt30">
-                                        <h4 class="tour-form-title">Your Travel Plan Detail</h4>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="name">Name</label>
-                                            <input id="name" type="text" placeholder="First Name" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="email"> Email</label>
-                                            <input id="email" type="text" placeholder="xxxx@xxxx.xxx" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="phone"> Phone</label>
-                                            <input id="phone" type="text" placeholder="(222) 222-2222" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="country">Country</label>
-                                            <input id="country" type="text" placeholder="India" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="city">City</label>
-                                            <input id="city" type="text" placeholder="Ahmedabad" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="textarea">Describe Your Travel Requirements</label>
-                                            <textarea class="form-control" id="textarea" name="textarea" rows="4" placeholder="Write Your Requirements"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <button type="submit" name="singlebutton" class="btn btn-primary">send Enquiry</button>
-                                    </div>
-                                </div>
-                                </form>
+                            <!--Table-->
+                            <table class="table table-hover table-responsive-md">
+
+                                <!--Table head-->
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th class="th-lg"><i class="fa fa-file-text-o fa-lg pr-2" aria-hidden="true"></i>Project Name</th>
+                                        <th class="th-lg"><i class="fa fa-calendar-times-o fa-lg pr-2" aria-hidden="true"></i>End Date</th>
+                                        <th class="th-lg"><i class="fa fa-folder-open-o fa-lg pr-2" aria-hidden="true"></i>Slots</th>
+                                        <th class="th-lg"><i class="fa fa-edit fa-lg pr-2" aria-hidden="true"></i>Action/s</th>
+                                    </tr>
+                                </thead>
+                                <!--Table head-->
+
+                                <!--Table body-->
+                                <tbody>
+                                    each project in tbl_project
+                                        <tr>
+                                        <td>
+                                            value=project.int_projectID
+                                        </td>
+                                        <td>
+                                            value=project.varchar_projectName
+                                        </td>
+                                        <td>
+                                            value=project.date_endDate
+                                        </td>
+                                        <td>
+                                            value=project.int_allotedSlot
+                                        </td>
+                                        <td>
+                                            a(href=`/barangay/residents/applications/${project.int_projectID}/apply` id="but_apply" ): span.fa.fa-files-o Apply
+                                        </td>
+                                        </tr>
+                                </tbody>
+                                <!--Table body-->
+
+                            </table>
+                            <!--Table-->
                         </div>
                         
                     </div>
@@ -123,6 +68,3 @@ block content
             </div>
         </div>
     <!-- /.tour-booking -->
-
-
-    
