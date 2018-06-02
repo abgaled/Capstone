@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2018 at 11:02 AM
+-- Generation Time: Jun 02, 2018 at 07:51 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -326,7 +326,8 @@ CREATE TABLE `tbl_project` (
 --
 
 INSERT INTO `tbl_project` (`int_projectID`, `date_startDate`, `date_endDate`, `date_approvedDate`, `date_releaseDate`, `decimal_actualBudget`, `enum_projectStatus`) VALUES
-(1, '2018-05-01', '2018-05-31', '2018-05-16', '2018-06-05', '1000000.00', 'Open');
+(1, '2018-05-01', '2018-05-31', '2018-05-16', '2018-06-05', '1000000.00', 'Open'),
+(2, '2018-05-31', '2018-06-15', '2018-06-02', '2018-06-12', '1000000.00', 'Open');
 
 -- --------------------------------------------------------
 
@@ -357,7 +358,8 @@ CREATE TABLE `tbl_projectcategory` (
 --
 
 INSERT INTO `tbl_projectcategory` (`int_projectCategID`, `varchar_projectCategName`, `text_projectCategDescription`) VALUES
-(1, 'Medical', 'About the health of the residents.');
+(1, 'Medical', 'About the health of the residents.'),
+(2, 'Monetary', 'Giving money for good purposes.');
 
 -- --------------------------------------------------------
 
@@ -385,7 +387,8 @@ CREATE TABLE `tbl_projectproposal` (
 --
 
 INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_projectCategID`, `varchar_projectName`, `varchar_releaseLocation`, `varchar_projectRationale`, `varchar_projectObjective`, `text_projectDescription`, `text_expectedOutput`, `int_allotedSlot`, `decimal_estimatedBudget`, `decimal_individualBudget`, `enum_proposalStatus`) VALUES
-(1, 1, 'Medicine Giving', 'City Hall', 'Ano this??? Update later.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 'Residents who really need these medicines will acquire it.', 100, '1000000.00', '10000.00', 'Accepted');
+(1, 1, 'Medicine Giving', 'City Hall', 'Ano this??? Update later.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 'Residents who really need these medicines will acquire it.', 100, '1000000.00', '10000.00', 'Accepted'),
+(2, 2, 'Financial Assistance for Grade 4 students.', 'City Hall', 'Parang Objective?', 'Help grade 4 students of elementary school to avail books specific for them.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 'They can avail textbooks for their studies.', 500, '1000000.00', '2000.00', 'Accepted');
 
 -- --------------------------------------------------------
 
@@ -780,12 +783,12 @@ ALTER TABLE `tbl_projectbidder`
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
 ALTER TABLE `tbl_projectcategory`
-  MODIFY `int_projectCategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `int_projectCategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_projectproposal`
 --
 ALTER TABLE `tbl_projectproposal`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_projectrequirement`
 --
