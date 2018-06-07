@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2018 at 07:51 PM
+-- Generation Time: Jun 07, 2018 at 05:17 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -373,7 +373,7 @@ CREATE TABLE `tbl_projectproposal` (
   `varchar_projectName` varchar(100) NOT NULL,
   `varchar_releaseLocation` varchar(100) NOT NULL,
   `varchar_projectRationale` varchar(100) NOT NULL,
-  `varchar_projectObjective` varchar(100) NOT NULL,
+  `varchar_projectObjective` varchar(400) NOT NULL,
   `text_projectDescription` text NOT NULL,
   `text_expectedOutput` text NOT NULL,
   `int_allotedSlot` int(11) NOT NULL,
@@ -388,7 +388,7 @@ CREATE TABLE `tbl_projectproposal` (
 
 INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_projectCategID`, `varchar_projectName`, `varchar_releaseLocation`, `varchar_projectRationale`, `varchar_projectObjective`, `text_projectDescription`, `text_expectedOutput`, `int_allotedSlot`, `decimal_estimatedBudget`, `decimal_individualBudget`, `enum_proposalStatus`) VALUES
 (1, 1, 'Medicine Giving', 'City Hall', 'Ano this??? Update later.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 'Residents who really need these medicines will acquire it.', 100, '1000000.00', '10000.00', 'Accepted'),
-(2, 2, 'Financial Assistance for Grade 4 students.', 'City Hall', 'Parang Objective?', 'Help grade 4 students of elementary school to avail books specific for them.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 'They can avail textbooks for their studies.', 500, '1000000.00', '2000.00', 'Accepted');
+(2, 2, 'Financial Assistance for Grade 4 students of \"Mababang Paaralan ng Sucat\"', 'City Hall', 'Parang Objective?', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 'It will help them to restore their school supplies that they recently used.', 500, '1000000.00', '2000.00', 'Accepted');
 
 -- --------------------------------------------------------
 

@@ -5,6 +5,7 @@ router.use(authMiddleware.hasAuth);
 
 router.use('/home', require('./home/routes'));
 router.use('/residents', require('./residents/routes'));
+router.use('/problemstatement', require('./problemstatement/routes'));
 router.use('/reports', require('./reports/routes'));
 router.use('/mailbox', require('./mailbox/routes'));
 router.use('/awards', require('./awards/routes'));
