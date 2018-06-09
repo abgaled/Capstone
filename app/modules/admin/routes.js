@@ -9,7 +9,7 @@ router.use('/transactions', require('./transactions/routes'));
 router.use('/queries', require('./queries/routes'));
 router.use('/reports', require('./reports/routes'));
 router.use('/utilities', require('./utilities/routes'));
-
+router.use('/navbar', require('./navbar/routes'));
 
 
 router.use('/profile', require('./profile/routes'));

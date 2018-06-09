@@ -44,4 +44,20 @@ router.get('/targetbeneficiary',(req, res) => {
     res.render('admin/maintenance/views/maintenance5');
 });
 
+router.get('/barangay',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 6');
+    console.log('=================================');
+    
+    res.render('admin/maintenance/views/maintenance6');
+});
+
+router.get('/awards',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 7');
+    console.log('=================================');
+    
+    res.render('admin/maintenance/views/maintenance7');
+});
+
 module.exports = router;

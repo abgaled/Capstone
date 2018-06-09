@@ -5,9 +5,11 @@ var db = require('../../../lib/database')();
 
 router.get('/',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN PROFILE');
+    console.log('BARANGAY: HOME');
     console.log('=================================');
-    res.render('admin/profile/views/index');
-    });
+
+    res.render('admin/navbar/views/navbar');
+
+});
 
 module.exports = router;
