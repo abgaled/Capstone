@@ -1,0 +1,133 @@
+extends ../../home/views/navbar.pug
+
+block content
+
+
+    each detail in details
+        
+        //- Header
+        <br/>
+        <div class="col-lg-12">
+            <h3 class="text-center"> 
+                value= detail.varchar_projectName
+            </h3>
+            <h6 class="text-center">
+                value= detail.varchar_projectCategName
+            </h6>
+            <hr/>
+        </div>
+
+        //- Details
+        <br/><br/>
+        <div class="col-lg-12">
+            <h4> Project Details </h4>
+            <hr />
+            <div class="table-container">
+                <table class="table table-bordered table-filter">
+                    <tbody>
+                        <tr>
+                            <td><b>Name</b></td>
+                            <td>
+                                value=detail.varchar_projectName
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Rationale</b></td>
+                            <td>
+                                value=detail.varchar_projectRationale
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Description</b></td>
+                            <td>
+                                value=detail.text_projectDescription
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Objective</b></td>
+                            <td>
+                                value=detail.varchar_projectObjective
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Expected Output</b></td>
+                            <td>
+                                value=detail.text_expectedOutput
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Project Category</b></td>
+                            <td>
+                                value=detail.varchar_projectCategName
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        //- Budget Details
+        <br/><br/>
+        <div class="col-lg-12">
+            <h4> Budget Details </h4>
+            <hr/>
+            <div class="table-container">
+                <table class="table table-filter table-bordered">
+                    <tbody>
+                        <tr>
+                            <td><b>Number of alloted slot</b></td>
+                            <td>
+                                value=detail.int_allotedSlot
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Budget Alloted per Beneficiary</b></td>
+                            <td>
+                                value=detail.decimal_individualBudget
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Estimated Budget</b></td>
+                            <td>
+                                value=detail.decimal_estimatedBudget
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        //- Buttons
+        <br/>
+        <div class="col-lg-12">
+            <div class="float-right">
+                <input type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="fa fa-check"></i><b>Accept</b></input>
+                <input type="button" class="btn btn-danger" ><i class="fa fa-close"></i><b>Reject</b></input>
+            </div>
+        </div>
+        
+
+        //- Modals
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+            
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                
+                <div class="modal-content">
+                    
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="lineModalLabel">Hanlooo</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>  
+                    
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        //- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        //- <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>

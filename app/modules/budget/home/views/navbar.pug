@@ -5,29 +5,75 @@ block body
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/citybarangay/styles.css">
+    <!-- jquery ui  -->
+    <link rel="stylesheet" type="text/css" href="/landing/css/jquery-ui.css">
+    <!-- Style CSS -->
+    <link href="/landing/css/style.css" rel="stylesheet">
     </head>
-    <body>
 
-    <div id='cssmenu'>
-    <ul>
-        <li><a href='/budget/home' style="font-size:95%;font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;"><span>City Project Application and Benefits Releasing</span></a></li>
-        <li><a href='/budget/home'><span>Home</span></a></li>
-        <li class='active has-sub'><a href='#'><span>Proposals</span></a>
-            <ul>
-            <li><a href='/budget/proposals/new'><span>New Proposals</span></a>
-            </li>
-            <li><a href='/budget/proposals/reviewed'><span>Reviewed Proposals</span></a>
-            </li>
-        </ul>
-        </li>
-        <li><a href='/budget/schedule'><span>Schedule</span></a></li>
-        <li><a href='/budget/reports'><span>Reports</span></a></li>
-        <li><a href='/budget/mailbox'><span>Mailbox</span></a></li>
-        <li class='last'><a href='/logout'><span>Logout</span></a></li>
-    </ul>
-    </div>
-
-    </body>
+    <!-- header-section-->
+    <div class="wrapper ">
+        <div class="header-wrapper navbar-dark">
+                <div class="">
+                    <nav class="navbar navbar-dark bg-dark navbar-expand-xl ">
+                        
+                        <a class="navbar-brand" href="/budget/home"><h2 style="color: white"><b>City</b><strong style="color: #669BC8">Pro</strong></h2></a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/budget/home">Home <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Proposals</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="/budget/proposals/new">New Proposals</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/budget/proposals/reviewed">Reviewed Proposals</a>
+                                </div>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="/budget/schedule">Schedule</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/budget/reports">Reports</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/budget/mailbox">Mailbox</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">Log-out</a>
+                            </li>
+                            </ul>
+                        </div>
+                    </nav>  
+                </div>
+        </div>
+       
+    <!-- /. header-section-->
 
     block content
+
+    <footer>
+        <br>
+            <div style="text-align: center;background-color: #cccccc;">
+                <div class="">
+                    <p>© 2018. Polytechnic University of the Philippines, BSIT 4-3 Batch 2018-2019. All rights reserved. </p>
+                </div>
+            </div>
+    </footer>
+
+    <a href="javascript:" id="return-to-top"><i class="fa fa-angle-up"></i></a>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/landing/js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/landing/js/bootstrap.min.js"></script>
+    <script src="/landing/js/menumaker.js"></script>
+    <script src="/landing/js/jquery.sticky.js"></script>
+    <script src="/landing/js/sticky-header.js"></script>
+    <script src="/landing/js/jquery-ui.js"></script>
+    <script src="/landing/js/date.js"></script>
+    <script src="/landing/js/return-to-top.js"></script>

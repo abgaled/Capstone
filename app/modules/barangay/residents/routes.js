@@ -10,8 +10,9 @@ router.get('/applications',(req, res) => {
     console.log('BARANGAY: RESIDENTS-APPLICATIONS');
     console.log('=================================');
 
-    var queryString = `SELECT * FROM tbl_project p JOIN tbl_projectproposal pp 
-    ON p.int_projectID=pp.int_projectID`
+    var queryString = `SELECT *, DATE(date_endDate) FROM tbl_project p 
+    JOIN tbl_projectproposal pp ON p.int_projectID=pp.int_projectID`
+
 
     db.query(queryString,(err, results, fields) => {
         if (err) console.log(err);

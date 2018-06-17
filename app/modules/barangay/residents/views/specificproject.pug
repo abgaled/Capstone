@@ -34,58 +34,54 @@ block content
                         <h5>Resident's Name:<label style="color:red;">*</label></h5>
                         <div class="form-row">
                             <div class="col-md-4">
-                                <input type="text" name="fname" class="form-control" placeholder="First name" required>
+                                <input type="text" name="apply_fname" class="form-control" placeholder="First name" required>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Last name" required>
+                                <input type="text" name="apply_lname" class="form-control" placeholder="Last name" required>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Middle name" required>
+                                <input type="text" name="apply_mname" class="form-control" placeholder="Middle name" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <h5>Birthdate:<label style="color:red;">*</label></h5>
                                 <div class="col-md-4">
-                                    <input type="date" name="birthdate" class="form-control" placeholder="Birthdate">
+                                    <input type="date" name="apply_birthdate" class="form-control" placeholder="Birthdate">
                                 </div>
-                            <h5 style="margin-left:1%;margin-right:0.5%;width:83px;">Birthplace:</h5>
-                                <div class="col-md-6">
-                                    <input type="text" name="birthplace" class="form-control" placeholder="(ex. Manila City)">
+                            <h5 style="margin-left:4%;margin-right:0.5%;width:83px;">Birthplace:</h5>
+                                <div class="col-md-5">
+                                    <input type="text" name="apply_birthplace" class="form-control" placeholder="(ex. Manila City)">
                                 </div>
                         </div>
                         <div class="form-row">
-                            <h5 style="margin-right:4%;">Gender:<label style="color:red;">*</label></h5>
+                            <h5 style="margin-right:7%;">Gender:<label style="color:red;">*</label></h5>
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Male
+                                        <input class="form-check-input" type="radio" name="apply_gender" id="inlineRadio1" value="option1"> Male
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Female
+                                        <input class="form-check-input" type="radio" name="apply_gender" id="inlineRadio2" value="option2"> Female
                                     </label>
                                 </div>
-                            <h5 style="margin-left:2%;">Year of Residency:<label style="color:red;">*</label></h5>
-                                <div class="col-md-4">
-                                    <input type="text" name="birthdate" class="form-control" placeholder="(ex. 20xx, 2010)">
-                                </div>
-                            <h5 style="margin-left:1%;">Civil Status:<label style="color:red;">*</label></h5>
-                                <div class="col-md-2">
-                                    <select class="form-control" id="civilstatus" style="width:194px;">
-                                        <option>Single</option>
-                                        <option>Married</option>
-                                        <option>Widowed</option>
-                                    </select>
+                            <h5 style="margin-left:14%;">Year of Residency:<label style="color:red;">*</label></h5>
+                                <div class="col-md-5">
+                                    <input type="text" name="apply_yrres" class="form-control" placeholder="(ex. 20xx, 2010)">
                                 </div>
                         </div>
                         <div class="form-row">
                             <h5>Mobile Number:<label style="color:red;">*</label></h5>
-                                <div class="col-md-4">
-                                    <input type="text" name="mobilenum" class="form-control" placeholder="(ex. 0915xxxxxxx)">
+                                <div class="col-md-3">
+                                    <input type="text" name="apply_contact" class="form-control" placeholder="(ex. 0915xxxxxxx)">
                                 </div>
-                            <h5 style="margin-left:1%;margin-right:0.5%;">Telephone Number:</h5>
-                                <div class="col-md-4">
-                                    <input type="text" name="telenum" class="form-control" placeholder="(ex. 801xxxx)">
+                            <h5 style="margin-left:7.5%;">Civil Status:<label style="color:red;">*</label></h5>
+                                <div class="col-md-5">
+                                    <select class="form-control" id="civilstatus" name="apply_civilstat">
+                                        <option>Single</option>
+                                        <option>Married</option>
+                                        <option>Widowed</option>
+                                    </select>
                                 </div>
                         </div>
                     </div>
@@ -95,24 +91,19 @@ block content
                 <div class="tab"><h3>APPLICANT'S ADDRESS INFORMATION</h3>
                     <div class="tab-upper-field">
                         <div class="form-row">
-                        <h5 style="margin-right:1%;">Block Lot:<label style="color:red;">*</label></h5>
-                            <div class="col-md-4">
-                                <input type="text" name="blocknum" class="form-control" placeholder="Block Number/Building Number/Lot Number" required>
+                        <h5 style="margin-right:0.5%;">Block Lot:<label style="color:red;">*</label></h5>
+                            <div class="col-md-3">
+                                <input type="text" name="apply_blocknum" class="form-control" placeholder="Block Number/Building Number/Lot Number" required>
                             </div>
-                        <h5 style="margin-left:2%;margin-right:1%;">Street:<label style="color:red;">*</label></h5>
-                        <div class="col-md-6">
-                                <input type="text" name="street" class="form-control" placeholder="Street Name/Avenue/Road" required>
+                        <h5 style="margin-left:1%;margin-right:0.5%;">Street:<label style="color:red;">*</label></h5>
+                        <div class="col-md-3">
+                                <input type="text" name="apply_street" class="form-control" placeholder="Street Name/Avenue/Road" required>
                         </div>
+                        <h5 style="margin-left:1%;">Province:</h5>
+                            <div class="col-md-3">
+                                <input type="text" name="province" class="form-control" placeholder="Applicant's Province">
+                            </div>
                         </div>
-                        <div class="form-row">
-                            <h5>Purok:<label style="color:red;">*</label></h5>
-                                <div class="col-md-4">
-                                    <input type="text" name="purok" class="form-control" placeholder="(ex. Purok 1)">
-                                </div>
-                            <h5 style="margin-left:1%;margin-right:0.5%;width:83px;">Province:</h5>
-                                <div class="col-md-6">
-                                    <input type="text" name="province" class="form-control" placeholder="Applicant's Province">
-                                </div>
                         </div>
                     </div>
                 </div>

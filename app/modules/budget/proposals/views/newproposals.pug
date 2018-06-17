@@ -1,4 +1,74 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <h3> Proposals-New</h3>
+    <!-- page-header -->
+        <div class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-caption">
+                            <h1 class="page-title" style="color:#3B5997;">New Proposal</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.page-header-->
+        <!-- tour-booking -->
+        <div class="content">
+            <div class="container">
+                <div class="row ">
+                    <div class="wrapper">
+                        <div class="tour-booking-form">
+                            <!--Table-->
+                            <table id="openprojects" class="table table-hover table-responsive-md">
+
+                                <!--Table head-->
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th class="th-lg"><i class="fa fa-file-text-o fa-lg pr-2" aria-hidden="true"></i>Title</th>
+                                        <th class="th-lg"><i class="fa fa-list-alt fa-lg pr-2" aria-hidden="true"></i>Objective</th>
+                                        <th class="th-lg"><i class="fa fa-folder-open-o fa-lg pr-2" aria-hidden="true"></i>Category</th>
+                                        <th class="th-lg"><i class="fa fa-edit fa-lg pr-2" aria-hidden="true"></i>Action/s</th>
+                                    </tr>
+                                </thead>
+                                <!--Table head-->
+
+                                <!--Table body-->
+                                <tbody>
+                                each proposal in newproposals
+                                    <tr>
+                                        <td>
+                                            value=proposal.int_projectID
+                                        </td>
+                                        <td>
+                                            value=proposal.varchar_projectName
+                                        </td>
+                                        <td>
+                                            value=proposal.varchar_projectObjective
+                                        </td>
+                                        <td>
+                                            value=proposal.varchar_projectCategName
+                                        </td>
+                                        <td>
+                                            a(href=`/budget/proposals/new/${proposal.int_projectID}/details`): span.fa.fa-eye View
+                                            //- <a type="button" class="btn btn-info btn-filter" href=`/budget/proposals/new/${proposal.int_projectID}/details`><i class="fa fa-eye"></i> View</a>
+                                            <a type="button" class="btn btn-danger btn-filter" ><i class="fa fa-close"></i> Reject</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <!--Table body-->
+
+                            </table>
+                            <!--Table-->
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- /.tour-booking -->
+
+                    
+            

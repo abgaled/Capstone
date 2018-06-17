@@ -18,17 +18,16 @@ block content
         <div class="content">
             <div class="container">
                 <div class="row ">
-                    <!-- footer-logo -->
                     <div class="wrapper">
                         <div class="tour-booking-form">
                             <!--Table-->
-                            <table class="table table-hover table-responsive-md">
+                            <table id="openprojects" class="table table-hover table-responsive-md">
 
                                 <!--Table head-->
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th class="th-lg"><i class="fa fa-file-text-o fa-lg pr-2" aria-hidden="true"></i>Project Name</th>
+                                        <th class="th-lg"><i class="fa fa-file-text-o fa-lg pr-2" aria-hidden="true"></i>Projects</th>
                                         <th class="th-lg"><i class="fa fa-calendar-times-o fa-lg pr-2" aria-hidden="true"></i>End Date</th>
                                         <th class="th-lg"><i class="fa fa-folder-open-o fa-lg pr-2" aria-hidden="true"></i>Slots</th>
                                         <th class="th-lg"><i class="fa fa-edit fa-lg pr-2" aria-hidden="true"></i>Action/s</th>
@@ -37,7 +36,7 @@ block content
                                 <!--Table head-->
 
                                 <!--Table body-->
-                                <tbody>
+                                <tbody id="openprojectsbody">
                                     each project in tbl_project
                                         <tr>
                                         <td>
@@ -46,7 +45,7 @@ block content
                                         <td>
                                             value=project.varchar_projectName
                                         </td>
-                                        <td>
+                                        <td id="date_name">
                                             value=project.date_endDate
                                         </td>
                                         <td>
@@ -68,3 +67,51 @@ block content
             </div>
         </div>
     <!-- /.tour-booking -->
+
+
+        script.
+            //- var get_dateID = document.getElementById("date_name");
+            //- var get_dateValue = get_dateID.innerText;
+            //- var get_stringValue = get_dateValue.toString();
+             
+
+            //- get_stringValue = new Date(get_stringValue).toUTCString();
+            //- get_stringValue = get_stringValue.split(' ').slice(0, 4).join(' ');
+            //- console.log(get_stringValue);
+            //- document.getElementById('date_name').innerHTML = get_stringValue;
+
+
+
+            var t = document.getElementById("openprojectsbody"),
+                tableRows = t.getElementsByTagName("tr"),
+                r = [], i, len, tds, j, jlen;
+
+            for ( i =0, len = tableRows.length; i<len; i++) {
+                tds = tableRows[i].getElementsByTagName('td');
+                for( j = 0, jlen = tds.length; j < jlen; j++) {
+                    r.push(tds[j]);
+                    
+                    var final_table=tds[j];
+                    console.log(final_table);
+
+                }
+            
+            }
+
+            var table = document.getElementById("openprojectsbody").rows;
+            console.log(table);
+            var y;
+            var tr = table.getElementsByTagName("tr");
+            
+            for(i = 0; i <tr.length; i++)
+            {   
+                var td = tr[i].getElementsByTagName('td');
+                for(j = 0; j < td.length; j++)
+                {
+                    y = table[i].cells;
+                    //do something with cells in a row
+                    y[j].innerHTML = "hello";
+                }
+            }
+                    
+            

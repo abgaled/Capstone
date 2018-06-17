@@ -1,4 +1,35 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <h3> Proposals-Reviewed</h3>
+    <br/>
+    <h3 class="text-center"> REVIEWED PROPOSAL</h3>
+    <hr/>
+
+    <div class="table-container col-md-12">
+        <table class="table table-hover table-bordered table-filter">
+            <thead>
+                <th>Title</th>
+                <th>Objective</th>
+                <th>Category</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                each proposal in reviewedproposals
+                    <tr>
+                        <td>
+                            value=proposal.varchar_projectName
+                        </td>
+                        <td>
+                            value=proposal.varchar_projectObjective
+                        </td>
+                        <td>
+                            value=proposal.varchar_projectCategName
+                        </td>
+                        <td>
+                            <a type="button" class="btn btn-info btn-filter" href='/budget/proposals/details'><i class="fa fa-eye"></i> View</a>
+                            <a type="button" class="btn btn-danger btn-filter" ><i class="fa fa-close"></i> Reject</a>
+                        </td>
+                    </tr>
+            </tbody>
+        </table> 
+    </div>

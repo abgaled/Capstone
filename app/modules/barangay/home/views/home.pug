@@ -2,12 +2,12 @@ extends ./navbar.pug
 
 block content
     <!-- page-header -->
-        <div class="page-header">
-            <div class="container">
+        <div class="page-header ">
+            <div class="container "  >
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-caption">
-                            <h1 class="page-title">Barangay - Home</h1>
+                            <h1 class="page-title"style="color: #3B5997">Barangay 1</h1>
                         </div>
                     </div>
                 </div>
@@ -15,132 +15,84 @@ block content
         </div>
         <!-- /.page-header-->
         <!-- tour-booking -->
-        <div class="content">
+        <div class="content" style="padding-top:20px;">
             <div class="container">
                 <div class="row ">
                     <!-- footer-logo -->
                     <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12 mb30">
-                        <div class="tour-booking-form">
+                        <div class="tour-booking-form"style="background-color: #FDFDEE;">
                             <form>
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                        <h4 class="tour-form-title">Your Travel Plan Detail</h4>
+                                        <h4 class="tour-form-title">Announcement</h4>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                                    
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="form-group">
-                                            <label class="control-label required" for="select">Destination</label>
-                                            <div class="select">
-                                                <select id="select" name="select" class="form-control">
-                                                    <option value="">Where you want to go</option>
-                                                    <option value="">Singapore</option>
-                                                    <option value="">Thailand</option>
-                                                    <option value="">Vietnam</option>
-                                                </select>
-                                            </div>
+                                            <label class="control-label" for=""></label>
+                                            <input id="announcements" type="text" placeholder="Your barangay was awarded as..." class="form-control"disabled>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="datepicker">Check in</label>
-                                            <div class="input-group">
-                                                <input id="datepicker" name="datepicker" type="text" placeholder="Date" class="form-control" required>
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span> </div>
-                                        </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 "style="padding-left:550px;">
+                                        <button type="submit" name="singlebutton" class="btn btn-primary" >Read</button>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label required" for="select">Number of Persons:</label>
-                                            <div class="select">
-                                                <select id="select" name="select" class="form-control">
-                                                    <option value="">Number of Persons:</option>
-                                                    <option value="">01</option>
-                                                    <option value="">02</option>
-                                                    <option value="">03</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label required" for="select">Budgets</label>
-                                            <div class="select">
-                                                <select id="select" name="select" class="form-control">
-                                                    <option value="">Stadard</option>
-                                                    <option value="">Stadard</option>
-                                                    <option value="">Stadard</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt30">
-                                        <h4 class="tour-form-title">Your Travel Plan Detail</h4>
+                                        <h4 class="tour-form-title">Latest Project</h4>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="name">Name</label>
-                                            <input id="name" type="text" placeholder="First Name" class="form-control" required>
-                                        </div>
+                                    <div class="lat-proj">
+                                        <h5 class="lat-proj-title">Educational Assistance </h6>
+                                        <p class="lat-proj-det">All students that are currently enrolled in high school and college are invited to apply for scholarship program. All you need is to comply the following requirements: </p>
+                                        <ul class="lat-proj-req">
+                                            <li>Indigency</li>
+                                            <li>Certificate of enrollment/Registration Card</li>
+                                            <li>Latest Grades</li>
+                                            <li>For 18years old below you'll need your parents consent
+                                        </ul>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="email"> Email</label>
-                                            <input id="email" type="text" placeholder="xxxx@xxxx.xxx" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="phone"> Phone</label>
-                                            <input id="phone" type="text" placeholder="(222) 222-2222" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="country">Country</label>
-                                            <input id="country" type="text" placeholder="India" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="city">City</label>
-                                            <input id="city" type="text" placeholder="Ahmedabad" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label class="control-label" for="textarea">Describe Your Travel Requirements</label>
-                                            <textarea class="form-control" id="textarea" name="textarea" rows="4" placeholder="Write Your Requirements"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <button type="submit" name="singlebutton" class="btn btn-primary">send Enquiry</button>
-                                    </div>
+
                                 </div>
                                 </form>
                         </div>
                         
                     </div>
+                    
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12 ">
-                        <div class="widget-primary support-list">
+                        <div class="widget-primary support-list" style="background-color: white; border-style: solid;">
                             <div class="widget-primary-title">
-                                <h3>Why Book With Us?</h3>
+                                <h3>Releasing</h3>
                             </div>
-                            <ul class="arrow list-none">
-                                <li>24X7 service and support</li>
-                                <li>Totally complaint in all aspects</li>
-                                <li>Dedicated, trustworthy team</li>
-                                <li>Professional happy services</li>
+                            <ul class="list-group">
+                                <li>
+                                    <h5 class="releasing-date">September 15, 2018</h5>
+                                    <ul class="arrow list-none">
+                                        <li class="_beneficiary">Jillmarie</li>
+                                    </ul>   
+                                </li>
+                                <li>
+                                    <h5 class="releasing-date">September 30, 2018</h5>
+                                    <ul class="arrow list-none">
+                                        <li class="_beneficiary">Abigail</li>
+                                        <li class="_beneficiary">Maricar</li>
+                                    </ul>   
+
+                                </li>
                             </ul>
+                            
                         </div>
-                        <div class="widget-default">
-                            <div class="question-icon"><img src="./images/question_icon.png" alt=""></div>
-                            <h3 class="widget-default-title">Have You Any Question?</h3>
-                            <p>Here is an important list of questions to help to solve your queries. </p>
-                            <a href="#" class="btn btn-primary btn-block">Frequently Ask Question</a>
+                    
+                        <div class="widget-primary support-list bg-secondary" >
+                            <h3 class="widget-default-title">Barangay Awards</h3>
+                             <img src="public/landing/images/trophy.jpg" alt="" class="img-fluid">
+    
+                            <p style="color:#90AFC5">Most Active Barangay</p>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
     <!-- /.tour-booking -->
 
 

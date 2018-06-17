@@ -204,3 +204,26 @@
 #cssmenu .has-sub .has-sub ul a:hover {
   background: #bfbfbf;
 }
+.Lat-proj-title{
+  padding-left: 30px;
+
+}
+.Lat-proj-det{
+  padding-left: 40px;
+  padding-right: 15px;
+}
+.Lat-proj-req{
+  padding-left: 50px;
+  padding-right: 15px;
+}
+.Lat-proj-req li{
+  background: #D9EBF2;
+  margin: 5px;
+}
+.wdg-brgy-awards{
+  background-image: url("landing/images/trophy.jpg");
+}
+.foottext{
+  text-align: center;
+  background-color: #cccccc;
+}

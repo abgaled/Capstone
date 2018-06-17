@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 07, 2018 at 05:17 PM
+-- Generation Time: Jun 17, 2018 at 05:56 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -289,6 +289,16 @@ CREATE TABLE `tbl_problemcategory` (
   `text_problemCategDescription` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_problemcategory`
+--
+
+INSERT INTO `tbl_problemcategory` (`int_problemCategID`, `varchar_problemCategName`, `text_problemCategDescription`) VALUES
+(1, 'Health', 'Anything related to health of the residents.'),
+(2, 'Education', 'Anything related to the students of this city.'),
+(3, 'Finance', 'Anything related with money/monetary.'),
+(4, 'Infrastructure', 'Anything related to building something that do not involved any residents.');
+
 -- --------------------------------------------------------
 
 --
@@ -304,6 +314,19 @@ CREATE TABLE `tbl_problemstatement` (
   `date_createdDate` date NOT NULL,
   `enum_problemStatus` enum('Accepted','Pending','Rejected') DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_problemstatement`
+--
+
+INSERT INTO `tbl_problemstatement` (`int_problemID`, `int_barangayID`, `int_problemCategID`, `varchar_statementTitle`, `varchar_statementDescription`, `date_createdDate`, `enum_problemStatus`) VALUES
+(11, 10, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
+(12, 10, 3, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
+(13, 10, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
+(14, 10, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
+(15, 10, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
+(16, 10, 2, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
+(17, 10, 2, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -326,7 +349,6 @@ CREATE TABLE `tbl_project` (
 --
 
 INSERT INTO `tbl_project` (`int_projectID`, `date_startDate`, `date_endDate`, `date_approvedDate`, `date_releaseDate`, `decimal_actualBudget`, `enum_projectStatus`) VALUES
-(1, '2018-05-01', '2018-05-31', '2018-05-16', '2018-06-05', '1000000.00', 'Open'),
 (2, '2018-05-31', '2018-06-15', '2018-06-02', '2018-06-12', '1000000.00', 'Open');
 
 -- --------------------------------------------------------
@@ -358,8 +380,8 @@ CREATE TABLE `tbl_projectcategory` (
 --
 
 INSERT INTO `tbl_projectcategory` (`int_projectCategID`, `varchar_projectCategName`, `text_projectCategDescription`) VALUES
-(1, 'Medical', 'About the health of the residents.'),
-(2, 'Monetary', 'Giving money for good purposes.');
+(1, 'Health', 'About the health of the residents.'),
+(2, 'Finance', 'Giving money for good purposes.');
 
 -- --------------------------------------------------------
 
@@ -379,7 +401,7 @@ CREATE TABLE `tbl_projectproposal` (
   `int_allotedSlot` int(11) NOT NULL,
   `decimal_estimatedBudget` decimal(10,2) NOT NULL,
   `decimal_individualBudget` decimal(10,2) NOT NULL,
-  `enum_proposalStatus` enum('Accepted','Pending','Rejected') DEFAULT 'Pending'
+  `enum_proposalStatus` enum('New','Accepted','Pending','Rejected') DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -387,8 +409,8 @@ CREATE TABLE `tbl_projectproposal` (
 --
 
 INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_projectCategID`, `varchar_projectName`, `varchar_releaseLocation`, `varchar_projectRationale`, `varchar_projectObjective`, `text_projectDescription`, `text_expectedOutput`, `int_allotedSlot`, `decimal_estimatedBudget`, `decimal_individualBudget`, `enum_proposalStatus`) VALUES
-(1, 1, 'Medicine Giving', 'City Hall', 'Ano this??? Update later.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 'Residents who really need these medicines will acquire it.', 100, '1000000.00', '10000.00', 'Accepted'),
-(2, 2, 'Financial Assistance for Grade 4 students of \"Mababang Paaralan ng Sucat\"', 'City Hall', 'Parang Objective?', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 'It will help them to restore their school supplies that they recently used.', 500, '1000000.00', '2000.00', 'Accepted');
+(2, 2, 'Financial Assistance for Grade 4 students of \"Mababang Paaralan ng Sucat\"', 'City Hall', 'Parang Objective?', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 'It will help them to restore their school supplies that they recently used.', 500, '1000000.00', '2000.00', 'New'),
+(3, 2, 'Financial Assistance giving for the Newly Labor Women', 'City Hall', 'Parang objective??', 'To help the qualified newly labor women. ', 'With these days, having a newly born child is quite difficult to handle because of the ever-changing up-rise of the price of the goods.', 'Mothers can provide their babies their basic needs.', 200, '500000.00', '2500.00', 'New');
 
 -- --------------------------------------------------------
 
@@ -768,12 +790,12 @@ ALTER TABLE `tbl_message`
 -- AUTO_INCREMENT for table `tbl_problemcategory`
 --
 ALTER TABLE `tbl_problemcategory`
-  MODIFY `int_problemCategID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_problemCategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
 ALTER TABLE `tbl_problemstatement`
-  MODIFY `int_problemID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_problemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `tbl_projectbidder`
 --
@@ -788,7 +810,7 @@ ALTER TABLE `tbl_projectcategory`
 -- AUTO_INCREMENT for table `tbl_projectproposal`
 --
 ALTER TABLE `tbl_projectproposal`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tbl_projectrequirement`
 --
