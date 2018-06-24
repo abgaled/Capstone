@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2018 at 05:56 PM
+-- Generation Time: Jun 24, 2018 at 08:32 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -320,13 +320,8 @@ CREATE TABLE `tbl_problemstatement` (
 --
 
 INSERT INTO `tbl_problemstatement` (`int_problemID`, `int_barangayID`, `int_problemCategID`, `varchar_statementTitle`, `varchar_statementDescription`, `date_createdDate`, `enum_problemStatus`) VALUES
-(11, 10, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
-(12, 10, 3, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
-(13, 10, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
-(14, 10, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
-(15, 10, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
-(16, 10, 2, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending'),
-(17, 10, 2, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Due To The Recent Demolished Nuclear Plant Leakage Some Residents Said That They Are Now Infected Of This So-Called Virus.', '0000-00-00', 'Pending');
+(33, 10, 1, 'Petition for full body check up and medicine giving for the residents of barangay Buli', 'Due to recent demolished nuclear plant leakage some residents said that it affects the growth of their plants that they eat that might affect their health.', '2018-06-24', 'Pending'),
+(34, 10, 2, 'Scholarship grant for top 20 most outstanding students of muntinlupa city.', 'Based on our surey most of the most outstanding students of every highschool here in muntinlupa do not have enough money to continue their studies in college.', '2018-06-24', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -795,7 +790,7 @@ ALTER TABLE `tbl_problemcategory`
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
 ALTER TABLE `tbl_problemstatement`
-  MODIFY `int_problemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `int_problemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT for table `tbl_projectbidder`
 --

@@ -1,4 +1,70 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <h3> Problem Statement-Previous</h3>
+    <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
+    <!-- page-header -->
+        <div class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-caption">
+                            <h5 class="page-title" style="color:#3B5997;">PROBLEM STATEMENT</h5>
+                            <h3><small>(Previous Problem Statement)</small></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.page-header-->
+        <!-- tour-booking -->
+        <div class="container">
+        <div class="card">
+        <div class="card-header">
+            <div class="form-row">
+                <div class=:col-md-1>
+                    <h4 style="color:whitesmoke;">Problem Statement made by the Barangay</h4>
+                </div>
+                <div class="col-md-4"></div>
+                    <h5 style="color:whitesmoke;margin-left:6%;">Category:</h5>
+                    <div class="col-md-2">
+                        <select name="problem_category" id="probcategory" class="form-control-sm float-right" style="margin:none;color:#5F9EA0">
+                            <option value = "All">All</option>
+                            <option value = "1">Health</option>
+                            <option value = "2">Education</option>
+                            <option value = "3">Finance</option>
+                            <option value = "4">Infrastracture</option>
+                        </select>
+                </div>
+            </div>
+        </div>
+        //- Content
+        each problem in tbl_problemstatement
+            <div class="card-body">
+                <div class="card border" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.3s;">
+                <div class="card-header bg-transparent" style="border-color:#3B5997;color:black;size:20px;">
+                    value=problem.varchar_statementTitle
+                    <small class="float-right">Status:
+                        value=problem.enum_problemStatus
+                    </small>
+                </div>
+                    <div class="card-body" >
+                        <h4 class="card-title float-right">Category: 
+                            <u>
+                            value=problem.varchar_problemCategName
+                            </u>
+                        </h4>
+                        <p class="card-text">
+                            value=problem.varchar_statementDescription
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent" style="border-color:#3B5997"><small>Date Created:
+                        value=problem.date_createdDate
+                        </small>
+                    </div>
+                </div>   
+            </div>
+        //- End of Content
+        </div>
+        </div>
+        <!-- /.tour-booking -->
+            

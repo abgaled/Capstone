@@ -27,7 +27,7 @@ router.post('/new',(req, res) => {
     "${req.body.problem_category}",
     "${req.body.problem_title}",
     "${req.body.problem_description}",
-    "${req.body.problem_created}",
+    "${req.body.problem_createdValue}",
     "Pending");`;
 
     console.log('=================================');
@@ -47,8 +47,17 @@ router.get('/previous',(req,res) => {
     console.log('BARANGAY: PROBLEM STATEMENT-PREVIOUS');
     console.log('=================================');
 
+    var queryString = `SELECT * FROM tbl_problemstatement pr
+    JOIN tbl_problemcategory prcat ON pr.int_problemCategID=prcat.int_problemCategID
+    ORDER BY pr.int_problemID DESC`
 
-    res.render('barangay/problemstatement/views/previousproblem');
+
+    db.query(queryString,(err, results, fields) => {
+        if (err) console.log(err);
+        
+
+    res.render('barangay/problemstatement/views/previousproblem',{tbl_problemstatement:results});
+    });
 });
 
 

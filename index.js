@@ -6,5 +6,5 @@ var app = express();
 require('./app')(app);
 
 app.listen(app.get('port'), () => {
-    winston.info(`City Application and Beneficiary Releasing is on PORT:${app.get('port')}`);
+    winston.info(`City Project Application and Beneficiary Releasing Management System is on PORT:${app.get('port')}`);
 });
