@@ -27,13 +27,16 @@ block content
                 <div class="col-md-4"></div>
                     <h5 style="color:whitesmoke;margin-left:6%;">Category:</h5>
                     <div class="col-md-2">
-                        <select name="problem_category" id="probcategory" class="form-control-sm float-right" style="margin:none;color:#5F9EA0">
-                            <option value = "All">All</option>
-                            <option value = "1">Health</option>
-                            <option value = "2">Education</option>
-                            <option value = "3">Finance</option>
-                            <option value = "4">Infrastracture</option>
-                        </select>
+                        <form action="viewprobcategory" method="POST">
+                            <select name="problem_category" id="probcategory" class="form-control-sm float-right" style="margin:none;color:#5F9EA0" onchange="this.form.submit()">
+                                <option disabled="disabled" selected="selected">Select ...</option>
+                                <option value = "All">All</option>
+                                <option value = "1">Health</option>
+                                <option value = "2">Education</option>
+                                <option value = "3">Finance</option>
+                                <option value = "4">Infrastracture</option>
+                            </select>
+                        </form>
                 </div>
             </div>
         </div>
