@@ -474,7 +474,7 @@ router.post('/targetbeneficiary',(req, res) => {
             var results1 = results1;
             console.log(results1);
                     
-                res.redirect('/admin/maintenance/projectcategory');
+                res.redirect('/admin/maintenance/targetbeneficiary');
         });
 
     });
@@ -491,6 +491,7 @@ router.get('/:int_beneficiaryID/edittargetbeneficiary',(req, res) => {
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
+        console.log(results);
         res.render(`admin/maintenance/views/edittargetbeneficiary`,{tbl_targetbeneficiary:results});
     });
 });
