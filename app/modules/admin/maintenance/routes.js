@@ -161,26 +161,38 @@ router.get('/:int_projectID/viewproject',(req, res) => {
     });
 });
 
-router.get('/:int_projectID/deleteproject', (req, res) => {
+router.get('/projects/:int_projectID/deleteproject', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1 DELETE');
+    console.log('ADMIN: MAINTENANCE - 1 DELETE GET');
     console.log('=================================');
 
-    res.render('admin/maintenance/views/deleteproject');
+    var queryString =`SELECT tbl_projectproposal.int_projectID, 
+    tbl_projectproposal.varchar_projectName, tbl_projectproposal.varchar_releaseLocation, 
+    tbl_projectproposal.text_projectDescription, tbl_projectproposal.int_allotedSlot, 
+    tbl_project.date_startDate, tbl_project.date_endDate FROM tbl_projectproposal 
+    JOIN tbl_project ON tbl_projectproposal.int_projectID=tbl_project.int_projectID 
+    WHERE enum_proposalStatus = 'Accepted' AND enum_projectState = 'Active' 
+    AND tbl_projectproposal.int_projectID=${req.params.int_projectID}`
+    
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+
+        res.render(`admin/maintenance/views/deleteproject`,{tbl_project:results});
+    });
 });
 
-router.post('/:int_projectID/deleteproject', (req, res) => {
+router.post('/projects/:int_projectID/deleteproject', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1 DELETE');
+    console.log('ADMIN: MAINTENANCE - 1 DELETE POST');
     console.log('=================================');
 
     var queryString1 = `UPDATE tbl_project SET
-            enum_projectState = 'Inactive',
-            WHERE tbl_project.int_projectID = "${req.body.int_projectID}"`;
+            enum_projectState = 'Inactive'
+            WHERE tbl_project.int_projectID = ${req.body.int_projectID}`;
         
-            db.query(queryString1, (err, results1, fields) => {        
+            db.query(queryString1, (err, results) => {        
             if (err) throw err;
-            console.log(results1);
             res.redirect('/admin/maintenance/projects');
 });
 });
