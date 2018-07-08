@@ -1,0 +1,81 @@
+extends ../../navbar/views/navbar.pug
+
+block content
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+              <div class="title_right">
+                <div class="col-md-12 col-sm-12 col-xs-12">                    
+                    <button class="btn btn-primary btn-lg pull-right" id="addprojcat" type="button" data-toggle="modal" data-target=".bs-example-modal-lg">Add!</button>
+                </div>
+              </div>
+          </div>
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Project Category</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    <table id="datatable" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Project Category Name</th>
+                          <th>Description</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      each projcat in tbl_projectcategory
+                          <tr>
+                          <td>
+                            value=projcat.varchar_projectCategName
+                          </td>
+                          <td>
+                            value=projcat.text_projectCategDescription
+                          </td>
+                          <td>
+                            a(href=`/admin/maintenance/projectcategory/${projcat.int_projectCategID}/editprojectcategory` id="editprojectcategory" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
+                            a(href=`/admin/maintenance/projectcategory/${projcat.int_projectCategID}/deleteprojectcategory` id="deleteprojectcategory" class="btn btn-danger btn-s"): span.fa.fa-trash-o  Disable
+                          </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+                  <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <form class="form-horizontal form-label-left" method="POST" action='projectcategory' name="addprojcat" novalidate>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                          </button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">Project Category Details</span></h4>
+             
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectcategoryname">Project Category Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input id="projectcategoryname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="3" name="projectcategoryname" placeholder="" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectcategorydescription">Project Category Description <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input id="projectcategorydescription" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="projectcategorydescription" placeholder="" required="required" type="text">
+                        </div>
+                      </div>
+                      <button type="submit" id="modalbutton" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </form></div>
+                        <div class="modal-footer">
+                          
+                        </div>
+
+                        </div>
+                        </div>
+                    </div>
