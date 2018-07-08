@@ -1,7 +1,7 @@
 var router = require('express').Router();
 var authMiddleware = require('../auth/middlewares/auth');
 
-router.use(authMiddleware.hasAuthadmin);
+router.use(authMiddleware.hasAuthAdmin);
 
 router.use('/dashboard', require('./dashboard/routes'));
 router.use('/maintenance', require('./maintenance/routes'));

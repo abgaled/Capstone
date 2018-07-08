@@ -1,10 +1,11 @@
 var router = require('express').Router();
 var authMiddleware = require('../auth/middlewares/auth');
 
-router.use(authMiddleware.hasAuth);
+router.use(authMiddleware.hasAuthBarangay);
 
 router.use('/home', require('./home/routes'));
 router.use('/residents', require('./residents/routes'));
+router.use('/problemstatement', require('./problemstatement/routes'));
 router.use('/problemstatement', require('./problemstatement/routes'));
 router.use('/reports', require('./reports/routes'));
 router.use('/mailbox', require('./mailbox/routes'));

@@ -1,7 +1,7 @@
 var router = require('express').Router();
 var authMiddleware = require('../auth/middlewares/auth');
 
-router.use(authMiddleware.hasAuthOrgCouncil);
+router.use(authMiddleware.hasAuthOffice);
 
 router.use('/home', require('./home/routes'));
 router.use('/projects', require('./projects/routes'));

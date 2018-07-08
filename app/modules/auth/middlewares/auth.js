@@ -1,41 +1,56 @@
+// barangay
+exports.hasAuthBarangay = (req, res, next) => {
+    if (req.session && req.session.barangay && Object.keys(req.session.barangay).length > 0) return next();
+    return res.redirect('/home');
+}
+
+exports.noAuthBarangay = (req, res, next) => {
+    if (req.session && req.session.barangay && Object.keys(req.session.barangay).length > 0) return res.redirect('/barangay');
+    return next();
+}
+
+// user
 exports.hasAuth = (req, res, next) => {
     if (req.session && req.session.user && Object.keys(req.session.user).length > 0) return next();
     return res.redirect('/home');
 }
-
 exports.noAuthed = (req, res, next) => {
-    if (req.session && req.session.user && Object.keys(req.session.user).length > 0) return res.redirect('/student');
+    if (req.session && req.session.user && Object.keys(req.session.user).length > 0) return res.redirect('/');
     return next();
 }
 
-exports.hasAuthadmin = (req, res, next) => {
-    if (req.session && req.session.user && Object.keys(req.session.user).length > 0) return next();
+// admin
+exports.hasAuthAdmin = (req, res, next) => {
+    if (req.session && req.session.admin && Object.keys(req.session.admin).length > 0) return next();
     return res.redirect('/login?unauthorized');
 }
 
-exports.noAuthedadmin = (req, res, next) => {
-    if (req.session && req.session.user && Object.keys(req.session.user).length > 0) return res.redirect('/home');
+exports.noAuthAdmin = (req, res, next) => {
+    if (req.session && req.session.admin && Object.keys(req.session.admin).length > 0) return res.redirect('/admin');
     return next();
 }
 
-exports.hasAuthOrgCouncil = (req, res, next) => {
-    if (req.session && req.session.user && Object.keys(req.session.user).length > 0) return next();
+// office
+exports.hasAuthOffice = (req, res, next) => {
+    if (req.session && req.session.office && Object.keys(req.session.office).length > 0) return next();
     return res.redirect('/home');
 }
 
-exports.noAuthOrgCouncil = (req, res, next) => {
-    if (req.session && req.session.user && Object.keys(req.session.user).length > 0) return res.redirect('/orgcouncil');
+exports.noAuthOffice = (req, res, next) => {
+    if (req.session && req.session.office && Object.keys(req.session.office).length > 0) return res.redirect('/office');
     return next();
 }
 
-exports.hasAuthOfficer = (req, res, next) => {
-    if (req.session && req.session.user && Object.keys(req.session.user).length > 0) return next();
+// budget
+exports.hasAuthBudget = (req, res, next) => {
+    if (req.session && req.session.budget && Object.keys(req.session.budget).length > 0) return next();
     return res.redirect('/home');
 }
 
-exports.noAuthOrgOfficer = (req, res, next) => {
-    if (req.session && req.session.user && Object.keys(req.session.user).length > 0) return res.redirect('/officer');
+exports.noAuthBudget = (req, res, next) => {
+    if (req.session && req.session.budget && Object.keys(req.session.budget).length > 0) return res.redirect('/budget');
     return next();
 }
+
 
 

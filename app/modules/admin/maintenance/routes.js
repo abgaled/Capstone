@@ -383,8 +383,8 @@ router.post('/projectcategory/:int_projectCategID/editprojectcategory', (req, re
     var queryString = `UPDATE tbl_projectcategory SET
     varchar_projectCategName = "${req.body.projectcategoryname}",
     text_projectCategDescription = "${req.body.projectcategorydescription}",
-    enum_projectCategState = "Active"
-    WHERE tbl_requirement.int_projectCategID = "${req.body.int_projectCategID}"`;
+    enum_projCategState = "Active"
+    WHERE tbl_projectcategory.int_projectCategID = "${req.body.int_projectCategID}"`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
@@ -478,7 +478,7 @@ router.post('/problemcategory/:int_problemCategID/deleteproblemcategory', (req, 
 
 router.post('/problemcategory',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1 POST');
+    console.log('ADMIN: MAINTENANCE - 4 POST ADD');
     console.log('=================================');
 
     var queryString = `INSERT INTO \`tbl_problemcategory\` (
@@ -531,7 +531,7 @@ router.post('/problemcategory/:int_problemCategID/editproblemcategory', (req, re
     var queryString = `UPDATE tbl_problemcategory SET
     varchar_problemCategName = "${req.body.problemcategoryname}",
     text_problemCategDescription = "${req.body.problemcategorydescription}",
-    enum_problemCategState = "Active"
+    enum_probCategState = "Active"
     WHERE tbl_problemcategory.int_problemCategID = "${req.body.int_problemCategID}"`;
     
     db.query(queryString, (err, results, fields) => {        
@@ -614,7 +614,7 @@ router.post('/targetbeneficiary/:int_beneficiaryID/edittargetbeneficiary', (req,
     var queryString = `UPDATE tbl_targetbeneficiary SET
     varchar_beneficiaryName = "${req.body.beneficiaryname}",
     text_beneficiaryDescription = "${req.body.beneficiarydescription}",
-    enum_beneficiaryState = "Active"
+    enum_targetState = "Active"
     WHERE tbl_targetbeneficiary.int_beneficiaryID = "${req.body.int_beneficiaryID}"`;
     
     db.query(queryString, (err, results, fields) => {        
@@ -630,7 +630,7 @@ router.get('/targetbeneficiary/:int_beneficiaryID/deletetargetbeneficiary', (req
     console.log('=================================');
 
     var queryString =`SELECT * FROM tbl_targetbeneficiary
-    WHERE enum_beneficiaryState = 'Active' 
+    WHERE enum_targetState = 'Active' 
     AND tbl_targetbeneficiary.int_beneficiaryID=${req.params.int_beneficiaryID}`
     
     db.query(queryString, (err, results, fields) => {
@@ -647,7 +647,7 @@ router.post('/targetbeneficiary/:int_beneficiaryID/deletetargetbeneficiary', (re
     console.log('=================================');
 
     var queryString1 = `UPDATE tbl_targetbeneficiary SET
-            enum_beneficiaryState = 'Inactive'
+            enum_targetState = 'Inactive'
             WHERE tbl_targetbeneficiary.int_beneficiaryID = ${req.body.int_beneficiaryID}`;
         
             db.query(queryString1, (err, results) => {        
