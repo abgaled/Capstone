@@ -57,8 +57,8 @@ router.post('/projects',(req, res) => {
 
         db.query(queryString1, (err, results1, fields) => {        
             if (err) throw err;
-            var results1 = results1;
-            console.log(results1);
+
+            var toproject = results1[0];
 
             var queryString2 = `INSERT INTO \`tbl_project\` (
                 \`int_projectID\`,
@@ -67,10 +67,10 @@ router.post('/projects',(req, res) => {
                 \`date_approvedDate\`,
                 \`date_releaseDate\`,
                 \`decimal_actualBudget\`,
-                \`enum_proposalStatus\`)
+                \`enum_projectState\`)
                 
                 VALUES(
-                "${results1.int_projectID}",
+                "${toproject.int_projectID}",
                 "${req.body.startdate}",
                 "${req.body.enddate}",
                 "${req.body.approveddate}",
@@ -107,20 +107,19 @@ router.get('/projects/:int_projectID/editproject',(req, res) => {
 
 
 router.post('/projects/:int_projectID/editproject', (req, res) => {
-    console.log("PUMASOK SA POST REQ.PARAMS")
+    console.log("MAINTENANCE - POST PROJECT EDIT")
     
-    var queryString = `UPDATE tbl_projectproposal SET
-    varchar_projectName = "${req.body.projectname}",
-    varchar_releaseLocation = "${req.body.releaselocation}",
-    varchar_projectRationale = "${req.body.projectrationale}",
-    varchar_projectObjective = "${req.body.projectobjective}",
-    text_projectDescription = "${req.body.projectdescription}",
-    text_expectedOutput = "${req.body.expectedoutput}",
-    int_allotedSlot = "${req.body.allotedslot}",
-    decimal_estimatedBudget = "${req.body.estimatedbudget}",
-    decimal_individualBudget = "${req.body.individualbudget}",
-    enum_proposalStatus = "Accepted",
-    WHERE tbl_projectproposal.int_projectID = "${req.body.int_projectID}"`;
+    var queryString = `UPDATE tbl_projectproposal SET varchar_projectName = "${req.body.projectname}",
+        varchar_releaseLocation = "${req.body.releaselocation}",
+        varchar_projectRationale = "${req.body.projectrationale}",
+        varchar_projectObjective = "${req.body.projectobjective}",
+        text_projectDescription = "${req.body.projectdescription}",
+        text_expectedOutput = "${req.body.expectedoutput}",
+        int_allotedSlot = "${req.body.allotedslot}",
+        decimal_estimatedBudget = "${req.body.estimatedbudget}",
+        decimal_individualBudget = "${req.body.individualbudget}",
+        enum_proposalStatus = "Accepted"
+        WHERE tbl_projectproposal.int_projectID = "${req.body.int_projectID}"`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;

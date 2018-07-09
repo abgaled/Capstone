@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2018 at 06:00 PM
+-- Generation Time: Jul 09, 2018 at 06:25 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_admin2`
+-- Database: `db_capstone2`
 --
 
 -- --------------------------------------------------------
@@ -147,7 +147,8 @@ CREATE TABLE `tbl_award` (
 --
 
 INSERT INTO `tbl_award` (`int_awardID`, `varchar_awardName`, `text_awardDescription`, `enum_awardState`) VALUES
-(1, 'Most Active Barangay', 'Baranggay with most number of applications, requests and etc.', 'Active');
+(1, 'Most Active Barangay', 'Baranggay with most number of applications, requests and etc.', 'Active'),
+(2, 'Barangay Solver of the Year (2018)', 'Baranggay with most number of statements.', 'Active');
 
 -- --------------------------------------------------------
 
@@ -303,7 +304,8 @@ CREATE TABLE `tbl_problemcategory` (
 --
 
 INSERT INTO `tbl_problemcategory` (`int_problemCategID`, `varchar_problemCategName`, `text_problemCategDescription`, `enum_probCategState`) VALUES
-(1, 'Health', 'Projects that gives medicinal support.', 'Active');
+(1, 'Health', 'Projects that gives medicinal support.', 'Active'),
+(2, 'Monetary', 'Financial Aid for the beneficiaries.', 'Active');
 
 -- --------------------------------------------------------
 
@@ -351,8 +353,8 @@ CREATE TABLE `tbl_project` (
 
 INSERT INTO `tbl_project` (`int_projectID`, `date_startDate`, `date_endDate`, `date_approvedDate`, `date_releaseDate`, `decimal_actualBudget`, `enum_projectStatus`, `enum_projectState`) VALUES
 (1, '2018-05-01', '2018-05-31', '2018-05-16', '2018-06-05', '1000000.00', 'Open', 'Active'),
-(2, '2018-05-31', '2018-06-15', '2018-06-02', '2018-06-12', '1000000.00', 'Open', 'Active'),
-(0, '2018-06-27', '2018-07-31', '2018-07-05', '2018-07-25', '0.00', 'Open', 'Active');
+(2, '2018-07-10', '2018-08-30', '2018-07-20', '2018-08-15', '1000000.00', 'Open', 'Active'),
+(7, '2018-07-09', '2018-09-10', '2018-07-20', '2018-08-19', '350000.00', 'Open', 'Active');
 
 -- --------------------------------------------------------
 
@@ -385,8 +387,8 @@ CREATE TABLE `tbl_projectcategory` (
 
 INSERT INTO `tbl_projectcategory` (`int_projectCategID`, `varchar_projectCategName`, `text_projectCategDescription`, `enum_projCategState`) VALUES
 (1, 'Medical', 'About the health of the residents.', 'Active'),
-(2, 'Monetary', 'Giving money for good purposes.', 'Inactive'),
-(3, 'No Residents', 'Residents are not to apply.', 'Active');
+(3, 'No Residents', 'Residents are not to apply.', 'Active'),
+(5, 'Monetary', 'Giving money for good purposes.', 'Active');
 
 -- --------------------------------------------------------
 
@@ -414,8 +416,9 @@ CREATE TABLE `tbl_projectproposal` (
 --
 
 INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_projectCategID`, `varchar_projectName`, `varchar_releaseLocation`, `varchar_projectRationale`, `varchar_projectObjective`, `text_projectDescription`, `text_expectedOutput`, `int_allotedSlot`, `decimal_estimatedBudget`, `decimal_individualBudget`, `enum_proposalStatus`) VALUES
-(1, 1, 'Medicine Giving', 'City Hall', 'Ano this??? Update later.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 'Residents who really need these medicines will acquire it.', 100, '1000000.00', '10000.00', 'New'),
-(2, 2, 'Financial Assistance for Grade 4 students of \"Mababang Paaralan ng Sucat\"', 'City Hall', 'Parang Objective?', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 'It will help them to restore their school supplies that they recently used.', 500, '1000000.00', '2000.00', 'New');
+(1, 1, 'Medicine Giving', 'City Hall', 'Ano this??? Update later.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 'Residents who really need these medicines will acquire it.', 100, '1000000.00', '10000.00', 'Accepted'),
+(2, 2, 'Financial Assistance for Grade 4 students of Mababang Paaralan ng Sucat', 'City Hall', 'Parang Objective?', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 'It will help them to restore their school supplies that they recently used.', 500, '1000000.00', '2000.00', 'Accepted'),
+(7, 0, 'Distribution of Supplies for Fire Victims', 'City Hall', 'To at least help the fire victims.', 'Give the residents who were affected by the fire. Given that they pass the required requirementsl.', 'Giving of supplies to residents. First come first served service (first to complete the requirements will automatically gain a slot).', 'Residents will received their supplies.', 100, '350000.00', '3500.00', 'Accepted');
 
 -- --------------------------------------------------------
 
@@ -460,7 +463,8 @@ CREATE TABLE `tbl_requirement` (
 
 INSERT INTO `tbl_requirement` (`int_requirementID`, `varchar_requirementName`, `text_requirementDescription`, `enum_requirementState`) VALUES
 (1, 'NBI Clearance', 'Document proof of no crime record.', 'Active'),
-(2, 'Police Clearance', 'dummy data3', 'Inactive');
+(2, 'Police Clearance', 'dummy data3', 'Inactive'),
+(3, 'Student ID', 'Identification of students.', 'Active');
 
 -- --------------------------------------------------------
 
@@ -510,7 +514,8 @@ CREATE TABLE `tbl_targetbeneficiary` (
 
 INSERT INTO `tbl_targetbeneficiary` (`int_beneficiaryID`, `varchar_beneficiaryName`, `text_beneficiaryDescription`, `enum_targetState`) VALUES
 (1, 'Senior Citizen', 'A person over the age of 65.', 'Active'),
-(2, '18 years old and above', 'A person of legal age.', 'Active');
+(2, '18 years old and above', 'A person of legal age.', 'Active'),
+(3, 'Elementary Students', 'Students ranging from Grade 1 to Grade 6.', 'Active');
 
 -- --------------------------------------------------------
 
@@ -773,7 +778,7 @@ ALTER TABLE `tbl_applicationwaver`
 -- AUTO_INCREMENT for table `tbl_award`
 --
 ALTER TABLE `tbl_award`
-  MODIFY `int_awardID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `int_awardID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_barangay`
 --
@@ -813,7 +818,7 @@ ALTER TABLE `tbl_message`
 -- AUTO_INCREMENT for table `tbl_problemcategory`
 --
 ALTER TABLE `tbl_problemcategory`
-  MODIFY `int_problemCategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `int_problemCategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
@@ -828,12 +833,12 @@ ALTER TABLE `tbl_projectbidder`
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
 ALTER TABLE `tbl_projectcategory`
-  MODIFY `int_projectCategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `int_projectCategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `tbl_projectproposal`
 --
 ALTER TABLE `tbl_projectproposal`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `tbl_projectrequirement`
 --
@@ -848,7 +853,7 @@ ALTER TABLE `tbl_projecttarget`
 -- AUTO_INCREMENT for table `tbl_requirement`
 --
 ALTER TABLE `tbl_requirement`
-  MODIFY `int_requirementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `int_requirementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tbl_requirementschedule`
 --
@@ -863,7 +868,7 @@ ALTER TABLE `tbl_staffdetail`
 -- AUTO_INCREMENT for table `tbl_targetbeneficiary`
 --
 ALTER TABLE `tbl_targetbeneficiary`
-  MODIFY `int_beneficiaryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `int_beneficiaryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
