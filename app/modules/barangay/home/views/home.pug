@@ -1,26 +1,29 @@
 extends ./navbar.pug
 
 block content
-    <!-- page-header -->
+    <link href="/barangay/styles.css" rel="stylesheet">
+    //- <link rel="stylesheet" href="/minicalendar/build/kalendae.css" type="text/css" charset="utf-8">
+    //- <link rel="stylesheet" href="/minicalendar/skins/css/metal.css" type="text/css">
+    //- <script src="/minicalendar/build/kalendae.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="/minicalendar/minicalendar.css" type="text/css">
+        <!-- page-header -->
         <div class="page-header ">
-            <div class="container "  >
+            <div class="container" id="container-header" >
                 <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="page-caption">
-                            <h1 class="page-title"style="color: #3B5997">Barangay 1</h1>
-                        </div>
+                    <div class="page-caption">
+                        <p style="color: #3B5997;">Barangay Buli</p>
                     </div>
                 </div>
             </div>
         </div>
         <!-- /.page-header-->
         <!-- tour-booking -->
-        <div class="content" style="padding-top:20px;">
-            <div class="container">
+        <div class="content" style="padding-top:1.5%;">
+            <div class="container" >
                 <div class="row ">
                     <!-- footer-logo -->
                     <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12 mb30">
-                        <div class="tour-booking-form"style="background-color: #FDFDEE;">
+                        <div class="tour-booking-form"style="background-color: #FDFDEE;margin-top:2%;">
                             <form>
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
@@ -58,7 +61,7 @@ block content
                     </div>
                     
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12 ">
-                        <div class="widget-primary support-list" style="background-color: white; border-style: solid;">
+                        <div class="widget-primary support-list" style="background-color: white; border-style: solid;margin-top:5%;">
                             <div class="widget-primary-title">
                                 <h3>Releasing</h3>
                             </div>
@@ -80,20 +83,83 @@ block content
                             </ul>
                             
                         </div>
-                    
-                        <div class="widget-primary support-list bg-secondary" >
-                            <h3 class="widget-default-title">Barangay Awards</h3>
-                             <img src="public/landing/images/trophy.jpg" alt="" class="img-fluid">
-    
-                            <p style="color:#90AFC5">Most Active Barangay</p>
+                        <center>
+                      
+                            //- <div class="auto-kal" data-kal="useYearNav: false">
+                            <link href="/minicalendar/dist/vanillaCalendar.css" rel="stylesheet">
+                                style.
+
+                                    a,
+                                    a:visited {
+                                        color: #0A9297;
+
+                                    h1 {
+                                        text-align: center;
+                                    }
+
+
+
+                                    .demo-picked {
+                                        font-size: 1.2rem;
+                                        text-align: center;
+                                    }
+
+                                   
+                                </style>
+                            </head>
+
+                            <body>
+
+                                    <div id="v-cal">
+                                        <div class="vcal-header">
+                                            <button class="vcal-btn" data-calendar-toggle="previous">
+                                                <svg height="24" version="1.1" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path>
+                                                </svg>
+                                            </button>
+
+                                            <div class="vcal-header__label" data-calendar-label="month">
+                                            
+                                            </div>
+
+
+                                            <button class="vcal-btn" data-calendar-toggle="next">
+                                                <svg height="24" version="1.1" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="vcal-week">
+                                            <span>Mon</span>
+                                            <span>Tue</span>
+                                            <span>Wed</span>
+                                            <span>Thu</span>
+                                            <span>Fri</span>
+                                            <span>Sat</span>
+                                            <span>Sun</span>
+                                        </div>
+                                        <div class="vcal-body" data-calendar-area="month"></div>
+                                    </div>
+
+                                    <p class="demo-picked">Date picked:
+                                        <span data-calendar-label="picked"></span>
+                                    </p>
+
+                                    
+                                
+                            <script src="/minicalendar/dist/vanillaCalendar.js" type="text/javascript"></script>
+                            script.
+                                    window.addEventListener('load', function () {
+                                        vanillaCalendar.init({
+                                            disablePastDays: true
+                                        });
+                                    })
                             
-                        </div>
+                            </body>
+                    
                     </div>
                 </div>
             </div>
         </div>
         
     <!-- /.tour-booking -->
-
-
-    

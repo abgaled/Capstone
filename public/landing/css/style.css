@@ -305,7 +305,7 @@ button.btn { margin-right: -1px; }
 .widget-form .form-group { margin-bottom: 15px; }
 .widget-form .form-control { margin-bottom: 0px; }
 .widget-map { border-radius: 8px; }
-.widget-primary { background-color: #fcd55a; padding: 40px 40px 20px; border-radius: 8px; margin-bottom: 30px; }
+.widget-primary { background-color: #b9cdf8; padding: 40px 40px 20px; border-radius: 8px; margin-bottom: 10%; }
 .widget-primary-title { color: #121113; font-size: 28px; font-weight: 400; text-transform: capitalize; margin-bottom: 25px; }
 .widget-default { text-align: center; background-color: #3d0f82; padding: 40px 30px; border-radius: 8px; margin-bottom: 30px; color: #b4aac2; }
 .widget-default-title { color: #fff; font-size: 24px; font-weight: 300; margin-bottom: 15px; }
@@ -433,7 +433,7 @@ img { width: auto; max-width: 100%; height: auto; margin: 0; padding: 0; border:
    5.4 Page Header
 ----------------------------------------------*/
 .page-header { background: url(/barangay/images/header.jpg) no-repeat; margin: 0px; padding-top: 250px; padding-bottom: 0px; border: 0px; background-size: cover; background-position: center; }
-.page-caption { padding-top: 37px; padding-bottom: 37px; color: #121113; background-color: #fff; text-align: center; width: 100%; border-top-left-radius: 6px; border-top-right-radius: 6px; }
+.page-caption { font-family:Font_Header; padding-top: 13px; padding-bottom: 13px;font-size: 32px; background-color: #fff; text-align: center; width: 100%; border-top-left-radius: 2px; border-top-right-radius: 2px; }
 .page-title { font-size: 34px; line-height: 1; color: #121113; font-weight: 200; margin-bottom: 0px; text-transform:uppercase; }
 
 /*-----------------------------------
@@ -945,7 +945,7 @@ margin-bottom: 0; background-color: #fffcf7; border-bottom: 1px solid #e2ded8; p
   .btn-social-icon { -webkit-font-smoothing: antialiased; font-size: 14px; padding-right: 22px; }
   .page-header { padding-top: 120px; }
   .page-title { font-size: 24px; }
-  .page-caption { padding-top: 20px; padding-bottom: 20px; }
+  .page-caption { padding-top: 10px; padding-bottom: 10px; }
   .slider-img { height: initial; }
   .slider-captions { bottom: 20px; text-align: center; }
   .slider-title { font-size: 22px; line-height: 32px; }

@@ -1,57 +1,58 @@
 extends ../../home/views/navbar.pug
 
 block content
+    <link href="/barangay/styles.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
-    <!-- page-header -->
-        <div class="page-header">
-            <div class="container">
+        <!-- page-header -->
+        <div class="page-header ">
+            <div class="container" id="container-header" >
                 <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="page-caption">
-                            <h5 class="page-title" style="color:#3B5997;">PROBLEM STATEMENT</h5>
-                            <h3><small>(Create New)</small></h3>
-                        </div>
+                    <div class="page-caption">
+                        <p style="color: #3B5997;margin-bottom:0;">PROBLEM STATEMENT</p>
+                        <h3><small>(Create New)</small></h3>
                     </div>
                 </div>
             </div>
         </div>
         <!-- /.page-header-->
         <!-- tour-booking -->
-        <div class="container">
-        <div class="card">
-        <form id="problemform" method="POST" action="new">
-        <div class="card-header">
-            <div class="form-row">
-                <div class=:col-md-1>
-                    <h4 style="color:whitesmoke;">Problem Statement Form</h4>
+        <div class="content" style="padding-top:1.5%;">
+            <div class="container">
+                <div class="card">
+                    <form id="problemform" method="POST" action="new">
+                        <div class="card-header">
+                            <div class="form-row">
+                                <div class=:col-md-1>
+                                    <h4 style="color:whitesmoke;">Problem Statement Form</h4>
+                                </div>
+                                <div class="col-md-6"></div>
+                                    <h5 style="color:whitesmoke;margin-left:5%;">Category:</h5>
+                                    <div class="col-md-2">
+                                        <select name="problem_category" id="probcategory" class="form-control-sm float-right" style="margin:none;color:#5F9EA0" required="required" required>
+                                            <option value = "1">Health</option>
+                                            <option value = "2">Education</option>
+                                            <option value = "3">Finance</option>
+                                            <option value = "4">Infrastracture</option>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                <div class="card-body">
+                        <div class="form-group">
+                            <label for="problem_title" style="font-size:18;">Statement Title:<label style="color:red;">*</label></label>
+                            <input type="text" class="form-control" name="problem_title" id="problem_title" placeholder="Enter the title here ..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="problem_description" style="font-size:18;">Description:<label style="color:red;">*</label></label>
+                            <textarea class="form-control" name="problem_description" id="problem_category"  placeholder="Enter the description of the problem in here ..." rows="4" required></textarea>
+                        </div>
+                <button type="submit" id="submitprob" class="btn btn-outline-info float-right" style="border-color:#3B5997;width:100px;">Submit</button>
                 </div>
-                <div class="col-md-6"></div>
-                    <h5 style="color:whitesmoke;margin-left:5%;">Category:</h5>
-                    <div class="col-md-2">
-                        <select name="problem_category" id="probcategory" class="form-control-sm float-right" style="margin:none;color:#5F9EA0">
-                            <option value = "1">Health</option>
-                            <option value = "2">Education</option>
-                            <option value = "3">Finance</option>
-                            <option value = "4">Infrastracture</option>
-                        </select>
+                <div class="card-footer">Date Created:<b class="text-muted" id="problem_created"> </b></div>
+                <input type="hidden" id="problem_createdValue" name="problem_createdValue">
+                    </form>
                 </div>
             </div>
-        </div>
-        <div class="card-body">
-                <div class="form-group">
-                    <label for="problem_title" style="font-size:18;">Statement Title:<label style="color:red;">*</label></label>
-                    <input type="text" class="form-control" name="problem_title" id="problem_title" placeholder="Enter the title here ...">
-                </div>
-                <div class="form-group">
-                    <label for="problem_description" style="font-size:18;">Description:<label style="color:red;">*</label></label>
-                    <textarea class="form-control" name="problem_description" id="problem_category"  placeholder="Enter the description of the problem in here ..." rows="4"></textarea>
-                </div>
-        <button type="submit" id="submitprob" class="btn btn-outline-info float-right" style="border-color:#3B5997;width:100px;">Submit</button>
-        </div>
-        <div class="card-footer">Date Created:<b class="text-muted" id="problem_created"> </b></div>
-        <input type="hidden" id="problem_createdValue" name="problem_createdValue">
-        </form>
-        </div>
         </div>
         <!-- /.tour-booking -->
 

@@ -5,10 +5,10 @@ var db = require('../../../lib/database')();
 
 router.get('/',(req, res) => {
     console.log('=================================');
-    console.log('BARANGAY: PROFILE');
+    console.log('BARANGAY: CALENDAR');
     console.log('=================================');
 
-    res.render('barangay/profile/views/profile');
+    res.render('barangay/calendar/views/calendar');
 
 });
 

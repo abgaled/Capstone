@@ -1,4 +1,9 @@
 @charset "UTF-8";
+@font-face {
+  font-family: Font_Header;
+  src: url(/fonts/FacileSans.ttf);
+}
+
 #cssmenu {
   padding: 0;
   margin: 0;
@@ -226,4 +231,14 @@
 .foottext{
   text-align: center;
   background-color: #cccccc;
+}
+
+.container{
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+}
+
+#container-header{
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+	-moz-box-shadow: 0 10px 6px -6px #777;
+  box-shadow: 0 10px 6px -6px #777;
 }
