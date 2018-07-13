@@ -8,8 +8,18 @@ router.get('/',(req, res) => {
     console.log('BARANGAY: RELEASING');
     console.log('=================================');
 
-    res.render('barangay/releasing/views/releasing');
+    var queryString = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
+    tbl_user.int_userID=tbl_barangay.int_barangayUserID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
 
+    db.query(queryString,(err, results1) => {
+
+        if (err) console.log(err);
+        console.log('=================================');
+        console.log('BARANGAY: GET PROFILE INFO');
+        console.log('=================================');
+
+    res.render('barangay/releasing/views/releasing',{barangay_info:results1});
+    });
 });
 
 module.exports = router;

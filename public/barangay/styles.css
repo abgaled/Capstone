@@ -4,6 +4,40 @@
   src: url(/fonts/FacileSans.ttf);
 }
 
+.page-header { 
+  background: url(/barangay/images/header.jpg) no-repeat; 
+  margin: 0px; 
+  padding-top: 250px; 
+  padding-bottom: 0px; 
+  border: 0px; 
+  background-size: cover; 
+  background-position: center; 
+}
+
+.page-header-projects{ 
+  background: url(/barangay/images/typing2.jpg) no-repeat; 
+  margin: 0px; 
+  padding-top: 250px; 
+  padding-bottom: 0px; 
+  border: 0px; 
+  background-size: cover; 
+  background-position: center; 
+}
+
+.page-header-problems { 
+  background: url(/barangay/images/typing1.png) no-repeat; 
+  margin: 0px; 
+  padding-top: 250px; 
+  padding-bottom: 0px; 
+  border: 0px; 
+  background-size: cover; 
+  background-position: center; 
+}
+
+.profile-details-right{
+  text-align:right;
+}
+
 #cssmenu {
   padding: 0;
   margin: 0;
@@ -226,7 +260,7 @@
   margin: 5px;
 }
 .wdg-brgy-awards{
-  background-image: url("landing/images/trophy.jpg");
+  background-image: url("/landing/images/trophy.jpg");
 }
 .foottext{
   text-align: center;
@@ -242,4 +276,31 @@
 	-moz-box-shadow: 0 10px 6px -6px #777;
   box-shadow: 0 10px 6px -6px #777;
 }
+.bckgrndbase{
+  background-color: whitesmoke;
+}
+.contfooter{
+  background-image: url("../../landing/images/bldg.jpg");
+  background-color: #cccccc;
+  background-repeat: no-repeat;
+  
+  background-size: 100% 160%;
+  opacity: ;
+}
+.dropbut{
+  background-color: rgba(255, 255, 255, 0.0);
+  border-radius: 50%;
+  border: 0px transparent;
+}
+.dropdown-menu{
+  width: 300px !important;
+  height: auto;
+  left: 50%;
+  right: auto;
+  text-align: center;
+}
 
+.dropdown-prof-text{
+  text-align: left;
+  margin-left:3%;
+}

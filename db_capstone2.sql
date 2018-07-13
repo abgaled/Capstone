@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2018 at 06:25 PM
+-- Generation Time: Jul 13, 2018 at 06:31 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -171,7 +171,7 @@ CREATE TABLE `tbl_barangay` (
 --
 
 INSERT INTO `tbl_barangay` (`int_barangayID`, `int_barangayUserID`, `varchar_barangayName`, `varchar_barangayChairman`, `int_barangayDistrict`, `varchar_barangayContact`, `enum_barangayStatus`) VALUES
-(28, NULL, 'Addition Hills', 'Kent Gajo Faminial', 1, '534-0503', 'Active'),
+(28, 3, 'Addition Hills', 'Kent Gajo Faminial', 1, '534-0503', 'Active'),
 (29, NULL, 'Bagong Silang', 'Marc Anthony I. Dominguez', 1, '514-8312/9953354', 'Active'),
 (30, NULL, 'Barangka Drive', 'Darwin A. Fernandez', 2, '531-6544', 'Active'),
 (31, NULL, 'Barangka Ibaba', 'Faustino O. Cruz Jr', 2, '747-1497', 'Active'),
@@ -320,7 +320,7 @@ CREATE TABLE `tbl_problemstatement` (
   `varchar_statementTitle` varchar(100) NOT NULL,
   `varchar_statementDescription` text NOT NULL,
   `date_createdDate` date NOT NULL,
-  `enum_problemStatus` enum('Accepted','Pending','Rejected') DEFAULT 'Pending'
+  `enum_problemStatus` enum('Submitted','Accepted','Pending','Rejected') DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -328,7 +328,8 @@ CREATE TABLE `tbl_problemstatement` (
 --
 
 INSERT INTO `tbl_problemstatement` (`int_problemID`, `int_barangayID`, `int_problemCategID`, `varchar_statementTitle`, `varchar_statementDescription`, `date_createdDate`, `enum_problemStatus`) VALUES
-(1, 10, 1, 'Petition for full body check up and medicine giving for the residents of barangay Buli', 'Due to recent demolished nuclear plant leakage some residents said that it affects the growth of their plants that they eat that might affect their health.', '2018-07-08', 'Pending');
+(1, 3, 1, 'Petition for full body check up and medicine giving for the residents of barangay Buli', 'Due to recent demolished nuclear plant leakage some residents said that it affects the growth of their plants that they eat that might affect their health.', '2018-07-08', 'Submitted'),
+(2, 3, 1, 'Petition for full body check up and medicine giving for the residents of barangay Cupang', 'Check up', '2018-07-13', 'Submitted');
 
 -- --------------------------------------------------------
 
@@ -823,7 +824,7 @@ ALTER TABLE `tbl_problemcategory`
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
 ALTER TABLE `tbl_problemstatement`
-  MODIFY `int_problemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `int_problemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_projectbidder`
 --

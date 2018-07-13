@@ -60,3 +60,10 @@ input.invalid {
     color: whitesmoke;
     background-color: #3B5997;
 }
+
+#crop-description{
+    width: 80%;
+    overflow:hidden;
+    height:50px;
+    line-height:50px;
+}

@@ -432,7 +432,6 @@ img { width: auto; max-width: 100%; height: auto; margin: 0; padding: 0; border:
 /*----------------------------------------------
    5.4 Page Header
 ----------------------------------------------*/
-.page-header { background: url(/barangay/images/header.jpg) no-repeat; margin: 0px; padding-top: 250px; padding-bottom: 0px; border: 0px; background-size: cover; background-position: center; }
 .page-caption { font-family:Font_Header; padding-top: 13px; padding-bottom: 13px;font-size: 32px; background-color: #fff; text-align: center; width: 100%; border-top-left-radius: 2px; border-top-right-radius: 2px; }
 .page-title { font-size: 34px; line-height: 1; color: #121113; font-weight: 200; margin-bottom: 0px; text-transform:uppercase; }
 
@@ -1112,29 +1111,3 @@ hr.style9 {
   width: 100%;
 }
 
-.bckgrndbase{
-  background-color: whitesmoke;
-}
-.contfooter{
-  background-image: url("../../landing/images/bldg.jpg");
-  background-color: #cccccc;
-  background-repeat: no-repeat;
-  
-  background-size: 100% 160%;
-  opacity: ;
-}
-.dropbut{
-  background-color: rgba(255, 255, 255, 0.0);
-  border-radius: 50%;
-  border: 0px transparent;
-}
-.dropdown-prof{
-  margin-left:5px;
-}
-.dropdown-menu{
-  width: 300px !important;
-  height: auto;
-  left: 50%;
-  right: auto;
-  text-align: center;
-}

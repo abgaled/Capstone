@@ -5,10 +5,23 @@ var db = require('../../../lib/database')();
 
 router.get('/',(req, res) => {
     console.log('=================================');
-    console.log('BARANGAY: HOME');
+    console.log('BARANGAY: HOME - GET');
     console.log('=================================');
 
-    res.render('barangay/home/views/home');
+    var queryString = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
+    tbl_user.int_userID=tbl_barangay.int_barangayUserID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
+
+    db.query(queryString,(err, results) => {
+
+        if (err) console.log(err);
+        console.log('=================================');
+        console.log('BARANGAY: HOME - GET PROFILE INFO');
+        console.log('=================================');
+
+        
+        res.render('barangay/home/views/home',{barangay_info:results});
+    });
+
 
 });
 

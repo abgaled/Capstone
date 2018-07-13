@@ -9,6 +9,7 @@ block body
     <link rel="stylesheet" type="text/css" href="/landing/css/jquery-ui.css">
     <!-- Style CSS -->
     <link href="/landing/css/style.css" rel="stylesheet">
+    <link href="/barangay/styles.css" rel="stylesheet">
     </head>
 
     <!-- header-section-->
@@ -55,14 +56,35 @@ block body
                                             <img src="/icons/user.png">
                                         <span class="caret"></span>
                                         </button>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                            <div class="dropdown-prof"><img src="/icons/city-hall.png">Brgy Name<br>District No#<br>Brgy Chairman <br>Contact No#</div>
-                                            
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/barangay/reports">Reports</a>
-                                            <a class="dropdown-item" href="/barangay/awards">Awards</a>
-                                            <a class="dropdown-item" href="/logout">Logout</a>
-                                        </div>
+                                        each barangay in barangay_info
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                                <div class="dropdown-prof-text">
+                                                <i class ="fa fa-file-text-o" style="margin-right:3%;"></i>Barangay Name:
+                                                <span class="profile-details-right">
+                                                    <small>
+                                                    value=barangay.varchar_barangayName
+                                                    </small>
+                                                </span>
+                                                <br><i class ="fa fa-user-circle-o" style="margin-right:2%;"></i>Brgy Chairman:
+                                                <span class="profile-details-right">
+                                                    <small>
+                                                    value=barangay.varchar_barangayChairman
+                                                    </small>
+                                                </span>
+                                                <br><i class ="fa fa-drivers-license-o" style="margin-right:2%;"></i>Contact No#:
+                                                <span class="profile-details-right">
+                                                    <small>
+                                                    value=barangay.varchar_barangayContact
+                                                    </small>
+                                                </span>
+                                                <br>
+                                                <a href="/barangay/profile" style="margin-left:72%;">More ...</a>
+                                                </div>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="/barangay/reports">Reports</a>
+                                                <a class="dropdown-item" href="/barangay/awards">Awards</a>
+                                                <a class="dropdown-item" href="/logout">Logout</a>
+                                            </div>
                                     </li>
                                 </ul>
                             </div>
@@ -74,6 +96,16 @@ block body
     <!-- /. header-section-->
 
     block content
+
+    <footer>
+        <br>
+            <div style="text-align: center;background-color: #cccccc;">
+                <div class="">
+                    <p>© 2018. Polytechnic University of the Philippines, BSIT 4-3 Batch 2018-2019. All rights reserved. </p>
+                </div>
+            </div>
+    </footer>
+
 
     <a href="javascript:" id="return-to-top"><i class="fa fa-angle-up"></i></a>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
