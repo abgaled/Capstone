@@ -6,33 +6,70 @@ block body
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/citybarangay/styles.css">
+    <link href="/landing/css/style.css" rel="stylesheet">
     </head>
     <body>
-
-    <div id='cssmenu'>
-    <ul>
-        <li><a href='/office/home' style="font-size:95%;font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;"><span>City Project Application and Benefits Releasing</span></a></li>
-        <li><a href='/office/home'><span>Home</span></a></li>
-        <li class='active has-sub'><a href='#'><span>Projects</span></a>
-            <ul>
-            <li><a href='/office/projects/newproject'><span>New Project</span></a>
-            </li>
-            <li><a href='/office/projects/ongoingproject'><span>Ongoing Projects</span></a>
-            </li>
-            <li><a href='/office/projects/finishedproject'><span>Finished Projects</span></a>
-            </li>
-        </ul>
-        </li>
-        <li><a href='/office/problems'><span>Problems</span></a></li>
-        <li><a href='/office/proposals'><span>Proposals</span></a></li>
-        <li><a href='/office/schedule'><span>Schedule</span></a></li>
-        <li><a href='/office/reports'><span>Reports</span></a></li>
-        <li><a href='/office/mailbox'><span>Mailbox</span></a></li>
-        <li><a href='/office/awards'><span>Awards</span></a></li>
-        <li class='last'><a href='/logout'><span>Logout</span></a></li>
-    </ul>
-    </div>
-
+            <nav class="navbar navbar-expand-lg navbar-light sticky-top " style="background-color: #e3f2fd;">
+                <span class="navbar-brand"><h2 style="color: #669BC8"><b>City</b><strong style="color: black">Pro</strong></h2></span>
+                    <div class="collapse navbar-collapse " id="navbar-Nav">
+                        <ul class="navbar-nav nav-pills ml-auto font-weight-bold">
+                            <img class="mr-5" src="../../icons/embassy.png">
+                        </ul>
+                    </div>
+                    <div class="collapse navbar-collapse " id="navbar-Nav">
+                    <ul class="nav navbar-nav ml-auto ">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/office/home">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/office/problems">Problems</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/office/proposals">Proposal</a>
+                        </li>
+                        <li class="nav-item dropdown ">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/office/projects/newproject">New Project</a>
+                                <a class="dropdown-item" href="/office/projects/ongoingproject">Ongoing Projects</a>
+                                <a class="dropdown-item" href="/office/projects/finishedproject">Finished Projects</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/office/schedule">Schedule</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/office/reports">Reports</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <button class="dropbut dropdown-toggle"  type="button" id="navbarDropdownMenuLink" data-toggle="dropdown">
+                            <img src="../../icons/user.png">
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#"><img src="../../icons/city-hall.png">OFFICE<br></a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/office/reports">Mailbox</a>
+                                <a class="dropdown-item" href="/office/awards">Awards</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                                
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        
     </body>
 
     block content
+    <a href="javascript:" id="return-to-top"><i class="fa fa-angle-up"></i></a>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/landing/js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/landing/js/bootstrap.min.js"></script>
+    <script src="/landing/js/menumaker.js"></script>
+    <script src="/landing/js/jquery.sticky.js"></script>
+    <script src="/landing/js/sticky-header.js"></script>
+    <script src="/landing/js/jquery-ui.js"></script>
+    <script src="/landing/js/date.js"></script>
+    <script src="/landing/js/return-to-top.js"></script>

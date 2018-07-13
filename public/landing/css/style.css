@@ -1041,6 +1041,100 @@ hr.style9 {
 }
 
 
-#but_apply:hover{
-  color:#3B5997;
+.image_hover {
+  display: block;
+  width: 95%;
+  height: 50%;
+  background-color: #EBF4FA;
+}
+.img{
+  height:150%;
+}
+.overlayimage {
+  position: absolute;
+  bottom: 100%;
+  left: 57;
+  right: 0;
+  overflow: hidden;
+  width: 90.5%;
+  height: 0;
+  transition: .5s ease;
+}
+
+.container:hover .overlayimage {
+  height: 100%;
+  bottom: 0;
+}
+
+.texthover {
+  white-space: nowrap; 
+  color: black;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 50 px;
+  position: absolute;
+  overflow: hidden;
+  top: 25%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+.texthoverlink {
+  white-space: nowrap; 
+  color: black;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 90 px;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 82%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+.texthoverdesc {
+  white-space: nowrap; 
+  color: black;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 90 px;
+  position: absolute;
+  overflow: hidden;
+  top: 44%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+.btn-linkhover { color: #121113; font-size: 30px; font-weight: 800; text-transform: capitalize; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s; position: relative; letter-spacing: 0px; }
+.btn-linkhover i { font-size: 30px; padding-left: 10px; }
+.btn-linkhover:hover { color: #3B5997 ; text-decoration: none; }
+.btn-linkhover:hover i { color: #3B5997 ; text-decoration: none; }
+
+.overlayimage_container {
+  position: relative;
+  width: 100%;
+}
+
+.bckgrndbase{
+  background-color: whitesmoke;
+}
+.contfooter{
+  background-image: url("../../landing/images/bldg.jpg");
+  background-color: #cccccc;
+  background-repeat: no-repeat;
+  
+  background-size: 100% 160%;
+  opacity: ;
+}
+.dropbut{
+  background-color: rgba(255, 255, 255, 0.0);
+  border-radius: 50%;
+  border: 0px transparent;
+}
+.dropdown-prof{
+  margin-left:5px;
+}
+.dropdown-menu{
+  width: 300px !important;
+  height: auto;
+  left: 50%;
+  right: auto;
+  text-align: center;
 }
