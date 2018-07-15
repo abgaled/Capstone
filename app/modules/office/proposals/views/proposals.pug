@@ -1,4 +1,252 @@
-extends ../../home/views/navbar.pug
+extends ../../home/views/navbaroffice.pug
 
 block content
-    <h3> Proposals</h3>
+
+    <div class="info">
+    <h1>Create Proposal</h1>
+    </div>
+
+    <form class="steps" accept-charset="UTF-8" enctype="multipart/form-data" novalidate="">
+    <ul id="progressbar">
+        <li class="active">Basic Information</li>
+        <li>Beneficiary</li>
+        <li>Requirements</li>
+        <li>Timeline</li>
+        <li>Budget</li>
+    </ul>
+
+
+    <!-- USER INFORMATION FIELD SET --> 
+    <fieldset>
+      <form method="POST" action='proposals' name="addProposal" novalidate>
+        <h2 class="fs-title">Basic Information</h2>
+        <h3 class="fs-subtitle">Basic information regarding the project.</h3>
+        <!-- Begin What's Your First Name Field -->
+            <div class="hs_firstname field hs-form-field">
+            
+            <label for="projectname">Project Name *</label>
+
+            <input id="projectname" name="projectname" required="required" type="text" placeholder="" data-rule-required="true" data-msg-required="Please fill project name" >
+            <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+            </span>
+            </div>
+        <!-- End What's Your First Name Field -->
+
+        <div class="hs_email field hs-form-field">
+            
+            <label for="projectcategory">Project Category *</label>
+            <select  name="projectcategory" style="width:100%; color:black; padding:0.75em;border-radius:2%" required>
+                <option value="0">Choose..</option>
+                <option value="1">Medical</option>
+                <option value="2">No Residents</option>
+                <option value="3">Monetary</option>
+                <option value="4">Education</option>
+            </select>
+            <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+            </span>
+            </div>
+
+        <!-- Begin What's Your Email Field -->
+            <div class="hs_email field hs-form-field">
+            
+            <label for="projectrationale">Project Rationale *</label>
+
+            <input id="projectrationale" name="projectrationale" required="required" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Please fill project rationale" >
+            <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+            </span>
+            </div>
+        <!-- End What's Your Email Field -->
+
+        <!-- Begin Total Number of Constituents in Your Database Field -->
+            <div class="hs_email field hs-form-field">
+            
+            <label for="projectdescription">Project Description *</label>
+
+            <input id="projectdescription" name="projectdescription" required="required" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Please fill project description" >
+            <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+            </span>
+            </div>
+
+        <!-- End Total Number of Constituents in Your Database Field -->
+
+            <div class="hs_email field hs-form-field">
+            
+            <label for="expectedoutput">Expected Output *</label>
+
+             <input id="expectedoutput" name="expectedoutput" required="required" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Please fill expected output" >
+            <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+            </span>
+            </div>
+        <input type="button" data-page="1" name="next" class="next action-button" value="Next" />
+    </fieldset>
+
+
+
+    <!-- ACQUISITION FIELD SET -->  
+    <fieldset>
+        <h2 class="fs-title">Beneficiary Details</h2>
+        <h3 class="fs-subtitle">What details do we need about the beneficiary?</h3>
+        <!-- Begin Total Number of Donors in Year 1 Field -->
+            <div class="form-item webform-component webform-component-textfield hs_total_number_of_donors_in_year_1 field hs-form-field" id="webform-component-acquisition--amount-1">
+            
+            <label for="allotedslot">Alloted Slot? *</label>
+
+            <input id="allotedslot" class="form-text hs-input" name="allotedslot" required="required" size="20" maxlength="128" type="number" value="" placeholder="" data-rule-required="true" data-msg-required="Please enter a valid number">
+            <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+            </span>
+            </div>
+        <!-- End Total Number of Donors in Year 1 Field -->
+
+        <!-- Begin Total Number of Donors in Year 2 Field -->
+            <div class="hs_email field hs-form-field">
+            
+            <label for="targetbeneficiary">Target Beneficiary *</label>
+            <select  name="targetbeneficiary" style="width:100%; color:black; padding:0.75em;border-radius:2%" required>
+                <option value="0">Choose..</option>
+                <option value="Senior Citizen">Senior Citizen</option>
+                <option value="18 years old and above">18 years old and above</option>
+                <option value="Elementary Students">Elementary Students</option>
+                <option value="Females Only">Females Only</option>
+                <option value="Males Only">Males Only</option>
+            </select>
+            <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+            </span>
+            </div>
+            <!-- End Total Number of Donors in Year 2 Field -->
+        <input type="button" data-page="2" name="previous" class="previous action-button" value="Previous" />
+        <input type="button" data-page="2" name="next" class="next action-button" value="Next" />
+    </fieldset>
+
+
+
+    <!-- Cultivation FIELD SET -->  
+    <fieldset>
+        <h2 class="fs-title">Requirements</h2>
+        <h3 class="fs-subtitle">What requirements are needed to be passed in this project?</h3>
+
+        <!-- Begin Average Gift Size in Year 1 Field -->
+        <div class="hs_email field hs-form-field">
+            <label>Requirements List *</label>
+                    <p style="padding: 5px;">
+                    <input type="checkbox" name="hobbies[]" id="hobby1" value="NBI Clearance" data-parsley-mincheck="2" required class="flat"> NBI Clearance
+                    <input type="checkbox" name="hobbies[]" id="hobby2" value="Police Clearance" class="flat"> Police Clearance
+                    <input type="checkbox" name="hobbies[]" id="hobby3" value="Student ID" class="flat"> Student ID
+                    <input type="checkbox" name="hobbies[]" id="hobby4" value="Valid ID" class="flat"> Valid ID
+            <br />
+            <p><span class="error1" style="display: none;">
+            <i class="error-log fa fa-exclamation-triangle"></i>
+            </span>
+        </div>
+            <!-- End Average Gift Size in Year 1 Field -->
+        <input type="button" data-page="3" name="previous" class="previous action-button" value="Previous" />
+        <input type="button" data-page="3" name="next" class="next action-button" value="Next" />
+    </fieldset>
+
+
+
+    <!-- Cultivation2 FIELD SET --> 
+    <fieldset>
+        <h2 class="fs-title">Timeline</h2>
+        <h3 class="fs-subtitle">Important dates in the project</h3>
+                <!-- Begin Total Giving In Year 1 Field -->
+                <!-- End Total Giving In Year 1 Field -->
+
+                <!-- Begin Total Giving In Year 2 Field -->
+                <div class="form-item webform-component webform-component-textfield hs_total_giving_in_year_2 field hs-form-field" id="webform-component-cultivation--amount-4"> 
+            
+                <labl for="startdate">Start Project Date  *</label>
+
+                <input id="startdate" class="form-text hs-input" name="startdate" required="required" size="60" maxlength="128" type="date" value="" placeholder="" data-rule-required="true" data-msg-required="Please enter a valid date">
+                <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+                </span>
+                </div>
+            
+                <!-- End Total Giving In Year 2 Field -->
+                <!-- Begin Total Giving In Year 2 Field -->
+                <div class="form-item webform-component webform-component-textfield hs_total_giving_in_year_2 field hs-form-field" id="webform-component-cultivation--amount-4"> 
+            
+                <label for="enddate">End Project Date  *</label>
+
+                <input id="enddate" class="form-text hs-input" name="enddate" required="required" size="60" maxlength="128" type="date" value="" placeholder="" data-rule-required="true" data-msg-required="Please enter a valid date">
+                <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+                </span>
+                </div>
+            
+                <!-- End Total Giving In Year 2 Field -->
+                 <!-- Begin Total Giving In Year 2 Field -->
+                <div class="form-item webform-component webform-component-textfield hs_total_giving_in_year_2 field hs-form-field" id="webform-component-cultivation--amount-4"> 
+            
+                <label for="releasedate">Release Date  *</label>
+
+                <input id="releasedate" class="form-text hs-input" name="releasedate" required="required" size="60" maxlength="128" type="date" value="" placeholder="" data-rule-required="true" data-msg-required="Please enter a valid date">
+                <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+                </span>
+                </div>
+            
+                <!-- End Total Giving In Year 2 Field -->
+                 <!-- Begin Total Giving In Year 2 Field -->
+                <div class="hs_email field hs-form-field">
+            
+                <label for="releaselocation">Release Location *</label>
+                <select  name="releaselocation" style="width:100%; color:black; padding:0.75em;border-radius:2%" required>
+                    <option value="0">Choose..</option>
+                    <option value="Senior Citizen">Mandaluyong City Hall</option>
+                    <option value="18 years old and above">Barangay City Halls(all)</option>
+                    <option value="Elementary Students">Addition Hills Barangay Hall</option>
+                    <option value="Females Only">Pleasant Hills Barangay Hall</option>
+                    <option value="Males Only">Hagdang Bato Barangay Hall</option>
+                </select>
+                <span class="error1" style="display: none;">
+                    <i class="error-log fa fa-exclamation-triangle"></i>
+                </span>
+                </div>
+                
+                <!-- End Total Giving In Year 2 Field -->
+                
+                <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
+                <input type="button" data-page="4" name="next" class="next action-button" value="Next" />
+    </fieldset>
+
+
+
+    <!-- RETENTION FIELD SET -->  
+    <fieldset>
+        <h2 class="fs-title">Budget</h2>
+        <h3 class="fs-subtitle">How much should be in this project?</h3>
+            <!-- Begin Total Number of Donors Who Gave in Year 1 Field -->
+            <div class="form-item webform-component webform-component-textfield hs_number_of_donors_in_year_1 field hs-form-field" id="webform-component-retention--amount-1"> 
+            
+            <label for="estimatedbudget">Estimated Budget *</label>
+
+            <input id="estimatedbudget" class="form-text hs-input" name="estimatedbudget" required="required" size="60" maxlength="128" type="number" value="" placeholder="" data-rule-required="true" data-msg-required="Please enter a valid amount">
+            <span class="error1" style="display: none;">
+                <i class="error-log fa fa-exclamation-triangle"></i>
+            </span>
+            </div>
+            <!-- End Total Number of Donors Who Gave in Year 1 Field-->
+
+            <!-- Begin Retention Rate Percent -->
+            <div class="form-item webform-component webform-component-textfield webform-container-inline hs_average_gift_size_percent_change field hs-form-field" id="webform-component-cultivation--percent-change1">
+        
+            <label for="individualbudget">Individual Budget(computer-computed)</label>
+
+            <input id="individualbudget" class="form-text hs-input" name="individualbudget" readonly="readonly" size="60" maxlength="128" type="number" value="" placeholder="0">
+            </div>
+            <!-- End Retention Rate Percent -->
+        <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
+        <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
+        </form>
+    </fieldset>
+
+        <script  src="/cityoffice/js/index.js"></script>
+
