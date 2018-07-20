@@ -4,10 +4,10 @@ block content
   <link rel="stylesheet" type="text/css" href="/loader/style_loader.css">
 
   <div id="loading"></div>
-    <form method="POST" action="deletetargetbeneficiary" id="form_deletetarget">
-      each target in tbl_beneficiary
+    <form method="POST" action="deletereleaselocation" id="form_deletelocation">
+      each location in tbl_releaselocation
             
-        input(type="hidden" value=`${target.int_beneficiaryID}` name="int_beneficiaryID" id="int_beneficiaryID")
+        input(type="hidden" value=`${location.int_locationID}` name="int_locationID" id="int_locationID")
                        
     </form>
 
@@ -21,6 +21,6 @@ block content
       jQuery('#loading').fadeOut(3500);
       });
 
-      document.getElementById("form_deletetarget").submit();
+      document.getElementById("form_deletelocation").submit();
     }
 

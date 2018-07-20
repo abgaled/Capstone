@@ -1,0 +1,103 @@
+extends ../../navbar/views/navbar.pug
+
+block content
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h1>Release Location<button class="btn btn-primary btn-lg pull-right" id="addproject" type="button" data-toggle="modal" data-target=".bs-example-modal-lg">Add</button></h1>
+                </div>              
+        <div class="content-wrapper">
+            <div class="container-fluid">
+            <div class="card mb-4">
+                <div class="card-header">
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
+                    <thead>
+                        <tr>
+                        <th>ID</th>
+                        <th>Location Name</th>
+                        <th>Location Address</th>
+                        <th>Address Type</th>
+                        <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                        <th>ID</th>
+                        <th>Location Name</th>
+                        <th>Location Address</th>
+                        <th>Address Type</th>
+                        <th>Actions</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    each location in tbl_releaselocation
+                        <tr>
+                        <td>
+                            value=location.int_locationID
+                        </td>
+                        <td>
+                            value=location.varchar_locationName
+                        </td>
+                        <td>
+                            value=location.varchar_addressLine1
+                            <br>
+                            value=location.varchar_addressLine2
+                            <br>
+                            value=location.varchar_addressLine3
+                            <br>
+                            value=location.varchar_cityName
+                        </td>
+                        <td>
+                            value=location.enum_addressType
+                        </td>
+                        <td>
+                            a(href=`/admin/maintenance/releaselocation/${location.int_locationID}/editreleaselocation` id="editreleaselocation" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
+                            a(href=`/admin/maintenance/releaselocation/${location.int_locationID}/deletereleaselocation` id="deletereleaselocation" class="btn btn-danger btn-s"): span.fa.fa-trash-o  Disable
+                        </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+            </div>
+            
+
+                  <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <form class="form-horizontal form-label-left" method="POST" action='releaselocation' name="addlocation" novalidate>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                          </button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">Release Location Details</span></h4>
+             
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="locationname">Location Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input id="locationname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="3" name="locationname" placeholder="" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="locationaddress">Location Address <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input id="locationaddress" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="locationaddress" placeholder="" required="required" type="text">
+                        </div>
+                      </div>
+                      <button type="submit" id="modalbutton" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </form></div>
+                        <div class="modal-footer">
+                          
+                        </div>
+
+                        </div>
+                        </div>
+                    </div>

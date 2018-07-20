@@ -30,14 +30,14 @@ block content
                       each projcat in tbl_projectcategory
                           <tr>
                           <td>
-                            value=projcat.varchar_projectCategName
+                            value=projcat.varchar_categoryName
                           </td>
                           <td>
-                            value=projcat.text_projectCategDescription
+                            value=projcat.text_categoryDescription
                           </td>
                           <td>
-                            a(href=`/admin/maintenance/projectcategory/${projcat.int_projectCategID}/editprojectcategory` id="editprojectcategory" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
-                            a(href=`/admin/maintenance/projectcategory/${projcat.int_projectCategID}/deleteprojectcategory` id="deleteprojectcategory" class="btn btn-danger btn-s"): span.fa.fa-trash-o  Disable
+                            a(href=`/admin/maintenance/projectcategory/${projcat.int_categoryID}/editprojectcategory` id="editprojectcategory" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
+                            a(href=`/admin/maintenance/projectcategory/${projcat.int_categoryID}/deleteprojectcategory` id="deleteprojectcategory" class="btn btn-danger btn-s"): span.fa.fa-trash-o  Disable
                           </td>
                           </tr>
                       </tbody>
