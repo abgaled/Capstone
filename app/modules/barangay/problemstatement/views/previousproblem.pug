@@ -32,9 +32,9 @@ block content
                                 <option disabled="disabled" selected="selected">Select ...</option>
                                 <option value = "All">All</option>
                                 <option value = "1">Health</option>
-                                <option value = "2">Education</option>
-                                <option value = "3">Finance</option>
-                                <option value = "4">Infrastracture</option>
+                                <option value = "2">No Residents</option>
+                                <option value = "3">Monetary</option>
+                                <option value = "4">Educational</option>
                             </select>
                         </form>
                 </div>
@@ -53,11 +53,11 @@ block content
                     <div class="card-body" >
                         <h4 class="card-title float-right">Category: 
                             <u>
-                            value=problem.varchar_problemCategName
+                            value=problem.varchar_categoryName
                             </u>
                         </h4>
                         <p class="card-text" id="crop-description">
-                            value=problem.varchar_statementDescription
+                            value=problem.text_statementContent
                         </p>
                         <button type="button" class="btn btn-outline-info float-right" style="border-color:#3B5997;width:100px;">View</button>
                     </div>

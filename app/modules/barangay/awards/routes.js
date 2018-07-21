@@ -9,7 +9,7 @@ router.get('/',(req, res) => {
     console.log('=================================');
 
     var queryString = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
-    tbl_user.int_userID=tbl_barangay.int_barangayUserID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
+    tbl_user.int_userID=tbl_barangay.int_userID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
 
     db.query(queryString,(err, results1) => {
 

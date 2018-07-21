@@ -4,8 +4,9 @@ block content
     <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
     <link rel="stylesheet" type="text/css" href="/barangay/css/applyproject.css">
     <link rel="stylesheet" type="text/css" href="/barangay/css/fileupload.css">
+
         <!-- page-header -->
-        <div class="page-header-projects ">
+        <div class="page-header-projects">
             <div class="container" id="container-header" >
                 <div class="row">
                     <div class="page-caption">
@@ -15,7 +16,7 @@ block content
                                 value=project.varchar_projectName
                             </h4>
                             <small>
-                                value="(" + project.varchar_projectObjective + ")"
+                                value="(" + project.text_projectObjective + ")"
                             </small>
                     </div>
                 </div>
@@ -90,6 +91,7 @@ block content
                             </div>
                         </div>
                     </div>
+                    //- End of 1st tab
 
                     //- Second Tab "Applicant's Address Information"
                     <div class="tab"><h3>APPLICANT'S ADDRESS INFORMATION</h3>
@@ -111,78 +113,58 @@ block content
                             </div>
                         </div>
                     </div>
+                    //- End of 2nd tab
 
-                    //- Third Tab "Family Background Information"
-                    <div class="tab"><h3>FAMILY BACKGROUND INFORMATION<small> (at least one (1) Applicant's Relative)</small></h3>
-                        <div class="tab-upper-field">
-                            <h5>Relative's Name:<label style="color:red;">*</label></h5>
-                            <div class="form-row">
-                                <div class="form-group float-label-control col-md-4">
-                                    <label for="">First Name</label>
-                                    <input type="text" name ="rel_fname"class="form-control" placeholder="First Name" required>
-                                </div>
-                                <div class="form-group float-label-control col-md-4">
-                                    <label for="">Last Name</label>
-                                    <input type="text" name ="rel_lname"class="form-control" placeholder="Last Name" required>
-                                </div>
-                                <div class="form-group float-label-control col-md-4">
-                                    <label for="">Middle Name</label>
-                                    <input type="text" name ="rel_mname"class="form-control" placeholder="Middle Name" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <h5>Birthdate:<label style="color:red;">*</label></h5>
-                                    <div class="form-group float-label-control col-md-3">
-                                        <input type="date" name="relbirthdate" class="form-control" placeholder="Birthdate">
-                                    </div>
-                                <h5 style="margin-left:1%;margin-right:0.1%;">Educational Attainment <small>(Highest)</small>:</h5>
-                                    <div class="form-group float-label-control col-md-5">
-                                        <input type="text" name="relattain" class="form-control" placeholder="(ex. Elementary/Highschool/College/Vocational)">
-                                    </div>
-                            </div>
-                            <div class="form-row">
-                                <h5 style="margin-right:1%;">Relationship with the Applicant:<label style="color:red;">*</label></h5>
-                                    <div class="col-md-4">
-                                        <select class="form-group float-label-control form-control" id="relrelationship">
-                                            <option>Parent</option>
-                                            <option>Son</option>
-                                            <option>Daughter</option>
-                                            <option>Spouse</option>
-                                            <option>Brother</option>
-                                            <option>Sister</option>
-                                            <option>Aunt</option>
-                                            <option>Uncle</option>
-                                            <option>Niece</option>
-                                            <option>Cousin</option>
-                                            <option>Grandchild</option>
-                                            <option>Grandparent</option>
-                                        </select>
-                                    </div>
-                            </div>
-                        </div>
+                    //- SCRIPT FOR ADDITIONAL FORMS
+                    script(src="/barangay/projects/routes.js")
+                    script.
+                        window.onload = function additionalForms(){
+
+                        var int_categoryID = #{int_categoryID.int_categoryID}
+                        var int_formtypeID = #{int_formtypeID.int_formtypeID}
+                        
+                        
+                            console.log("Pumasok sa script")
+                            console.log("==================================")
+                            console.log(int_categoryID);
+                            console.log("==================================")
+                            console.log(int_formtypeID);
+
+                            for(i=0;i<int_formtypeID.length;i++){
+                                console.log(int_formtypeID[i].int_formtypeID)
+                            }
+
+                            
+                            
+
+
+                                if(int_formtypeID == 1){
+                                    console.log("Category 1");
+                                    console.log(int_categoryID);
+                                    console.log(int_formtypeID);
+                                    document.getElementById("add-medical").style.display ="inline";
+                                }
+                                if (int_formtypeID == 2){
+                                console.log("Category 2");
+                                document.getElementById("add-finance").style.display ="inline";
+                                }
+                                if (int_formtypeID == 3){
+                                console.log("Category 3");
+                                document.getElementById("add-finance").style.display ="inline";
+                                }
+                        }
+
+                    //- ADDITIONAL TABS:
+                    <div class="tab" style="display:none;">
+                        <span id="add-medical" style="display:none;">
+                            <h1> medic</h1>
+                        </span>
+                        <span id="add-finance" style="display:none;">
+                            <h1> finance</h1>
+                        </span>
                     </div>
 
-                    //- Fourth Tab "Applicant's Requirements"
-                    <div class="tab"><h3>APPLICANT'S REQUIREMENT/S</h3>
-                        <div class="tab-upper-field">
-                            <div class="form-row">
-                            <div class="col-md-5" style="margin-left:3%;">
-                                <label for="exampleFormControlFile1">• Student's ID <small>**must be readable (Name & Grade)</small></label>
-                                <input type="file" class="form-control" id="exampleFormControlFile1">
-                            </div>
-                            <div class="col-md-5" style="margin-left:5%;">
-                                <label for="exampleFormControlFile1" >• Parent's ID <small>**must be readable (Any valid ID)</small></label>
-                                <input type="file" class="form-control" id="exampleFormControlFile1">
-                            </div>
-                            //- <div class="container">
-                            //-     <div class="row">
-                            //-         <input type='file' id="img-fileupload" onchange="readURL(this);" />
-                            //-     </div>
-                            //-     <img id="blah" src="http://placehold.it/180" alt="your image" />
-                            //- </div>
-                            </div>
-                        </div>
-                    </div>
+
 
 
                     <div style="overflow:auto;">
@@ -207,6 +189,7 @@ block content
         <!-- /.tour-booking -->
 
     script.
+
         var currentTab = 0; // Current tab is set to be the first tab (0)
         showTab(currentTab); // Display the current tab
 
@@ -360,19 +343,7 @@ block content
 
         //- END OF SCRIPT FOR LABEL
 
-        //- Script for VIEW FILE UPLOAD
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#blah')
-                        .attr('src', e.target.result);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+        
 
 
         

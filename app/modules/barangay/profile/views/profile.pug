@@ -1,4 +1,52 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <h3> Barangay-Profile</h3>
+    <link href="/barangay/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="/minicalendar/minicalendar.css" type="text/css">
+        <!-- page-header -->
+        <div class="page-header ">
+            <div class="container" id="container-header" >
+                <div class="row">
+                    <div class="page-caption">
+                        each barangay in barangay_info
+                            <p style="color: #3B5997;">
+                                value=barangay.varchar_barangayName
+                            </p>
+                            <small id="small-text">Profile</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.page-header-->
+        <!-- tour-booking -->
+        <div class="content" style="padding-top:1.5%;">
+            <div class="container" >
+                        <div class="row ">
+                            <!-- footer-logo -->
+                            <div class="col-xl-8 col-lg-8 offset-md-2 col-md-8 col-sm-12 col-12 ">
+                                <div class="ease-tab">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Info</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                                    </li>
+                                </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <h4>Heading For Tab</h4>
+                                    <p>Luctuset ultrices posuere cubiliaurae urabitur nonex rutrum elit lacinia faucibust eget est erosivamus egettitor nisiat volutpat felisras sed nisl dictum sagittis metus etegestas diamenean in ante vitae sem sagittis condiment ummetus etegestas diamenean in ante vitae sem sagittismetus etegestas diameneanin ante vitae.</p>
+                                </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"><h4>Heading For Tab</h4>
+                                <p>Faucibus orci luctuset ultrices posuere cubiliaurae urabitur nonex rutrum elit lacinia faucibust eget est erosivamus eget porttitor nisiat volutpat felisras sed nisl dictum sagittis metus etegestas diamenean in ante vitae sem sagittis condiment ummetus etegestas diamenean in ante vitae sem sagittismetus etegestas diamenean.</p></div>
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"><h4>Heading For Tab</h4>
+                                <p>Urabitur nonex rutrum elit lacinia faucibust eget est erosivamus eget porttitor nisiat volutpat felisras sed nisl dictum sagittis metus etegestas diamenean in ante vitae sem sagittis condiment ummetus etegestas diamenean in ante vitae sem sagittismetus etegestas diameneanin ante vitae.</p></div>
+                            </div>
+                            </div>
+                       
+                        </div>
+            </div>
+            </div>
+        </div>   
+        <!-- /.tour-booking -->

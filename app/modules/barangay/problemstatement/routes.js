@@ -11,7 +11,7 @@ router.get('/new',(req, res) => {
     console.log('=================================');
 
     var queryString = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
-    tbl_user.int_userID=tbl_barangay.int_barangayUserID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
+    tbl_user.int_userID=tbl_barangay.int_userID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
 
     db.query(queryString,(err, results) => {
 
@@ -29,9 +29,9 @@ router.get('/new',(req, res) => {
 router.post('/new',(req, res) => {
     var queryString = `INSERT INTO \`tbl_problemstatement\` 
     (\`int_barangayID\`, 
-    \`int_problemCategID\`,
+    \`int_categoryID\`,
     \`varchar_statementTitle\`,
-    \`varchar_statementDescription\`,
+    \`text_statementContent\`,
     \`date_createdDate\`,
     \`enum_problemStatus\`)
     VALUES
@@ -60,16 +60,15 @@ router.get('/previous',(req,res) => {
     console.log('=================================');
 
     var queryString = `SELECT * FROM tbl_problemstatement pr
-    JOIN tbl_problemcategory prcat ON pr.int_problemCategID=prcat.int_problemCategID WHERE 
-    pr.int_barangayID=${req.session.barangay.int_userID} ORDER BY pr.int_problemID DESC `
+    JOIN tbl_projectcategory prcat ON pr.int_categoryID=prcat.int_categoryID WHERE 
+    pr.int_barangayID=${req.session.barangay.int_userID} ORDER BY pr.int_statementID DESC `
 
 
     db.query(queryString,(err, results, fields) => {
         if (err) console.log(err);
 
         var queryString = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
-        tbl_user.int_userID=tbl_barangay.int_barangayUserID 
-        WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
+        tbl_user.int_userID=tbl_barangay.int_userID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
 
         db.query(queryString,(err, results1) => {
 
@@ -91,7 +90,7 @@ router.post('/viewprobcategory',(req,res) => {
     console.log('=================================');
 
     var queryString = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
-    tbl_user.int_userID=tbl_barangay.int_barangayUserID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
+    tbl_user.int_userID=tbl_barangay.int_userID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
 
     db.query(queryString,(err, results1) => {
 
@@ -103,10 +102,10 @@ router.post('/viewprobcategory',(req,res) => {
         if(`${req.body.problem_category}`== "All"){
             console.log("ALLLLLLLL"); 
             var queryString = `SELECT * FROM tbl_problemstatement pr
-            JOIN tbl_problemcategory prcat ON pr.int_problemCategID=prcat.int_problemCategID
-            WHERE pr.int_barangayID=${req.session.barangay.int_userID} ORDER BY pr.int_problemID DESC`
+            JOIN tbl_projectcategory prcat ON pr.int_categoryID=prcat.int_categoryID
+            WHERE pr.int_barangayID=${req.session.barangay.int_userID} ORDER BY pr.int_statementID DESC`
         
-            db.query(queryString,(err, results, fields) => {
+            db.query(queryString,(req, results, fields) => {
 
                 res.render('barangay/problemstatement/views/previousproblem',{tbl_problemstatement:results,barangay_info:results1});
                 });
@@ -114,12 +113,12 @@ router.post('/viewprobcategory',(req,res) => {
         else{
             console.log("ELSEEEE")
             var queryString = `SELECT * FROM tbl_problemstatement pr
-            JOIN tbl_problemcategory prcat ON pr.int_problemCategID=prcat.int_problemCategID
+            JOIN tbl_projectcategory prcat ON pr.int_categoryID=prcat.int_categoryID
             WHERE pr.int_barangayID=${req.session.barangay.int_userID} 
-            AND pr.int_problemCategID = ${req.body.problem_category}
-            ORDER BY pr.int_problemID DESC`
+            AND pr.int_categoryID = ${req.body.problem_category}
+            ORDER BY pr.int_statementID DESC`
 
-            db.query(queryString,(err, results, fields) => {
+            db.query(queryString,(req, results, fields) => {
                
                 res.render('barangay/problemstatement/views/previousproblem',{tbl_problemstatement:results,barangay_info:results1});
                 });
