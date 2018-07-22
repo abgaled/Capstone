@@ -4,8 +4,9 @@ block content
     <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
     <link rel="stylesheet" type="text/css" href="/barangay/css/applyproject.css">
     <link rel="stylesheet" type="text/css" href="/barangay/css/fileupload.css">
+
         <!-- page-header -->
-        <div class="page-header-projects ">
+        <div class="page-header-projects">
             <div class="container" id="container-header" >
                 <div class="row">
                     <div class="page-caption">
@@ -15,7 +16,7 @@ block content
                                 value=project.varchar_projectName
                             </h4>
                             <small>
-                                value="(" + project.varchar_projectObjective + ")"
+                                value="(" + project.text_projectObjective + ")"
                             </small>
                     </div>
                 </div>
@@ -28,7 +29,7 @@ block content
             <div class="card">
             <div class="card-header"></div>
             <div class="card-body">
-                <form id="regForm" method="POST" action="">
+                <form id="regForm" method="POST" action="#">
                     //- First Tab "Basic Personal Information"
                     <div class="tab"><h3>BASIC PERSONAL INFORMATION</h3>
                         <div class="tab-upper-field">
@@ -90,6 +91,7 @@ block content
                             </div>
                         </div>
                     </div>
+                    //- End of 1st tab
 
                     //- Second Tab "Applicant's Address Information"
                     <div class="tab"><h3>APPLICANT'S ADDRESS INFORMATION</h3>
@@ -111,79 +113,126 @@ block content
                             </div>
                         </div>
                     </div>
+                    //- End of 2nd tab
 
-                    //- Third Tab "Family Background Information"
-                    <div class="tab"><h3>FAMILY BACKGROUND INFORMATION<small> (at least one (1) Applicant's Relative)</small></h3>
+                    //- SCRIPT FOR ADDITIONAL FORMS
+                    script(src="/barangay/projects/routes.js")
+                    script.
+                        window.onload = function additionalForms(){
+
+                        var int_categoryID = #{int_categoryID.int_categoryID}
+                        var int_formtypeID = !{JSON.stringify(int_formtypeID)}
+
+                            console.log("=======IF STATEMENTS========")
+                            for (var i=0; i < int_formtypeID.length; i++) {
+                                if(int_formtypeID[i].int_formtypeID == 1){
+                                    console.log("Form Type - 1");
+                                    document.getElementById("add-medical").style.display ="inline";
+                                }
+                                if (int_formtypeID[i].int_formtypeID == 2){
+                                    console.log("Form Type - 2");
+                                    document.getElementById("add-finance").style.display ="inline";
+                                }
+                                if (int_formtypeID[i].int_formtypeID == 3){
+                                    console.log("Form Type - 3");
+                                    document.getElementById("add-family").style.display ="inline";
+                                }
+                            }
+                        }
+
+                    //- ADDITIONAL TABS:
+                    <div class="tab" style="display:none;">
+                        <span id="add-medical" style="display:none;"><h3>Health/Medical Form</h3>
+                        <div class="tab-upper-field">
+                            <div class="form-row">
+                            <h5 style="margin-right:0.5%;">Medication:<label style="color:red;">*</label></h5>
+                                <div class="form-group col-md-4">
+                                    <input type="textarea" name="apply_medication" class="form-control" placeholder="Medication ..." required>
+                                </div>
+                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Medication Description:<label style="color:red;">*</label></h5>
+                            <div class="form-group col-md-4">
+                                    <input type="textarea" name="apply_medicationdesc" class="form-control" placeholder="Medication description ..." required>
+                            </div>
+                            </div>
+                        </div>         
+                        </span>
+                        //- END OF 1ST FORM
+
+                        <span id="add-finance" style="display:none;"><h3>Financial Form</h3>
+                        <div class="tab-upper-field">
+                            <div class="form-row">
+                            <h5 style="margin-right:0.5%;">Income Source:<label style="color:red;">*</label></h5>
+                                <div class="form-group col-md-2">
+                                    <input type="text" name="apply_incomesource" class="form-control" placeholder="Income source ..." required>
+                                </div>
+                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income Maker:<label style="color:red;">*</label></h5>
+                            <div class="form-group col-md-2">
+                                    <input type="text" name="apply_incomemaker" class="form-control" placeholder="Income maker ..." required>
+                            </div>
+                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income of Spouse:<label style="color:red;">*</label></h5>
+                            <div class="form-group col-md-2">
+                                    <input type="text" name="apply_spouseincomer" class="form-control" placeholder="Income of Spouse ..." required>
+                            </div>
+                            </div>
+                        </div>      
+                        </span>
+                        //- END OF 2ND FORM
+
+                        <span id="add-family" style="display:none;"><h3>Family Background Form</h3>
                         <div class="tab-upper-field">
                             <h5>Relative's Name:<label style="color:red;">*</label></h5>
                             <div class="form-row">
                                 <div class="form-group float-label-control col-md-4">
                                     <label for="">First Name</label>
-                                    <input type="text" name ="rel_fname"class="form-control" placeholder="First Name" required>
+                                    <input type="text" name ="family_fname"class="form-control" placeholder="First Name" required>
                                 </div>
                                 <div class="form-group float-label-control col-md-4">
                                     <label for="">Last Name</label>
-                                    <input type="text" name ="rel_lname"class="form-control" placeholder="Last Name" required>
+                                    <input type="text" name ="family_lname"class="form-control" placeholder="Last Name" required>
                                 </div>
                                 <div class="form-group float-label-control col-md-4">
                                     <label for="">Middle Name</label>
-                                    <input type="text" name ="rel_mname"class="form-control" placeholder="Middle Name" required>
+                                    <input type="text" name ="family_mname"class="form-control" placeholder="Middle Name">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <h5>Birthdate:<label style="color:red;">*</label></h5>
+                                <h5>Relative's Birthdate:<label style="color:red;">*</label></h5>
+                                    <div class="form-group float-label-control col-md-4">
+                                        <input type="date" name="family_birthdate" class="form-control" placeholder="Birthdate">
+                                    </div>
+                                <h5>Educational Attainment:(Highest)<label style="color:red;">*</label></h5>
                                     <div class="form-group float-label-control col-md-3">
-                                        <input type="date" name="relbirthdate" class="form-control" placeholder="Birthdate">
-                                    </div>
-                                <h5 style="margin-left:1%;margin-right:0.1%;">Educational Attainment <small>(Highest)</small>:</h5>
-                                    <div class="form-group float-label-control col-md-5">
-                                        <input type="text" name="relattain" class="form-control" placeholder="(ex. Elementary/Highschool/College/Vocational)">
+                                        <input type="text" name="family_educattainment" class="form-control" placeholder="(ex: College, Highschool, etc ...)">
                                     </div>
                             </div>
                             <div class="form-row">
-                                <h5 style="margin-right:1%;">Relationship with the Applicant:<label style="color:red;">*</label></h5>
+                                <h5 >Relationship to Applicant:<label style="color:red;">*</label></h5>
                                     <div class="col-md-4">
-                                        <select class="form-group float-label-control form-control" id="relrelationship">
-                                            <option>Parent</option>
-                                            <option>Son</option>
-                                            <option>Daughter</option>
-                                            <option>Spouse</option>
-                                            <option>Brother</option>
-                                            <option>Sister</option>
-                                            <option>Aunt</option>
-                                            <option>Uncle</option>
-                                            <option>Niece</option>
-                                            <option>Cousin</option>
-                                            <option>Grandchild</option>
-                                            <option>Grandparent</option>
+                                        <select class="form-control" name="family_relationship">
+                                            <option value = "Mother">Mother</option>
+                                            <option value = "Father">Father</option>
+                                            <option value = "Sister">Sister</option>
+                                            <option value = "Brother">Brother</option>
+                                            <option value = "Aunt">Aunt</option>
+                                            <option value = "Uncle">Uncle</option>
+                                            <option value = "Cousin">Cousin</option>
+                                            <option value = "Son">Son</option>
+                                            <option value = "Daughter">Daughter</option>
+                                            <option value = "Spouse">Spouse</option>
+                                            <option value = "Nephew">Nephew</option>
+                                            <option value = "Niece">Niece</option>
+                                            <option value = "Grandchild">Grandchild</option>
+                                            <option value = "Grandparent">Grandparent</option>
                                         </select>
-                                    </div>
+                                    </div>   
                             </div>
+                            
                         </div>
+                        </span>
+                        
+                        //-END OF LAST DIV FORM 
                     </div>
-
-                    //- Fourth Tab "Applicant's Requirements"
-                    <div class="tab"><h3>APPLICANT'S REQUIREMENT/S</h3>
-                        <div class="tab-upper-field">
-                            <div class="form-row">
-                            <div class="col-md-5" style="margin-left:3%;">
-                                <label for="exampleFormControlFile1">• Student's ID <small>**must be readable (Name & Grade)</small></label>
-                                <input type="file" class="form-control" id="exampleFormControlFile1">
-                            </div>
-                            <div class="col-md-5" style="margin-left:5%;">
-                                <label for="exampleFormControlFile1" >• Parent's ID <small>**must be readable (Any valid ID)</small></label>
-                                <input type="file" class="form-control" id="exampleFormControlFile1">
-                            </div>
-                            //- <div class="container">
-                            //-     <div class="row">
-                            //-         <input type='file' id="img-fileupload" onchange="readURL(this);" />
-                            //-     </div>
-                            //-     <img id="blah" src="http://placehold.it/180" alt="your image" />
-                            //- </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    //- END OF ADDITIONAL TABS(AS OF NOW PER DIV)
 
                     <div style="overflow:auto;">
                     <div style="float:right;">
@@ -207,6 +256,7 @@ block content
         <!-- /.tour-booking -->
 
     script.
+
         var currentTab = 0; // Current tab is set to be the first tab (0)
         showTab(currentTab); // Display the current tab
 
@@ -360,19 +410,7 @@ block content
 
         //- END OF SCRIPT FOR LABEL
 
-        //- Script for VIEW FILE UPLOAD
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#blah')
-                        .attr('src', e.target.result);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+        
 
 
         

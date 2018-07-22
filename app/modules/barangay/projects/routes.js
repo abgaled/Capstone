@@ -63,7 +63,7 @@ router.get('/applications/:int_projectID/apply',(req,res) => {
             console.log('BARANGAY: GET PROFILE INFO');
             console.log('=================================');
 
-            var queryString4 = `SELECT int_formtypeID FROM tbl_categoryform cf JOIN tbl_projectproposal pp 
+            var queryString4 = `SELECT DISTINCT (int_formtypeID) FROM tbl_categoryform cf JOIN tbl_projectproposal pp 
             ON cf.int_categoryID=pp.int_categoryID 
             WHERE pp.int_projectID = ${req.params.int_projectID}`
 
@@ -72,8 +72,21 @@ router.get('/applications/:int_projectID/apply',(req,res) => {
             console.log(results4);
 
             var int_formtypeID =results4[0];
+            var int_formtypeIDD =results4;
 
-            res.render('barangay/projects/views/specificproject1',{tbl_project:results1,barangay_info:results3,int_categoryID:int_categoryID,int_formtypeID:int_formtypeID});
+
+            for(var i = 0; i < int_formtypeIDD.length; i++){
+                console.log(int_formtypeIDD[i]);
+            }
+            console.log('============================')
+            console.log(int_formtypeIDD);
+            console.log("======RESULTS FOR LOOP FORM TYPE ID======")
+            var int_formtypeIDDD = int_formtypeIDD;
+            console.log('RESULTS IDDD')
+            console.log(int_formtypeIDDD);
+            
+            res.render('barangay/projects/views/specificproject',{tbl_project:results1,barangay_info:results3,int_categoryID:int_categoryID,int_formtypeID:int_formtypeIDDD});
+            // res.render('barangay/projects/views/specificproject1',{tbl_project:results1,barangay_info:results3,int_categoryID:int_categoryID,int_formtypeID:int_formtypeID});
             });
         });
     });
@@ -96,7 +109,7 @@ router.post('/applications/:int_projectID/apply',(req,res) => {
     "Pending")`
    
 
-    db.query(queryString1,(req, results, fields) => {
+    db.query(queryString1,(err, results, fields) => {
         if (err) console.log(err);
         console.log("INSERT: Table Application");
 
@@ -122,7 +135,7 @@ router.post('/applications/:int_projectID/apply',(req,res) => {
         "${req.body.apply_contact}",
         "Pending")`
 
-        db.query(queryString,(req, results, fields) => {
+        db.query(queryString1,(err, results, fields) => {
 
             console.log("INSERT: Table Application Information");
 
