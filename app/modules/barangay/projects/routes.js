@@ -123,7 +123,7 @@ router.post('/applications/:int_projectID/apply',(req,res) => {
                 console.log("SELECT & JOIN: USER & OFFICE");
                 console.log(results2);
 
-                var selectjoin = results2[0];
+                var join_useroffice = results2[0];
 
                 var queryString3 = `INSERT INTO tbl_address 
                 (\`varchar_addressLine1\`,
@@ -135,41 +135,55 @@ router.post('/applications/:int_projectID/apply',(req,res) => {
                 ("${req.body.apply_address1}",
                 "${req.body.apply_address2}",
                 "${req.body.apply_province}",
-                "${selectjoin.varchar_officeName}",
+                "${join_useroffice.varchar_officeName}",
                 "${req.body.apply_addresstype}")`
 
-            db.query(queryString3,(err, results, fields) => {
-            if (err) console.log(err);
-                console.log("INSERT: Table Address");
 
-                var queryString4 = `INSERT INTO tbl_personalinformation
+            db.query(queryString3,(err, results3, fields) => {
+            if (err) console.log(err);
+            console.log("SELECT & JOIN: USER & OFFICE");
+            
+            var queryString4 =`SELECT * FROM tbl_address ORDER BY int_addressID DESC LIMIT 0,1`
+
+            db.query(queryString4,(err, results4, fields) => {
+            if (err) console.log(err);
+            console.log("SELECT:");
+            
+            var select_addressID = results4[0];
+    
+
+                var queryString5 = `INSERT INTO tbl_personalinformation
                 (\`int_addressID\`,
+                \`int_infoOwnerID\`,
                 \`varchar_firstName\`,
                 \`varchar_middleName\`,
                 \`varchar_lastName\`,
                 \`date_birthday\`,
                 \`enum_gender\`,
                 \`int_applicantResidency\`,
-                \`enum_civilStat\`,
+                \`enum_civilStatus\`,
                 \`varchar_contactNumber\`,
                 \`varchar_emailAddress\`) 
                 VALUES 
+                (${select_addressID.int_addressID},
+                ${req.session.barangay.int_userID},
                 "${req.body.apply_fname}",
                 "${req.body.apply_mname}",
                 "${req.body.apply_lname}",
-                ${req.body.apply_birthdate},
+                "${req.body.apply_birthdate}",
                 "${req.body.apply_gender}",
                 "${req.body.apply_yrres}",
                 "${req.body.apply_civilstat}",
                 "${req.body.apply_contact}",
-                "Pending")`
+                "${req.body.apply_emailaddress}")`
             
-            db.query(queryString4,(err, results, fields) => {
+            db.query(queryString5,(err, results5, fields) => {
                 if (err) console.log(err);
                     console.log("INSERT: Table Personal Info");
 
 
                 res.redirect('/barangay/home');
+            });
             });
             });
             });

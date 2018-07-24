@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2018 at 01:03 PM
+-- Generation Time: Jul 24, 2018 at 02:02 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -53,6 +53,13 @@ CREATE TABLE `tbl_address` (
   `enum_addressType` enum('Permanent','Temporary') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_address`
+--
+
+INSERT INTO `tbl_address` (`int_addressID`, `varchar_addressLine1`, `varchar_addressLine2`, `varchar_addressLine3`, `varchar_cityName`, `enum_addressType`) VALUES
+(12, '13', 'Buli', 'Batangas', 'Mandaluyong City', 'Permanent');
+
 -- --------------------------------------------------------
 
 --
@@ -79,6 +86,13 @@ CREATE TABLE `tbl_application` (
   `int_projectID` int(11) NOT NULL,
   `enum_applicationStatus` enum('New','Pending','Rejected','Accepted') NOT NULL DEFAULT 'New'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_application`
+--
+
+INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_projectID`, `enum_applicationStatus`) VALUES
+(16, 3, 1, 'Pending');
 
 -- --------------------------------------------------------
 
@@ -367,6 +381,13 @@ CREATE TABLE `tbl_personalinformation` (
   `varchar_contactNumber` varchar(50) NOT NULL,
   `varchar_emailAddress` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_personalinformation`
+--
+
+INSERT INTO `tbl_personalinformation` (`int_personalInfoID`, `int_addressID`, `int_infoOwnerID`, `varchar_firstName`, `varchar_middleName`, `varchar_lastName`, `date_birthday`, `enum_gender`, `int_applicantResidency`, `enum_civilStatus`, `varchar_contactNumber`, `varchar_emailAddress`) VALUES
+(2, 12, 3, 'Abigale', 'Punzalan', 'Del Rosario', '1999-06-13', 'Female', 2000, 'Single', '09156662933', 'delrosarioabigale@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -793,7 +814,7 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_address`
 --
 ALTER TABLE `tbl_address`
-  MODIFY `int_addressID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `int_addressID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `tbl_announcement`
 --
@@ -803,7 +824,7 @@ ALTER TABLE `tbl_announcement`
 -- AUTO_INCREMENT for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `tbl_applicationcode`
 --
@@ -863,7 +884,7 @@ ALTER TABLE `tbl_office`
 -- AUTO_INCREMENT for table `tbl_personalinformation`
 --
 ALTER TABLE `tbl_personalinformation`
-  MODIFY `int_personalInfoID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_personalInfoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
