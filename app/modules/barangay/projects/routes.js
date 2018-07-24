@@ -99,7 +99,7 @@ router.post('/applications/:int_projectID/apply',(req,res) => {
     console.log('BARANGAY: PROJECTS-APPLICATION-FORM-POST');
     console.log('=================================');
 
-    var queryString1 = `INSERT INTO tbl_application \
+    var queryString1 = `INSERT INTO tbl_application 
     (\`int_barangayID\`,
     \`int_projectID\`,
     \`enum_applicationStatus\`) 
@@ -109,39 +109,70 @@ router.post('/applications/:int_projectID/apply',(req,res) => {
     "Pending")`
    
 
-    db.query(queryString1,(err, results, fields) => {
+    db.query(queryString1,(err, results1, fields) => {
         if (err) console.log(err);
-        console.log("INSERT: Table Application");
+            console.log("INSERT: Table Application");
 
-        var queryString1 = `INSERT INTO tbl_applicationinfo
-        (\`varchar_applicantBirthPlace\`,
-        \`varchar_applicantFName\`,
-        \`varchar_applicantMName\`,
-        \`varchar_applicantLName\`,
-        \`date_applicantBirthDate\`,
-        \`enum_applicantGender\`,
-        \`int_applicantResidency\`,
-        \`enum_applicantCivilStat\`,
-        \`varchar_applicantMobileNumber\`) 
-        VALUES 
-        ("${req.body.apply_birthplace}",
-        "${req.body.apply_fname}",
-        "${req.body.apply_mname}",
-        "${req.body.apply_lname}",
-        ${req.body.apply_birthdate},
-        "${req.body.apply_gender}",
-        "${req.body.apply_yrres}",
-        "${req.body.apply_civilstat}",
-        "${req.body.apply_contact}",
-        "Pending")`
+            var queryString2 = `SELECT * FROM tbl_barangay JOIN tbl_user
+            ON tbl_user.int_userID = tbl_barangay.int_userID 
+            JOIN tbl_office ON tbl_barangay.int_officeID = tbl_office.int_officeID
+            WHERE tbl_user.int_userID = ${req.session.barangay.int_userID}`
 
-        db.query(queryString1,(err, results, fields) => {
+            db.query(queryString2,(err, results2, fields) => {
+                if (err) console.log(err);
+                console.log("SELECT & JOIN: USER & OFFICE");
+                console.log(results2);
 
-            console.log("INSERT: Table Application Information");
+                var selectjoin = results2[0];
 
-            res.redirect('/barangay/home');
-    
-        });
+                var queryString3 = `INSERT INTO tbl_address 
+                (\`varchar_addressLine1\`,
+                \`varchar_addressLine2\`,
+                \`varchar_addressLine3\`,
+                \`varchar_cityName\`,
+                \`enum_addressType\`) 
+                VALUES 
+                ("${req.body.apply_address1}",
+                "${req.body.apply_address2}",
+                "${req.body.apply_province}",
+                "${selectjoin.varchar_officeName}",
+                "${req.body.apply_addresstype}")`
+
+            db.query(queryString3,(err, results, fields) => {
+            if (err) console.log(err);
+                console.log("INSERT: Table Address");
+
+                var queryString4 = `INSERT INTO tbl_personalinformation
+                (\`int_addressID\`,
+                \`varchar_firstName\`,
+                \`varchar_middleName\`,
+                \`varchar_lastName\`,
+                \`date_birthday\`,
+                \`enum_gender\`,
+                \`int_applicantResidency\`,
+                \`enum_civilStat\`,
+                \`varchar_contactNumber\`,
+                \`varchar_emailAddress\`) 
+                VALUES 
+                "${req.body.apply_fname}",
+                "${req.body.apply_mname}",
+                "${req.body.apply_lname}",
+                ${req.body.apply_birthdate},
+                "${req.body.apply_gender}",
+                "${req.body.apply_yrres}",
+                "${req.body.apply_civilstat}",
+                "${req.body.apply_contact}",
+                "Pending")`
+            
+            db.query(queryString4,(err, results, fields) => {
+                if (err) console.log(err);
+                    console.log("INSERT: Table Personal Info");
+
+
+                res.redirect('/barangay/home');
+            });
+            });
+            });
     });
 });
 

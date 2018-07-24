@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2018 at 06:54 PM
+-- Generation Time: Jul 24, 2018 at 01:03 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_capstone4`
+-- Database: `db_capstone5`
 --
 
 -- --------------------------------------------------------
@@ -77,16 +77,8 @@ CREATE TABLE `tbl_application` (
   `int_applicationID` int(11) NOT NULL,
   `int_barangayID` int(11) NOT NULL,
   `int_projectID` int(11) NOT NULL,
-  `enum_applicationStatus` enum('New','Pending','Rejected','') NOT NULL DEFAULT 'New'
+  `enum_applicationStatus` enum('New','Pending','Rejected','Accepted') NOT NULL DEFAULT 'New'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tbl_application`
---
-
-INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_projectID`, `enum_applicationStatus`) VALUES
-(1, 3, 1, 'Pending'),
-(2, 3, 1, 'Pending');
 
 -- --------------------------------------------------------
 
@@ -158,7 +150,7 @@ CREATE TABLE `tbl_barangay` (
 --
 
 INSERT INTO `tbl_barangay` (`int_barangayID`, `int_userID`, `int_officeID`, `varchar_barangayName`, `varchar_barangayChairman`, `text_barangayDescription`, `varchar_barangayContact`, `enum_barangayStatus`) VALUES
-(28, 3, NULL, 'Addition Hills', 'Kent Gajo Faminial', NULL, '534-0503', 'Active'),
+(28, 3, 1, 'Addition Hills', 'Kent Gajo Faminial', NULL, '534-0503', 'Active'),
 (29, NULL, NULL, 'Bagong Silang', 'Marc Anthony I. Dominguez', NULL, '514-8312/9953354', 'Active'),
 (30, NULL, NULL, 'Barangka Drive', 'Darwin A. Fernandez', NULL, '531-6544', 'Active'),
 (31, NULL, NULL, 'Barangka Ibaba', 'Faustino O. Cruz Jr', NULL, '747-1497', 'Active'),
@@ -219,7 +211,8 @@ CREATE TABLE `tbl_beneficiary` (
 INSERT INTO `tbl_beneficiary` (`int_beneficiaryID`, `varchar_beneficiaryName`, `text_beneficiaryDescription`, `enum_beneficiaryStatus`) VALUES
 (1, 'Senior Citizen', 'A person over the age of 65.', 'Active'),
 (2, '18 years old and above', 'A person of legal age.', 'Active'),
-(3, 'Elementary Students', 'Students ranging from Grade 1 to Grade 6.', 'Active');
+(3, 'Elementary Students', 'Students ranging from Grade 1 to Grade 6.', 'Active'),
+(4, 'PWD', 'Person with Disability', 'Active');
 
 -- --------------------------------------------------------
 
@@ -240,9 +233,14 @@ CREATE TABLE `tbl_categoryform` (
 
 INSERT INTO `tbl_categoryform` (`int_categformID`, `int_categoryID`, `int_formtypeID`, `enum_categformStatus`) VALUES
 (1, 1, 1, 'Active'),
-(2, 3, 2, 'Active'),
-(0, 1, 3, 'Active'),
-(3, 1, 3, 'Active');
+(2, 1, 3, 'Active'),
+(3, 3, 2, 'Active'),
+(4, 3, 5, 'Active'),
+(5, 3, 6, 'Active'),
+(6, 4, 1, 'Active'),
+(7, 4, 3, 'Active'),
+(8, 6, 3, 'Active'),
+(9, 6, 4, 'Active');
 
 -- --------------------------------------------------------
 
@@ -293,9 +291,12 @@ CREATE TABLE `tbl_formtype` (
 --
 
 INSERT INTO `tbl_formtype` (`int_formTypeID`, `varchar_formName`, `text_formDescription`, `enum_formStatus`) VALUES
-(1, 'Health Form', 'For health/medical category', 'Active'),
-(2, 'Finance/Monetary Form', 'Forms that are needed when it involves money.', 'Active'),
-(3, 'Family Background', 'Form about family', 'Active');
+(1, 'Medical Form', 'In clinical medicine, the patient\'s past and present which may contain relevant information bearing on their health past, present, and future. The medical history, being an account of all medical events and problems a person has experienced is an important tool in the management of the patient.', 'Active'),
+(2, 'Account Details', 'Financial records of an organization that register all financial transactions, and must be kept at its principal office or place of business. ... The annual accounts of a registered or incorporated firm are required by law to disclose a certain amount of information.', 'Active'),
+(3, 'Family Background', 'Family background topic. [countable] the details of a person\'s family, education, experience, etc. a person\'s family/social/cultural/educational/class background The job would suit someone with a business background. In spite of their very different backgrounds, they immediately became friends.', 'Active'),
+(4, 'Educational Background', 'Educational qualifications refers to the official confirmation, usually in the form of a certificate, diploma or degree, certifying the successful completion of an education program or a stage of a program.', 'Active'),
+(5, 'Income Details', 'Income is money that an individual or business receives in exchange for providing a good or service or through investing capital. Income is used to fund day-to-day expenditures. ... In businesses, income can refer to a company\'s remaining revenues after paying all expenses and taxes.', 'Active'),
+(6, 'Professional Background', '\"Tell me about your professional background\" could mean anything from what types of jobs you\'ve had to the training or education you completed to get to this stage in your career.', 'Active');
 
 -- --------------------------------------------------------
 
@@ -361,8 +362,10 @@ CREATE TABLE `tbl_personalinformation` (
   `varchar_lastName` varchar(100) NOT NULL,
   `date_birthday` date NOT NULL,
   `enum_gender` enum('Male','Female') NOT NULL,
+  `int_applicantResidency` int(11) NOT NULL,
   `enum_civilStatus` enum('Single','Married','Live-in','Widowed') NOT NULL,
-  `varchar_contactNumber` varchar(50) NOT NULL
+  `varchar_contactNumber` varchar(50) NOT NULL,
+  `varchar_emailAddress` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -409,8 +412,8 @@ CREATE TABLE `tbl_project` (
 --
 
 INSERT INTO `tbl_project` (`int_projectID`, `date_projectStart`, `date_projectEnd`, `date_projectReleasing`, `decimal_actualBudget`, `enum_projectStatus`) VALUES
-(1, '2018-07-20', '2018-08-31', '2018-08-13', '1000000', 'Open'),
-(2, '2018-07-31', '2018-09-30', '2018-08-22', '1000000', 'Open');
+(1, '2018-07-24', '2018-08-31', '2018-08-20', '1000000', 'Open'),
+(2, '2018-08-01', '2018-09-30', '2018-09-16', '1000000', 'Open');
 
 -- --------------------------------------------------------
 
@@ -423,6 +426,14 @@ CREATE TABLE `tbl_projectbeneficiary` (
   `int_projectID` int(11) NOT NULL,
   `int_beneficiaryID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_projectbeneficiary`
+--
+
+INSERT INTO `tbl_projectbeneficiary` (`int_projbeneID`, `int_projectID`, `int_beneficiaryID`) VALUES
+(1, 1, 4),
+(2, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -465,6 +476,7 @@ CREATE TABLE `tbl_projectproposal` (
   `int_dayDuration` int(11) NOT NULL,
   `int_allotedSlot` int(11) NOT NULL,
   `decimal_estimatedBudget` decimal(10,0) NOT NULL,
+  `date_createdDate` date NOT NULL,
   `enum_proposalStatus` enum('New','Reviewed','Under Revision','Rejected','Approved','Ready to Open') NOT NULL DEFAULT 'New' COMMENT 'New - Bagong send palang sa Budget  |  Reviewed - Nakita palang ni Budget kung ano yung laman nung project proposal  |  Under Revision - Nagcomment si Budget tungkol sa proposal at ibinalik ito sa office, kapag nasend na ulit ni office ung proposal, magiging ''Reviewed'' na ulit siya  |  Approved - naaprubahan na siya ng budget at dumaan na sa iba''t ibang higher offices, pero hindi pa siya pwedeng maopen or malagay sa tbl_project hanggang hindi pa naveverify ni office ung check number para sa fund nung project'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -472,10 +484,10 @@ CREATE TABLE `tbl_projectproposal` (
 -- Dumping data for table `tbl_projectproposal`
 --
 
-INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_categoryID`, `int_releaseLocationID`, `varchar_projectName`, `varchar_projectRationale`, `text_projectObjective`, `text_projectDescription`, `int_dayDuration`, `int_allotedSlot`, `decimal_estimatedBudget`, `enum_proposalStatus`) VALUES
-(1, 1, 1, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 100, 100, '1000000', 'New'),
-(2, 3, 1, 'Financial Assistance for Grade 4 students of Mababang Paaralan ng Sucat', 'It will help them to restore their school supplies that they recently used.', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 100, 500, '1000000', 'Approved'),
-(7, 0, 1, 'Distribution of Supplies for Fire Victims', 'Residents will received their supplies.', 'Give the residents who were affected by the fire. Given that they pass the required requirementsl.', 'Giving of supplies to residents. First come first served service (first to complete the requirements will automatically gain a slot).', 100, 100, '350000', 'Approved');
+INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_categoryID`, `int_releaseLocationID`, `varchar_projectName`, `varchar_projectRationale`, `text_projectObjective`, `text_projectDescription`, `int_dayDuration`, `int_allotedSlot`, `decimal_estimatedBudget`, `date_createdDate`, `enum_proposalStatus`) VALUES
+(1, 1, 1, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 100, 100, '1000000', '2018-05-15', 'Reviewed'),
+(2, 2, 1, 'Financial Assistance for Grade 4 students of Mababang Paaralan ng Sucat', 'It will help them to restore their school supplies that they recently used.', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 100, 500, '1000000', '2018-05-23', 'Ready to Open'),
+(7, 0, 1, 'Distribution of Supplies for Fire Victims', 'Residents will received their supplies.', 'Give the residents who were affected by the fire. Given that they pass the required requirementsl.', 'Giving of supplies to residents. First come first served service (first to complete the requirements will automatically gain a slot).', 100, 100, '350000', '2018-06-06', 'Approved');
 
 -- --------------------------------------------------------
 
@@ -488,6 +500,21 @@ CREATE TABLE `tbl_projectrequirement` (
   `int_projectID` int(11) NOT NULL,
   `int_requirementID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_projectrequirement`
+--
+
+INSERT INTO `tbl_projectrequirement` (`int_projreqID`, `int_projectID`, `int_requirementID`) VALUES
+(1, 1, 4),
+(2, 1, 10),
+(3, 1, 11),
+(4, 2, 3),
+(5, 2, 4),
+(6, 2, 10),
+(7, 3, 9),
+(8, 2, 11),
+(9, 2, 10);
 
 -- --------------------------------------------------------
 
@@ -535,7 +562,15 @@ CREATE TABLE `tbl_requirement` (
 INSERT INTO `tbl_requirement` (`int_requirementID`, `varchar_requirementName`, `text_requirementDescription`, `enum_requirementStatus`) VALUES
 (1, 'NBI Clearance', 'Document proof of no crime record.', 'Active'),
 (2, 'Police Clearance', 'dummy data3', 'Inactive'),
-(3, 'Student ID', 'Identification of students.', 'Active');
+(3, 'Student ID', 'Identification of students.', 'Active'),
+(4, 'Birth Certificate', 'Companies often ask for a photocopy of receipt of application for your NSO Birth Certificate.', 'Active'),
+(5, 'Transcript of Records/ Diploma', 'This is proof that you have finished the course is written in your CV. There is no need to submit the original, as some companies accept a photocopy with the school stamp.', 'Active'),
+(6, 'SSS', 'The Social Security System or SSS is a monthly contribution for your future, say your pension or sick leave benefits. You can also loan from your SSS account provided you have made the necessary contributions. Have a ready photocopy of E1/E4/E6 form for your employer.', 'Active'),
+(7, 'Pag-IBIG', 'Housing loans are backed by Pagtutulungan sa Kinabukasan: Ikaw, Bangko, Industria at Gobyerno or Pag-IBIG. Employees have a mandatory membership.', 'Active'),
+(8, 'Philhealth', 'Discounts on hospital fees are provided by Philhealth. This health financing agency provides for universal health coverage.', 'Active'),
+(9, 'BIR forms', 'The Bureau of Internal Revenue (BIR) is our tax collection agency. There are many forms from the BIR that you will need: your TIN registration form, TIN card, ITR/2316 from previous employer, and Form 1905/Transfer of RDO are some of them. Worry not, as most companies often apply for first time employees.', 'Active'),
+(10, 'Barangay certificate of indigency', 'Issued by the medical social service of the hospital;', 'Active'),
+(11, 'Valid ID', 'Any valid ID of the client', 'Active');
 
 -- --------------------------------------------------------
 
@@ -646,10 +681,22 @@ ALTER TABLE `tbl_beneficiary`
   ADD PRIMARY KEY (`int_beneficiaryID`);
 
 --
+-- Indexes for table `tbl_categoryform`
+--
+ALTER TABLE `tbl_categoryform`
+  ADD PRIMARY KEY (`int_categformID`);
+
+--
 -- Indexes for table `tbl_educationalbg`
 --
 ALTER TABLE `tbl_educationalbg`
   ADD PRIMARY KEY (`int_educbgID`);
+
+--
+-- Indexes for table `tbl_formtype`
+--
+ALTER TABLE `tbl_formtype`
+  ADD PRIMARY KEY (`int_formTypeID`);
 
 --
 -- Indexes for table `tbl_medicalhistory`
@@ -746,7 +793,7 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_address`
 --
 ALTER TABLE `tbl_address`
-  MODIFY `int_addressID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_addressID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `tbl_announcement`
 --
@@ -756,7 +803,7 @@ ALTER TABLE `tbl_announcement`
 -- AUTO_INCREMENT for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `tbl_applicationcode`
 --
@@ -786,12 +833,22 @@ ALTER TABLE `tbl_barangayaward`
 -- AUTO_INCREMENT for table `tbl_beneficiary`
 --
 ALTER TABLE `tbl_beneficiary`
-  MODIFY `int_beneficiaryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `int_beneficiaryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `tbl_categoryform`
+--
+ALTER TABLE `tbl_categoryform`
+  MODIFY `int_categformID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tbl_educationalbg`
 --
 ALTER TABLE `tbl_educationalbg`
   MODIFY `int_educbgID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tbl_formtype`
+--
+ALTER TABLE `tbl_formtype`
+  MODIFY `int_formTypeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `tbl_medicalhistory`
 --
@@ -821,7 +878,7 @@ ALTER TABLE `tbl_project`
 -- AUTO_INCREMENT for table `tbl_projectbeneficiary`
 --
 ALTER TABLE `tbl_projectbeneficiary`
-  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
@@ -836,7 +893,7 @@ ALTER TABLE `tbl_projectproposal`
 -- AUTO_INCREMENT for table `tbl_projectrequirement`
 --
 ALTER TABLE `tbl_projectrequirement`
-  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tbl_proposalapproval`
 --
@@ -851,7 +908,7 @@ ALTER TABLE `tbl_releaselocation`
 -- AUTO_INCREMENT for table `tbl_requirement`
 --
 ALTER TABLE `tbl_requirement`
-  MODIFY `int_requirementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `int_requirementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `tbl_revisioncomment`
 --

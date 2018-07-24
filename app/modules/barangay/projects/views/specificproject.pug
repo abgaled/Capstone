@@ -99,16 +99,27 @@ block content
                             <div class="form-row">
                             <h5 style="margin-right:0.5%;">Block Lot:<label style="color:red;">*</label></h5>
                                 <div class="form-group float-label-control col-md-3">
-                                    <input type="text" name="apply_blocknum" class="form-control" placeholder="Block Number/Building Number/Lot Number" required>
+                                    <input type="text" name="apply_address1" class="form-control" placeholder="Block Number/Building Number/Lot Number" required>
                                 </div>
                             <h5 style="margin-left:1%;margin-right:0.5%;">Street:<label style="color:red;">*</label></h5>
                             <div class="form-group float-label-control col-md-3">
-                                    <input type="text" name="apply_street" class="form-control" placeholder="Street Name/Avenue/Road" required>
+                                    <input type="text" name="apply_address2" class="form-control" placeholder="Street Name/Avenue/Road" required>
                             </div>
                             <h5 style="margin-left:1%;">Province:</h5>
                                 <div class="form-group float-label-control col-md-3">
-                                    <input type="text" name="province" class="form-control" placeholder="Applicant's Province">
+                                    <input type="text" name="apply_province" class="form-control" placeholder="Applicant's Province">
                                 </div>
+                            <h5 style="margin-right:2%;">Address Type:<label style="color:red;">*</label></h5>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" value="Permanent" name="apply_addresstype" id="inlineRadio1" value="option1"> Permanent
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" value="Temporary" name="apply_addresstype" id="inlineRadio2" value="option2"> Temporary
+                                        </label>
+                                    </div>
                             </div>
                             </div>
                         </div>
@@ -126,22 +137,38 @@ block content
                             console.log("=======IF STATEMENTS========")
                             for (var i=0; i < int_formtypeID.length; i++) {
                                 if(int_formtypeID[i].int_formtypeID == 1){
-                                    console.log("Form Type - 1");
+                                    console.log("Form Type - 1 (Medical)");
                                     document.getElementById("add-medical").style.display ="inline";
                                 }
                                 if (int_formtypeID[i].int_formtypeID == 2){
-                                    console.log("Form Type - 2");
-                                    document.getElementById("add-finance").style.display ="inline";
+                                    console.log("Form Type - 2 (Account)");
+                                    document.getElementById("add-account").style.display ="inline";
                                 }
                                 if (int_formtypeID[i].int_formtypeID == 3){
-                                    console.log("Form Type - 3");
+                                    console.log("Form Type - 3 (Family)");
                                     document.getElementById("add-family").style.display ="inline";
+                                }
+                                if (int_formtypeID[i].int_formtypeID == 4){
+                                    console.log("Form Type - 4 (Educational)");
+                                    document.getElementById("add-educational").style.display ="inline";
+                                }
+                                if (int_formtypeID[i].int_formtypeID == 5){
+                                    console.log("Form Type - 5 (Income)");
+                                    document.getElementById("add-income").style.display ="inline";
+                                }
+                                if (int_formtypeID[i].int_formtypeID == 6){
+                                    console.log("Form Type - 6 (Professional)");
+                                    document.getElementById("add-professional").style.display ="inline";
                                 }
                             }
                         }
+                    //- END OF SCRIPT FOR ADDITIONAL FORMS
 
                     //- ADDITIONAL TABS:
+
                     <div class="tab" style="display:none;">
+
+                        //- MEDICAL FORM (1)
                         <span id="add-medical" style="display:none;"><h3>Health/Medical Form</h3>
                         <div class="tab-upper-field">
                             <div class="form-row">
@@ -156,9 +183,10 @@ block content
                             </div>
                         </div>         
                         </span>
-                        //- END OF 1ST FORM
+                        //- END OF 1ST ADDITIONAL FORM
 
-                        <span id="add-finance" style="display:none;"><h3>Financial Form</h3>
+                        //- ACCOUNT DETAILS (2)
+                        <span id="add-account" style="display:none;"><h3>Account Form</h3>
                         <div class="tab-upper-field">
                             <div class="form-row">
                             <h5 style="margin-right:0.5%;">Income Source:<label style="color:red;">*</label></h5>
@@ -176,8 +204,9 @@ block content
                             </div>
                         </div>      
                         </span>
-                        //- END OF 2ND FORM
+                        //- END OF 2ND ADDITIONAL FORM
 
+                        //- FAMILY BACKGROUND (3)
                         <span id="add-family" style="display:none;"><h3>Family Background Form</h3>
                         <div class="tab-upper-field">
                             <h5>Relative's Name:<label style="color:red;">*</label></h5>
@@ -226,11 +255,72 @@ block content
                                         </select>
                                     </div>   
                             </div>
-                            
                         </div>
+                        </span>        
+                        //-END OF FAMILY BG FORM 
+
+                        //- EDUCATIONAL BACKGROUND (4)
+                        <span id="add-educational" style="display:none;"><h3>Educational Background</h3>
+                        <div class="tab-upper-field">
+                            <div class="form-row">
+                            <h5 style="margin-right:0.5%;">Income Source:<label style="color:red;">*</label></h5>
+                                <div class="form-group col-md-2">
+                                    <input type="text" name="apply_incomesource" class="form-control" placeholder="Income source ..." required>
+                                </div>
+                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income Maker:<label style="color:red;">*</label></h5>
+                            <div class="form-group col-md-2">
+                                    <input type="text" name="apply_incomemaker" class="form-control" placeholder="Income maker ..." required>
+                            </div>
+                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income of Spouse:<label style="color:red;">*</label></h5>
+                            <div class="form-group col-md-2">
+                                    <input type="text" name="apply_spouseincomer" class="form-control" placeholder="Income of Spouse ..." required>
+                            </div>
+                            </div>
+                        </div>      
                         </span>
-                        
-                        //-END OF LAST DIV FORM 
+                        //- END OF EDUCATIONAL BACKGROUND
+
+                        //- INCOME DETAILS (5)
+                        <span id="add-income" style="display:none;"><h3>Income Details</h3>
+                        <div class="tab-upper-field">
+                            <div class="form-row">
+                            <h5 style="margin-right:0.5%;">Income Source:<label style="color:red;">*</label></h5>
+                                <div class="form-group col-md-2">
+                                    <input type="text" name="apply_incomesource" class="form-control" placeholder="Income source ..." required>
+                                </div>
+                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income Maker:<label style="color:red;">*</label></h5>
+                            <div class="form-group col-md-2">
+                                    <input type="text" name="apply_incomemaker" class="form-control" placeholder="Income maker ..." required>
+                            </div>
+                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income of Spouse:<label style="color:red;">*</label></h5>
+                            <div class="form-group col-md-2">
+                                    <input type="text" name="apply_spouseincomer" class="form-control" placeholder="Income of Spouse ..." required>
+                            </div>
+                            </div>
+                        </div>      
+                        </span>
+                        //- END OF INCOME DETAILS
+
+                        //- PROFESSIONAL BACKGROUND (6)
+                        <span id="add-professional" style="display:none;"><h3>Professional Background</h3>
+                        <div class="tab-upper-field">
+                            <div class="form-row">
+                            <h5 style="margin-right:0.5%;">Income Source:<label style="color:red;">*</label></h5>
+                                <div class="form-group col-md-2">
+                                    <input type="text" name="apply_incomesource" class="form-control" placeholder="Income source ..." required>
+                                </div>
+                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income Maker:<label style="color:red;">*</label></h5>
+                            <div class="form-group col-md-2">
+                                    <input type="text" name="apply_incomemaker" class="form-control" placeholder="Income maker ..." required>
+                            </div>
+                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income of Spouse:<label style="color:red;">*</label></h5>
+                            <div class="form-group col-md-2">
+                                    <input type="text" name="apply_spouseincomer" class="form-control" placeholder="Income of Spouse ..." required>
+                            </div>
+                            </div>
+                        </div>      
+                        </span>
+                        //- END OF PROFESSIONAL BACKGROUND
                     </div>
                     //- END OF ADDITIONAL TABS(AS OF NOW PER DIV)
 
