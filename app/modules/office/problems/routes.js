@@ -10,8 +10,8 @@ router.get('/',(req, res) => {
     console.log('=================================');
 
     var queryString = `SELECT * FROM tbl_problemstatement pr
-    JOIN tbl_problemcategory prcat ON pr.int_problemCategID=prcat.int_problemCategID
-    ORDER BY pr.int_problemID DESC`
+    JOIN tbl_projectcategory prcat ON pr.int_categoryID=prcat.int_categoryID
+    ORDER BY pr.int_statementID DESC`
 
 
     db.query(queryString,(err, results, fields) => {
@@ -28,11 +28,11 @@ router.post('/viewprobcategory',(req,res) => {
     console.log('BARANGAY: PROBLEM STATEMENT-PREVIOUS-SPECIFIC CATEGORY');
     console.log('=================================');
 
-        if(`${req.body.problem_category}`== "All"){
+        if(`${req.body.project_category}`== "All"){
             console.log("ALLLLLLLL"); 
             var queryString = `SELECT * FROM tbl_problemstatement pr
-            JOIN tbl_problemcategory prcat ON pr.int_problemCategID=prcat.int_problemCategID
-            ORDER BY pr.int_problemID DESC`
+            JOIN tbl_projectcategory prcat ON pr.int_categoryID=prcat.int_categoryID
+            ORDER BY pr.int_statementID DESC`
         
             db.query(queryString,(err, results, fields) => {
 
@@ -42,9 +42,9 @@ router.post('/viewprobcategory',(req,res) => {
         else{
             console.log("ELSEEEE")
             var queryString = `SELECT * FROM tbl_problemstatement pr
-            JOIN tbl_problemcategory prcat ON pr.int_problemCategID=prcat.int_problemCategID
-            WHERE pr.int_problemCategID=${req.body.problem_category}
-            ORDER BY pr.int_problemID DESC`
+            JOIN tbl_projectcategory prcat ON pr.int_categoryID=prcat.int_categoryID
+            WHERE pr.int_categoryID=${req.body.project_category}
+            ORDER BY pr.int_statementID DESC`
 
             db.query(queryString,(err, results, fields) => {
                

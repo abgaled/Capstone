@@ -9,6 +9,7 @@ input {
     border: 1px solid #aaaaaa;
 }
   
+.btn-outline-info
 /* Mark input boxes that gets an error on validation: */
 input.invalid {
     background-color: #ffdddd;
@@ -43,24 +44,47 @@ input.invalid {
 }
 
 .card-header{
-    background-color: rgb(59, 86, 138);
+    background-color: #415C78;
     color: whitesmoke;
     text-transform: capitalize;
 }
-
+.card-header-proposal{
+    background-color: #3299CC;
+    color: white;
+    text-transform: capitalize;
+}
+.page-caption-problem{
+    background-color: #96B1D2;
+    color: whitesmoke;
+    opacity: .8;
+    text-transform: capitalize;
+}
+.btn-acknowledgement{
+    border-color:#5675A0;
+    width:170px;
+    height:80px;
+}
 .tab-upper-field{
     margin-left:3%;
 }
 
 .btn-outline-info{
-    color:#3B5997;
+    color:#5675A0;
 }
 
 .btn-outline-info:hover{
     color: whitesmoke;
-    background-color: #3B5997;
+    background-color: #5675A0;
 }
-
+.btn-proposal{
+    border-color:#415C78;
+    width: 95px;
+    color: #415C78;
+}
+.btn-outline-proposal:hover{
+    color: whitesmoke;
+    background-color: #415C78;
+}
 #crop-description{
     width: 80%;
     overflow:hidden;

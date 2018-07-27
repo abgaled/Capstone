@@ -7,24 +7,13 @@
 .page-header { 
   background: url(/barangay/images/header.jpg) no-repeat; 
   margin: 0px; 
-  padding-top: 250px; 
+  padding-top: 180px; 
   padding-bottom: 0px; 
   border: 0px; 
   background-size: cover; 
   background-position: center; 
 }
-
 .page-header-projects{ 
-  background: url(/barangay/images/typing2.jpg) no-repeat; 
-  margin: 0px; 
-  padding-top: 250px; 
-  padding-bottom: 0px; 
-  border: 0px; 
-  background-size: cover; 
-  background-position: center; 
-}
-
-.page-header-problems { 
   background: url(/barangay/images/typing1.png) no-repeat; 
   margin: 0px; 
   padding-top: 250px; 
@@ -34,10 +23,18 @@
   background-position: center; 
 }
 
+.page-header-problems { 
+  background: url(/barangay/images/typing2.jpg) no-repeat; 
+  margin: 0px; 
+  padding-top: 200px; 
+  padding-bottom: 10px; 
+  border: 0px; 
+  background-size: cover; 
+  background-position: center; 
+}
 .profile-details-right{
   text-align:right;
 }
-
 #cssmenu {
   padding: 0;
   margin: 0;
@@ -268,7 +265,7 @@
 }
 
 .container{
-  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0.3);
 }
 
 #container-header{

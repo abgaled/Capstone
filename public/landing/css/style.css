@@ -1111,3 +1111,19 @@ hr.style9 {
   width: 100%;
 }
 
+.navbar-citylogo {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  left: 15px;
+  background-size: contain;
+}
+
+.links{
+  font-size: 20px;
+}
+
+.links a:hover {
+  color: #3B5997;
+  font-size: 25px;
+}

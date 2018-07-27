@@ -4,66 +4,70 @@ block content
     <link href="/barangay/styles.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
         <!-- page-header -->
-        <div class="page-header-problems ">
-            <div class="container" id="container-header" >
+        <div class="page-header-problems rounded-bottom ">
+            <div class="container rounded-top" id="container-header" >
                 <div class="row">
-                    <div class="page-caption">
-                        <p style="color: #3B5997;margin-bottom:0;">PROBLEM STATEMENT</p>
-                        <h3><small>(Previous Submitted)</small></h3>
+                    <div class="page-caption pb-4 pt-3" style="background-color: #C0C0C0; opacity: .8; ">
+                        <p class="page-title font-weight-bold" style="color: ;margin-bottom:0;">PROBLEM STATEMENT</p>
+                        
                     </div>
                 </div>
             </div>
         </div>
         <!-- /.page-header-->
         <!-- tour-booking -->
-        <div class="content" style="padding-top:1.5%;">
-        <div class="container">
-        <div class="card">
+        <div class="container container-fluid " style="padding-top:1.5%; padding-bottom:1.5%; background-color: #CCE5FF;">
+        <div class="">
         <div class="card-header">
             <div class="form-row">
-                <div class=:col-md-1>
-                    <h4 style="color:whitesmoke;">Problem Statement made by the Barangay</h4>
+                <div class="col-md-4">
+                    <h4 style="color:whitesmoke;">Submitted Problem Statement</h4>
                 </div>
                 <div class="col-md-4"></div>
-                    <h5 style="color:whitesmoke;margin-left:6%;">Category:</h5>
+                    <h5 style="color:whitesmoke;margin-left:10%;">Category:</h5>
                     <div class="col-md-2">
-                        <form action="viewprobcategory" method="POST">
-                            <select name="problem_category" id="probcategory" class="form-control-sm float-right" style="margin:none;color:#5F9EA0" onchange="this.form.submit()">
-                                <option disabled="disabled" selected="selected">Select ...</option>
-                                <option value = "All">All</option>
-                                <option value = "1">Health</option>
-                                <option value = "2">No Residents</option>
-                                <option value = "3">Monetary</option>
-                                <option value = "4">Educational</option>
-                            </select>
-                        </form>
+                    <form action="viewprobcategory" method="POST">
+                        <select name="problem_category" id="probcategory" class="form-control-sm float-right" style="margin:none;color:#5F9EA0" required="required" onchange="this.form.submit()" required>
+                            <option disabled="disabled" selected="selected">Select ...</option>
+                            <option value = "All">All</option>
+                            <option value = "1">Health</option>
+                            <option value = "2">Education</option>
+                            <option value = "3">Finance</option>
+                            <option value = "4">Infrastracture</option>
+                        </select>
+                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
         //- Content
         each problem in tbl_problemstatement
-            <div class="card-body">
-                <div class="card border" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.3s;">
-                <div class="card-header bg-transparent" style="border-color:#3B5997;color:black;size:20px;">
-                    value=problem.varchar_statementTitle
-                    <small class="float-right">Status:
-                        value=problem.enum_problemStatus
-                    </small>
-                </div>
-                    <div class="card-body" >
-                        <h4 class="card-title float-right">Category: 
+            <div class="card-body" style="background-color: whitesmoke;">
+                <div class="card" style="transition: 0.3s;">
+                <div class="card-header bg-transparent " style="color:black;size:20px; ">
+                    <div class=" font-weight-bold" >
+                        value=problem.varchar_statementTitle
+                        <h5 class="card-title float-right pr-4">Category: 
                             <u>
                             value=problem.varchar_categoryName
                             </u>
-                        </h4>
-                        <p class="card-text" id="crop-description">
+                        </h5>
+                    </div>
+                    <div class="card-body" >
+                        <p class="card-text">
                             value=problem.text_statementContent
                         </p>
-                        <button type="button" class="btn btn-outline-info float-right" style="border-color:#3B5997;width:100px;">View</button>
                     </div>
-                    <div class="card-footer bg-transparent" style="border-color:#3B5997"><small>Date Created:
-                        value=problem.date_createdDate
+                </div>
+                    <div class="card-footer bg-transparent pr-5" style="border-color:#3B5997">
+                        <small>Date Created:
+                            value=problem.date_createdDate
                         </small>
+                        <medium class="float-right  font-weight-bold">Status:
+                            value=problem.enum_problemStatus
+                        </medium>
+                        <medium class="pl-5 ">From Barangay:
+                            value=problem.int_barangayID
+                        </medium>
                     </div>
                 </div>   
             </div>

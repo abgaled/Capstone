@@ -8,7 +8,7 @@ router.get('/projects',(req, res) => {
     console.log('ADMIN: MAINTENANCE - 1');
     console.log('=================================');
 
-    var queryString =`SELECT tbl_projectproposal.int_projectID, tbl_projectproposal.varchar_projectName, tbl_projectproposal.text_projectDescription, tbl_projectproposal.int_allotedSlot, tbl_project.date_startDate, tbl_project.date_endDate FROM tbl_projectproposal JOIN tbl_project ON tbl_projectproposal.int_projectID=tbl_project.int_projectID WHERE enum_proposalStatus = 'Accepted' AND enum_projectState = 'Active'`
+    var queryString =`SELECT tbl_projectproposal.int_projectID, tbl_projectproposal.varchar_projectName, tbl_projectproposal.varchar_releaseLocation, tbl_projectproposal.text_projectDescription, tbl_projectproposal.int_allotedSlot, tbl_project.date_startDate, tbl_project.date_endDate FROM tbl_projectproposal JOIN tbl_project ON tbl_projectproposal.int_projectID=tbl_project.int_projectID WHERE enum_proposalStatus = 'Accepted' AND enum_projectState = 'Active'`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -200,7 +200,7 @@ router.get('/requirements',(req, res) => {
     console.log('=================================');
     console.log('ADMIN: MAINTENANCE - 2');
     console.log('=================================');
-    var queryString =`SELECT * FROM tbl_requirement WHERE enum_requirementStatus = 'Active'`
+    var queryString =`SELECT * FROM tbl_requirement WHERE enum_requirementState = 'Active'`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -220,7 +220,7 @@ router.post('/requirements',(req, res) => {
         
         \`varchar_requirementName\`,
         \`text_requirementDescription\`,
-        \`enum_requirementStatus\`)
+        \`enum_requirementState\`)
                 
         VALUES(
         "${req.body.requirementname}",
@@ -267,7 +267,7 @@ router.post('/requirements/:int_requirementID/editrequirement', (req, res) => {
     var queryString = `UPDATE tbl_requirement SET
     varchar_requirementName = "${req.body.requirementname}",
     text_requirementDescription = "${req.body.requirementdescription}",
-    enum_requirementStatus = "Active"
+    enum_requirementState = "Active"
     WHERE tbl_requirement.int_requirementID = "${req.body.int_requirementID}"`;
     
     db.query(queryString, (err, results, fields) => {        
@@ -283,7 +283,7 @@ router.get('/requirements/:int_requirementID/deleterequirement', (req, res) => {
     console.log('=================================');
 
     var queryString =`SELECT * FROM tbl_requirement
-    WHERE enum_requirementStatus = 'Active' 
+    WHERE enum_requirementState = 'Active' 
     AND tbl_requirement.int_requirementID=${req.params.int_requirementID}`
     
     db.query(queryString, (err, results, fields) => {
@@ -300,7 +300,7 @@ router.post('/requirements/:int_requirementID/deleterequirement', (req, res) => 
     console.log('=================================');
 
     var queryString1 = `UPDATE tbl_requirement SET
-            enum_requirementStatus = 'Inactive'
+            enum_requirementState = 'Inactive'
             WHERE tbl_requirement.int_requirementID = ${req.body.int_requirementID}`;
         
             db.query(queryString1, (err, results) => {        
@@ -315,7 +315,7 @@ router.get('/projectcategory',(req, res) => {
     console.log('ADMIN: MAINTENANCE - 3');
     console.log('=================================');
 
-    var queryString =`SELECT * FROM tbl_projectcategory WHERE enum_categoryStatus = 'Active'`
+    var queryString =`SELECT * FROM tbl_projectcategory WHERE enum_projCategState = 'Active'`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -333,9 +333,9 @@ router.post('/projectcategory',(req, res) => {
 
     var queryString = `INSERT INTO \`tbl_projectcategory\` (
         
-        \`varchar_categoryName\`,
-        \`text_categoryDescription\`,
-        \`enum_categoryStatus\`)
+        \`varchar_projectCategName\`,
+        \`text_projectCategDescription\`,
+        \`enum_projCategState\`)
                 
         VALUES(
         "${req.body.projectcategoryname}",
@@ -346,7 +346,7 @@ router.post('/projectcategory',(req, res) => {
             if (err) throw err;    
             console.log(results);
        
-        var queryString1 =`SELECT * FROM tbl_projectcategory ORDER BY int_categoryID DESC LIMIT 0,1`
+        var queryString1 =`SELECT * FROM tbl_projectcategory ORDER BY int_projectCategID DESC LIMIT 0,1`
 
         db.query(queryString1, (err, results1, fields) => {        
             if (err) throw err;
@@ -367,7 +367,7 @@ router.get('/projectcategory/:int_projectCategID/editprojectcategory',(req, res)
     console.log("PUMASOK SA GET REQ.PARAMS")
     
     var queryString = `SELECT * FROM tbl_projectcategory
-    WHERE tbl_projectcategory.int_categoryID = "${req.params.int_projectCategID}"`;
+    WHERE tbl_projectcategory.int_projectCategID = "${req.params.int_projectCategID}"`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
@@ -380,10 +380,11 @@ router.post('/projectcategory/:int_projectCategID/editprojectcategory', (req, re
     console.log("PUMASOK SA POST REQ.PARAMS")
     
     var queryString = `UPDATE tbl_projectcategory SET
-    varchar_categoryName = "${req.body.projectcategoryname}",
-    text_categoryDescription = "${req.body.projectcategorydescription}",
-    enum_categoryStatus = "Active"
-    WHERE tbl_projectcategory.int_categoryID = "${req.body.int_categoryID}"`
+    varchar_projectCategName = "${req.body.projectcategoryname}",
+    text_projectCategDescription = "${req.body.projectcategorydescription}",
+    enum_projCategState = "Active"
+    WHERE tbl_projectcategory.int_projectCategID = "${req.body.int_projectCategID}"`;
+    
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
         console.log(results);
@@ -397,8 +398,8 @@ router.get('/projectcategory/:int_projectCategID/deleteprojectcategory', (req, r
     console.log('=================================');
 
     var queryString =`SELECT * FROM tbl_projectcategory
-    WHERE enum_categoryStatus = 'Active' 
-    AND tbl_projectcategory.int_categoryID=${req.params.int_projectCategID}`
+    WHERE enum_projCategState = 'Active' 
+    AND tbl_projectcategory.int_projectCategID=${req.params.int_projectCategID}`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -414,8 +415,8 @@ router.post('/projectcategory/:int_projectCategID/deleteprojectcategory', (req, 
     console.log('=================================');
 
     var queryString1 = `UPDATE tbl_projectcategory SET
-            enum_categoryStatus = 'Inactive'
-            WHERE tbl_projectcategory.int_categoryID = ${req.body.int_projectCategID}`;
+            enum_projCategState = 'Inactive'
+            WHERE tbl_projectcategory.int_projectCategID = ${req.body.int_projectCategID}`;
         
             db.query(queryString1, (err, results) => {        
             if (err) throw err;
@@ -545,13 +546,13 @@ router.get('/targetbeneficiary',(req, res) => {
     console.log('ADMIN: MAINTENANCE - 5');
     console.log('=================================');
     
-    var queryString =`SELECT * FROM tbl_beneficiary WHERE enum_beneficiaryStatus = 'Active'`
+    var queryString =`SELECT * FROM tbl_targetbeneficiary WHERE enum_targetState = 'Active'`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
         // console.log(results);
-        res.render('admin/maintenance/views/maintenance5', {tbl_beneficiary: results});
+        res.render('admin/maintenance/views/maintenance5', {tbl_targetbeneficiary: results});
         console.log(results);
     });
 });
@@ -561,11 +562,11 @@ router.post('/targetbeneficiary',(req, res) => {
     console.log('ADMIN: MAINTENANCE - 1 POST');
     console.log('=================================');
 
-    var queryString = `INSERT INTO \`tbl_beneficiary\` (
+    var queryString = `INSERT INTO \`tbl_targetbeneficiary\` (
         
         \`varchar_beneficiaryName\`,
         \`text_beneficiaryDescription\`,
-        \`enum_beneficiaryStatus\`)
+        \`enum_targetState\`)
                 
         VALUES(
         "${req.body.beneficiaryname}",
@@ -576,7 +577,7 @@ router.post('/targetbeneficiary',(req, res) => {
             if (err) throw err;    
             console.log(results);
        
-        var queryString1 =`SELECT * FROM tbl_beneficiary ORDER BY int_beneficiaryID DESC LIMIT 0,1`
+        var queryString1 =`SELECT * FROM tbl_targetbeneficiary ORDER BY int_beneficiaryID DESC LIMIT 0,1`
 
         db.query(queryString1, (err, results1, fields) => {        
             if (err) throw err;
@@ -595,13 +596,13 @@ router.get('/targetbeneficiary/:int_beneficiaryID/edittargetbeneficiary',(req, r
     console.log('=================================');
     console.log("PUMASOK SA GET REQ.PARAMS")
     
-    var queryString = `SELECT * FROM tbl_beneficiary
-    WHERE tbl_beneficiary.int_beneficiaryID = "${req.params.int_beneficiaryID}"`;
+    var queryString = `SELECT * FROM tbl_targetbeneficiary
+    WHERE tbl_targetbeneficiary.int_beneficiaryID = "${req.params.int_beneficiaryID}"`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
         console.log(results);
-        res.render(`admin/maintenance/views/edittargetbeneficiary`,{tbl_beneficiary:results});
+        res.render(`admin/maintenance/views/edittargetbeneficiary`,{tbl_targetbeneficiary:results});
     });
 });
 
@@ -609,11 +610,11 @@ router.get('/targetbeneficiary/:int_beneficiaryID/edittargetbeneficiary',(req, r
 router.post('/targetbeneficiary/:int_beneficiaryID/edittargetbeneficiary', (req, res) => {
     console.log("PUMASOK SA POST REQ.PARAMS")
     
-    var queryString = `UPDATE tbl_beneficiary SET
+    var queryString = `UPDATE tbl_targetbeneficiary SET
     varchar_beneficiaryName = "${req.body.beneficiaryname}",
     text_beneficiaryDescription = "${req.body.beneficiarydescription}",
-    enum_beneficiaryStatus = "Active"
-    WHERE tbl_beneficiary.int_beneficiaryID = "${req.body.int_beneficiaryID}"`;
+    enum_targetState = "Active"
+    WHERE tbl_targetbeneficiary.int_beneficiaryID = "${req.body.int_beneficiaryID}"`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
@@ -627,15 +628,15 @@ router.get('/targetbeneficiary/:int_beneficiaryID/deletetargetbeneficiary', (req
     console.log('ADMIN: MAINTENANCE - 5 DELETE GET');
     console.log('=================================');
 
-    var queryString =`SELECT * FROM tbl_beneficiary
-    WHERE enum_beneficiaryStatus = 'Active' 
-    AND tbl_beneficiary.int_beneficiaryID=${req.params.int_beneficiaryID}`
+    var queryString =`SELECT * FROM tbl_targetbeneficiary
+    WHERE enum_targetState = 'Active' 
+    AND tbl_targetbeneficiary.int_beneficiaryID=${req.params.int_beneficiaryID}`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
 
-        res.render(`admin/maintenance/views/deletetargetbeneficiary`,{tbl_beneficiary:results});
+        res.render(`admin/maintenance/views/deletetargetbeneficiary`,{tbl_targetbeneficiary:results});
     });
 });
 
@@ -644,9 +645,9 @@ router.post('/targetbeneficiary/:int_beneficiaryID/deletetargetbeneficiary', (re
     console.log('ADMIN: MAINTENANCE - 5 DELETE POST');
     console.log('=================================');
 
-    var queryString1 = `UPDATE tbl_beneficiary SET
-            enum_beneficiaryStatus = 'Inactive'
-            WHERE tbl_beneficiary.int_beneficiaryID = ${req.body.int_beneficiaryID}`;
+    var queryString1 = `UPDATE tbl_targetbeneficiary SET
+            enum_targetState = 'Inactive'
+            WHERE tbl_targetbeneficiary.int_beneficiaryID = ${req.body.int_beneficiaryID}`;
         
             db.query(queryString1, (err, results) => {        
             if (err) throw err;
@@ -654,231 +655,116 @@ router.post('/targetbeneficiary/:int_beneficiaryID/deletetargetbeneficiary', (re
 });
 });
 
-// router.get('/awards',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 7');
-//     console.log('=================================');
-    
-//     var queryString =`SELECT * FROM tbl_award WHERE enum_awardStatus = 'Active'`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-//         // console.log(results);
-//         res.render('admin/maintenance/views/maintenance6', {tbl_award: results});
-//         console.log(results);
-//     });
-// });
-
-// router.post('/awards',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1 POST');
-//     console.log('=================================');
-
-//     var queryString = `INSERT INTO \`tbl_award\` (
-        
-//         \`varchar_awardName\`,
-//         \`text_awardDescription\`,
-//         \`enum_awardStatus\`)
-                
-//         VALUES(
-//         "${req.body.awardname}",
-//         "${req.body.awarddescription}",
-//         "Active");`;
-
-//         db.query(queryString, (err, results, fields) => {        
-//             if (err) throw err;    
-//             console.log(results);
-       
-//         var queryString1 =`SELECT * FROM tbl_award ORDER BY int_awardID DESC LIMIT 0,1`
-
-//         db.query(queryString1, (err, results1, fields) => {        
-//             if (err) throw err;
-//             var results1 = results1;
-//             console.log(results1);
-                    
-//                 res.redirect('/admin/maintenance/awards');
-//         });
-
-//     });
-// });
-
-// router.get('/awards/:int_awardID/editaward',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1');
-//     console.log('=================================');
-//     console.log("PUMASOK SA GET REQ.PARAMS")
-    
-//     var queryString = `SELECT * FROM tbl_award
-//     WHERE tbl_award.int_awardID = "${req.params.int_awardID}"`;
-    
-//     db.query(queryString, (err, results, fields) => {        
-//         if (err) throw err;
-//         res.render(`admin/maintenance/views/editaward`,{tbl_award:results});
-//     });
-// });
-
-
-// router.post('/awards/:int_awardID/editaward', (req, res) => {
-//     console.log("PUMASOK SA POST REQ.PARAMS")
-    
-//     var queryString = `UPDATE tbl_award SET
-//     varchar_awardName = "${req.body.awardname}",
-//     text_awardDescription = "${req.body.awarddescription}",
-//     enum_awardStatus = "Active"
-//     WHERE tbl_award.int_awardID = "${req.body.int_awardID}"`;
-    
-//     db.query(queryString, (err, results, fields) => {        
-//         if (err) throw err;
-//         console.log(results);
-//         res.redirect('/admin/maintenance/awards');
-// });
-// });
-
-// router.get('/awards/:int_awardID/deleteaward', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 6 DELETE GET');
-//     console.log('=================================');
-
-//     var queryString =`SELECT * FROM tbl_award
-//     WHERE enum_awardStatus = 'Active' 
-//     AND tbl_award.int_awardID=${req.params.int_awardID}`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-
-//         res.render(`admin/maintenance/views/deleteaward`,{tbl_award:results});
-//     });
-// });
-
-// router.post('/awards/:int_awardID/deleteaward', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 6 DELETE POST');
-//     console.log('=================================');
-
-//     var queryString1 = `UPDATE tbl_award SET
-//             enum_awardStatus = 'Inactive'
-//             WHERE tbl_award.int_awardID = ${req.body.int_awardID}`;
-        
-//             db.query(queryString1, (err, results) => {        
-//             if (err) throw err;
-//             res.redirect('/admin/maintenance/awards');
-// });
-// });
-
-
-router.get('/releaselocation',(req, res) => {
+router.get('/awards',(req, res) => {
     console.log('=================================');
     console.log('ADMIN: MAINTENANCE - 7');
     console.log('=================================');
-
-    var queryString =`SELECT * FROM tbl_releaselocation JOIN tbl_address ON tbl_releaselocation.int_locationAddressID=tbl_address.int_addressID WHERE enum_locationStatus = 'Active'`
+    
+    var queryString =`SELECT * FROM tbl_award WHERE enum_awardStatus = 'Active'`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
         // console.log(results);
-        res.render('admin/maintenance/views/maintenance7', {tbl_releaselocation: results});
+        res.render('admin/maintenance/views/maintenance6', {tbl_award: results});
         console.log(results);
     });
 });
 
-router.post('/releaselocation',(req, res) => {
+router.post('/awards',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 7 POST');
+    console.log('ADMIN: MAINTENANCE - 1 POST');
     console.log('=================================');
 
-    var queryString = `INSERT INTO \`tbl_releaselocation\` (
+    var queryString = `INSERT INTO \`tbl_award\` (
         
-        \`varchar_locationName\`,
-        \`int_locationAddressID\`,
-        \`enum_locationStatus\`)
+        \`varchar_awardName\`,
+        \`text_awardDescription\`,
+        \`enum_awardState\`)
                 
         VALUES(
-        "${req.body.locationname}",
-        "${req.body.locationaddress}",
+        "${req.body.awardname}",
+        "${req.body.awarddescription}",
         "Active");`;
 
         db.query(queryString, (err, results, fields) => {        
             if (err) throw err;    
             console.log(results);
        
-        var queryString1 =`SELECT * FROM tbl_releaselocation ORDER BY int_locationID DESC LIMIT 0,1`
+        var queryString1 =`SELECT * FROM tbl_award ORDER BY int_awardID DESC LIMIT 0,1`
 
         db.query(queryString1, (err, results1, fields) => {        
             if (err) throw err;
             var results1 = results1;
             console.log(results1);
                     
-                res.redirect('/admin/maintenance/releaselocation');
+                res.redirect('/admin/maintenance/awards');
         });
-    });
 
+    });
 });
 
-router.get('/releaselocation/:int_locationID/editreleaselocation',(req, res) => {
+router.get('/awards/:int_awardID/editaward',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 7 EDIT GET');
+    console.log('ADMIN: MAINTENANCE - 1');
     console.log('=================================');
     console.log("PUMASOK SA GET REQ.PARAMS")
     
-    var queryString = `SELECT * FROM tbl_releaselocation
-    WHERE tbl_releaselocation.int_locationID = "${req.params.int_locationID}"`;
+    var queryString = `SELECT * FROM tbl_award
+    WHERE tbl_award.int_awardID = "${req.params.int_awardID}"`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
-        console.log(results);
-        res.render(`admin/maintenance/views/editreleaselocation`,{tbl_releaselocation:results});
+        res.render(`admin/maintenance/views/editaward`,{tbl_award:results});
     });
 });
 
 
-router.post('/releaselocation/:int_locationID/editreleaselocation', (req, res) => {
+router.post('/awards/:int_awardID/editaward', (req, res) => {
     console.log("PUMASOK SA POST REQ.PARAMS")
     
-    var queryString = `UPDATE tbl_releaselocation SET
-    varchar_locationName = "${req.body.locationname}",
-    int_locationAddressID = "${req.body.locationaddress}",
-    enum_locationStatus = "Active"
-    WHERE tbl_releaselocation.int_locationID = "${req.body.int_locationID}"`;
+    var queryString = `UPDATE tbl_award SET
+    varchar_awardName = "${req.body.awardname}",
+    text_awardDescription = "${req.body.awarddescription}",
+    enum_awardState = "Active"
+    WHERE tbl_award.int_awardID = "${req.body.int_awardID}"`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
         console.log(results);
-        res.redirect('/admin/maintenance/releaselocation');
+        res.redirect('/admin/maintenance/awards');
 });
 });
 
-router.get('/releaselocation/:int_locationID/deletereleaselocation', (req, res) => {
+router.get('/awards/:int_awardID/deleteaward', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 7 DELETE GET');
+    console.log('ADMIN: MAINTENANCE - 6 DELETE GET');
     console.log('=================================');
 
-    var queryString =`SELECT * FROM tbl_releaselocation
-    WHERE enum_locationStatus = 'Active' 
-    AND tbl_releaselocation.int_locationID = ${req.params.int_locationID}`
+    var queryString =`SELECT * FROM tbl_award
+    WHERE enum_awardState = 'Active' 
+    AND tbl_award.int_awardID=${req.params.int_awardID}`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
 
-        res.render(`admin/maintenance/views/deletereleaselocation`,{tbl_releaselocation:results});
+        res.render(`admin/maintenance/views/deleteaward`,{tbl_award:results});
     });
 });
 
-router.post('/releaselocation/:int_locationID/deletereleaselocation', (req, res) => {
+router.post('/awards/:int_awardID/deleteaward', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 7 DELETE POST');
+    console.log('ADMIN: MAINTENANCE - 6 DELETE POST');
     console.log('=================================');
 
-    var queryString1 = `UPDATE tbl_releaselocation SET
-            enum_locationStatus = 'Inactive'
-            WHERE tbl_releaselocation.int_locationID = ${req.body.int_locationID}`;
+    var queryString1 = `UPDATE tbl_award SET
+            enum_awardState = 'Inactive'
+            WHERE tbl_award.int_awardID = ${req.body.int_awardID}`;
         
             db.query(queryString1, (err, results) => {        
             if (err) throw err;
-            res.redirect('/admin/maintenance/releaselocation');
+            res.redirect('/admin/maintenance/awards');
 });
 });
 

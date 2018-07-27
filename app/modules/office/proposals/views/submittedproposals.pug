@@ -1,3 +1,79 @@
-extends ../../home/views/navbaroffice.pug
+extends ../../home/views/navbar.pug
 
 block content
+    <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
+    <link rel="stylesheet" type="text/css" href="/barangay/style.css">
+    <!-- page-header -->
+        <div class="page-header-problems pb-3">
+            <div class="container rounded-top">
+                <div class="row">
+                        <div class="page-caption-problem page-caption rounded-top pt-3 pb-3">
+                            <p class="page-title " style="color:black; ">PROJECT PROPOSAL</p>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.page-header-->
+        <!-- tour-booking -->
+        <div class="container container-fluid bg-transparent " style="padding-top:1.5%; padding-bottom:1.5%;">
+        <div class="">
+        <div class="card-header card-header-proposal">
+            <div class="form-row pt-2">
+                <div class="col-md-4 ">
+                    <h4 style="">Submitted project proposal</h4>
+                </div>
+                <div class="col-md-4"></div>
+                    <h5 style="color:whitesmoke;margin-left:10%;">Category:</h5>
+                    <div class="col-md-2">
+                        <select name="problem_category" id="probcategory" class="form-control-sm float-right" style="margin:none;color:#5F9EA0" required="required" required>
+                            <option disabled="disabled" selected="selected">Select ...</option>
+                            <option value = "All">All</option>
+                            <option value = "1">Health</option>
+                            <option value = "2">Education</option>
+                            <option value = "3">Finance</option>
+                            <option value = "4">Infrastracture</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        //- Content
+        each proposal in tbl_projectproposal
+            <div class="card-body" style="background-color: #F0FFFF;">
+                <div class="card" style="transition: 0.3s;">
+                <div class="card-header  " style="color:black;size:20px; background-color: whitesmoke;">
+                    <div class=" font-weight-bold pl-5" >Project Title: 
+                        <u class="text-uppercase">
+                            value=proposal.varchar_projectName
+                        </u>
+                        <medium class="float-right pl-5 pr-4 ">Status: 
+                            value=proposal.enum_proposalStatus
+                        </medium>
+                       
+                    </div>
+                    <div class="card-body pl-5" >
+                        <p class="float-right pagination-centered">Category: 
+                            value=proposal.varchar_categoryName
+                        </p>
+                        <p class="pl-5 card-text text-justify">Project Objective: <br>
+                            value=proposal.text_projectObjective
+                        </p>
+                         
+                    </div>
+                    <div class="card-footer bg-transparent pl-5" >
+                        <button type="button" id="resendbut" class="btn btn-outline-proposal btn-proposal ml-3 float-right" style="">Resend</button>
+                        <button type="button" id="submitprob" class="btn btn-outline-proposal btn-proposal ml-5 float-right" style="">View</button>
+                        <small class="float-right pr-5 mr-5">Project Duration (days): 
+                            value=proposal.int_dayDuration
+                        </small>
+                        <small class="">Estimated Budget: Php 
+                            value=proposal.decimal_estimatedBudget
+                        </small>
+                    </div>
+                </div>
+                    
+                </div>   
+            </div>
+        //- End of Content
+        </div>
+        </div>
+        <!-- /.tour-booking -->

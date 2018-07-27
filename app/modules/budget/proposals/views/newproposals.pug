@@ -7,7 +7,7 @@ block content
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-caption">
-                            <h1 class="page-title" style="color:#3B5997;">New Proposal</h1>
+                            <h1 class="page-title" style="color:#3B5997;">New Proposals</h1>
                         </div>
                     </div>
                 </div>
@@ -20,6 +20,16 @@ block content
                 <div class="row ">
                     <div class="wrapper">
                         <div class="tour-booking-form">
+                            <div class="float-right">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <input type="text" name="searchName">
+                                        <input type="button" name="searchButton" value="Search">
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <hr/>
                             <!--Table-->
                             <table id="openprojects" class="table table-hover table-responsive-md">
 
@@ -46,15 +56,16 @@ block content
                                             value=proposal.varchar_projectName
                                         </td>
                                         <td>
-                                            value=proposal.varchar_projectObjective
+                                            value=proposal.text_projectObjective
                                         </td>
                                         <td>
-                                            value=proposal.varchar_projectCategName
+                                            value=proposal.varchar_categoryName
                                         </td>
                                         <td>
-                                            a(href=`/budget/proposals/new/${proposal.int_projectID}/details`): span.fa.fa-eye View
-                                            //- <a type="button" class="btn btn-info btn-filter" href=`/budget/proposals/new/${proposal.int_projectID}/details`><i class="fa fa-eye"></i> View</a>
-                                            <a type="button" class="btn btn-danger btn-filter" ><i class="fa fa-close"></i> Reject</a>
+                                            a(href=`/budget/proposals/${proposal.int_projectID}/details`): button.btn.btn-info.btn-sm: span.fa.fa-eye View
+                                            
+                                            //- a(href=`/budget/proposals/${proposal.int_projectID}/delete`): button.btn.btn-danger: span.fa.fa-close  Reject
+                                            
                                         </td>
                                     </tr>
                                 </tbody>

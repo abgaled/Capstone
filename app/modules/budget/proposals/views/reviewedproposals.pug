@@ -1,35 +1,83 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <br/>
-    <h3 class="text-center"> REVIEWED PROPOSAL</h3>
-    <hr/>
-
-    <div class="table-container col-md-12">
-        <table class="table table-hover table-bordered table-filter">
-            <thead>
-                <th>Title</th>
-                <th>Objective</th>
-                <th>Category</th>
-                <th>Action</th>
-            </thead>
-            <tbody>
-                each proposal in reviewedproposals
-                    <tr>
-                        <td>
-                            value=proposal.varchar_projectName
-                        </td>
-                        <td>
-                            value=proposal.varchar_projectObjective
-                        </td>
-                        <td>
-                            value=proposal.varchar_projectCategName
-                        </td>
-                        <td>
-                            <a type="button" class="btn btn-info btn-filter" href='/budget/proposals/details'><i class="fa fa-eye"></i> View</a>
-                            <a type="button" class="btn btn-danger btn-filter" ><i class="fa fa-close"></i> Reject</a>
-                        </td>
-                    </tr>
-            </tbody>
-        </table> 
+    <!-- page-header -->
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-caption">
+                        <h1 class="page-title" style="color:#3B5997;">Reviewed Proposals</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- /.page-header-->
+
+    <!-- tour-booking -->
+        <div class="content">
+            <div class="container">
+                <div class="row ">
+                    <div class="wrapper">
+                        <div class="tour-booking-form">
+                            <div class="float-right">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <input type="text" name="searchName">
+                                        <input type="button" name="searchButton" value="Search">
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <hr/>
+                            <!--Table-->
+                            <table id="openprojects" class="table table-hover table-responsive-md">
+
+                                <!--Table head-->
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th class="th-lg"><i class="fa fa-file-text-o fa-lg pr-2" aria-hidden="true"></i>Title</th>
+                                        <th class="th-lg"><i class="fa fa-list-alt fa-lg pr-2" aria-hidden="true"></i>Objective</th>
+                                        <th class="th-lg"><i class="fa fa-folder-open-o fa-lg pr-2" aria-hidden="true"></i>Category</th>
+                                        <th class="th-lg"><i class="fa fa-edit fa-lg pr-2" aria-hidden="true"></i>Action/s</th>
+                                    </tr>
+                                </thead>
+                                <!--Table head-->
+
+                                <!--Table body-->
+                                <tbody>
+                                each proposal in reviewedproposals
+                                    <tr>
+                                        <td>
+                                            value=proposal.int_projectID
+                                        </td>
+                                        <td>
+                                            value=proposal.varchar_projectName
+                                        </td>
+                                        <td>
+                                            value=proposal.text_projectObjective
+                                        </td>
+                                        <td>
+                                            value=proposal.varchar_categoryName
+                                        </td>
+                                        <td>
+                                            a(href=`/budget/proposals/${proposal.int_projectID}/details`): button.btn.btn-info.btn-sm: span.fa.fa-eye View
+                                            
+                                            //- a(href=`/budget/proposals/${proposal.int_projectID}/delete`): button.btn.btn-danger: span.fa.fa-close  Reject
+                                            
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <!--Table body-->
+
+                            </table>
+                            <!--Table-->
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- /.tour-booking -->
