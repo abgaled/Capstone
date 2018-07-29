@@ -2,241 +2,238 @@ extends ../../home/views/navbar.pug
 
 block content
     <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
-    <link rel="stylesheet" type="text/css" href="/barangay/css/applyproject.css">
-    <link rel="stylesheet" type="text/css" href="/barangay/css/fileupload.css">
+    <div class ="container">
+    <div class="card">
+    each project in tbl_project
+        <div class="card-header">
+            <center>
+                <h1>APPLICATION FORM</h1>
+                <h4>
+                    value=project.varchar_projectName
+                </h4>
+                <small>
+                    value="(" + project.text_projectObjective + ")"
+                </small>
+            </center>
+        </div>
+        <div class="card-body card-block">
+        <form id="regForm" action="" method="POST" class="">
 
-        <!-- page-header -->
-        <div class="page-header-projects">
-            <div class="container" id="container-header" >
-                <div class="row">
-                    <div class="page-caption">
-                    each project in tbl_project
-                        <h1 class="page-title" style="color:#3B5997;">APPLICATION FORM</h1>
-                            <h4>
-                                value=project.varchar_projectName
-                            </h4>
-                            <small>
-                                value="(" + project.text_projectObjective + ")"
-                            </small>
+            //- FIRST TAB
+            <div class="tab"><h3>BASIC PERSONAL INFORMATION</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="ap-fname" class="form-control-label"><strong>First</strong> Name</label>
+                            <input type="text" id="ap-fname" name="apply_fname" placeholder="Applicant's First name ..." class="col-sm-11 form-control ">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="ap-lname" class="form-control-label"><strong>Last</strong> Name</label>
+                            <input type="text" id="ap-lname" name="apply_lname" placeholder="Applicant's Last name ..." class="col-sm-11 form-control ">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="ap-mname" class="form-control-label"><strong>Middle</strong> Name</label>
+                            <input type="text" id="ap-mname" name="apply_mname" placeholder="Applicant's Middle name ..." class="col-sm-11 form-control ">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-1">
+        
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="ap-birthdate" class="form-control-label"><strong>Birthdate</strong></label>
+                            <input type="date" id="ap-birthdate" name="apply_birthdate" placeholder="Birthdate" class="col-sm-11 form-control ">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="ap-number" class="form-control-label"><strong>Contact Number</strong></label>
+                            <input type="text" id="ap-number" name="apply_contact" placeholder="(ex: 0912xxxxxxx)" class="col-sm-11 form-control ">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="ap-email" class="form-control-label"><strong>Email Address</strong></label>
+                            <input type="email" id="ap-email" name="apply_emailaddress" placeholder="(ex: abc@gmail.com)" class="col-sm-11 form-control ">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-1">
+        
+                    </div>
+                    <div class="form-group col-md-3">
+                    <label for="ap-gender" class="form-control-label"><strong>Gender</strong></label>
+                        <div class="form-check form-check-inline" id="ap-gender">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" value="Male" name="apply_gender" id="inlineRadio1" value="option1"> Male
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" value="Female" name="apply_gender" id="inlineRadio2" value="option2"> Female
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="ap-yrres" class="form-control-label"><strong>Year of Residency</strong></label>
+                            <input type="text" id="ap-yrres" name="apply_yrres" placeholder="(ex. 20xx, 2010)" class="col-sm-11 form-control ">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="ap-civilstat" class="form-control-label"><strong>Civil Status</strong></label>
+                        <select class="form-control" id="ap-civilstat" name="apply_civilstat">
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Widowed">Widowed</option>
+                        </select>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- /.page-header-->
-        <!-- tour-booking -->
-        <div class="content" style="padding-top:1.5%;">
-            <div class="container">
-            <div class="card">
-            <div class="card-header"></div>
-            <div class="card-body">
-                <form id="regForm" method="POST" action="#">
-                    //- First Tab "Basic Personal Information"
-                    <div class="tab"><h3>BASIC PERSONAL INFORMATION</h3>
-                        <div class="tab-upper-field">
-                            <h5>Resident's Name:<label style="color:red;">*</label></h5>
-                            <div class="form-row">
-                                <div class="form-group float-label-control col-md-4">
-                                    <label for="">First Name</label>
-                                    <input type="text" name ="apply_fname"class="form-control" placeholder="First Name" required>
-                                </div>
-                                <div class="form-group float-label-control col-md-4">
-                                    <label for="">Last Name</label>
-                                    <input type="text" name ="apply_lname"class="form-control" placeholder="Last Name" required>
-                                </div>
-                                <div class="form-group float-label-control col-md-4">
-                                    <label for="">Middle Name</label>
-                                    <input type="text" name ="apply_mname"class="form-control" placeholder="Middle Name">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <h5>Birthdate:<label style="color:red;">*</label></h5>
-                                    <div class="form-group float-label-control col-md-4">
-                                        <input type="date" name="apply_birthdate" class="form-control" placeholder="Birthdate">
-                                    </div>
-                                <h5 style="margin-left:4%;margin-right:0.5%;width:83px;">Email Address:</h5>
-                                    <div class="form-group float-label-control col-md-5">
-                                        <input type="email" name="apply_emailaddress" class="form-control" placeholder="(ex. abc@gmail.com)">
-                                    </div>
-                            </div>
-                            <div class="form-row">
-                                <h5 style="margin-right:7%;">Gender:<label style="color:red;">*</label></h5>
-                                    <div class="form-check form-check-inline">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" value="Male" name="apply_gender" id="inlineRadio1" value="option1"> Male
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" value="Female" name="apply_gender" id="inlineRadio2" value="option2"> Female
-                                        </label>
-                                    </div>
-                                <h5 style="margin-left:14%;">Year of Residency:<label style="color:red;">*</label></h5>
-                                    <div class="form-group float-label-control col-md-5">
-                                        <input type="text" name="apply_yrres" class="form-control" placeholder="(ex. 20xx, 2010)">
-                                    </div>
-                            </div>
-                            <div class="form-row">
-                                <h5>Mobile Number:<label style="color:red;">*</label></h5>
-                                    <div class="form-group float-label-control col-md-3">
-                                        <input type="text" name="apply_contact" class="form-control" placeholder="(ex. 0915xxxxxxx)">
-                                    </div>
-                                <h5 style="margin-left:7.5%;">Civil Status:<label style="color:red;">*</label></h5>
-                                    <div class="col-md-5">
-                                        <select class="form-control" id="civilstatus" name="apply_civilstat">
-                                            <option>Single</option>
-                                            <option>Married</option>
-                                            <option>Widowed</option>
-                                        </select>
-                                    </div>
-                            </div>
-                        </div>
+            //- END OF FIRST TAB
+
+            //- START OF 2ND TAB
+            <div class="tab"><h3>APPLICANT'S ADDRESS INFORMATION</h3>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="ap-address1" class="form-control-label"><strong>Block Lot</strong></label>
+                            <input type="text" id="ap-address1" name="apply_address1" placeholder="Building Number/Lot Number" class="col-sm-11 form-control ">
                     </div>
-                    //- End of 1st tab
-
-                    //- Second Tab "Applicant's Address Information"
-                    <div class="tab"><h3>APPLICANT'S ADDRESS INFORMATION</h3>
-                        <div class="tab-upper-field">
-                            <div class="form-row">
-                            <h5 style="margin-right:0.5%;">Block Lot:<label style="color:red;">*</label></h5>
-                                <div class="form-group float-label-control col-md-3">
-                                    <input type="text" name="apply_address1" class="form-control" placeholder="Block Number/Building Number/Lot Number" required>
-                                </div>
-                            <h5 style="margin-left:1%;margin-right:0.5%;">Street:<label style="color:red;">*</label></h5>
-                            <div class="form-group float-label-control col-md-3">
-                                    <input type="text" name="apply_address2" class="form-control" placeholder="Street Name/Avenue/Road" required>
-                            </div>
-                            <h5 style="margin-left:1%;">Province:</h5>
-                                <div class="form-group float-label-control col-md-3">
-                                    <input type="text" name="apply_province" class="form-control" placeholder="Applicant's Province">
-                                </div>
-                            <h5 style="margin-right:2%;">Address Type:<label style="color:red;">*</label></h5>
-                                    <div class="form-check form-check-inline">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" value="Permanent" name="apply_addresstype" id="inlineRadio1" value="option1"> Permanent
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" value="Temporary" name="apply_addresstype" id="inlineRadio2" value="option2"> Temporary
-                                        </label>
-                                    </div>
-                            </div>
-                            </div>
-                        </div>
+                    <div class="form-group col-md-4">
+                        <label for="ap-address2" class="form-control-label"><strong>Street</strong></label>
+                            <input type="text" id="ap-address2" name="apply_address2" placeholder="Street Name/Avenue/Road" class="col-sm-11 form-control ">
                     </div>
-                    //- End of 2nd tab
+                    <div class="form-group col-md-4">
+                        <label for="ap-province" class="form-control-label"><strong>Province</strong></label>
+                            <input type="text" id="ap-province" name="apply_province" placeholder="Applicant's Province" class="col-sm-11 form-control ">
+                    </div>
+                </div>
+            </div>
+            //- END OF 2ND TAB
 
-                    //- SCRIPT FOR ADDITIONAL FORMS
-                    script(src="/barangay/projects/routes.js")
-                    script.
-                        window.onload = function additionalForms(){
+            //- SCRIPT FOR ADDITIONAL FORMS
+            script(src="/barangay/projects/routes.js")
+            script.
+                window.onload = function additionalForms(){
 
-                        var int_categoryID = #{int_categoryID.int_categoryID}
-                        var int_formtypeID = !{JSON.stringify(int_formtypeID)}
+                var int_categoryID = #{int_categoryID.int_categoryID}
+                var int_formtypeID = !{JSON.stringify(int_formtypeID)}
 
-                            console.log("=======IF STATEMENTS========")
-                            for (var i=0; i < int_formtypeID.length; i++) {
-                                if(int_formtypeID[i].int_formtypeID == 1){
-                                    console.log("Form Type - 1 (Medical)");
-                                    document.getElementById("add-medical").style.display ="inline";
-                                }
-                                if (int_formtypeID[i].int_formtypeID == 2){
-                                    console.log("Form Type - 2 (Account)");
-                                    document.getElementById("add-account").style.display ="inline";
-                                }
-                                if (int_formtypeID[i].int_formtypeID == 3){
-                                    console.log("Form Type - 3 (Family)");
-                                    document.getElementById("add-family").style.display ="inline";
-                                }
-                                if (int_formtypeID[i].int_formtypeID == 4){
-                                    console.log("Form Type - 4 (Educational)");
-                                    document.getElementById("add-educational").style.display ="inline";
-                                }
-                                if (int_formtypeID[i].int_formtypeID == 5){
-                                    console.log("Form Type - 5 (Income)");
-                                    document.getElementById("add-income").style.display ="inline";
-                                }
-                                if (int_formtypeID[i].int_formtypeID == 6){
-                                    console.log("Form Type - 6 (Professional)");
-                                    document.getElementById("add-professional").style.display ="inline";
-                                }
-                            }
+                    console.log("=======IF STATEMENTS========")
+                    for (var i=0; i < int_formtypeID.length; i++) {
+                        if(int_formtypeID[i].int_formtypeID == 1){
+                            console.log("Form Type - 1 (Medical)");
+                            document.getElementById("add-medical").style.display ="inline";
                         }
-                    //- END OF SCRIPT FOR ADDITIONAL FORMS
+                        if (int_formtypeID[i].int_formtypeID == 2){
+                            console.log("Form Type - 2 (Account)");
+                            document.getElementById("add-account").style.display ="inline";
+                        }
+                        if (int_formtypeID[i].int_formtypeID == 3){
+                            console.log("Form Type - 3 (Family)");
+                            document.getElementById("add-family").style.display ="inline";
+                        }
+                        if (int_formtypeID[i].int_formtypeID == 4){
+                            console.log("Form Type - 4 (Educational)");
+                            document.getElementById("add-educational").style.display ="inline";
+                        }
+                        if (int_formtypeID[i].int_formtypeID == 5){
+                            console.log("Form Type - 5 (Income)");
+                            document.getElementById("add-income").style.display ="inline";
+                        }
+                        if (int_formtypeID[i].int_formtypeID == 6){
+                            console.log("Form Type - 6 (Professional)");
+                            document.getElementById("add-professional").style.display ="inline";
+                        }
+                    }
+                }
+            //- END OF SCRIPT FOR ADDITIONAL FORMS
 
-                    //- ADDITIONAL TABS:
-
-                    <div class="tab" style="display:none;">
+            //- ADDITIONAL FORMS
+            <div class="tab" style="display:none;">
 
                         //- MEDICAL FORM (1)
-                        <span id="add-medical" style="display:none;"><h3>Health/Medical Form</h3>
-                        <div class="tab-upper-field">
+                        <span id="add-medical" style="display:none;"><h3>HEALTH / MEDICAL FORM</h3>
                             <div class="form-row">
-                            <h5 style="margin-right:0.5%;">Medication:<label style="color:red;">*</label></h5>
-                                <div class="form-group col-md-4">
-                                    <input type="textarea" name="apply_medication" class="form-control" placeholder="Medication ..." required>
-                                </div>
-                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Medication Description:<label style="color:red;">*</label></h5>
-                            <div class="form-group col-md-4">
-                                    <input type="textarea" name="apply_medicationdesc" class="form-control" placeholder="Medication description ..." required>
+                            <div class="col-md-1">
+                            </div>
+                            <div class="form-group col-md-11">
+                                <label for="ap-med" class="form-control-label"><strong>Medication</strong></label>
+                                    <input type="textarea" id="ap-med" name="apply_medication" placeholder="Medication ..." class="col-sm-11 form-control ">
                             </div>
                             </div>
-                        </div>         
+                            <div class="form-row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="form-group col-md-11">
+                                <label for="ap-meddesc" class="form-control-label"><strong>Medication Description</strong></label>
+                                    <textarea rows="4" id="ap-meddesc" name="apply_medicationdesc" placeholder="Medication description..." class="col-sm-11 form-control "></textarea>
+                            </div>
+                            </div>       
                         </span>
                         //- END OF 1ST ADDITIONAL FORM
 
                         //- ACCOUNT DETAILS (2)
-                        <span id="add-account" style="display:none;"><h3>Account Form</h3>
-                        <div class="tab-upper-field">
+                        <span id="add-account" style="display:none;"><h3>ACCOUNT FORM</h3>
                             <div class="form-row">
-                            <h5 style="margin-right:0.5%;">Income Source:<label style="color:red;">*</label></h5>
-                                <div class="form-group col-md-2">
-                                    <input type="text" name="apply_incomesource" class="form-control" placeholder="Income source ..." required>
-                                </div>
-                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income Maker:<label style="color:red;">*</label></h5>
-                            <div class="form-group col-md-2">
-                                    <input type="text" name="apply_incomemaker" class="form-control" placeholder="Income maker ..." required>
+                            <div class="col-md-1">
                             </div>
-                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income of Spouse:<label style="color:red;">*</label></h5>
-                            <div class="form-group col-md-2">
-                                    <input type="text" name="apply_spouseincomer" class="form-control" placeholder="Income of Spouse ..." required>
+                            <div class="form-group col-md-3">
+                                <label for="ap-gsis" class="form-control-label"><strong>GSIS Number:</strong></label>
+                                    <input type="number" id="ap-gsis" name="apply_gsis" placeholder="GSIS Number" class="col-sm-11 form-control ">
                             </div>
+                            <div class="form-group col-md-3">
+                                <label for="ap-sss" class="form-control-label"><strong>SSS Number:</strong></label>
+                                    <input type="number" id="ap-sss" name="apply_sss" placeholder="SSS Number" class="col-sm-11 form-control ">
                             </div>
-                        </div>      
+                            </div>   
+                            <div class="form-row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="ap-tin" class="form-control-label"><strong>TIN Number:</strong></label>
+                                    <input type="number" id="ap-tin" name="apply_tin" placeholder="TIN Number" class="col-sm-11 form-control ">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="ap-crn" class="form-control-label"><strong>CRN Number:</strong></label>
+                                    <input type="number" id="ap-crn" name="apply_sss" placeholder="CRN Number" class="col-sm-11 form-control ">
+                            </div>
+                            </div> 
+                            <div class="form-row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="ap-philhealth" class="form-control-label"><strong>PhilHealth Number:</strong></label>
+                                    <input type="number" id="ap-philhealth" name="apply_philhealth" placeholder="PhilHealth Number" class="col-sm-11 form-control ">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="ap-hdmf" class="form-control-label"><strong>HDMF Number:</strong></label>
+                                    <input type="number" id="ap-hdmf" name="apply_hdmf" placeholder="HDMF Number" class="col-sm-11 form-control ">
+                            </div>
+                            </div>     
                         </span>
                         //- END OF 2ND ADDITIONAL FORM
 
                         //- FAMILY BACKGROUND (3)
-                        <span id="add-family" style="display:none;"><h3>Family Background Form</h3>
-                        <div class="tab-upper-field">
-                            <h5>Relative's Name:<label style="color:red;">*</label></h5>
+                        <span id="add-family" style="display:none;"><h3>FAMILY BACKGROUND FORM</h3>
                             <div class="form-row">
-                                <div class="form-group float-label-control col-md-4">
-                                    <label for="">First Name</label>
-                                    <input type="text" name ="family_fname"class="form-control" placeholder="First Name" required>
+                                <div class="form-group col-md-4">
+                                    <label for="rel-fname" class="form-control-label"><strong>Relative's First</strong> Name</label>
+                                        <input type="text" id="rel-fname" name="family_fname" placeholder="Relative's First name ..." class="col-sm-11 form-control ">
                                 </div>
-                                <div class="form-group float-label-control col-md-4">
-                                    <label for="">Last Name</label>
-                                    <input type="text" name ="family_lname"class="form-control" placeholder="Last Name" required>
+                                <div class="form-group col-md-4">
+                                    <label for="rel-lname" class="form-control-label"><strong>Relative's Last</strong> Name</label>
+                                        <input type="text" id="rel-lname" name="family_lname" placeholder="Relative's Last name ..." class="col-sm-11 form-control ">
                                 </div>
-                                <div class="form-group float-label-control col-md-4">
-                                    <label for="">Middle Name</label>
-                                    <input type="text" name ="family_mname"class="form-control" placeholder="Middle Name">
+                                <div class="form-group col-md-4">
+                                    <label for="rel-mname" class="form-control-label"><strong>Relative's Middle</strong> Name</label>
+                                        <input type="text" id="rel-mname" name="apply_mname" placeholder="Relative's Middle name ..." class="col-sm-11 form-control ">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <h5>Relative's Birthdate:<label style="color:red;">*</label></h5>
-                                    <div class="form-group float-label-control col-md-4">
-                                        <input type="date" name="family_birthdate" class="form-control" placeholder="Birthdate">
-                                    </div>
-                                <h5>Educational Attainment:(Highest)<label style="color:red;">*</label></h5>
-                                    <div class="form-group float-label-control col-md-3">
-                                        <input type="text" name="family_educattainment" class="form-control" placeholder="(ex: College, Highschool, etc ...)">
-                                    </div>
-                            </div>
-                            <div class="form-row">
-                                <h5 >Relationship to Applicant:<label style="color:red;">*</label></h5>
-                                    <div class="col-md-4">
+                                <div class="form-group col-md-3">
+                                    <label for="rel-birthdate" class="form-control-label"><strong>Relative's Birthdate</strong></label>
+                                        <input type="date" id="rel-birthdate" name="family_birthdate" placeholder="Birthdate" class="col-sm-11 form-control ">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="rel-educ" class="form-control-label"><strong>Educational Attainment:(Highest)</strong></label>
+                                        <input type="text" id="rel-educ" name="family_educattainment" placeholder="(ex: College, Highschool, etc ...)" class="col-sm-11 form-control ">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="rel-relationship" class="form-control-label"><strong>Relationship to Applicant</strong></label>
                                         <select class="form-control" name="family_relationship">
                                             <option value = "Mother">Mother</option>
                                             <option value = "Father">Father</option>
@@ -253,9 +250,8 @@ block content
                                             <option value = "Grandchild">Grandchild</option>
                                             <option value = "Grandparent">Grandparent</option>
                                         </select>
-                                    </div>   
+                                </div>
                             </div>
-                        </div>
                         </span>        
                         //-END OF FAMILY BG FORM 
 
@@ -281,23 +277,21 @@ block content
                         //- END OF EDUCATIONAL BACKGROUND
 
                         //- INCOME DETAILS (5)
-                        <span id="add-income" style="display:none;"><h3>Income Details</h3>
-                        <div class="tab-upper-field">
-                            <div class="form-row">
-                            <h5 style="margin-right:0.5%;">Income Source:<label style="color:red;">*</label></h5>
-                                <div class="form-group col-md-2">
-                                    <input type="text" name="apply_incomesource" class="form-control" placeholder="Income source ..." required>
-                                </div>
-                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income Maker:<label style="color:red;">*</label></h5>
-                            <div class="form-group col-md-2">
-                                    <input type="text" name="apply_incomemaker" class="form-control" placeholder="Income maker ..." required>
+                        <span id="add-income" style="display:none;"><h3>INCOME DETAILS</h3>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="ap-insource" class="form-control-label"><strong>Income Source</strong></label>
+                                    <input type="text" id="ap-insource" name="apply_incomesource" placeholder="Income Source" class="col-sm-11 form-control ">
                             </div>
-                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income of Spouse:<label style="color:red;">*</label></h5>
-                            <div class="form-group col-md-2">
-                                    <input type="text" name="apply_spouseincomer" class="form-control" placeholder="Income of Spouse ..." required>
+                            <div class="form-group col-md-4">
+                                <label for="ap-inmaker" class="form-control-label"><strong>Income Maker</strong></label>
+                                    <input type="text" id="ap-inmaker" name="apply_incomemaker" placeholder="Income Maker" class="col-sm-11 form-control ">
                             </div>
+                            <div class="form-group col-md-4">
+                                <label for="ap-inspouse" class="form-control-label"><strong>Income of Spouse</strong></label>
+                                    <input type="text" id="ap-inspouse" name="apply_incomespouse" placeholder="Income of Spouse" class="col-sm-11 form-control ">
                             </div>
-                        </div>      
+                        </div> 
                         </span>
                         //- END OF INCOME DETAILS
 
@@ -321,32 +315,32 @@ block content
                         </div>      
                         </span>
                         //- END OF PROFESSIONAL BACKGROUND
-                    </div>
-                    //- END OF ADDITIONAL TABS(AS OF NOW PER DIV)
-
-                    <div style="overflow:auto;">
+            </div>
+            //- END OF ADDITIONAL TABS(AS OF NOW PER DIV)    
+                                            
+            <div class="card-footer">
+                <div style="overflow:auto;">
                     <div style="float:right;">
-                        <button type="button" id="prevBtn" class="btn btn-outline-info float-right" style="border-color:#3B5997;margin-right:8%;margin-bottom:5%;" onclick="nextPrev(-1)">Previous</button>
-                        <button type="button" id="nextBtn" class="btn btn-outline-info float-right" style="border-color:#3B5997;margin-right:8%;width:100px;" onclick="nextPrev(1)">Next</button>
+                        <button type="button" class="btn btn-outline-primary" id="prevBtn"  onclick="nextPrev(-1)">
+                            <i class="fa fa-arrow-circle-left"></i>&nbsp; Previous</button>
+                        <button type="button" class="btn btn-outline-primary" id="prevBtn"  onclick="nextPrev(1)">
+                            <i class="fa fa-arrow-circle-right"></i>&nbsp; Next</button>
                     </div>
-                    </div>
-
-                    <!-- Circles which indicates the steps of the form: -->
-                    <div style="text-align:center;margin-top:40px;">
-                    <span class="step"></span>
-                    <span class="step"></span>
-                    <span class="step"></span>
-                    <span class="step"></span>
-                    </div>
-
-                </form>
+                </div>
             </div>
+             <!-- Circles which indicates the steps of the form: -->
+            <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
             </div>
+        </form>
         </div>
-        <!-- /.tour-booking -->
+    </div>
+    </div>
 
+    //- SCRIPT FOR TABS
     script.
-
         var currentTab = 0; // Current tab is set to be the first tab (0)
         showTab(currentTab); // Display the current tab
 
