@@ -1,0 +1,112 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <!-- STATISTIC-->
+        <section class="statistic">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+            //dito start ng content
+            <div class="card">
+            each project in tbl_project
+                <div class="card-header">
+                    <strong>Project Title: </strong>
+                    value=project.varchar_projectName                           
+                    <p class=""><strong>Category:  </strong>
+                    value=project.varchar_categoryName
+                    </p>
+                </div>
+                <form action="" method="post" class="form-inline">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <div class="col-12 col-md-12">
+                                    <strong class=" form-control-static">Release Location: </strong>
+                                </div>
+                                <div class="col-12 col-md-12">
+                                    <p class="form-control-static pl-5">
+                                    value=project.int_releaseLocationID
+                                    </p>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <div class="col-12 col-md-9">
+                                        <strong class=" form-control-static">Estimated Budget: </strong>
+                                    </div>
+                                    <div class="col-12 col-md-8">
+                                        <p class="form-control-static pl-5"> Php
+                                        value=project.decimal_estimatedBudget
+                                        </p>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <div class="col-12 col-md-9">
+                                        <strong class=" form-control-static">Alloted Slot: </strong>
+                                    </div>
+                                    <div class="col-12 col-md-8">
+                                        <p class="form-control-static pl-5"> Php
+                                        value=project.int_allotedSlot
+                                        </p>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-12 col-md-9">
+                                <strong class=" form-control-static">Rational: </strong>
+                        </div>
+                        <div class="col-12 col-md-7">
+                            <p class="form-control-static pl-5">
+                                value=project.varchar_projectRationale
+                                </p>
+                                <br>
+                            </div>
+                        </div>  
+                        <div class="form-group">
+                            <div class="col-12 col-md-9">
+                                <strong class=" form-control-static">Objective: </strong>
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <p class="form-control-static pl-5">
+                                value=project.text_projectObjective
+                                </p>
+                                <br>
+                            </div>
+                        </div>  
+                        <div class="form-group">
+                            <div class="col-12 col-md-9">
+                                <strong class=" form-control-static">Description: </strong>
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <p class="form-control-static pl-5">
+                                value=project.text_projectDescription
+                                </p>
+                            <br>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-12 col-md-9">
+                                <p class=" form-control-static">Date Created: 
+                                value=project.date_createdDate
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <p class=" form-control-static">Duration:(DAYS) 
+                                value=project.int_dayDuration
+                                </p>
+                            </div>
+                            a(href=`/office/proposals/submittedproposals` id="back" class="btn btn-primary btn-block pull-right"): span Back
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END STATISTIC-->

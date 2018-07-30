@@ -3,48 +3,63 @@ extends ../../navbar/views/navbar.pug
 block content
         <!-- page content -->
         <div class="right_col" role="main">
-          <div class="">
-              <div class="title_right">
-                <div class="col-md-12 col-sm-12 col-xs-12">                    
-                    <button class="btn btn-primary btn-lg pull-right" id="addprojcat" type="button" data-toggle="modal" data-target=".bs-example-modal-lg">Add</button>
-                </div>
-              </div>
-          </div>
-            <div class="clearfix"></div>
-            <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Project Category</h2>
-                    <div class="clearfix"></div>
-                  </div>
-                    <table id="datatable" class="table table-striped table-bordered">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h1>Project Category<button class="btn btn-primary btn-lg pull-right" id="addprojcat" type="button" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="fa fa-plus"></span> Add</button></h1>
+                </div>              
+        <div class="content-wrapper">
+            <div class="container-fluid">
+            <div class="card mb-4">
+                <div class="card-header">
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
                       <thead>
                         <tr>
                           <th>Project Category Name</th>
                           <th>Description</th>
                           <th>Actions</th>
+                          <th>Status</th>
                         </tr>
                       </thead>
+                      <tfoot>
+                        <tr>
+                          <th>Project Category Name</th>
+                          <th>Description</th>
+                          <th>Actions</th>
+                          <th>Status</th>
+                        </tr>
+                      </tfoot>
                       <tbody>
                       each projcat in tbl_projectcategory
                           <tr>
                           <td>
-                            value=projcat.varchar_projectCategName
+                            value=projcat.varchar_categoryName
                           </td>
                           <td>
-                            value=projcat.text_projectCategDescription
+                            value=projcat.text_categoryDescription
                           </td>
                           <td>
-                            a(href=`/admin/maintenance/projectcategory/${projcat.int_projectCategID}/editprojectcategory` id="editprojectcategory" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
-                            a(href=`/admin/maintenance/projectcategory/${projcat.int_projectCategID}/deleteprojectcategory` id="deleteprojectcategory" class="btn btn-danger btn-s"): span.fa.fa-trash-o  Disable
+                            a(href=`/admin/maintenance/projectcategory/${projcat.int_categoryID}/editprojectcategory` id="editprojectcategory" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
+                          </td>
+                          <td>
+                            if projcat.enum_categoryStatus == "Inactive"
+                              form(method="POST" action="/admin/maintenance/projectcategory/activate")
+                                input(value=projcat.int_categoryID name="id" required, hidden)
+                                button.btn.btn-info.btn-s(type='submit') Active
+                            if projcat.enum_categoryStatus == "Active"
+                              form(method="POST" action="/admin/maintenance/projectcategory/inactive")
+                                input(value=projcat.int_categoryID name="id" required, hidden)
+                                button.btn.btn-danger.btn-s(type='submit') Inactive
                           </td>
                           </tr>
                       </tbody>
                     </table>
-                  </div>
                 </div>
-              </div>
+                </div>
+                </div>
 
                   <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-lg">

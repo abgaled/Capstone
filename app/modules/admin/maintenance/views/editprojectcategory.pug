@@ -11,14 +11,14 @@ block content
                   a(href=`/admin/maintenance/projectcategory` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle      
                 </div>
                   <form method="POST" action="editprojectcategory">
-                      input(type="hidden" value=`${projcat.int_projectCategID}` name="int_projectCategID")
+                      input(type="hidden" value=`${projcat.int_categoryID}` name="int_categoryID")
 
                       <div class="row form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectcategoryname">Project Category Name <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-4 col-xs-12">
                           //- <input id="requirementname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="3" name="requirementname" placeholder="" required="required" value=`${requirement.varchar_requirementName}` type="text">
-                          input(type="text" class="form-control col-md-7 col-xs-12" id="projectcategoryname" placeholder="Project CategoryName" name="projectcategoryname" value=`${projcat.varchar_projectCategName}` required)
+                          input(type="text" class="form-control col-md-7 col-xs-12" id="projectcategoryname" placeholder="Project CategoryName" name="projectcategoryname" value=`${projcat.varchar_categoryName}` required)
                         
                         </div>
                       </div>
@@ -28,7 +28,7 @@ block content
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
                           //- <input id="requirementdescription" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="requirementdescription" placeholder="" required="required" value=`${requirement.text_requirementDescription}` type="text">
-                          input(type="text" class="form-control col-md-7 col-xs-12" id="projectcategorydescription" placeholder="Project Category Description" name="projectcategorydescription" value=`${projcat.text_projectCategDescription}` required)
+                          input(type="text" class="form-control col-md-7 col-xs-12" id="projectcategorydescription" placeholder="Project Category Description" name="projectcategorydescription" value=`${projcat.text_categoryDescription}` required)
                         
                         </div>
                       </div>

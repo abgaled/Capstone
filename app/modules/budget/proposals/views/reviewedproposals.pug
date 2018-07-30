@@ -1,83 +1,161 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <!-- page-header -->
-    <div class="page-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="page-caption">
-                        <h1 class="page-title" style="color:#3B5997;">Reviewed Proposals</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.page-header-->
+    <!-- STATISTIC-->
+    <section class="statistic">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+                //dito start ng content
+                <h1>REVIEWED PROPOSALS</h1>
 
-    <!-- tour-booking -->
-        <div class="content">
-            <div class="container">
-                <div class="row ">
-                    <div class="wrapper">
-                        <div class="tour-booking-form">
-                            <div class="float-right">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <input type="text" name="searchName">
-                                        <input type="button" name="searchButton" value="Search">
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+                            //- BUTTONS HEADER
+                            <div class="table-data__tool">
+                                //- FILTER SEGMENT
+                                <div class="table-data__tool-left">
+                                    <div class="rs-select2--light rs-select2--md">
+                                        <select class="js-select2" name="property">
+                                            <option selected="selected">All Properties</option>
+                                            <option value="">Option 1</option>
+                                            <option value="">Option 2</option>
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
+                                    </div>
+                                    <div class="rs-select2--light rs-select2--sm">
+                                        <select class="js-select2" name="time">
+                                            <option selected="selected">Today</option>
+                                            <option value="">3 Days</option>
+                                            <option value="">1 Week</option>
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
+                                    </div>
+                                    <button class="au-btn-filter">
+                                        <i class="zmdi zmdi-filter-list"></i>filters</button>
+                                </div>
+                                //- SEARCH SEGMENT
+                                <div class="table-data__tool-right">
+                                    <div class="col">
+                                        <div class="align-right">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-primary">
+                                                        <i class="fa fa-search"></i> Search
+                                                    </button>
+                                                </div>
+                                                <input type="text" id="input1-group2" name="input1-group2" placeholder="Username" class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <br/>
-                            <hr/>
-                            <!--Table-->
-                            <table id="openprojects" class="table table-hover table-responsive-md">
+                            <div class="row m-t-30">
+                                <div class="col-md-12">
+                                    <!-- DATA TABLE-->
+                                    <form method="GET" action="/budget/proposals/reviewed">
+                                        <div class="table-responsive m-b-40">
+                                            <table class="table table-borderless table-data3">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th>Name</th>
+                                                        <th>Description</th>
+                                                        <th>Category</th>
+                                                        <th width="18%">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    each proposal in reviewedproposals
+                                                        <tr>
+                                                            <td>
+                                                                value= proposal.int_projectID
+                                                            </td>
+                                                            <td>
+                                                                value= proposal.varchar_projectName
+                                                            </td>
 
-                                <!--Table head-->
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th class="th-lg"><i class="fa fa-file-text-o fa-lg pr-2" aria-hidden="true"></i>Title</th>
-                                        <th class="th-lg"><i class="fa fa-list-alt fa-lg pr-2" aria-hidden="true"></i>Objective</th>
-                                        <th class="th-lg"><i class="fa fa-folder-open-o fa-lg pr-2" aria-hidden="true"></i>Category</th>
-                                        <th class="th-lg"><i class="fa fa-edit fa-lg pr-2" aria-hidden="true"></i>Action/s</th>
-                                    </tr>
-                                </thead>
-                                <!--Table head-->
-
-                                <!--Table body-->
-                                <tbody>
-                                each proposal in reviewedproposals
-                                    <tr>
-                                        <td>
-                                            value=proposal.int_projectID
-                                        </td>
-                                        <td>
-                                            value=proposal.varchar_projectName
-                                        </td>
-                                        <td>
-                                            value=proposal.text_projectObjective
-                                        </td>
-                                        <td>
-                                            value=proposal.varchar_categoryName
-                                        </td>
-                                        <td>
-                                            a(href=`/budget/proposals/${proposal.int_projectID}/details`): button.btn.btn-info.btn-sm: span.fa.fa-eye View
-                                            
-                                            //- a(href=`/budget/proposals/${proposal.int_projectID}/delete`): button.btn.btn-danger: span.fa.fa-close  Reject
-                                            
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <!--Table body-->
-
-                            </table>
-                            <!--Table-->
+                                                            <td>
+                                                                value= proposal.text_projectDescription
+                                                            </td>
+                                                            <td>
+                                                                value= proposal.varchar_categoryName
+                                                            </td>
+                                                            <td>
+                                                                <div class="row">
+                                                                    a(href=`/budget/proposals/${proposal.int_projectID}/details`): button.btn.btn-primary: span.fa.fa-eye
+                                                                    //- button.btn.btn-success(data-toogle="modal" data-target="#approveModal"): span.fa.fa-upload
+                                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approveModal">
+                                                                        <span>
+                                                                            <i class="fa fa-upload"></i>
+                                                                        </span>
+                                                                    </button>
+                                                                    a(href=`/budget/proposals/${proposal.int_projectID}/delete`): button.btn.btn-danger: span.fa.fa-times
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- END DATA TABLE-->
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        
                     </div>
+                </div>
+                //end of content
+                
+            </div>
+        </div>
+
+        <!-- modal medium -->
+        <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form method="POST" action='/budget/proposals/viewdetail'>
+                        each detail in reviewedproposals
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mediumModalLabel">Approval Requirement</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="/budget/proposals/viewdetail">
+
+                                    each detail in reviewedproposals
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" >Approval Letter</span>
+                                            </div>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input">
+                                                <label class="custom-file-label" >Choose file</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Actual Budget</span>
+                                                <span class="input-group-text"> P </span>
+                                            </div>
+                                            <input type="text" class="form-control">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">0.00</span>
+                                            </div>
+                                        </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                a(href=`/budget/proposals/${detail.int_projectID}/approval`): button.btn.btn-success Confirm
+                                //- <input type="submit" value="submit" class="btn btn-success">
+                            </div>
+                    </form>
                 </div>
             </div>
         </div>
-    <!-- /.tour-booking -->
+        <!-- end modal medium -->
+    </section>
+    <!-- END STATISTIC-->

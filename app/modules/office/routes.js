@@ -6,10 +6,12 @@ router.use(authMiddleware.hasAuthOffice);
 router.use('/home', require('./home/routes'));
 router.use('/projects', require('./projects/routes'));
 router.use('/problems', require('./problems/routes'));
+
+router.use('/problems/submittedproblems', require('./problems/routes'));
 router.use('/proposals', require('./proposals/routes'));
 router.use('/schedule', require('./schedule/routes'));
 router.use('/reports', require('./reports/routes'));
-router.use('/mailbox', require('./mailbox/routes'));
+router.use('/releasing', require('./releasing/routes'));
 router.use('/awards', require('./awards/routes'));
 
 

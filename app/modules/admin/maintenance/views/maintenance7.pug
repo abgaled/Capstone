@@ -7,7 +7,7 @@ block content
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                  <h1>Release Location<button class="btn btn-primary btn-lg pull-right" id="addproject" type="button" data-toggle="modal" data-target=".bs-example-modal-lg">Add</button></h1>
+                  <h1>Release Location<button class="btn btn-primary btn-lg pull-right" id="addlocation" type="button" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="fa fa-plus"></span> Add</button></h1>
                 </div>              
         <div class="content-wrapper">
             <div class="container-fluid">
@@ -23,6 +23,7 @@ block content
                         <th>Location Address</th>
                         <th>Address Type</th>
                         <th>Actions</th>
+                        <th>Status</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -32,6 +33,7 @@ block content
                         <th>Location Address</th>
                         <th>Address Type</th>
                         <th>Actions</th>
+                        <th>Status</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -57,7 +59,16 @@ block content
                         </td>
                         <td>
                             a(href=`/admin/maintenance/releaselocation/${location.int_locationID}/editreleaselocation` id="editreleaselocation" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
-                            a(href=`/admin/maintenance/releaselocation/${location.int_locationID}/deletereleaselocation` id="deletereleaselocation" class="btn btn-danger btn-s"): span.fa.fa-trash-o  Disable
+                        </td>
+                        <td>
+                            if location.enum_locationStatus == "Inactive"
+                              form(method="POST" action="/admin/maintenance/releaselocation/activate")
+                                input(value=location.int_locationID name="id" required, hidden)
+                                button.btn.btn-info.btn-s(type='submit') Active
+                            if location.enum_locationStatus == "Active"
+                              form(method="POST" action="/admin/maintenance/releaselocation/inactive")
+                                input(value=location.int_locationID name="id" required, hidden)
+                                button.btn.btn-danger.btn-s(type='submit') Inactive
                         </td>
                         </tr>
                     </tbody>
@@ -85,10 +96,31 @@ block content
                         </div>
                       </div>
                       <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="locationaddress">Location Address <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="blocknumber">Location Address (Block & Number)<span class="required">*</span>
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                          <input id="locationaddress" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="locationaddress" placeholder="" required="required" type="text">
+                          <input id="blocknumber" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="blocknumber" placeholder="" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="street">Location Address (Street)<span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input id="street" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="street" placeholder="" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="barangay">Location Address (Barangay)<span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input id="barangay" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="barangay" placeholder="" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="city">Location Address (City)<span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input id="city" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="city" placeholder="" required="required" type="text">
                         </div>
                       </div>
                       <button type="submit" id="modalbutton" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>

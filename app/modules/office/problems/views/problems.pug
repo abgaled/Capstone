@@ -1,15 +1,16 @@
 extends ../../home/views/navbar.pug
 
 block content
+    <link href="/barangay/styles.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
-    <link rel="stylesheet" type="text/css" href="/barangay/style.css">
-    <!-- page-header -->
-        <div class="page-header-problems pb-3">
-            <div class="container rounded-top">
+        <!-- page-header -->
+        <div class="page-header-problems rounded-bottom ">
+            <div class="container rounded-top" id="container-header" >
                 <div class="row">
-                        <div class="page-caption-problem page-caption rounded-top pt-3 pb-3">
-                            <p class="page-title " style="color:black; ">PROBLEM STATEMENT</p>
-                        </div>
+                    <div class="page-caption pb-4 pt-3" style="background-color: #C0C0C0; opacity: .8; ">
+                        <p class="page-title font-weight-bold" style="color: ;margin-bottom:0;">PROBLEM STATEMENT</p>
+                        
+                    </div>
                 </div>
             </div>
         </div>
@@ -23,17 +24,7 @@ block content
                     <h4 style="color:whitesmoke;">Problem Statement Submitted</h4>
                 </div>
                 <div class="col-md-4"></div>
-                    <h5 style="color:whitesmoke;margin-left:10%;">Category:</h5>
-                    <div class="col-md-2">
-                        <select name="problem_category" id="probcategory" class="form-control-sm float-right" style="margin:none;color:#5F9EA0" required="required" required>
-                            <option disabled="disabled" selected="selected">Select ...</option>
-                            <option value = "All">All</option>
-                            <option value = "1">Health</option>
-                            <option value = "2">Education</option>
-                            <option value = "3">Finance</option>
-                            <option value = "4">Infrastracture</option>
-                        </select>
-                    </div>
+                    
                 </div>
             </div>
         //- Content
@@ -59,10 +50,10 @@ block content
                         <small>Date Created:
                             value=problem.date_createdDate
                         </small>
-                        <button type="button" id="submitprob" class="btn btn-outline-secondary ml-5 float-right" style="">Acknowledgement</button>
-                        <medium class="float-right  font-weight-bold">Status:
-                            value=problem.enum_problemStatus
-                        </medium>
+                        form(method="POST" action="/office/problems/acknowledge")
+                                input(value=problem.int_statementID name="id" required, hidden)
+                                button.btn.btn-info.btn-s.float-right(type='submit') Acknowledgement
+                        <br>
                         <medium class="pl-5 ">From Barangay:
                             value=problem.int_barangayID
                         </medium>

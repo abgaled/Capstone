@@ -1,0 +1,108 @@
+extends ../../home/views/navbar.pug
+
+block content
+        <!-- STATISTIC-->
+        <section class="statistic">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+                //dito start ng content
+                <div class="card">
+                    each project in tbl_project
+                        <div class="card-header">
+                            <strong>Project Title: </strong>
+                            value=project.varchar_projectName
+                            
+                                <p class=""><strong>Category:  </strong>
+                                value=project.varchar_categoryName
+                                </p>
+                        </div>
+                        <div class="card-body card-block">
+                            <form action="" method="post" class="form-inline">
+                                input(type="hidden" value=`${project.int_projectID}` name="int_projectID")
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <div class="col-12 col-md-12">
+                                                <strong class=" form-control-static">Release Location: </strong>
+                                            </div>
+                                            <div class="col-12 col-md-12">
+                                                <p class="form-control-static pl-5">
+                                                value=project.int_releaseLocationID
+                                                </p>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <div class="col-12 col-md-9">
+                                                <strong class=" form-control-static">Budget: </strong>
+                                            </div>
+                                            <div class="col-12 col-md-8">
+                                                <p class="form-control-static pl-5"> Php
+                                                value=project.decimal_actualBudget
+                                                </p>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-12 col-md-9">
+                                        <strong class=" form-control-static">Rational: </strong>
+                                    </div>
+                                    <div class="col-12 col-md-10">
+                                        <p class="form-control-static pl-5">
+                                        value=project.varchar_projectRationale
+                                        </p>
+                                        <br>
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <div class="col-12 col-md-9">
+                                        <strong class=" form-control-static">Objective: </strong>
+                                    </div>
+                                    <div class="col-12 col-md-10">
+                                        <p class="form-control-static pl-5">
+                                        value=project.text_projectObjective
+                                        </p>
+                                        <br>
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <div class="col-12 col-md-9">
+                                        <strong class=" form-control-static">Description: </strong>
+                                    </div>
+                                    <div class="col-12 col-md-10">
+                                        <p class="form-control-static pl-5">
+                                        value=project.text_projectDescription
+                                        </p>
+                                        <br>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-12 col-md-9">
+                                    <p class=" form-control-static">Date Opened: 
+                                    value=project.date_projectStart
+                                    </p>
+                                </div>
+                                a(href=`/office/projects/newproject/${project.int_projectID}/viewproj` id="viewapp" class="btn btn-primary btn-sm ml-3 pull-right"): span.fa.fa-dot-circle-o Applications
+                                a(href=`/office/projects/newproject` id="back" class="btn btn-primary btn-sm ml-3 pull-right"): span Back
+                            </div>
+                        </div>
+                    </div>
+                
+                //end of content
+                
+            </div>
+        </div>
+        </section>
+        <!-- END STATISTIC-->

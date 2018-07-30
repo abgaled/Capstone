@@ -1,0 +1,146 @@
+extends ../../home/views/navbar.pug
+
+block content
+        <!-- STATISTIC-->
+        <section class="statistic">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+                //dito start ng content
+                <h3 class="title-5 m-b-35">Barangay List</h3>
+                    <div class="table-data__tool">
+                        <div class="table-data__tool-left">
+                            <div class="rs-select2--light rs-select2--sm">
+                                <select class="js-select2" name="time">
+                                    <option disabled="disabled" selected="selected">Select ...</option>
+                                    <option value = "All">All</option>
+                                    <option value = "1">Health</option>
+                                    <option value = "2">Education</option>
+                                    <option value = "3">Finance</option>
+                                    <option value = "4">Infrastracture</option>
+                                </select>
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                            <button class="au-btn-filter">
+                                <i class="zmdi zmdi-filter-list"></i>filters</button>
+                        </div>
+                        <div class="table-data__tool-right">
+                        <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#largeModal">add item</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive  m-b-40 pb-5">
+                        <table class="table table-borderless table-data3">
+                            <thead>
+                                <tr>
+                                    <th>Barangay Name</th>
+                                    <th>Barangay Chairman</th>
+                                    <th>Barangay Description</th>
+                                    <th>E-mail</th>
+                                    <th>Barangay Contact</th>
+                            </thead>
+                            <tbody>
+                            each brgy in tbl_barangay
+                                <tr class="tr-shadow">
+                                    <td>
+                                    value=brgy.varchar_barangayName
+                                    </td>
+                                    <td>
+                                        value=brgy.varchar_barangayChairman
+                                    </td>
+                                    <td>
+                                        value=brgy.text_barangayDescription
+                                    </td>
+                                    <td>
+                                        <span class="block-email">
+                                        value=brgy.varchar_userEmailAddress
+                                        </span>
+                                    </td>
+                                    <td>
+                                        value=brgy.varchar_barangayContact
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="modal fade bs-example-modal-lg" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="largeModalLabel">Project Information</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body card-block">
+                                    <form action="" method="post" class="form">
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label for="text-input" class=" form-control-label">Barangay Name:</label>
+                                            </div>
+                                            <div class="col-12 col-md-10">
+                                                <input type="text"name="barangay_name" id="barangay_name" placeholder="Enter the barangay name here ..." required class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-5">
+                                                <label for="text-input" class=" form-control-label">Barangay Chairman:</label>
+                                            </div>
+                                            <div class="col-12 col-md-10">
+                                                <input type="text"name="barangay_chairman" id="barangay_chairman" placeholder="Enter the name of barangay chairman here ..." required class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-5">
+                                                <label for="email" class=" form-control-label">Email Address:</label>
+                                            </div>
+                                            <div class="col-12 col-md-10">
+                                                <input type="text"name="email" id="email" placeholder="Enter e-mail address here ..." required class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-5">
+                                                <label for="contact_num" class=" form-control-label">Contact Number: (Tel/Cel)</label>
+                                            </div>
+                                            <div class="col-12 col-md-10">
+                                                <input type="text"name="contact_num" id="contact_num" placeholder="Enter e-mail address here ..." required class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col-md-5">
+                                                <label for="barangay_description" class=" form-control-label">Barangay Description:</label>
+                                            </div>
+                                            <div class="col-12 col-md-10">
+                                                <textarea name="barangay_description" id="barangay_description" rows="3" placeholder="Please fill project description ..." class="col-sm-11 form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <button type="submit" id="submitaccnt" class="btn btn-success">Success</button>
+                                        <input type="hidden" id="password" name="password"> 
+                                    </form>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12">
+                                        </div>
+                                        a(href=`` id="viewapp" class="btn btn-primary btn-block mt-3"): span.fa.fa-dot-circle-o Applications
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END STATISTIC-->
+
+        script.
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            for (var i = 0; i < 8; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length)); 
+            
+            document.getElementById("password").value = text;

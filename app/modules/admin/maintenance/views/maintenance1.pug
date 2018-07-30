@@ -7,7 +7,7 @@ block content
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                  <h1>Projects<button class="btn btn-primary btn-lg pull-right" id="addproject" type="button" data-toggle="modal" data-target=".bs-example-modal-lg">Add</button></h1>
+                  <h1>Projects<button class="btn btn-primary btn-lg pull-right" id="addproject" type="button" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="fa fa-plus"></span> Add</button></h1>
                 </div>              
         <div class="content-wrapper">
             <div class="container-fluid">
@@ -15,7 +15,7 @@ block content
                 <div class="card-header">
                 <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="95%" cellspacing="0">
+                    <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
                     <thead>
                         <tr>
                         <th>ID</th>
@@ -67,7 +67,7 @@ block content
                         <td>
                             a(href=`/admin/maintenance/projects/${project.int_projectID}/viewproject` id="viewproject" class="btn btn-primary btn-s"): span.fa.fa-folder  View
                             a(href=`/admin/maintenance/projects/${project.int_projectID}/editproject` id="editproject" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
-                            a(href=`/admin/maintenance/projects/${project.int_projectID}/deleteproject` id="deleteproject" class="btn btn-danger btn-s"): span.fa.fa-trash-o  Disable
+                            a(href=`/admin/maintenance/projects/${project.int_projectID}/deleteproject` id="deleteproject" class="btn btn-danger btn-s"): span.fa.fa-minus-square  Disable
                         </td>
                         </tr>
                     </tbody>

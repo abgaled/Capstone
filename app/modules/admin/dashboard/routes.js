@@ -9,11 +9,16 @@ router.get('/',(req, res) => {
     console.log('ADMIN: DASHBOARD');
     console.log('=================================');
    
-    var queryString =`SELECT * FROM tbl_announcement`
+    var queryString =`SELECT COUNT(*) AS currentprojects FROM tbl_project WHERE enum_projectStatus='Open' `
+
     db.query(queryString, (err, results, fields) => {
         if (err) console.log(err);
         console.log(results);
-        res.render('admin/dashboard/views/dashboard', {tbl_announcement:results,user:req.session.user});
+
+
+
+
+        res.render('admin/dashboard/views/dashboard', {tbl_project: results[0]});
     });
 });
 

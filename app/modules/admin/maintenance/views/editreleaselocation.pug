@@ -23,11 +23,41 @@ block content
                     </div>
                       
                     <div class="row form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="locationaddress">Location Address <span class="required">*</span>
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="blocknumber">Location Address (Block & Number)<span class="required">*</span>
                       </label>
                       <div class="col-md-8 col-sm-8 col-xs-12">
                         //- <input id="beneficiarydescription" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="beneficiarydescription" placeholder="" required="required" value=`${target.text_beneficiaryDescription}` type="text">
-                        input(type="text" class="form-control col-md-7 col-xs-12" id="locationaddress" placeholder="Location Address" name="locationaddress" value=`${releaselocation.int_locationAddressID}` required)
+                        input(type="text" class="form-control col-md-7 col-xs-12" id="blocknumber" placeholder="Block & Number" name="blocknumber" value=`${releaselocation.varchar_addressLine1}` required)
+                        
+                      </div>
+                    </div>
+
+                    <div class="row form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="street">Location Address (Street)<span class="required">*</span>
+                      </label>
+                      <div class="col-md-8 col-sm-8 col-xs-12">
+                        //- <input id="beneficiarydescription" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="beneficiarydescription" placeholder="" required="required" value=`${target.text_beneficiaryDescription}` type="text">
+                        input(type="text" class="form-control col-md-7 col-xs-12" id="street" placeholder="Street" name="street" value=`${releaselocation.varchar_addressLine2}` required)
+                        
+                      </div>
+                    </div>
+
+                    <div class="row form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="barangay">Location Address (Barangay)<span class="required">*</span>
+                      </label>
+                      <div class="col-md-8 col-sm-8 col-xs-12">
+                        //- <input id="beneficiarydescription" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="beneficiarydescription" placeholder="" required="required" value=`${target.text_beneficiaryDescription}` type="text">
+                        input(type="text" class="form-control col-md-7 col-xs-12" id="barangay" placeholder="Barangay" name="barangay" value=`${releaselocation.varchar_addressLine3}` required)
+                        
+                      </div>
+                    </div>
+
+                    <div class="row form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="city">Location Address (City)<span class="required">*</span>
+                      </label>
+                      <div class="col-md-8 col-sm-8 col-xs-12">
+                        //- <input id="beneficiarydescription" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="beneficiarydescription" placeholder="" required="required" value=`${target.text_beneficiaryDescription}` type="text">
+                        input(type="text" class="form-control col-md-7 col-xs-12" id="city" placeholder="City" name="city" value=`${releaselocation.varchar_cityName}` required)
                         
                       </div>
                     </div>
