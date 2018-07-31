@@ -24,15 +24,15 @@ block content
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="ap-fname" class="form-control-label"><strong>First</strong> Name</label>
-                            <input type="text" id="ap-fname" name="apply_fname" placeholder="Applicant's First name ..." class="col-sm-11 form-control ">
+                            <input type="text" id="ap-fname" name="apply_fname" placeholder="Applicant's First name ..." class="names col-sm-11 form-control ">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="ap-lname" class="form-control-label"><strong>Last</strong> Name</label>
-                            <input type="text" id="ap-lname" name="apply_lname" placeholder="Applicant's Last name ..." class="col-sm-11 form-control ">
+                            <input type="text" id="ap-lname" name="apply_lname" placeholder="Applicant's Last name ..." class="names col-sm-11 form-control ">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="ap-mname" class="form-control-label"><strong>Middle</strong> Name</label>
-                            <input type="text" id="ap-mname" name="apply_mname" placeholder="Applicant's Middle name ..." class="col-sm-11 form-control ">
+                            <input type="text" id="ap-mname" name="apply_mname" placeholder="Applicant's Middle name ..." class="middle col-sm-11 form-control ">
                     </div>
                 </div>
                 <div class="form-row">
@@ -60,12 +60,12 @@ block content
                     <label for="ap-gender" class="form-control-label"><strong>Gender</strong></label>
                         <div class="form-check form-check-inline" id="ap-gender">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="radio" value="Male" name="apply_gender" id="inlineRadio1" value="option1"> Male
+                                <input class="form-check-input" type="radio" value="Male" name="apply_gender" id="inlineRadio1"> Male
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="radio" value="Female" name="apply_gender" id="inlineRadio2" value="option2"> Female
+                                <input class="form-check-input" type="radio" value="Female" name="apply_gender" id="inlineRadio2"> Female
                             </label>
                         </div>
                     </div>
@@ -86,8 +86,8 @@ block content
             //- END OF FIRST TAB
 
             //- START OF 2ND TAB
-            <div class="tab"><h3>APPLICANT'S ADDRESS INFORMATION</h3>
-                <div class="row">
+            <div class="tab" id="addresstab"><h3>APPLICANT'S ADDRESS INFORMATION</h3>
+                <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="ap-address1" class="form-control-label"><strong>Block Lot</strong></label>
                             <input type="text" id="ap-address1" name="apply_address1" placeholder="Building Number/Lot Number" class="col-sm-11 form-control ">
@@ -99,6 +99,21 @@ block content
                     <div class="form-group col-md-4">
                         <label for="ap-province" class="form-control-label"><strong>Province</strong></label>
                             <input type="text" id="ap-province" name="apply_province" placeholder="Applicant's Province" class="col-sm-11 form-control ">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                    <label for="ap-addresstype" class="form-control-label"><strong>Address Type:</strong></label>
+                        <div class="form-check form-check-inline" id="ap-addresstype">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" value="Permanent" name="apply_addresstype" id="inlineRadio1"> Permanent
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" value="Temporary" name="apply_addresstype" id="inlineRadio2"> Temporary
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -220,7 +235,7 @@ block content
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="rel-mname" class="form-control-label"><strong>Relative's Middle</strong> Name</label>
-                                        <input type="text" id="rel-mname" name="apply_mname" placeholder="Relative's Middle name ..." class="col-sm-11 form-control ">
+                                        <input type="text" id="rel-mname" name="family_mname" placeholder="Relative's Middle name ..." class="col-sm-11 form-control ">
                                 </div>
                             </div>
                             <div class="form-row">
@@ -256,23 +271,31 @@ block content
                         //-END OF FAMILY BG FORM 
 
                         //- EDUCATIONAL BACKGROUND (4)
-                        <span id="add-educational" style="display:none;"><h3>Educational Background</h3>
-                        <div class="tab-upper-field">
-                            <div class="form-row">
-                            <h5 style="margin-right:0.5%;">Income Source:<label style="color:red;">*</label></h5>
-                                <div class="form-group col-md-2">
-                                    <input type="text" name="apply_incomesource" class="form-control" placeholder="Income source ..." required>
-                                </div>
-                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income Maker:<label style="color:red;">*</label></h5>
-                            <div class="form-group col-md-2">
-                                    <input type="text" name="apply_incomemaker" class="form-control" placeholder="Income maker ..." required>
+                        <span id="add-educational" style="display:none;"><h3>EDUCATIONAL BACKGROUND</h3>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                    <label for="educ-schoolname" class="form-control-label"><strong>School Name</strong></label>
+                                        <input type="text" id="educ-schoolname" name="school_name" placeholder="School Name ..." class="col-sm-11 form-control ">
                             </div>
-                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income of Spouse:<label style="color:red;">*</label></h5>
-                            <div class="form-group col-md-2">
-                                    <input type="text" name="apply_spouseincomer" class="form-control" placeholder="Income of Spouse ..." required>
-                            </div>
+                            <div class="form-group col-md-3">
+                                    <label for="educ-schoolyear" class="form-control-label"><strong>School Year</strong></label>
+                                        <input type="text" id="educ-schoolyear" name="school_year" placeholder="(ex: 2015 - 2019)" class="col-sm-11 form-control ">
                             </div>
                         </div>      
+                        <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="educ-address1" class="form-control-label"><strong>Block Lot</strong></label>
+                                        <input type="text" id="educ-address1" name="educ_address1" placeholder="Building Number/Lot Number" class="col-sm-11 form-control ">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="educ-address2" class="form-control-label"><strong>Street</strong></label>
+                                        <input type="text" id="educ-address2" name="educ_address2" placeholder="Street Name/Avenue/Road" class="col-sm-11 form-control ">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="educ-cityname" class="form-control-label"><strong>City</strong></label>
+                                        <input type="text" id="ap-province" name="educ_cityname" placeholder="City" class="col-sm-11 form-control ">
+                                </div>
+                        </div>
                         </span>
                         //- END OF EDUCATIONAL BACKGROUND
 
@@ -296,23 +319,35 @@ block content
                         //- END OF INCOME DETAILS
 
                         //- PROFESSIONAL BACKGROUND (6)
-                        <span id="add-professional" style="display:none;"><h3>Professional Background</h3>
-                        <div class="tab-upper-field">
+                        <span id="add-professional" style="display:none;"><h3>PROFESSIONAL BACKGROUND</h3>
                             <div class="form-row">
-                            <h5 style="margin-right:0.5%;">Income Source:<label style="color:red;">*</label></h5>
-                                <div class="form-group col-md-2">
-                                    <input type="text" name="apply_incomesource" class="form-control" placeholder="Income source ..." required>
+                            <div class="form-group col-md-5">
+                                <label for="prof-position" class="form-control-label"><strong>Position</strong></label>
+                                    <input type="text" id="prof-position" name="prof_position" placeholder="Position in Work" class="col-sm-11 form-control ">
+                            </div>
+                            <div class="form-group col-md-7">
+                                <label for="prof-company" class="form-control-label"><strong>Company Name</strong></label>
+                                    <input type="text" id="prof-company" name="prof_companyname" placeholder="Company Name" class="col-sm-11 form-control ">
+                            </div>
+                            </div>   
+                            <div class="form-row">
+                                <div class="form-row">
+                                <div class="form-group col-md-2"><strong>Company Address:</strong>
                                 </div>
-                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income Maker:<label style="color:red;">*</label></h5>
-                            <div class="form-group col-md-2">
-                                    <input type="text" name="apply_incomemaker" class="form-control" placeholder="Income maker ..." required>
+                                <div class="form-group col-md-3">
+                                    <label for="ap-address1" class="form-control-label"><strong>Block Lot</strong></label>
+                                        <input type="text" id="ap-address1" name="prof_address1" placeholder="Block Number" class="col-sm-11 form-control ">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="ap-address2" class="form-control-label"><strong>Street</strong></label>
+                                        <input type="text" id="ap-address2" name="prof_address2" placeholder="Street Name/Avenue/Road" class="col-sm-11 form-control ">
+                                </div>   
+                                <div class="form-group col-md-4">
+                                    <label for="ap-cityname" class="form-control-label"><strong>City</strong></label>
+                                        <input type="text" id="ap-cityname" name="prof_cityname" placeholder="City" class="col-sm-11 form-control ">
+                                </div>
+                                </div>   
                             </div>
-                            <h5 style="margin-left:0.5%;margin-right:0.5%;">Income of Spouse:<label style="color:red;">*</label></h5>
-                            <div class="form-group col-md-2">
-                                    <input type="text" name="apply_spouseincomer" class="form-control" placeholder="Income of Spouse ..." required>
-                            </div>
-                            </div>
-                        </div>      
                         </span>
                         //- END OF PROFESSIONAL BACKGROUND
             </div>
@@ -323,7 +358,7 @@ block content
                     <div style="float:right;">
                         <button type="button" class="btn btn-outline-primary" id="prevBtn"  onclick="nextPrev(-1)">
                             <i class="fa fa-arrow-circle-left"></i>&nbsp; Previous</button>
-                        <button type="button" class="btn btn-outline-primary" id="prevBtn"  onclick="nextPrev(1)">
+                        <button type="button" class="btn btn-outline-primary" id="nextBtn"  onclick="nextPrev(1)">
                             <i class="fa fa-arrow-circle-right"></i>&nbsp; Next</button>
                     </div>
                 </div>
@@ -384,19 +419,43 @@ block content
 
         function validateForm() {
         // This function deals with validation of the form fields
-        var x, y, i, valid = true;
+        var x, names,middle, a, b, valid = true;
         x = document.getElementsByClassName("tab");
-        y = x[currentTab].getElementsByTagName("");
+        
+        //- VALIDATE APPLICATION NAMES(FIRST, LAST)
+        var noespchar = `[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]`;
+        names = x[currentTab].getElementsByClassName("names");
+        middle = x[currentTab].getElementsByClassName("middle");
+        //- END VALIDATE APPLICATION NAMES
+        
         // A loop that checks every input field in the current tab:
-        for (i = 0; i < y.length; i++) {
+
+        //- NAMES(FIRST AND LAST)
+        for (a = 0; a < names.length; a++) {
             // If a field is empty...
-            if (y[i].value == "") {
+            if (names[a].value == "" || names[a].value == noespchar ||  names[a].value == " ") {
+            console.log("INVALID NAMES(FIRST AND LAST)")
             // add an "invalid" class to the field:
-            y[i].className += " invalid";
+            names[a].className += "invalid";
             // and set the current valid status to false:
             valid = false;
             }
         }
+        //- END OF NAMES(FIRST AND LAST)
+        //- NAME(MIDDLE NAME)
+        for (b = 0; b < middle.length; b++) {
+            // If a field is empty...
+            if (middle[b].value == noespchar ||  middle[b].value == " ") {
+            console.log("INVALID NAME(MIDDLE)")
+            // add an "invalid" class to the field:
+            middle[b].className += "invalid";
+            // and set the current valid status to false:
+            valid = false;
+            }
+        }
+        //- END OF NAMES(MIDDLENAME)
+
+
         // If the valid status is true, mark the step as finished and valid:
         if (valid) {
             document.getElementsByClassName("step")[currentTab].className += " finish";
@@ -493,8 +552,6 @@ block content
         })(jQuery);
 
         //- END OF SCRIPT FOR LABEL
-
-        
 
 
         

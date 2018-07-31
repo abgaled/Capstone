@@ -12,7 +12,9 @@ router.get('/applications',(req, res) => {
     console.log('=================================');
 
     var queryString1 = `SELECT * FROM tbl_project p 
-    JOIN tbl_projectproposal pp ON p.int_projectID=pp.int_projectID`
+    JOIN tbl_projectproposal pp 
+    ON p.int_projectID=pp.int_projectID
+    WHERE p.enum_projectStatus = "Open"`
 
     db.query(queryString1,(err, results1) => {
 
@@ -86,7 +88,6 @@ router.get('/applications/:int_projectID/apply',(req,res) => {
             console.log(int_formtypeIDDD);
             
             res.render('barangay/projects/views/specificproject',{tbl_project:results1,barangay_info:results3,int_categoryID:int_categoryID,int_formtypeID:int_formtypeIDDD});
-            // res.render('barangay/projects/views/specificproject1',{tbl_project:results1,barangay_info:results3,int_categoryID:int_categoryID,int_formtypeID:int_formtypeID});
             });
         });
     });
