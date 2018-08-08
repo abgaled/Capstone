@@ -2,6 +2,8 @@ extends ../../home/views/navbar.pug
 
 block content
     <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
+    <div class="right_col" role="main">
+
     <div class ="container">
     <div class="card">
     each project in tbl_project
@@ -373,7 +375,8 @@ block content
         </div>
     </div>
     </div>
-
+    
+    </div>
     //- SCRIPT FOR TABS
     script.
         var currentTab = 0; // Current tab is set to be the first tab (0)
