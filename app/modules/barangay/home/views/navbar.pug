@@ -116,64 +116,35 @@ block navcontent
 
                     <li role="presentation" class="dropdown">
                     <a style="margin-top:19%;"href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="badge bg-green">6</span>
+                        <i class="fa fa-bell-o"></i>
+                            <span class="badge bg-green">
+                                value= numbernotif
+                            </span>
                     </a>
                     <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                        <li>
-                        <a>
-                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
-                        </a>
-                        </li>
-                        <li>
-                        <a>
-                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
-                        </a>
-                        </li>
-                        <li>
-                        <a>
-                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
-                        </a>
-                        </li>
-                        <li>
-                        <a>
-                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
-                        </a>
-                        </li>
+                        each notif in notifications
+                            <li>
+                            a(href=`/barangay/notifications/${notif.int_notifID}`)
+                                <span class="image"><img src="/cityadmin/production/images/img.png" alt="Profile Image" /></span>
+                                <span>
+                                <b>
+                                <span>From:
+                                    value= " "+notif.varchar_userEmailAddress
+                                </span>
+                                </b>
+                                <p>About:
+                                    value= " "+notif.enum_notifInfo
+                                </p>
+                                </span>
+                                <p class="message" style="float:right;">
+                                    value= notif.varchar_notifTitle
+                                </p>
+                            </li>
                         <li>
                         <div class="text-center">
-                            <a>
-                            <strong>See All Alerts</strong>
-                            <i class="fa fa-angle-right"></i>
-                            </a>
+                            a(href=`/barangay/notifications`)
+                                <strong>See All Notifications</strong>
+                                <i class="fa fa-angle-right"></i>
                         </div>
                         </li>
                     </ul>
@@ -221,3 +192,5 @@ block navcontent
             <script src="/cityadmin/vendors/nprogress/nprogress.js"></script>
             <!-- jQuery Smart Wizard -->
             <script src="/cityadmin/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+            <!-- jquery.inputmask -->
+            <script src="/cityadmin/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>

@@ -12,6 +12,8 @@ router.use('/calendar', require('./calendar/routes'));
 router.use('/reports', require('./reports/routes'));
 router.use('/awards', require('./awards/routes'));
 router.use('/profile', require('./profile/routes'));
+router.use('/notifications', require('./notification/routes'));
+
 
 
 

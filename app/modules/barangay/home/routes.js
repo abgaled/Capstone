@@ -14,19 +14,19 @@ router.get('/',(req, res) => {
     AND enum_notifStatus = "New"
     ORDER BY tbl_notification.int_notifID DESC`
 
-    db.query(queryString1,(err, results1) => {
+    db.query(queryString1,(err, notifications) => {
 
         if (err) console.log(err);
         console.log('=================================');
         console.log('BARANGAY: HOME - GET NOTIFICATIONS - DATA');
         console.log('=================================');
-        console.log(results1)
+        console.log(notifications)
 
-        var countrow = results1.length;
+        var countrow = notifications.length;
         console.log(countrow)
     
         res.render('barangay/home/views/home',
-            {notifications:results1,
+            {notifications:notifications,
             numbernotif:countrow});
     
     });
@@ -38,20 +38,17 @@ router.post('/changenotif', (req, res) => {
     console.log('=================================');
     console.log(`${req.body.notif_id}`)
 
-    // var queryString1 = `UPDATE tbl_notification SET
-    // enum_notifStatus = "Viewed"
-    // WHERE tbl_notification.int_notifID = ${req.body.notif_id}`;
 
-    queryString2 = `SELECT * FROM tbl_notification WHERE int_notifID= ? ${req.body.notif_id}`
-
-    // db.query(queryString1,[req.body.notif_id], (err, results, fields) =>{
-        var queryString1 = `SELECT * FROM tbl_notification
+    var queryString1 = `SELECT * FROM tbl_notification
     JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
     WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
     AND enum_notifStatus = "New"
     ORDER BY tbl_notification.int_notifID DESC`
 
-    db.query(queryString1,(err, results1) => {
+    var queryString2 = `SELECT * FROM tbl_notification WHERE int_notifID= ? ${req.body.notif_id}`
+
+
+    db.query(queryString1,(err, notifications) => {
 
         if (err) console.log(err);
         console.log('=================================');
@@ -62,7 +59,8 @@ router.post('/changenotif', (req, res) => {
         var countrow = results1.length;
         console.log(countrow)
         
-    res.render('barangay/home/views/home',{notifications:results1,
+    res.render('barangay/home/views/home',
+        {notifications:notifications,
         numbernotif:countrow})    
     });
 });

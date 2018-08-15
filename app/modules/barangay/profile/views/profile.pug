@@ -1,52 +1,143 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <link href="/barangay/styles.css" rel="stylesheet">
-    <link rel="stylesheet" href="/minicalendar/minicalendar.css" type="text/css">
-        <!-- page-header -->
-        <div class="page-header ">
-            <div class="container" id="container-header" >
-                <div class="row">
-                    <div class="page-caption">
-                        each barangay in barangay_info
-                            <p style="color: #3B5997;">
-                                value=barangay.varchar_barangayName
-                            </p>
-                            <small id="small-text">Profile</small>
+    //- <!-- page content -->
+    <div class="right_col" role="main">
+            
+        <div class="x_panel">
+            <div class="x_title">
+            each info in barangay_info
+                <h2><i class="fa fa-user"></i> 
+                    value= info.varchar_barangayName
+                <small>Information</small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                each info in barangay_info
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Profile</a>
+                        </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <br>
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label" for="barangayname">Barangay Name:
+                                    </label>
+                                    <div>
+                                        input(type="text" id="barangayname" required="required" class="form-control" value=info.varchar_barangayName readonly)
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label class="control-label col-md-5" for="barangayoffice">Affiliated Office:
+                                    </label>
+                                    <div>
+                                        input(type="text" id="barangayoffice" required="required" class="form-control" value=info.varchar_officeName readonly)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class ="form-row">
+                                <div class="form-group col-md-3">
+                                    <label class="control-label" for="barangaycity">City Name:
+                                    </label>
+                                    <div>
+                                        input(type="text" id="barangaycity" required="required" class="form-control" value=info.varchar_cityName readonly)
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label" for="barangaycontact">Contact Number:
+                                    </label>
+                                    <div>
+                                        input(type="text" id="barangaycontact" required="required" class="form-control" value=info.varchar_barangayContact readonly)
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label" for="barangayemail">User Email Address:
+                                    </label>
+                                    <div>
+                                        input(type="email" id="barangayemail" required="required" class="form-control" value=info.varchar_userEmailAddress readonly)
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label" for="barangaypass">User Password:
+                                    </label>
+                                    <div>
+                                        input(type="password" id="barangaypass" required="required" class="form-control" value=info.varchar_userPassword readonly)
+                                        <input type="checkbox" onclick="showPass()">Show Password
+                                    </div>
+                                </div>
+                            </div>
+                            button(id="btn-update-profile" class="btn btn-success" style="float:right;" data-toggle="modal" data-target="#modalupdateprofile"): span.fa.fa-refresh &nbsp Update
+                        </div>
                     </div>
                 </div>
             </div>
+
+            </div>
         </div>
-        <!-- /.page-header-->
-        <!-- tour-booking -->
-        <div class="content" style="padding-top:1.5%;">
-            <div class="container" >
-                        <div class="row ">
-                            <!-- footer-logo -->
-                            <div class="col-xl-8 col-lg-8 offset-md-2 col-md-8 col-sm-12 col-12 ">
-                                <div class="ease-tab">
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Info</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-                                    </li>
-                                </ul>
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <h4>Heading For Tab</h4>
-                                    <p>Luctuset ultrices posuere cubiliaurae urabitur nonex rutrum elit lacinia faucibust eget est erosivamus egettitor nisiat volutpat felisras sed nisl dictum sagittis metus etegestas diamenean in ante vitae sem sagittis condiment ummetus etegestas diamenean in ante vitae sem sagittismetus etegestas diameneanin ante vitae.</p>
-                                </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"><h4>Heading For Tab</h4>
-                                <p>Faucibus orci luctuset ultrices posuere cubiliaurae urabitur nonex rutrum elit lacinia faucibust eget est erosivamus eget porttitor nisiat volutpat felisras sed nisl dictum sagittis metus etegestas diamenean in ante vitae sem sagittis condiment ummetus etegestas diamenean in ante vitae sem sagittismetus etegestas diamenean.</p></div>
-                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"><h4>Heading For Tab</h4>
-                                <p>Urabitur nonex rutrum elit lacinia faucibust eget est erosivamus eget porttitor nisiat volutpat felisras sed nisl dictum sagittis metus etegestas diamenean in ante vitae sem sagittis condiment ummetus etegestas diamenean in ante vitae sem sagittismetus etegestas diameneanin ante vitae.</p></div>
-                            </div>
-                            </div>
-                       
+            
+    </div>
+
+    //- MODAL UPDATE PROFILE
+    <div class="modal fade bs-example-modal-lg" id="modalupdateprofile" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-body">
+                <form class="form-horizontal form-label-left" method="POST" action=''>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">Update Profile</span></h4>
+             
+                <div class="item form-group">
+                        <label class="control-label col-md-2" for="barangayemail">Email Address:
+                        </label>
+                        <div class="col-md-7">
+                          <input id="barangayemail" class="form-control" name="barangay_email" placeholder="Enter new Email Address" required="required" type="email">
                         </div>
+                </div>
+                <div class="item form-group">
+                        <label class="control-label col-md-2" for="barangaypass">Password:
+                        </label>
+                        <div class="col-md-7">
+                          <input id="barangaypass2" class="form-control" name="barangay_password" placeholder="Enter new Password" required="required" type="password">
+                          <input type="checkbox" onclick="showPass2()">Show Password
+                        </div>
+                </div>
+                <div class="item form-group">
+                        <label class="control-label col-md-2" for="barangaycontact">Contact Number:
+                        </label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" id="barangaycontact" name="barangay_contact" data-inputmask="'mask' : '999-9999'">
+                        </div>
+                </div>
+                <br>
+                <div class="modal-footer">    
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Cancel</button>
+                <button type="submit" id="modalbutton" class="btn btn-primary"  style="background-color#21BA45;color:whitesmoke;border:none;float:right;">Send</button>
+                </form>
+                </div>
             </div>
             </div>
-        </div>   
-        <!-- /.tour-booking -->
+        </div>
+    </div>
+
+    //- SCRIPT SHOW PASSWORD
+    script.
+        function showPass() {
+            var x = document.getElementById("barangaypass");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+        }
+
+        function showPass2() {
+            var x = document.getElementById("barangaypass2");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+        }

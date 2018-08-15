@@ -24,19 +24,22 @@ router.get('/',(req,res) => {
         }
         console.log(results);
 
+        var queryString1 = `SELECT * FROM tbl_notification 
+        JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+        WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+        AND enum_notifStatus = "New"
+        ORDER BY tbl_notification.int_notifID DESC`
 
-        var queryString1 = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
-        tbl_user.int_userID=tbl_barangay.int_userID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
-        var queryString2 = `SELECT * FROM tbl_category`
-
-        db.query(queryString1,(err, results1) => {
-
+        db.query(queryString1,(err, notifications) => {
             if (err) console.log(err);
             console.log('=================================');
-            console.log('BARANGAY: GET PROFILE INFO');
+            console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
             console.log('=================================');
-            
-           
+            console.log(notifications)
+    
+            var countrow = notifications.length;
+
+            var queryString2 = `SELECT * FROM tbl_category`
     
             db.query(queryString2,(err, results2) => {
     
@@ -46,9 +49,12 @@ router.get('/',(req,res) => {
                 console.log('=================================');
             
     
-                res.render('barangay/problemstatement/views/problemstatement',{tbl_problemstatement:results,barangay_info:results1,tbl_projectcategory:results2});
+                res.render('barangay/problemstatement/views/problemstatement',{
+                    tbl_problemstatement:results,
+                    tbl_projectcategory:results2,
+                    notifications:notifications,
+                    numbernotif:countrow});
             });
-
         });
     });
 });
@@ -112,41 +118,44 @@ router.post('/ajaxgetdetails',(req,res) => {
         console.log("===================RESULTSS")
         console.log(resultss)
 
-        var queryString1 = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
-        tbl_user.int_userID=tbl_barangay.int_userID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
-
-        db.query(queryString1,(err, results1) => {
-
-            if (err) console.log(err);
-            console.log('=================================');
-            console.log('BARANGAY: GET PROFILE INFO');
-            console.log('=================================');
-            
-           
-            
-            return res.send({tbl_problemstatement1:resultss});
-        });
+        return res.send({tbl_problemstatement1:resultss});
     });
 });
 
 
+// FOR NOTIFICATIONS (VIEW SPECIFIC PROBLEM STATEMENT)
+router.get('/view',(req,res) => {
+    console.log("PROBLEM STATEMENT: NOTIFICATIONS - SPECIFIC")
+    console.log(req.session.barangay.int_linkID)
 
-router.get('/viewprobcategory/:int_statementID/viewprob',(req, res) => {
-    console.log('=================================');
-    console.log('brgy: PROB - READ');
-    console.log('=================================');
-    console.log("PUMASOK SA GET REQ.PARAMS")
-    var queryString = `SELECT * FROM tbl_problemstatement pr 
-    JOIN tbl_projectcategory prcat ON pr.int_categoryID=prcat.int_categoryID
-    WHERE pr.int_statementID = "${req.params.int_statementID}"`
+    var queryString1 = `SELECT * FROM tbl_notification 
+    JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+    WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+    AND enum_notifStatus = "New"
+    ORDER BY tbl_notification.int_notifID DESC`
+
+    db.query(queryString1,(err, notifications) => {
+        if (err) console.log(err);
+        console.log('=================================');
+        console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+        console.log('=================================');
+        console.log(notifications)
     
-    db.query(queryString, (err, results, fields) => {        
-        if (err) throw err;
-        console.log('brgy: PROB - viewprob');
-        res.render(`barangay/problemstatement/views/viewprob`,{tbl_problemstatement:results});
+        var countrow = notifications.length;
+
+        var queryString2 = `SELECT * FROM tbl_problemstatement
+        WHERE int_barangayID = ${req.session.barangay.int_userID}
+        AND int_statementID = ${req.session.barangay.int_linkID}`
+
+        db.query(queryString2,(err, viewspecific) => {
+            var view = viewspecific[0];
+
+            res.render('barangay/problemstatement/views/specificproblemstatement',{
+                view:view,
+                notifications:notifications,
+                numbernotif:countrow});
+        }); 
     });
 });
-
-
 
 module.exports = router;

@@ -1,0 +1,53 @@
+extends ../../home/views/navbar.pug
+
+block content
+    //- <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-bell"></i> Notification</h2>
+                <h5 style="float:right;">
+                    <u>
+                        a(href=`/barangay/problemstatement`) Back to Problem Statements
+                    </u>
+                </h5>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="problemtitle">Statement Title:
+                            </label>
+                            <div class="col-md-9" id="aj-problemtitle">
+                                value= view.varchar_statementTitle
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="problemstatus">Status:
+                            </label>
+                            <div class="col-md-9" id="aj-problemstatus" >
+                                value= view.enum_problemStatus
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="problemcontent">Statement Content:
+                            </label>
+                            <div class="col-md-9" id="aj-problemcontent">
+                                value= view.text_statementContent
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="problemcreated">Date Created:
+                            </label>
+                            <div class="col-md-9" id="aj-problemcreated">
+                                value= view.date_createdDate
+                            </div>
+                            <br>
+                    </div>
+            </div>
+        </div>      
+    </div>
+
+    

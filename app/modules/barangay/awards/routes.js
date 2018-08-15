@@ -8,18 +8,61 @@ router.get('/',(req, res) => {
     console.log('BARANGAY: AWARDS');
     console.log('=================================');
 
-    var queryString = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
-    tbl_user.int_userID=tbl_barangay.int_userID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
+    var queryString1 = `SELECT * FROM tbl_notification 
+    JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+    WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+    AND enum_notifStatus = "New"
+    ORDER BY tbl_notification.int_notifID DESC`
 
-    db.query(queryString,(err, results1) => {
+        db.query(queryString1,(err, notifications) => {
+            if (err) console.log(err);
+            console.log('=================================');
+            console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+            console.log('=================================');
+            console.log(notifications)
+    
+            var countrow = notifications.length;
 
+            res.render('barangay/awards/views/awards',{
+                notifications:notifications,
+                numbernotif:countrow});
+        }); 
+});
+
+// FOR NOTIFICATIONS (VIEW SPECIFIC AWARD)
+router.get('/view',(req,res) => {
+    console.log("AWARDS: NOTIFICATIONS - SPECIFIC")
+    console.log(req.session.barangay.int_linkID)
+
+    var queryString1 = `SELECT * FROM tbl_notification 
+    JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+    WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+    AND enum_notifStatus = "New"
+    ORDER BY tbl_notification.int_notifID DESC`
+
+    db.query(queryString1,(err, notifications) => {
         if (err) console.log(err);
         console.log('=================================');
-        console.log('BARANGAY: GET PROFILE INFO');
+        console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
         console.log('=================================');
+        console.log(notifications)
+    
+        var countrow = notifications.length;
 
-        res.render('barangay/awards/views/awards',{barangay_info:results1});
-    }); 
+        var queryString2 = `SELECT * FROM tbl_problemstatement
+        WHERE int_barangayID = ${req.session.barangay.int_userID}
+        AND int_statementID = ${req.session.barangay.int_linkID}`
+
+        db.query(queryString2,(err, viewspecific) => {
+            var view = viewspecific[0];
+
+            res.render('barangay/awards/views/specificaward',{
+                view:view,
+                notifications:notifications,
+                numbernotif:countrow});
+        }); 
+    });
 });
+
 
 module.exports = router;

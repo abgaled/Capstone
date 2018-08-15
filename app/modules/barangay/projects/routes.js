@@ -5,6 +5,41 @@ var db = require('../../../lib/database')();
 var moment = require('moment');
 
 
+// FOR NOTIFICATIONS (VIEW SPECIFIC PROJECT APPLICATION)
+router.get('/view',(req,res) => {
+    console.log("PROJECT APPLICATION: NOTIFICATIONS - SPECIFIC")
+    console.log(req.session.barangay.int_linkID)
+
+    var queryString1 = `SELECT * FROM tbl_notification 
+    JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+    WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+    AND enum_notifStatus = "New"
+    ORDER BY tbl_notification.int_notifID DESC`
+
+    db.query(queryString1,(err, notifications) => {
+        if (err) console.log(err);
+        console.log('=================================');
+        console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+        console.log('=================================');
+        console.log(notifications)
+    
+        var countrow = notifications.length;
+
+        var queryString2 = `SELECT * FROM tbl_problemstatement
+        WHERE int_barangayID = ${req.session.barangay.int_userID}
+        AND int_statementID = ${req.session.barangay.int_linkID}`
+
+        db.query(queryString2,(err, viewspecific) => {
+            var view = viewspecific[0];
+
+            res.render('barangay/projects/views/specificapplication',{
+                view:view,
+                notifications:notifications,
+                numbernotif:countrow});
+        }); 
+    });
+});
+
 
 router.get('/applications',(req, res) => {
     console.log('=================================');
@@ -24,16 +59,26 @@ router.get('/applications',(req, res) => {
             date_results[i].date_projectEnd = moment(date_results[i].date_projectEnd).format('MM-DD-YYYY');
         }
 
-        var queryString2 = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
-        tbl_user.int_userID=tbl_barangay.int_userID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
-    
-        db.query(queryString2,(err, results2) => {
+        var queryString2 = `SELECT * FROM tbl_notification 
+        JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+        WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+        AND enum_notifStatus = "New"
+        ORDER BY tbl_notification.int_notifID DESC`
 
+        db.query(queryString2,(err, notifications) => {
+            if (err) console.log(err);
             console.log('=================================');
-            console.log('BARANGAY: GET PROFILE INFO');
+            console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
             console.log('=================================');
+            console.log(notifications)
         
-            res.render('barangay/projects/views/openprojects',{tbl_project:results1,barangay_info:results2});
+            var countrow = notifications.length;
+        
+        
+            res.render('barangay/projects/views/openprojects',{
+                tbl_project:results1,
+                notifications:notifications,
+                numbernotif:countrow});
         });
     });
 });
@@ -198,16 +243,24 @@ router.get('/beneficiaries',(req, res) => {
     console.log('BARANGAY: PROJECTS-REGISTERED APPLICANTS');
     console.log('=================================');
 
-    var queryString = `SELECT * FROM tbl_user JOIN tbl_barangay ON 
-    tbl_user.int_userID=tbl_barangay.int_userID WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
+    var queryString1 = `SELECT * FROM tbl_notification 
+    JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+    WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+    AND enum_notifStatus = "New"
+    ORDER BY tbl_notification.int_notifID DESC`
 
-    db.query(queryString,(req, results1) => {
-
-      
-        console.log('=================================');
-        console.log('BARANGAY: GET PROFILE INFO');
-        console.log('=================================');
-        res.render('barangay/projects/views/beneficiaries',{barangay_info:results1});
+        db.query(queryString1,(err, notifications) => {
+            if (err) console.log(err);
+            console.log('=================================');
+            console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+            console.log('=================================');
+            console.log(notifications)
+    
+            var countrow = notifications.length;
+            
+            res.render('barangay/projects/views/beneficiaries',{
+                notifications:notifications,
+                numbernotif:countrow});
     });
 });
 
