@@ -3,8 +3,46 @@ extends ../../home/views/navbar.pug
 block content
     //- <!-- page content -->
     <div class="right_col" role="main">
-        <h1>Barangay - Releasing</h1>
-            
+    <div class="x_panel">
+        <div class="x_title">
+                <h2><i class="fa fa-users"></i> Barangay<small>(Releasing of Benefits)</small></h2>
+                <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+        <div class="container">
+            <div class="table-responsive m-b-40">
+                <table id="datatable" class="table table-borderless table-data3">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Description</th>
+                            <th>Releasing Date</th>
+                            <th>Action/s</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    each proj in releasingprojects
+                        <tr class="tr-shadow">
+                            <td>
+                                value=proj.varchar_projectName
+                            </td>
+                            <td>
+                                value=proj.text_projectDescription
+                            </td>
+                            <td>
+                                value=proj.datetime_releasingStart
+                            </td>
+                            <td>
+                                a(href=`/barangay/releasing/${proj.int_projectID}/beneficiaries` class="btn btn-success btn-sm"): <i class="fa fa-files-o"></i> View Beneficiaries
+                            </td>
+                        </tr>        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        //- END OF DATA TABLE
+        </div>
+    </div>
     </div>
 
             

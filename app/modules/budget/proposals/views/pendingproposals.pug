@@ -1,0 +1,49 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="x_title">
+            <center>
+                <h1>PENDING PROPOSALS</h1>
+                <small> (List of pending proposals)
+                </small>
+            </center>
+            
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="container">
+            <div class="table-responsive m-b-40">
+                <table id="datatable" class="table table-borderless table-data3">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Alloted Slot</th>
+                            <th>Action/s</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    each proposals in pendingproposals
+                        <tr>
+                            <td>
+                                value=proposals.int_projectID
+                            </td>
+                            <td>
+                                value=proposals.varchar_projectName
+                            </td>
+                            //- <td>
+                            //-     value=project.date_projectEnd
+                            </td>
+                            <td>
+                                value=proposals.int_allotedSlot
+                            </td>
+                            <td>
+                                a(href=`/budget/proposals/${proposals.int_projectID}/details`): button.btn.btn-md.btn-primary: span.fa.fa-eye  View Detail
+                            </td>
+                        </tr>                   
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

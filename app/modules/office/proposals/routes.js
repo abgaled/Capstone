@@ -92,34 +92,76 @@ router.get('/submittedproposals',(req, res) => {
     console.log('OFFICE: PROPOSALS');
     console.log('=================================');
     console.log("ALLLLLLLL"); 
-    var queryString =`SELECT * FROM tbl_projectproposal pr
-    JOIN tbl_projectcategory prcat ON pr.int_categoryID=prcat.int_categoryID
-    ORDER BY pr.int_projectID DESC`
-    
+    var queryString =`SELECT * FROM tbl_projectproposal
+    WHERE enum_proposalStatus = "Pending"`
+
+    var queryString2 =`SELECT * FROM tbl_projectcategory pr
+    JOIN tbl_projectproposal prcat ON pr.int_projectID=prcat.int_projectID
+    JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
         // console.log(results);
-        res.render('office/proposals/views/submittedproposals', {tbl_projectproposal: results});
-
+        db.query(queryString2, (err, results2, fields) => {
+            console.log(results2);
+            if (err) console.log(err);
+        res.render('office/proposals/views/submittedproposals', {tbl_projectproposal: results,tbl_projectcategory: results2});
+    });
 });
 });
 router.get('/submittedproposals/:int_projectID/proposaldetails',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT');
     console.log('=================================');
-    var queryString =`SELECT * FROM tbl_project pr
-    JOIN tbl_projectproposal prpro ON pr.int_projectID=prpro.int_projectID
-    JOIN tbl_projectcategory prcat ON prpro.int_categoryID=prcat.int_categoryID
+    console.log(req.params.int_projectID);
+    var queryString =`SELECT * FROM tbl_projectproposal pr
+    JOIN tbl_project proj ON pr.int_projectID = proj.int_projectID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString2 =`SELECT * FROM tbl_projectrequirement prcat
+    JOIN tbl_projectproposal pr ON pr.int_projectID=prcat.int_projectID
+    JOIN tbl_requirement rq ON rq.int_requirementID=prcat.int_requirementID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString3 =`SELECT * FROM tbl_projectbeneficiary prbf
+    JOIN tbl_projectproposal pr ON pr.int_projectID=prbf.int_projectID
+    JOIN tbl_beneficiary bf ON prbf.int_beneficiaryID=bf.int_beneficiaryID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString4 =`SELECT * FROM tbl_projectlocation pl
+    JOIN tbl_projectproposal pr ON pr.int_projectID=pl.int_projectID
+    JOIN tbl_releaselocation rl ON pl.int_locationID=rl.int_locationID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString5 =`SELECT * FROM tbl_projectcategory pc
+    JOIN tbl_projectproposal pr ON pr.int_projectID=pc.int_projectID
+    JOIN tbl_category cat ON cat.int_categoryID=pc.int_categoryID
     WHERE pr.int_projectID = "${req.params.int_projectID}"`
     
+
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
-        // console.log(results);
-     res.render('office/proposals/views/proposaldetails', {tbl_project:results});
+        db.query(queryString2, (err, results2, fields) => {
+            console.log(results2);
+            if (err) console.log(err);
+            db.query(queryString3, (err, results3, fields) => {
+                console.log(results3);
+                if (err) console.log(err);
+                db.query(queryString4, (err, results4, fields) => {
+                    console.log(results4);
+                    if (err) console.log(err);
+                    db.query(queryString5, (err, results5, fields) => {
+                        console.log(results5);
+                        if (err) console.log(err);
 
+                    res.render('office/proposals/views/proposaldetails', {tbl_projectproposal:results, tbl_projectrequirement:results2, tbl_projectbeneficiary:results3, tbl_releaselocation:results4,tbl_projectcategory:results5});
 
+                 }); 
+            });
+        });
+    });
 });
 });
 

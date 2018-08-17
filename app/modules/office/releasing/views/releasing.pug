@@ -1,4 +1,61 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <h3>Mailbox</h3>
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1>List of releasing projects</h1>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Category</th>
+                                                        <th>Project Objectives</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Category</th>
+                                                        <th>Project Objectives</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                each project in tbl_project
+                                                    <tr>
+                                                        <td>
+                                                            value=project.varchar_projectName
+                                                        </td>
+                                                        <td>
+                                                        </td>
+                                                        <td>
+                                                            value=project.text_projectObjective
+                                                        </td>
+                                                        <td>
+                                                            value=project.enum_projectStatus
+                                                        </td>
+                                                        <td>
+                                                            a(href=`/office/releasing/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-primary btn-xs btn-block"): span View Details
+                                                            a(href=`/office/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-primary btn-xs btn-block"): span Beneficiaries
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+        <!-- END STATISTIC-->
+            

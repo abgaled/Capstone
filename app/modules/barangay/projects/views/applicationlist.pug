@@ -1,13 +1,14 @@
 extends ../../home/views/navbar.pug
 
 block content
+    //- <!-- page content -->
     <div class="right_col" role="main">
         <div class="x_panel">
             <div class="x_title">
                 //- <!-- DATA TABLE-->
                 <center>
-                    <h1>OPEN PROJECTS</h1>
-                    <h4>(Available projects that a resident can apply to)</h4>
+                    <h1>LIST OF APPLICATIONS</h1>
+                    <h4>(Applications and their details for this project)</h4>
                 </center>
             </div>
             <div class="x_content">
@@ -17,29 +18,29 @@ block content
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Projects</th>
-                                        <th>End Date</th>
-                                        <th>Slots</th>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        //- <th>Slots</th>
                                         <th>Action/s</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                each project in tbl_project
+                                each applicant in applicants
                                     <tr>
                                         <td>
-                                            value=project.int_projectID
+                                            value=applicant.int_applicationID
                                         </td>
                                         <td>
-                                            value=project.varchar_projectName
+                                            value=applicant.varchar_firstName+" "+applicant.varchar_middleName+" "+applicant.varchar_lastName
+                                        </td>
+                                        //- <td>
+                                        //-     value=project.date_projectEnd
+                                        //- </td>
+                                        <td>
+                                            value=applicant.enum_applicationStatus
                                         </td>
                                         <td>
-                                            value=project.date_projectEnd
-                                        </td>
-                                        <td>
-                                            value=project.int_allotedSlot
-                                        </td>
-                                        <td>
-                                            a(href=`/barangay/projects/applications/${project.int_projectID}/apply` class="btn btn-primary btn-sm"): <i class="fa fa-files-o"></i>Apply
+                                            //- a(href=`/barangay/projects/applications/${project.int_projectID}/list` class="btn btn-primary btn-sm"): <i class="fa fa-eye"></i>   See Applications
                                         </td>
                                     </tr>                   
                                 </tbody>

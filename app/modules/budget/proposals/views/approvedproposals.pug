@@ -1,119 +1,60 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <!-- STATISTIC-->
-    <section class="statistic">
-        <div class="section__content section__content--p30">
-            <div class="container-fluid">
-                //dito start ng content
+
+    <div class="right_col" role="main">
+        <div class="x_title">
+            <center>
                 <h1>APPROVED PROPOSALS</h1>
-
-                <div class="main-content">
-                    <div class="section__content section__content--p30">
-                        <div class="container-fluid">
-                            //- BUTTONS HEADER
-                            <div class="table-data__tool">
-                                //- FILTER SEGMENT
-                                <div class="table-data__tool-left">
-                                    <div class="rs-select2--light rs-select2--md">
-                                        <select class="js-select2" name="property">
-                                            <option selected="selected">All Properties</option>
-                                            <option value="">Option 1</option>
-                                            <option value="">Option 2</option>
-                                        </select>
-                                        <div class="dropDownSelect2"></div>
-                                    </div>
-                                    <div class="rs-select2--light rs-select2--sm">
-                                        <select class="js-select2" name="time">
-                                            <option selected="selected">Today</option>
-                                            <option value="">3 Days</option>
-                                            <option value="">1 Week</option>
-                                        </select>
-                                        <div class="dropDownSelect2"></div>
-                                    </div>
-                                    <button class="au-btn-filter">
-                                        <i class="zmdi zmdi-filter-list"></i>filters</button>
-                                </div>
-                                //- SEARCH SEGMENT
-                                <div class="table-data__tool-right">
-                                    <div class="col">
-                                        <div class="align-right">
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-primary">
-                                                        <i class="fa fa-search"></i> Search
-                                                    </button>
-                                                </div>
-                                                <input type="text" id="input1-group2" name="input1-group2" placeholder="Username" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-t-30">
-                                <div class="col-md-12">
-                                    <!-- DATA TABLE-->
-                                    <form method="GET" action="/budget/proposals/approved">
-                                        <div class="table-responsive m-b-40">
-                                            <table class="table table-borderless table-data3">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No.</th>
-                                                        <th>Name</th>
-                                                        <th>Description</th>
-                                                        <th>Category</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    each proposal in approvedproposals
-                                                        <tr>
-                                                            <td>
-                                                                value= proposal.int_projectID
-                                                            </td>
-                                                            <td>
-                                                                value= proposal.varchar_projectName
-                                                            </td>
-
-                                                            <td>
-                                                                value= proposal.text_projectDescription
-                                                            </td>
-                                                            <td>
-                                                                value= proposal.varchar_categoryName
-                                                            </td>
-                                                            <td>
-                                                                //- a(href=`/budget/proposals/${proposal.int_projectID}/details`): button.btn.btn-primary: span.fa.fa-eye
-                                                                <div class="row">
-                                                                    //- a(href="#approval"): button.btn.btn-success: span.fa.fa-envelope
-                                                                    //- button.btn.btn-success.mb-1(data-toggle="modal" data-target="#approval"): span.fa.fa-envelope
-                                                                    a.btn.btn-success.mb-1(data-toggle="modal" href="#approval" title="Enter Check Number"): span.fa.fa-envelope
-                                                                    a(href="#" title="Reject"): button.btn.btn-danger: span.fa.fa-times
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <!-- END DATA TABLE-->
-                                    </form>
-                                </div>
-                            </div>
-                        </div>      <!-- container-fluid -->
-                        
-
-                        
-                    </div>      <!-- section_content -->
-                    
-                    
-                </div>      <!-- main-content -->
-
-                //end of content
-                
-            </div>
+                <small> (List of proposals that was already approved)
+                </small>
+            </center>
             
+            <div class="clearfix"></div>
         </div>
-        //- <!-- modal large -->
-        <div class="modal fade" id="approval" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+
+        <div class="container">
+            <div class="table-responsive m-b-40">
+                <table id="datatable" class="table table-borderless table-data3">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            //- <th>Categories</th>
+                            <th>Action/s</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    each proposals in approvedproposals
+                        <tr>
+                            <td>
+                                value=proposals.int_projectID
+                            </td>
+                            <td>
+                                value=proposals.varchar_projectName
+                            </td>
+                            //- <td>
+                            //-     value=project.date_projectEnd
+                            //- </td>
+                            //- <td>
+                            //-     value=project.int_allotedSlot
+                            //- </td>
+                            <td>
+                                <div class="row">
+                                    //- a(href="#approval"): button.btn.btn-success: span.fa.fa-envelope
+                                    //- button.btn.btn-success.mb-1(data-toggle="modal" data-target="#approval"): span.fa.fa-envelope
+                                    button.btn.btn-success.mb-1(title="Enter Check Number" class="btn-submit" value= `${proposals.int_projectID}`) Submit Check Number
+                                    a(href=`/budget/proposals/${proposals.int_projectID}/delete` title="Reject"): button.btn.btn-danger Reject
+                                </div>
+                            </td>
+                        </tr>                   
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+         //- <!-- modal large -->
+        <div class="modal" id="approval" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -122,24 +63,66 @@ block content
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="row form-group">
-                            <div class="col col-md-3">
-                                <label for="text-input" class=" form-control-label">Check Number</label>
+                    <form method="POST" action='/budget/proposals/checkinsert'>
+
+                            <div class="modal-body">
+                                //- input(type="hidden" value='' name="int_projectID")
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label class="form-control-label">Check Number</label>
+                                    </div>
+                                    <div class="col-12 col-md-9">
+                                        <input type="text" id="text-input" data-inputmask="'mask' : ':999999999 :9999999999 9999'" name="checknumber" placeholder="Number" class="form-control"  required>
+                                        <small class="form-text text-muted">Kindly enter the check number for the confirmation of the opening of the project</small>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-12 col-md-9">
-                                <input type="text" id="text-input" name="text-input" placeholder="Number" class="form-control">
-                                <small class="form-text text-muted">Kindly enter the check number for the confirmation of the opening of the project</small>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                button.btn.btn-success.btn-s(type='submit' id="approvalconfirm") Submit
                             </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Confirm</button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
         //- <!-- end modal large -->
-    </section>
-    <!-- END STATISTIC-->
+        
+    </div>
+
+    
+
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+
+    script.
+
+        $(document).ready(function () {
+
+            $('.btn-submit').on('click', function () {
+                var Id = $(this).val();
+                console.log("================================Id")
+                console.log(Id);
+                console.log("================================Id")
+
+                $('#approval').modal('show');
+
+                $('#approvalconfirm').on('click', function() {
+                    $.post('/budget/proposals/checkinsertid',{resultIndex:Id})
+                        .done(data =>{
+                            if(data){
+                                swal({
+                                title:'Success', 
+                                text:'service deleted', 
+                                icon:'success'
+                                }).then(function(){
+                                    location.reload();
+                                })
+                                
+                                
+                                //- $('#approval').modal('hide');
+                            }
+                        });  
+                });
+            });
+
+            
+        });

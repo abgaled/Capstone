@@ -20,8 +20,27 @@ router.get('/',(req, res) => {
         console.log('BARANGAY: PROFILE - GET PROFILE INFO');
         console.log('=================================');
 
+        var queryString1 = `SELECT * FROM tbl_notification 
+        JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+        WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+        AND enum_notifStatus = "New"
+        ORDER BY tbl_notification.int_notifID DESC`
 
-        res.render('barangay/profile/views/profile',{barangay_info:results1});
+            db.query(queryString1,(err, notifications) => {
+                if (err) console.log(err);
+                console.log('=================================');
+                console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+                console.log('=================================');
+                console.log(notifications)
+        
+                var countrow = notifications.length;
+
+
+                res.render('barangay/profile/views/profile',{
+                    barangay_info:results1,
+                    notifications:notifications,
+                    numbernotif:countrow});
+            });
     });
 });
 

@@ -1,311 +1,377 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <!-- STATISTIC-->
-    <section class="statistic">
-        <div class="section__content section__content--p30">
-            <div class="container-fluid">
-                //dito start ng content
-                <h1>PROPOSAL DETAIL</h1>
-                <div class="card">
-                    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="basicinfo-tab" data-toggle="tab" href="#basicinfo" role="tab" aria-controls="basicinfo" aria-selected="true">Basic Information</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="beneficiary-tab" data-toggle="tab" href="#beneficiary" role="tab" aria-controls="beneficiary" aria-selected="false">Beneficiary</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="requirement-tab" data-toggle="tab" href="#requirement" role="tab" aria-controls="requirement" aria-selected="false">Requirements</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab" aria-controls="timeline" aria-selected="false">Timeline</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="budget-tab" data-toggle="tab" href="#budget" role="tab" aria-controls="budget" aria-selected="false">Budget</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="form-tab" data-toggle="tab" href="#form" role="tab" aria-controls="form" aria-selected="false">Form</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="approval-tab" data-toggle="tab" href="#approval" role="tab" aria-controls="approval" aria-selected="false">Approval</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content pl-3 p-1" id="myTabContent">
-                        <div class="tab-pane fade show active" id="basicinfo" role="tabpanel" aria-labelledby="home-tab">
-                            <br/>
-                            <h3 style="text-align:center">Basic Information</h3>
-                            <hr/>
-                            <br/>
-                            //- -----------------TAB-PANE CONTENT-----------------
-                            <form method="POST" action="/budget/proposals/viewdetail">
-                                
-                                each detail in details
-                                    
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Project Name</label>
-                                        <div class="col-sm-10">
-                                            input(type="text" readonly class="form-control" id="staticEmail" value=`${detail.varchar_projectName}` )
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label">Rationale</label>
-                                        <div class="col-sm-10">
-                                            input(type="text" readonly class="form-control" value= `${detail.varchar_projectRationale}` )
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label">Objective</label>
-                                        <div class="col-sm-10">
-                                            textarea(readonly class="form-control" placeholder= `${detail.text_projectObjective}` )
-                                            //- <textarea rows="" readonly class="form-control"> value=`${detail.text_projectObjective}` </textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
-                                        <div class="col-sm-10">
-                                            input(type="text" readonly class="form-control" value= `${detail.text_projectDescription}` )
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label">Category</label>
-                                        <div class="col-sm-10">
-                                            input(type="text" readonly class="form-control" value= `${detail.varchar_categoryName}` )
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label">Location</label>
-                                        <div class="col-sm-10">
-                                            input(type="text" readonly class="form-control" value= `${detail.varchar_locationName}` )
-                                        </div>
-                                    </div>
-                            </form>
+    <div class="right_col" role="main">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>PROJECT DETAILS <small></small></h2>
+                <div class="clearfix"></div>
+            </div>
+        <div class="x_content">
+            <ul class="list-unstyled timeline">
+                <li>
+                    <div class="block">
+                        <div class="tags">
+                            <a href="" class="tag">
+                                <span>Basic Information</span>
+                            </a>
                         </div>
-                        <div class="tab-pane fade" id="beneficiary" role="tabpanel" aria-labelledby="profile-tab">
-                            <br/>
-                            <h3 style="text-align:center">Beneficiary</h3>
-                            <hr/>
-                            <br/>
-
-                            <form method="POST" action="/budget/proposals/viewdetail">
-                                <input type="text" class="form-control" name="" value="Note: Below are the list of beneficiaries of this project proposal." readonly>
-
-                                <div class="row" align="center">
-                                    each beneficiary in beneficiaries
-
-                                        <div class="card mx-auto" style="width: 30%; margin: 5px;">
-                                            <div class="card-header">
-                                                value=beneficiary.varchar_beneficiaryName
-                                            </div>
-                                            <div class="card-body">
-                                                <p class="card-text">
-                                                    value=beneficiary.text_beneficiaryDescription
-                                                </p>
-                                            </div>
-                                        </div>
-                                </div>
-                            </form>
+                        
+                        each detail in details
+                            <div class="block_content">
+                                <h2 class="title">
+                                    <a>Basic information of the Project Proposal</a>
+                                </h2>
+                                <hr/>                                
+                                //- <div class="byline">
+                                //-     <span>13 hours ago</span> by <a>Jane Smith</a>
+                                //- </div>
+                                <p class="excerpt">
+                                    <b>Project Name:   </b>
+                                    value=detail.varchar_projectName
+                                </p>
+                                <p class="excerpt">
+                                    <b>Project Rationale:   </b>
+                                    value=detail.varchar_projectRationale
+                                </p>
+                                <p class="excerpt">
+                                    <b>Project Description:   </b>
+                                    value=detail.text_projectDescription
+                                </p>
+                                <p class="excerpt">
+                                    <b>Project Objective:   </b>
+                                    value=detail.text_projectObjective
+                                </p>
+                            </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <div class="tags">
+                            <a href="" class="tag">
+                                <span>Categories</span>
+                            </a>
                         </div>
-                        <div class="tab-pane fade" id="requirement" role="tabpanel" aria-labelledby="contact-tab">
-                            <br/>
-                            <h3 style="text-align:center">Requirement</h3>
-                            <hr/>
-                            <br/>
+                        
+                        <div class="block_content">
+                            <h2 class="title">
+                                <a>List of categories of the project proposal</a>
+                            </h2>
+                            <hr/>                                
+                            //- <div class="byline">
+                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
+                            //- </div>
 
-                            <form method="POST" action="/budget/proposals/viewdetail">
-                                <input type="text" class="form-control" name="" value="Note: Below are the list of requirements needed for appplication to this project." readonly>
-
-                                <div class="row" align="center">
-                                    each requirement in requirements
-
-                                        <div class="card mx-auto" style="width: 30%; margin: 5px;">
-                                            <div class="card-header">
-                                                value=requirement.varchar_requirementName
-                                            </div>
-                                            <div class="card-body">
-                                                <p class="card-text">
-                                                    value=requirement.text_requirementDescription
-                                                </p>
-                                            </div>
-                                        </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="tab-pane fade" id="timeline" role="tabpanel" aria-labelledby="contact-tab">
-                            <br/>
-                            <h3 style="text-align:center">Timeline</h3>
-                            <hr/>
-                            <br/>
-                        </div>
-
-                        <div class="tab-pane fade" id="budget" role="tabpanel" aria-labelledby="contact-tab">
-                            <br/>
-                            <h3 style="text-align:center">Budget</h3>
-                            <hr/>
-                            <br/>
-
-                            <form method="POST" action="/budget/proposals/viewdetail">
-
-                                each budget in budgets
-
-                                    <div class="row" align="center">
-                                        //- <div class="col-lg-6">
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Available Slots</span>
-                                            </div>
-                                            //- <div class="custom-file">
-                                            input(type="text" class="form-control" aria-label="Amount (to the nearest dollar)" readonly value= `${budget.int_allotedSlot}`)
-                                            //- </div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Estimated Budget</span>
-                                                <span class="input-group-text">P</span>
-                                            </div>
-                                            input(type="text" class="form-control" aria-label="Amount (to the nearest dollar)" readonly value= `${budget.decimal_estimatedBudget}`)
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">.00</span>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-                            </form>
-                        </div>
-
-                        <div class="tab-pane fade" id="form" role="tabpanel" aria-labelledby="contact-tab">
-                            <br/>
-                            <h3 style="text-align:center">Form</h3>
-                            <hr/>
-                            <br/>
-
-                            <form method="POST" action="/budget/proposals/viewdetail">
-                                <input type="text" class="form-control" name="" value="Note: Below are the list of forms needed for the applicants to provide." readonly>
-
-                                <div class="row" align="center">
-
-                                    each form in forms
-
-                                        <div class="card mx-auto" style="width: 48%; margin: 5px">
-                                            <div class="card-header">
-                                                value=form.varchar_formName
-                                            </div>
-                                            <div class="card-body">
-                                                <p class="card-text">
-                                                    value=form.text_formDescription
-                                                </p>
-                                            </div>
-                                        </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="tab-pane fade" id="approval" role="tabpanel" aria-labelledby="contact-tab">
-                            <br/>
-                            <h3 style="text-align:center">Approval</h3>
-                            <hr/>
-                            <br/>
-
-                            <form method="POST" action="/budget/proposals/viewdetail">
-
-                                each detail in details
-                                    //- ------------------BUTTONS-----------------
-                                    if `${detail.enum_proposalStatus}` == 'New'
-                                        <div>
-                                            <button type="button" class="btn btn-success btn-lg btn-block">REVIEWED</button>
-                                            <button type="button" class="btn btn-info btn-lg btn-block"  data-toggle="modal" data-target="#reviseModal">REVISE</button>
-                                            <button type="button" class="btn btn-danger btn-lg btn-block">REJECT</button>
-                                        </div>
-
-
-                                    else if `${detail.enum_proposalStatus}` == 'Reviewed'
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" >Approval Letter</span>
-                                            </div>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input">
-                                                <label class="custom-file-label" >Choose file</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Actual Budget</span>
-                                                <span class="input-group-text"> P </span>
-                                            </div>
-                                            <input type="text" class="form-control">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">0.00</span>
-                                            </div>
-                                        </div>
-
-                                        <ul class="list-inline pull-right">
-                                            <li><button type="button" class="btn btn-success">ACCEPT</button>
-                                            <button type="button" class="btn btn-danger">REJECT</button></li>
-                                        </ul>
-                                    else if `${detail.enum_proposalStatus}` == 'Approved'
-
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Check Number</span>
-                                            </div>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                        <ul class="list-inline pull-right">
-                                            <li>
-                                                <button type="button" class="btn btn-default">Cancel</button>
-                                                a(href=`/budget/proposals/${detail.int_projectID}/approval`): button.btn.btn-success Send
-                                            </li>
-                                        </ul>
-                            </form>
+                            each category in categories
+                                <ul>
+                                    <li>
+                                        value=category.varchar_categoryName
+                                    </li>
+                                </ul>
                         </div>
                     </div>
-                </div>
-                //end of content
+                </li>
+                <li>
+                    <div class="block">
+                        <div class="tags">
+                            <a href="" class="tag">
+                                <span>Releasing Location</span>
+                            </a>
+                        </div>
+                        
+                        <div class="block_content">
+                            <h2 class="title">
+                                <a>List of location/s where the benefits of the project proposal will be distributed</a>
+                            </h2>
+                            <hr/>                                
+                            //- <div class="byline">
+                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
+                            //- </div>
+
+                            each location in locations
+                                <ul>
+                                    <li>
+                                        value=location.varchar_locationName
+                                    </li>
+                                </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <div class="tags">
+                            <a href="" class="tag">
+                                <span>Beneficiary</span>
+                            </a>
+                        </div>
+                        
+                        <div class="block_content">
+                            <h2 class="title">
+                                <a>List of target beneficiaries of this project proposal</a>
+                            </h2>
+                            <hr />                                
+                            //- <div class="byline">
+                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
+                            //- </div>
+
+                            each beneficiary in beneficiaries
+                                <ul>
+                                    <li>
+                                        value=beneficiary.varchar_beneficiaryName
+                                    </li>
+                                </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <div class="tags">
+                            <a href="" class="tag">
+                                <span>Requirement</span>
+                            </a>
+                        </div>
+                        
+                        <div class="block_content">
+                            <h2 class="title">
+                                <a>List of requirement/s needed for the application for this project proposal</a>
+                            </h2>
+                            <hr/>                                
+                            //- <div class="byline">
+                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
+                            //- </div>
+
+                            each requirement in requirements
+                                <ul>
+                                    <li>
+                                        value=requirement.varchar_requirementName
+                                    </li>
+                                </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <div class="tags">
+                            <a href="" class="tag">
+                                <span>Timeline</span>
+                            </a>
+                        </div>
+                        
+                        <div class="block_content">
+                            <h2 class="title">
+                                <a>List of requirement/s needed for the application for this project proposal</a>
+                            </h2>
+                            <hr/>                                
+                            //- <div class="byline">
+                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
+                            //- </div>
+
+                            each timeline in timelines
+                                <p class="excerpt">
+                                    <b>Start Date:   </b>
+                                    value=timeline.date_projectStart
+                                </p>
+                                <p class="excerpt">
+                                    <b>End Date:   </b>
+                                    value=timeline.date_projectEnd
+                                </p>
+                                <p class="excerpt">
+                                    <b>Releasing Date:   </b>
+                                    value=timeline.datetime_releasingStart+" - "+timeline.datetime_releasingEnd
+                                </p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <div class="tags">
+                            <a href="" class="tag">
+                                <span>Budget</span>
+                            </a>
+                        </div>
+                        
+                        <div class="block_content">
+                            <h2 class="title">
+                                <a>Estimated budget for the project</a>
+                            </h2>
+                            <hr/>                                
+                            //- <div class="byline">
+                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
+                            //- </div>
+
+                            each budget in budgets
+                                <p class="excerpt">
+                                    <b>Alloted Slot for the beneficiaries:   </b>
+                                    value=budget.int_allotedSlot
+                                </p>
+                                <p class="excerpt">
+                                    <b>Duration of the project to open:   </b>
+                                    value=budget.int_dayDuration
+                                </p>
+                                <p class="excerpt">
+                                    <b>Estimated Budget:   </b>
+                                    value=budget.decimal_estimatedBudget
+                                </p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <div class="tags">
+                            <a href="" class="tag">
+                                <span>Form</span>
+                            </a>
+                        </div>
+                        
+                        <div class="block_content">
+                            <h2 class="title">
+                                <a>List of form/s that the applicant needed to comply</a>
+                            </h2>
+                            <hr/>                                
+                            //- <div class="byline">
+                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
+                            //- </div>
+
+                            each form in forms
+                                <ul>
+                                    <li>
+                                        value=form.varchar_formName
+                                    </li>
+                                </ul>
+                        </div>
+                    </div>
+                </li>
                 
+                <li>
+                    <div class="block">
+                        <div class="tags">
+                            <a href="" class="tag">
+                                <span>Approval</span>
+                            </a>
+                        </div>
+                        
+                        <div class="block_content">
+                            <h2 class="title">
+                                <a>List of form/s that the applicant needed to comply</a>
+                            </h2>
+                            <hr/>
+                            <div class="row" style="block-inline">
+                                each detail in details
+                                    //- a(href='#'): button.btn.btn-success Approve
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approveModal">Approve</button>
+                                    //- <button type="button" class="btn btn-info btn-lg btn-block"  data-toggle="modal" data-target="#reviseModal">REVISE</button>
+                                    button.btn.btn-info(data-toggle="modal" data-target="#reviseModal") Revise
+                                    a(href=`/budget/proposals/${detail.int_projectID}/delete`): button.btn.btn-danger Reject
+                            </div>          
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>    
+    </div>
+
+    <!-- modal medium -->
+    <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+            - console.log( details )
+                each detail in details
+                    <form method="POST" action='/budget/proposals/revision'>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mediumModalLabel">Revision Form</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="textarea-input" class=" form-control-label">Suggestion</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <textarea name="revision" rows="9" placeholder="Content..." class="form-control" required></textarea>
+                                    <small class="form-text text-muted">Put all of the your suggestion,remarks or comment for the revision of this project. In this way, the proposal project might be approved when the revision is done.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            //- a(href=`/budget/proposals/${detail.int_projectID}/revision`): button.btn.btn-success Confirm
+                            //- <input type="submit" value="submit" class="btn btn-success">
+                            button.btn.btn-success.btn-s(type='submit') Submit
+                        </div>
+                    </form>
             </div>
         </div>
+    </div>
+    <!-- end modal medium -->
 
-        <!-- modal medium -->
-        <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+    <!-- modal medium -->
+        <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form method="POST" action='/budget/proposals/viewdetail'>
+                
+                    <form method="POST" action="approval" data-parsley-validate class="form-horizontal form-label-left">
+                    
                         each detail in details
+
+                            input(type="hidden" value=`${detail.int_projectID}` name="int_projectID")
+
                             <div class="modal-header">
-                                <h5 class="modal-title" id="mediumModalLabel">Revision Form</h5>
+                                <h5 class="modal-title" id="mediumModalLabel">Approval Requirement</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="row form-group">
-                                    <div class="col col-md-2">
-                                        <label for="textarea-input" class=" form-control-label">Suggestion</label>
-                                    </div>
-                                    <div class="col-12 col-md-9">
-                                        <textarea name="textarea-input" name="revision" rows="9" placeholder="Content..." class="form-control"></textarea>
-                                        <small class="form-text text-muted">Put all of the your suggestion,remarks or comment for the revision of this project. In this way, the proposal project might be approved when the revision is done.</small>
+                                //- <div class="input-group mb-3">
+                                //-     <div class="input-group-prepend">
+                                //-         <span class="input-group-text" >Approval Letter</span>
+                                //-     </div>
+                                //-     <div class="custom-file">
+                                //-         <input type="file" class="custom-file-input" name="letterfile">
+                                //-         <label class="custom-file-label" >Choose file</label>
+                                //-     </div>
+                                //- </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="approval-letter">Approval Letter <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="file" name="approval-letter" required="required" class="form-control col-md-7 col-xs-12">
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="actual-budget">Actual Budget<span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" data-inputmask="'mask' : '999,999,999.99'" name="actual-budget" id="actual-budget" required="required" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                //- <div class="input-group mb-3">
+                                //-     <div class="input-group-prepend">
+                                //-         <span class="input-group-text">Actual Budget</span>
+                                //-         <span class="input-group-text"> P </span>
+                                //-     </div>
+                                //-     <input type="text" class="form-control" name="actualbudget" required> 
+                                //-     <div class="input-group-append">
+                                //-         <span class="input-group-text">0.00</span>
+                                //-     </div>
+                                //- </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                a(href=`/budget/proposals/${detail.int_projectID}/revision`): button.btn.btn-success Confirm
+                                //- a(href=`/budget/proposals/${detail.int_projectID}/approval`): button.btn.btn-success Confirm
                                 //- <input type="submit" value="submit" class="btn btn-success">
+                                button.btn.btn-success.btn-s(type='submit') Submit
                             </div>
                     </form>
                 </div>
             </div>
         </div>
         <!-- end modal medium -->
-    </section>
-    <!-- END STATISTIC-->

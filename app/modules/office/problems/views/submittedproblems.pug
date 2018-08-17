@@ -1,69 +1,62 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <link href="/barangay/styles.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
-        <!-- page-header -->
-        <section class="statistic">
-        <div class="section__content section__content--p30">
-            <div class="container-fluid">
-                //dito start ng content
-                <h3 class="title-5 m-b-35">Submitted Problems</h3>
-                    <div class="table-data__tool">
-                        <div class="table-data__tool-left">
-                            <div class="rs-select2--light rs-select2--sm">
-                                <select class="js-select2" name="time">
-                                    <option disabled="disabled" selected="selected">Select ...</option>
-                                    <option value = "All">All</option>
-                                    <option value = "1">Health</option>
-                                    <option value = "2">Education</option>
-                                    <option value = "3">Finance</option>
-                                    <option value = "4">Infrastracture</option>
-                                </select>
-                                <div class="dropDownSelect2"></div>
-                            </div>
-                            <button class="au-btn-filter">
-                                <i class="zmdi zmdi-filter-list"></i>filters</button>
-                        </div>
-                    </div>
-                    <div class="table-responsive  m-b-40 pb-5">
-                        <table class="table table-borderless table-data3">
-                            <thead>
-                                <tr>
-                                    <th>Problem Name</th>
-                                    <th>Category Name</th>
-                                    <th>Problem Content</th>
-                                    <th>Date Created</th>
-                                    <th>Status</th>
-                                    <th>Barangay</th>
-                            </thead>
-                            <tbody>
-                            each problem in tbl_problemstatement
-                                <tr class="tr-shadow">
-                                    <td>
-                                        value=problem.varchar_statementTitle
-                                    </td>
-                                    <td>
-                                        value=problem.varchar_categoryName
-                                    </td>
-                                    <td>
-                                        value=problem.text_statementContent
-                                    </td>
-                                    <td>
-                                        value=problem.date_createdDate
-                                    </td>
-                                    <td>
-                                        value=problem.enum_problemStatus
-                                    </td>
-                                    <td> 
-                                        value=problem.int_barangayID
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1>List of Received Problem Statements</h1>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                    <th>Problem Name</th>
+                                                    <th>Category Name</th>
+                                                    <th>Date Created</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                    <th>Problem Name</th>
+                                                    <th>Category Name</th>
+                                                    <th>Date Created</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                each problem in tbl_problemstatement
+                                                    <tr>
+                                                    <td>
+                                                        value=problem.varchar_statementTitle
+                                                    </td>
+                                                    <td>
+                                                        value=problem.varchar_categoryName
+                                                    </td>
+                                                    <td>
+                                                        value=problem.text_statementContent
+                                                    </td>
+                                                    <td>
+                                                        value=problem.enum_problemStatus
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-success btn-xs btn-block " id="view" type="button" data-toggle="modal" data-target=".bs-example-modal-lg"><span class=""></span>Acknowledge</button>
+                                                        <button class="btn btn-danger btn-xs btn-block" id="view" type="button" data-toggle="modal" data-target=".bs-example-modal-lg"><span class=""></span>Reject</button>
+                                                    </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
         <!-- END STATISTIC-->
             

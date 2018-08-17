@@ -10,7 +10,7 @@ router.get('/',(req, res) => {
     console.log('=================================');
 
     var queryString = `SELECT * FROM tbl_problemstatement pr
-    JOIN tbl_projectcategory prcat ON pr.int_categoryID=prcat.int_categoryID
+    JOIN tbl_category prcat ON pr.int_categoryID=prcat.int_categoryID
     WHERE enum_problemStatus = 'Submitted' ORDER BY pr.int_categoryID DESC`
 
 
@@ -31,7 +31,7 @@ router.post('/viewprobcategory',(req,res) => {
         if(`${req.body.problem_category}`== "All"){
             console.log("ALLLLLLLL"); 
             var queryString = `SELECT * FROM tbl_problemstatement pr
-            JOIN tbl_problemcategory prcat ON pr.int_problemCategID=prcat.int_problemCategID
+            JOIN tbl_category prcat ON pr.int_problemCategID=prcat.int_problemCategID
             ORDER BY pr.int_problemID DESC`
         
             db.query(queryString,(err, results, fields) => {

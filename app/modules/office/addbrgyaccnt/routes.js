@@ -15,9 +15,8 @@ router.get('/',(req, res) => {
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
-        // console.log(results);
-    res.render('office/addbrgyaccnt/views/brgylist', {tbl_barangay: results});
 
+    res.render('office/addbrgyaccnt/views/brgylist', {tbl_barangay: results});
 });
 });
 
@@ -48,31 +47,36 @@ router.post('/',(req, res) => {
 
             var tobrgy = results1[0];
 
-            var queryString2 = `INSERT INTO \`tbl_barangay\` (
-                \`int_userID\`,
-                \`int_officeID\`,
-                \`varchar_barangayName\`,
-                \`varchar_barangayChairman\`,
-                \`text_barangayDescription\`,
-                \`varchar_barangayContact\`,
-                \`enum_barangayStatus\`)
-                
-                VALUES(
-                "${tobrgy.int_userID}",
-                "1",
-                "${req.body.barangay_name}",
-                "${req.body.barangay_chairman}",
-                "${req.body.barangay_description}",
-                "${req.body.contact_num}",
-                "Active");`;
+            var getCityID =`SELECT * FROM tbl_city
+            WHERE int_userID = ${req.session.office.int_userID}`
 
-            db.query(queryString2, (err, results2, fields) => {        
+            db.query(getCityID, (err, results3, fields) => {        
                 if (err) throw err;
-                console.log(results2);
-                console.log('=================================');
-                
-                res.redirect('/office/addbrgyaccnt');
-        });
+
+                var getcity = results3[0];                
+
+                var queryString2 = `INSERT INTO \`tbl_barangay\` (
+                    \`int_userID\`,
+                    \`int_cityID\`,
+                    \`varchar_barangayName\`,
+                    \`varchar_barangayContact\`,
+                    \`enum_barangayStatus\`)
+                    
+                    VALUES(
+                    "${tobrgy.int_userID}",
+                    "${getcity.int_cityID}",
+                    "${req.body.barangay_name}",
+                    "${req.body.contact_num}",
+                    "Active");`;
+
+                db.query(queryString2, (err, results2, fields) => {        
+                    if (err) throw err;
+                    console.log(results2);
+                    console.log('=================================');
+                    
+                    res.redirect('/office/addbrgyaccnt');
+                });
+            });
         });
 
     });

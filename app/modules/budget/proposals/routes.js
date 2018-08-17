@@ -3,17 +3,17 @@ var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 var resultIndex;
+var checknumber;
 
 
-router.get('/new',(req, res) => {
+router.get('/pending',(req, res) => {
     console.log('=================================');
     console.log('BUDGET: PROPOSALS-NEW');
     console.log('=================================');
 
     var newQuery = `SELECT * 
-        FROM tbl_projectproposal PP JOIN tbl_projectcategory PC 
-        ON PP.int_categoryID=PC.int_categoryID
-        WHERE PP.enum_proposalStatus='New'
+        FROM tbl_projectproposal
+        WHERE enum_proposalStatus='Pending'
         GROUP BY int_projectID`;
 
     db.query(newQuery, (err, newResult, fields) => {
@@ -22,31 +22,7 @@ router.get('/new',(req, res) => {
 
         console.log(newResult);
 
-        res.render('budget/proposals/views/newproposals', {newproposals:newResult});
-    });
-});
-
-
-
-router.get('/reviewed',(req, res) => {
-    console.log('=================================');
-    console.log('BUDGET: PROPOSALS-REVIEWED');
-    console.log('=================================');
-
-    
-    var reviewQuery = `SELECT * 
-        FROM tbl_projectproposal PP JOIN tbl_projectcategory PC 
-        ON PP.int_categoryID=PC.int_categoryID
-        WHERE PP.enum_proposalStatus='Reviewed'
-        GROUP BY int_projectID`;
-
-    db.query(reviewQuery, (err, reviewResult, fields) => {
-
-        if(err) console.log(err);
-
-        console.log(reviewResult);
-
-        res.render('budget/proposals/views/reviewedproposals', {reviewedproposals:reviewResult});
+        res.render('budget/proposals/views/pendingproposals', {pendingproposals:newResult});
     });
 });
 
@@ -60,9 +36,10 @@ router.get('/approved',(req, res) => {
     
     var approveQuery = `SELECT * 
         FROM tbl_projectproposal PP JOIN tbl_projectcategory PC 
-        ON PP.int_categoryID=PC.int_categoryID
+        ON PP.int_projectID=PC.int_projectID
+        JOIN tbl_category C ON PC.int_categoryID=C.int_categoryID
         WHERE PP.enum_proposalStatus='Approved'
-        GROUP BY int_projectID`;
+        GROUP BY PP.int_projectID`;
 
     db.query(approveQuery, (err, approveResult, fields) => {
 
@@ -98,17 +75,15 @@ router.get('/viewdetail', (req, res) => {
     console.log(resultIndex);
 
     var selectDetailQuery = `SELECT * 
-        FROM tbl_projectproposal PP JOIN tbl_projectcategory PC 
-        ON PP.int_categoryID=PC.int_categoryID
-        JOIN tbl_releaseLocation RL ON PP.int_releaseLocationID=RL.int_locationID 
-        WHERE PP.int_projectID= ${resultIndex}`;
+        FROM tbl_projectproposal 
+        WHERE int_projectID= ${resultIndex}`;
 
     db.query(selectDetailQuery, (err, projDetailResult, fields) => {
         if(err) console.log(err);
         console.log('Succesfully retrieved project proposal data from the database');
 
 
-        var beneficiaryDetailQuery = `SELECT varchar_beneficiaryName, text_beneficiaryDescription
+        var beneficiaryDetailQuery = `SELECT varchar_beneficiaryName
             FROM tbl_beneficiary BN JOIN tbl_projectbeneficiary PB 
             ON BN.int_beneficiaryID=PB.int_beneficiaryID
             JOIN tbl_projectproposal PP ON PB.int_projectID=PP.int_projectID
@@ -129,15 +104,15 @@ router.get('/viewdetail', (req, res) => {
                 if(err) console.log(err);
                 console.log('Succesfully retrieved project requirement data from the database');
 
-                var timelineDetailQuery = `SELECT date_createdDate, int_dayDuration
-                    FROM tbl_projectproposal
+                var timelineDetailQuery = `SELECT date_projectStart, date_projectEnd, datetime_releasingStart, datetime_releasingEnd
+                    FROM tbl_project
                     WHERE int_projectID= ${resultIndex}`;
 
                 db.query(timelineDetailQuery, (err, timelineDetailResult, fields) => {
                     if(err) console.log(err);
                     console.log('Succesfully retrieved project timeline data from the database');
                 
-                    var budgetDetailQuery = `SELECT int_allotedSlot, decimal_estimatedBudget
+                    var budgetDetailQuery = `SELECT int_allotedSlot, decimal_estimatedBudget, int_dayDuration
                         FROM tbl_projectproposal
                         WHERE int_projectID= ${resultIndex}`;
 
@@ -145,19 +120,50 @@ router.get('/viewdetail', (req, res) => {
                         if(err) console.log(err);
                         console.log('Succesfully retrieved project budget data from the database');
                             
-                        var formDetailQuery = `SELECT varchar_formName, text_formDescription
-                            FROM tbl_formtype FT JOIN tbl_categoryform CF
-                            ON FT.int_formtypeID=CF.int_formtypeID
-                            JOIN tbl_projectcategory C ON CF.int_categoryID=C.int_categoryID
-                            JOIN tbl_projectproposal PP ON C.int_categoryID=PP.int_categoryID
+                        var formDetailQuery = `SELECT varchar_formName
+                            FROM tbl_formtype FT JOIN tbl_projectform PF
+                            ON FT.int_formTypeID=PF.int_formtypeID
+                            JOIN tbl_projectproposal PP ON PF.int_projectID=PP.int_projectID
                             WHERE PP.int_projectID= ${resultIndex}`;
 
                         db.query(formDetailQuery, (err, formDetailResult, fields) => {
                             if(err) console.log(err);
                             console.log('Succesfully retrieved project form data from the database');
                             
-                            res.render('budget/proposals/views/proposaldetails', {details:projDetailResult, beneficiaries:beneDetailResult, requirements:requireDetailResult, timelines:timelineDetailResult, forms:formDetailResult, budgets:budgetDetailResult});
+                            var categoryDetailQuery = `SELECT varchar_categoryName
+                                FROM tbl_projectcategory PC JOIN tbl_category C
+                                ON PC.int_categoryID=C.int_categoryID
+                                WHERE int_projectID= ${resultIndex}`;
 
+                            db.query(categoryDetailQuery, (err, categoryDetailResult, fields) => {
+                                if(err) console.log(err);
+                                console.log('Succesfully retrieved project category data from the database');
+                                
+                                var locationDetailQuery = ` SELECT *
+                                    FROM tbl_projectproposal PP JOIN tbl_projectlocation PL
+                                    ON PP.int_projectID=PL.int_projectID
+                                    JOIN tbl_releaselocation RL ON PL.int_locationID=RL.int_locationID
+                                    JOIN tbl_address A ON RL.int_locationAddressID=A.int_addressID
+                                    WHERE PP.int_projectID= ${resultIndex}`;
+
+                                db.query(locationDetailQuery, (err, locationDetailResult, fields) => {
+                                    if(err) console.log(err);
+                                    console.log('Succesfully retrieved project location data from the database');
+
+
+                                    res.render('budget/proposals/views/proposaldetails', 
+                                    {
+                                        details:projDetailResult, 
+                                        beneficiaries:beneDetailResult, 
+                                        requirements:requireDetailResult, 
+                                        timelines:timelineDetailResult, 
+                                        forms:formDetailResult, 
+                                        budgets:budgetDetailResult, 
+                                        categories:categoryDetailResult, 
+                                        locations:locationDetailResult
+                                    });
+                                });
+                            });
                         });
                     });
                 });
@@ -181,62 +187,162 @@ router.get('/:int_projectID/delete',(req, res) => {
         if(err) console.log(err);
 
         console.log('Succesfully updated the data from reviewed to rejected');
-        res.redirect('/budget/proposals/new');
+        res.redirect('/budget/proposals/pending');
     });
 });
 
 
 
-router.get('/:int_projectID/revision',(req, res) => {
+router.post('/revision',(req, res) => {
     console.log('=================================');
     console.log('BUDGET: PROPOSALS-REVISION');
     console.log('=================================');
 
-    // var updateDeleteQuery = `UPDATE tbl_projectproposal
-    //     SET enum_proposalStatus='Rejected'
-    //     WHERE int_projectID= ${req.params.int_projectID}`;
+    var insertRevisionQuery = `INSERT INTO \`tbl_revisioncomment\`
+        (
+            \`int_projectID\`, 
+            \`text_commentContent\`
+        )
 
-    // db.query(updateDeleteQuery, (err, deleteResult, fields) => {
-    //     if(err) console.log(err);
+        VALUES
+        (
+            "${resultIndex}",
+            "${req.body.revision}"
+        )`;
 
-    //     console.log('Succesfully updated the data from reviewed to rejected');
-    //     res.redirect('/budget/proposals/new');
-    // });
+    db.query(insertRevisionQuery, (err, insertRevisionResult, fields) => {
+        if(err) console.log(err);
 
-    var content = `${req.body.revision}`;
+        console.log("Succesfully inserted the revision comment");
+        console.log(insertRevisionResult);
 
-    console.log(`${req.params.int_projectID}`);
-    console.log(content);
+        var updateProjStatQuery = `UPDATE tbl_projectproposal
+            SET enum_proposalStatus="Revision"
+            WHERE int_projectID= ${resultIndex}`;
 
+        db.query(updateProjStatQuery, (err, updateProjStatResult, fields) => {
+            if(err) console.log(err);
 
-    res.redirect('/budget/proposals/new');
+            console.log("Succesfully updated the proposal status");
+            console.log(updateProjStatResult);
+
+            res.redirect('/budget/proposals/pending');
+        });
+    });
 });
 
 
 
-router.get('/:int_projectID/approval',(req, res) => {
+router.post('/approval',(req, res) => {
     console.log('=================================');
     console.log('BUDGET: PROPOSALS-APPROVAL');
     console.log('=================================');
 
-    // var updateDeleteQuery = `UPDATE tbl_projectproposal
-    //     SET enum_proposalStatus='Rejected'
-    //     WHERE int_projectID= ${req.params.int_projectID}`;
-
-    // db.query(updateDeleteQuery, (err, deleteResult, fields) => {
-    //     if(err) console.log(err);
-
-    //     console.log('Succesfully updated the data from reviewed to rejected');
-    //     res.redirect('/budget/proposals/new');
-    // });
-
-    var content = `${req.body.revision}`;
-
-    console.log(`${req.params.int_projectID}`);
-    console.log(content);
+    // resultIndex = `${req.body.int_projectID}`;
 
 
-    res.redirect('/budget/proposals/reviewed');
+    console.log(resultIndex);
+    console.log(req.body.letterfile);
+    console.log(req.body.actualbudget);
+
+
+    var insertApprovalQuery = `INSERT INTO \`tbl_proposalapproval\`
+        (
+            \`int_projectID\`, 
+            \`blob_approvalLetter\`
+        )
+
+        VALUES
+        (
+            "${resultIndex}",
+            "${req.body.letterfile}"
+        )`;
+
+    db.query(insertApprovalQuery, (err, insertApprovalResult, fields) => {
+        if(err) console.log(err);
+
+        console.log("Succesfully inserted the approval letter");
+        console.log(insertApprovalResult);
+
+        var updateProjStatQuery = `UPDATE tbl_projectproposal
+            SET enum_proposalStatus="Approved"
+            WHERE int_projectID= ${resultIndex}`;
+
+        db.query(updateProjStatQuery, (err, updateProjStatResult, fields) => {
+            if(err) console.log(err);
+
+            console.log("Succesfully updated the proposal status");
+            console.log(updateProjStatResult);
+
+            var updateBudgetQuery = `UPDATE tbl_project
+                SET decimal_actualBudget = ${req.body.actualbudget}
+                WHERE int_projectID = ${resultIndex}`;
+
+            db.query(updateBudgetQuery, (err, updateBudgetResult, fields) => {
+                if(err) console.log(err);
+
+                console.log("Succesfully updated the project actual budget");
+                console.log(updateBudgetResult);
+
+                res.redirect('/budget/proposals/approved');
+            });
+        });
+    });
+});
+
+
+router.post('/checkinsertid',(req, res) => {
+    console.log('=================================');
+    console.log('BUDGET: PROPOSALS-APPROVAL-ID');
+    console.log('=================================');
+
+
+    resultIndex = req.body.resultIndex
+
+    console.log(resultIndex);
+});
+
+
+
+router.post('/checknumberget', (req,res) => {
+    console.log('=================================');
+    console.log('BUDGET: PROPOSALS-APPROVAL-CHECKNUMBER');
+    console.log('=================================');
+
+
+    res.redirect('/budget/proposals/checkinsert');
+});
+
+
+
+router.post('/checkinsert',(req, res) => {
+    console.log('=================================');
+    console.log('BUDGET: PROPOSALS-APPROVAL-INSERT');
+    console.log('=================================');
+
+    var insertCheckQuery = `UPDATE tbl_proposalapproval
+        SET varchar_checkNumber = "${req.body.checknumber}"
+        WHERE int_projectID = ${resultIndex}`;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+    db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
+        if(err) console.log(err);
+
+        console.log("Succesfully inserted the check number");
+        console.log(insertCheckResult);
+
+        var updateProjStatQuery = `UPDATE tbl_projectproposal
+            SET enum_proposalStatus="Ready to Open"
+            WHERE int_projectID= ${resultIndex}`;
+
+        db.query(updateProjStatQuery, (err, updateProjStatResult, fields) => {
+            if(err) console.log(err);
+
+            console.log("Succesfully updated the proposal status");           
+            console.log(updateProjStatResult);
+            
+            res.redirect('/budget/proposals/approved');
+        });
+    });
 });
 
 module.exports = router;

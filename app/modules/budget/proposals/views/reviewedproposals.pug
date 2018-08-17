@@ -85,11 +85,12 @@ block content
                                                                 <div class="row">
                                                                     a(href=`/budget/proposals/${proposal.int_projectID}/details`): button.btn.btn-primary: span.fa.fa-eye
                                                                     //- button.btn.btn-success(data-toogle="modal" data-target="#approveModal"): span.fa.fa-upload
-                                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approveModal">
-                                                                        <span>
-                                                                            <i class="fa fa-upload"></i>
-                                                                        </span>
-                                                                    </button>
+                                                                    //- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approveModal">
+                                                                    //-     <span>
+                                                                    //-         <i class="fa fa-upload"></i>
+                                                                    //-     </span>
+                                                                    //- </button>
+                                                                    button.btn.btn-success.mb-1(title="Approval" id="btn-submit" class="btn-class" value= proposal.int_projectID): span.fa.fa-upload
                                                                     a(href=`/budget/proposals/${proposal.int_projectID}/delete`): button.btn.btn-danger: span.fa.fa-times
                                                                 </div>
                                                             </td>
@@ -113,8 +114,13 @@ block content
         <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form method="POST" action='/budget/proposals/viewdetail'>
+                
+                    <form method="POST" action="approval">
+                    
                         each detail in reviewedproposals
+
+                            input(type="hidden" value=`${detail.int_projectID}` name="int_projectID")
+
                             <div class="modal-header">
                                 <h5 class="modal-title" id="mediumModalLabel">Approval Requirement</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -122,35 +128,32 @@ block content
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" action="/budget/proposals/viewdetail">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" >Approval Letter</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="letterfile">
+                                        <label class="custom-file-label" >Choose file</label>
+                                    </div>
+                                </div>
 
-                                    each detail in reviewedproposals
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" >Approval Letter</span>
-                                            </div>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input">
-                                                <label class="custom-file-label" >Choose file</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Actual Budget</span>
-                                                <span class="input-group-text"> P </span>
-                                            </div>
-                                            <input type="text" class="form-control">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">0.00</span>
-                                            </div>
-                                        </div>
-                                </form>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Actual Budget</span>
+                                        <span class="input-group-text"> P </span>
+                                    </div>
+                                    <input type="text" class="form-control" name="actualbudget">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">0.00</span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                a(href=`/budget/proposals/${detail.int_projectID}/approval`): button.btn.btn-success Confirm
+                                //- a(href=`/budget/proposals/${detail.int_projectID}/approval`): button.btn.btn-success Confirm
                                 //- <input type="submit" value="submit" class="btn btn-success">
+                                button.btn.btn-success.btn-s(type='submit' id="approvalconfirm") Submit
                             </div>
                     </form>
                 </div>
@@ -159,3 +162,37 @@ block content
         <!-- end modal medium -->
     </section>
     <!-- END STATISTIC-->
+
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+
+    script.
+
+        $(document).ready(function () {
+
+            $('.btn-class').click(function (e) {
+                e.preventDefault()
+                var Id = $(this).val();
+                console.log("================================Id(Class)")
+                console.log(Id);
+                console.log("================================Id(Class)")
+                $('#approveModal').modal('show');
+
+                    $('#approvalconfirm').click(function() {
+                        $.post('/budget/proposals/reviewapproval',{resultIndex:Id})
+                            .done(data =>{
+                                if(data){
+                                    swal({
+                                    title:'Success', 
+                                    text:'service deleted', 
+                                    icon:'success'
+                                    }).then(function(){
+                                        location.reload();
+                                    })
+                                    
+                                    
+                                    //- $('#approval').modal('hide');
+                                }
+                            });  
+                    });
+            }); 
+        });

@@ -13,6 +13,7 @@ router.use('/schedule', require('./schedule/routes'));
 router.use('/reports', require('./reports/routes'));
 router.use('/releasing', require('./releasing/routes'));
 router.use('/awards', require('./awards/routes'));
+router.use('/addbrgyaccnt', require('./addbrgyaccnt/routes'));
 
 
 

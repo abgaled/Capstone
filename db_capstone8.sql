@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2018 at 04:02 PM
+-- Generation Time: Aug 17, 2018 at 10:19 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -90,6 +90,13 @@ CREATE TABLE `tbl_application` (
   `enum_applicationStatus` enum('Pending','Approved','Rejected') NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_application`
+--
+
+INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_projectID`, `enum_applicationStatus`) VALUES
+(1, 3, 1, 'Approved');
+
 -- --------------------------------------------------------
 
 --
@@ -168,11 +175,12 @@ CREATE TABLE `tbl_barangay` (
 --
 
 INSERT INTO `tbl_barangay` (`int_barangayID`, `int_userID`, `int_cityID`, `varchar_barangayName`, `varchar_barangayContact`, `enum_barangayStatus`) VALUES
-(1, 3, 1, 'Addition Hills', '534-0503\r\n', 'Active'),
+(1, 3, 1, 'Addition Hills', '226-6666', 'Active'),
 (2, 5, 1, 'Bagong Silang', '514-8312/9953354', 'Active'),
 (3, 6, 1, 'Barangka Drive', '531-6544', 'Active'),
 (4, 7, 1, 'Hulo', '534-5056/535-2505', 'Active'),
-(5, 8, 1, 'Malamig', '533-1319', 'Active');
+(5, 8, 1, 'Malamig', '533-1319', 'Active'),
+(8, 13, 1, 'Buli', '09156662933', 'Active');
 
 -- --------------------------------------------------------
 
@@ -365,11 +373,21 @@ CREATE TABLE `tbl_notification` (
   `int_notifID` int(11) NOT NULL,
   `int_notifReceiverID` int(11) NOT NULL,
   `int_notifSenderID` int(11) NOT NULL,
+  `int_linkID` int(11) NOT NULL,
   `varchar_notifTitle` varchar(100) NOT NULL,
   `text_notifContent` text NOT NULL,
   `enum_notifStatus` enum('New','Read') NOT NULL DEFAULT 'New',
   `enum_notifInfo` enum('Project Application','Problem Statement','Project Proposal','Project Releasing','Barangay Award') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_notification`
+--
+
+INSERT INTO `tbl_notification` (`int_notifID`, `int_notifReceiverID`, `int_notifSenderID`, `int_linkID`, `varchar_notifTitle`, `text_notifContent`, `enum_notifStatus`, `enum_notifInfo`) VALUES
+(1, 3, 2, 1, 'There are changes in Barangay Awards!', 'Please check the problem statement with title \"Yey\"', 'New', 'Barangay Award'),
+(2, 3, 2, 5, 'There are changes in Problem Statement!', 'cjaaaaaaaaaaaaaaaaaaacnasicnsiuanisuannnnnnnnnnnnnnnnnnnnnncisajsiajcisajjjjjjjjjjjjjjjjjjjjjjjjicjisja', 'New', 'Problem Statement'),
+(3, 3, 2, 1, 'Changes in Project Application!', 'kXNJKKKKKKKKKKKKKKKKKKKKKKKKKKKKNJAJBHJBAbBXA', 'New', 'Project Releasing');
 
 -- --------------------------------------------------------
 
@@ -390,6 +408,13 @@ CREATE TABLE `tbl_personalinformation` (
   `varchar_contactNumber` varchar(50) DEFAULT NULL,
   `varchar_emailAddress` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_personalinformation`
+--
+
+INSERT INTO `tbl_personalinformation` (`int_applicationID`, `int_addressID`, `varchar_firstName`, `varchar_middleName`, `varchar_lastName`, `date_birthDate`, `enum_gender`, `int_applicantResidency`, `enum_civilStatus`, `varchar_contactNumber`, `varchar_emailAddress`) VALUES
+(1, 4, 'Abigale', 'Punzalan', 'Del Rosario', '1999-06-13', 'Female', 1999, 'Single', '09156662933', 'delrosarioabigale@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -463,7 +488,8 @@ CREATE TABLE `tbl_project` (
 --
 
 INSERT INTO `tbl_project` (`int_projectID`, `date_projectStart`, `date_projectEnd`, `datetime_releasingStart`, `datetime_releasingEnd`, `decimal_actualBudget`, `enum_projectStatus`) VALUES
-(1, '2018-08-08', '2018-09-30', '2018-09-13 00:00:00', '2018-09-13 00:00:00', '1000000.00', 'Ongoing');
+(1, '2018-08-08', '2018-09-30', '2018-09-13 00:00:00', '2018-09-13 00:00:00', '1000000.00', 'Releasing'),
+(3, '2018-08-18', '2018-09-30', '2018-09-10 00:00:00', '2018-09-10 00:00:00', '1000000.00', 'Ongoing');
 
 -- --------------------------------------------------------
 
@@ -581,7 +607,7 @@ CREATE TABLE `tbl_projectproposal` (
 
 INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_cityID`, `varchar_projectName`, `varchar_projectRationale`, `text_projectDescription`, `text_projectObjective`, `int_allotedSlot`, `int_dayDuration`, `decimal_estimatedBudget`, `date_createdDate`, `enum_proposalStatus`) VALUES
 (1, 1, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 1000, 150, '1000000', '2017-12-11', 'Pending'),
-(2, 2, 'Financial Assistance for Grade 4 students of Mababang Paaralan ng Sucat', 'It will help them to restore their school supplies that they recently used.', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 1500, 100, '10000000', '2018-02-13', 'Pending'),
+(2, 2, 'Financial Assistance for Grade 4 students of Mababang Paaralan ng Sucat', 'It will help them to restore their school supplies that they recently used.', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 1500, 100, '10000000', '2018-02-13', 'Approved'),
 (3, 1, 'Distribution of Supplies for Fire Victims', 'Residents will received their supplies.', 'Give the residents who were affected by the fire. Given that they pass the required requirements.', 'Giving of supplies to residents. First come first served service (first to complete the requirements will automatically gain a slot).', 1000, 120, '3509995234', '2018-03-15', 'Pending');
 
 -- --------------------------------------------------------
@@ -620,6 +646,14 @@ CREATE TABLE `tbl_proposalapproval` (
   `varchar_checkNumber` varchar(20) DEFAULT NULL,
   `enum_propappStatus` enum('Received','Pending') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_proposalapproval`
+--
+
+INSERT INTO `tbl_proposalapproval` (`int_projectID`, `blob_approvalLetter`, `varchar_checkNumber`, `enum_propappStatus`) VALUES
+(1, 0x756e646566696e6564, NULL, 'Received'),
+(2, 0x756e646566696e6564, ':100000000 :00000000', 'Received');
 
 -- --------------------------------------------------------
 
@@ -715,7 +749,8 @@ INSERT INTO `tbl_user` (`int_userID`, `varchar_userEmailAddress`, `varchar_userP
 (5, 'bagongsilang@gmail.com', 'bagongsilang', 'Barangay Staff'),
 (6, 'barangkadrive@gmail.com', 'barangkadrive', 'Barangay Staff'),
 (7, 'hulo@gmail.com', 'hulo', 'Barangay Staff'),
-(8, 'malamig@gmail.com', 'malamig', 'Barangay Staff');
+(8, 'malamig@gmail.com', 'malamig', 'Barangay Staff'),
+(13, 'delrosariochewwy@gmail.com', 'L9NoJfYS', 'Barangay Staff');
 
 --
 -- Indexes for dumped tables
@@ -944,7 +979,7 @@ ALTER TABLE `tbl_announcement`
 -- AUTO_INCREMENT for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tbl_applicationrequirement`
 --
@@ -959,7 +994,7 @@ ALTER TABLE `tbl_award`
 -- AUTO_INCREMENT for table `tbl_barangay`
 --
 ALTER TABLE `tbl_barangay`
-  MODIFY `int_barangayID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `int_barangayID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `tbl_barangayaward`
 --
@@ -1009,7 +1044,7 @@ ALTER TABLE `tbl_medicalhistory`
 -- AUTO_INCREMENT for table `tbl_notification`
 --
 ALTER TABLE `tbl_notification`
-  MODIFY `int_notifID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_notifID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tbl_problemproposal`
 --
@@ -1059,7 +1094,7 @@ ALTER TABLE `tbl_projectrequirement`
 -- AUTO_INCREMENT for table `tbl_proposalapproval`
 --
 ALTER TABLE `tbl_proposalapproval`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_releaselocation`
 --
@@ -1074,12 +1109,12 @@ ALTER TABLE `tbl_requirement`
 -- AUTO_INCREMENT for table `tbl_revisioncomment`
 --
 ALTER TABLE `tbl_revisioncomment`
-  MODIFY `int_revisionID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_revisionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `int_userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;COMMIT;
+  MODIFY `int_userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

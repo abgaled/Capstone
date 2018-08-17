@@ -1,0 +1,70 @@
+extends ../../home/views/navbar.pug
+
+block content
+    //- <!-- page content -->
+    <div class="right_col" role="main">
+    <div class="x_panel">
+        <div class="x_title">
+                <h2><i class="fa fa-users"></i> 
+                    value= projects.varchar_projectName
+                <small>(Releasing of Benefits)</small></h2>
+                <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+        <div class="container">
+            <div class="table-responsive m-b-40">
+                <table id="datatable" class="table table-borderless table-data3">
+                    <thead>
+                        <tr>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Gender</th>
+                            <th>Birthdate</th>
+                            <th>Year of Residency</th>
+                            <th>Civil Status</th>
+                            <th>Contact Number</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    each app in applications
+                        <tr class="tr-shadow">
+                            <td>
+                                value=app.varchar_lastName
+                            </td>
+                            <td>
+                                value=app.varchar_firstName
+                            </td>
+                            <td>
+                                value=app.varchar_middleName
+                            </td>
+                            <td>
+                                value=app.enum_gender
+                            </td>
+                            <td>
+                                value=app.date_birthDate
+                            </td>
+                            <td>
+                                value=app.int_applicantResidency
+                            </td>
+                            <td>
+                                value=app.enum_civilStatus
+                            </td>
+                            <td>
+                                value=app.varchar_contactNumber
+                            </td>
+                            <td>
+                                value=app.varchar_emailAddress
+                            </td> 
+                        </tr>        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        //- END OF DATA TABLE
+        </div>
+    </div>
+    </div>
+
+            
