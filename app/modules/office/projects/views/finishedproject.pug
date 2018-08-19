@@ -14,7 +14,7 @@ block content
                                 <div class="card-header">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th>Project Name</th>
@@ -45,7 +45,9 @@ block content
                                                             value=project.text_projectObjective
                                                         </td>
                                                         <td>
-                                                            value=project.varchar_categoryName
+                                                        //- each cat in tbl_category
+                                                        value=project.varchar_categoryName
+                                                            <br>
                                                         </td>
                                                         <td>
                                                             value=project.int_allotedSlot
@@ -54,7 +56,7 @@ block content
                                                             value=project.enum_projectStatus
                                                         </td>
                                                         <td>
-                                                            a(href=`/office/projects/finishedproject/${project.int_projectID}/viewfinished` id="viewproj" class="btn btn-primary btn-xs btn-block"): span View Details
+                                                            a(href=`/office/projects/finishedproject/${project.int_projectID}/viewfinished` id="viewproj" class="btn btn-success btn-xs btn-block"): span View Details
                                                             a(href=`/office/projects/finishedproject/${project.int_projectID}/viewapp` id="viewapp" class="btn btn-primary btn-xs btn-block"): span Applications
                                                         </td>
                                                     </tr>

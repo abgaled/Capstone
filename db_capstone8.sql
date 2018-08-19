@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2018 at 10:19 PM
+-- Generation Time: Aug 19, 2018 at 02:03 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -60,7 +60,7 @@ CREATE TABLE `tbl_address` (
 INSERT INTO `tbl_address` (`int_addressID`, `varchar_numberBlockLot`, `varchar_streetAvenueRoad`, `varchar_villageSubdivision`, `varchar_purokSitioZone`, `enum_addressType`) VALUES
 (1, '315', 'Maysilo', 'Cir', NULL, 'Permanent'),
 (2, 'Blk 12', NULL, 'Welfareville Compound\r\n', NULL, 'Permanent'),
-(3, 'cor. J. ', 'Luna Street', NULL, NULL, 'Permanent'),
+(3, 'cor. J. ', 'Luna Street', '', '', 'Permanent'),
 (4, '775 ', 'Barangka Drive', 'cor. Sgt.', ' Bumatay', 'Permanent');
 
 -- --------------------------------------------------------
@@ -95,7 +95,8 @@ CREATE TABLE `tbl_application` (
 --
 
 INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_projectID`, `enum_applicationStatus`) VALUES
-(1, 3, 1, 'Approved');
+(1, 3, 2, 'Approved'),
+(2, 3, 2, 'Rejected');
 
 -- --------------------------------------------------------
 
@@ -414,7 +415,8 @@ CREATE TABLE `tbl_personalinformation` (
 --
 
 INSERT INTO `tbl_personalinformation` (`int_applicationID`, `int_addressID`, `varchar_firstName`, `varchar_middleName`, `varchar_lastName`, `date_birthDate`, `enum_gender`, `int_applicantResidency`, `enum_civilStatus`, `varchar_contactNumber`, `varchar_emailAddress`) VALUES
-(1, 4, 'Abigale', 'Punzalan', 'Del Rosario', '1999-06-13', 'Female', 1999, 'Single', '09156662933', 'delrosarioabigale@gmail.com');
+(1, 4, 'Abigale', 'Punzalan', 'Del Rosario', '1999-06-13', 'Female', 1999, 'Single', '09156662933', 'delrosarioabigale@gmail.com'),
+(2, 3, 'Gale', 'Napiza', 'Del Rosario', '2000-06-13', 'Female', 2000, 'Single', '09152222933', 'delrosariocheww@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -451,7 +453,8 @@ CREATE TABLE `tbl_problemstatement` (
 INSERT INTO `tbl_problemstatement` (`int_statementID`, `int_barangayID`, `int_categoryID`, `varchar_statementTitle`, `text_statementContent`, `date_createdDate`, `enum_problemStatus`) VALUES
 (1, 3, 1, 'Check up for pregnant women.', 'Dummy', '2018-08-08', 'Submitted'),
 (5, 3, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Dummy1', '2018-08-08', 'Submitted'),
-(13, 3, 5, 'Scholarship grant for top 20 most outstanding students of muntinlupa city.', 'Dummy3', '2018-08-08', 'Submitted');
+(13, 3, 5, 'Scholarship grant for top 20 most outstanding students of muntinlupa city.', 'Dummy3', '2018-08-08', 'Submitted'),
+(14, 3, 2, 'khio', 'jgkjb', '2018-08-18', 'Submitted');
 
 -- --------------------------------------------------------
 
@@ -489,6 +492,7 @@ CREATE TABLE `tbl_project` (
 
 INSERT INTO `tbl_project` (`int_projectID`, `date_projectStart`, `date_projectEnd`, `datetime_releasingStart`, `datetime_releasingEnd`, `decimal_actualBudget`, `enum_projectStatus`) VALUES
 (1, '2018-08-08', '2018-09-30', '2018-09-13 00:00:00', '2018-09-13 00:00:00', '1000000.00', 'Releasing'),
+(2, '2018-08-19', '2018-09-19', '2018-09-11 00:00:00', '2018-09-11 00:00:00', '1000000.00', 'Finished'),
 (3, '2018-08-18', '2018-09-30', '2018-09-10 00:00:00', '2018-09-10 00:00:00', '1000000.00', 'Ongoing');
 
 -- --------------------------------------------------------
@@ -533,8 +537,8 @@ CREATE TABLE `tbl_projectcategory` (
 INSERT INTO `tbl_projectcategory` (`int_projcategID`, `int_projectID`, `int_categoryID`) VALUES
 (1, 1, 1),
 (2, 2, 2),
-(3, 2, 5),
-(4, 3, 3);
+(4, 3, 3),
+(5, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -606,9 +610,9 @@ CREATE TABLE `tbl_projectproposal` (
 --
 
 INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_cityID`, `varchar_projectName`, `varchar_projectRationale`, `text_projectDescription`, `text_projectObjective`, `int_allotedSlot`, `int_dayDuration`, `decimal_estimatedBudget`, `date_createdDate`, `enum_proposalStatus`) VALUES
-(1, 1, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 1000, 150, '1000000', '2017-12-11', 'Pending'),
+(1, 1, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 1000, 150, '1000000', '2017-12-11', ''),
 (2, 2, 'Financial Assistance for Grade 4 students of Mababang Paaralan ng Sucat', 'It will help them to restore their school supplies that they recently used.', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 1500, 100, '10000000', '2018-02-13', 'Approved'),
-(3, 1, 'Distribution of Supplies for Fire Victims', 'Residents will received their supplies.', 'Give the residents who were affected by the fire. Given that they pass the required requirements.', 'Giving of supplies to residents. First come first served service (first to complete the requirements will automatically gain a slot).', 1000, 120, '3509995234', '2018-03-15', 'Pending');
+(3, 1, 'Distribution of Supplies for Fire Victims', 'Residents will received their supplies.', 'Give the residents who were affected by the fire. Given that they pass the required requirements.', 'Giving of supplies to residents. First come first served service (first to complete the requirements will automatically gain a slot).', 1000, 120, '3509995234', '2018-03-15', 'Approved');
 
 -- --------------------------------------------------------
 
@@ -652,7 +656,7 @@ CREATE TABLE `tbl_proposalapproval` (
 --
 
 INSERT INTO `tbl_proposalapproval` (`int_projectID`, `blob_approvalLetter`, `varchar_checkNumber`, `enum_propappStatus`) VALUES
-(1, 0x756e646566696e6564, NULL, 'Received'),
+(1, 0x756e646566696e6564, ':100000000 :00000000', 'Received'),
 (2, 0x756e646566696e6564, ':100000000 :00000000', 'Received');
 
 -- --------------------------------------------------------
@@ -979,7 +983,7 @@ ALTER TABLE `tbl_announcement`
 -- AUTO_INCREMENT for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_applicationrequirement`
 --
@@ -1054,7 +1058,7 @@ ALTER TABLE `tbl_problemproposal`
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
 ALTER TABLE `tbl_problemstatement`
-  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `tbl_professionalbg`
 --
@@ -1069,7 +1073,7 @@ ALTER TABLE `tbl_projectbeneficiary`
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
 ALTER TABLE `tbl_projectcategory`
-  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `tbl_projectform`
 --
@@ -1109,7 +1113,7 @@ ALTER TABLE `tbl_requirement`
 -- AUTO_INCREMENT for table `tbl_revisioncomment`
 --
 ALTER TABLE `tbl_revisioncomment`
-  MODIFY `int_revisionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `int_revisionID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --

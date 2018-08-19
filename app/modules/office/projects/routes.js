@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
+var moment = require('moment');
 
 router.get('/newproject',(req, res) => {
     console.log('=================================');
@@ -44,6 +45,7 @@ router.get('/newproject/:int_projectID/viewproj',(req, res) => {
 
 });
 });
+
 router.get('/ongoingproject',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT');
@@ -116,18 +118,65 @@ router.get('/ongoingproject/:int_projectID/viewproj',(req, res) => {
                         console.log(results5);
                         if (err) console.log(err);
 
+                        var queryString6 =`SELECT * FROM tbl_application ap
+                        JOIN tbl_personalinformation pi 
+                        ON ap.int_applicationID = pi.int_applicationID
+                        WHERE ap.int_projectID = "${req.params.int_projectID}"
+                        AND ap.enum_applicationStatus = "Approved" 
+                        OR ap.enum_applicationStatus = "Rejected"`
+                        
+                        db.query(queryString6, (err, results6, fields) => {
+                            console.log(results6);
+
                             res.render('office/projects/views/viewproj', {
                                 tbl_projectproposal:results, 
                                 tbl_projectrequirement:results2, 
                                 tbl_projectbeneficiary:results3, 
                                 tbl_releaselocation:results4,
-                                tbl_projectcategory:results5});
+                                tbl_projectcategory:results5,
+                                applications:results6});
+                        });
 
     });
 });
 });
 });
 });
+});
+
+// AJAX GET DETAILS VIEW DETAILS PROJECT - VIEW APPLICANT DETAILS
+router.post('/ongoingproject/:int_projectID/viewproj/ajaxapplicantdetails',(req,res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROJECT VIEW DETAILS-VIEW APPLICATION-AJAX GET DETAILS (POST)');
+    console.log('=================================');
+    console.log(`${req.body.ajApplicationID}`);
+
+    var queryString = `SELECT * FROM tbl_personalinformation pi
+    JOIN tbl_application ap 
+    ON pi.int_applicationID=ap.int_applicationID 
+    JOIN tbl_address ad
+    ON pi.int_addressID=ad.int_addressID
+    WHERE pi.int_applicationID=${req.body.ajApplicationID}`
+
+
+    db.query(queryString,(err, results, fields) => {
+        if (err) console.log(err);
+
+        console.log(results);
+
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
+        }
+
+        var resultss = results[0];
+
+        console.log("===================RESULTSS")
+        console.log(resultss)
+
+        return res.send({tbl_application:resultss});
+    });
 });
 
 router.get('/ongoingproject/:int_projectID/viewapp',(req, res) => {
@@ -146,10 +195,10 @@ router.get('/ongoingproject/:int_projectID/viewapp',(req, res) => {
         var queryString2 =`SELECT * FROM tbl_application ap
         JOIN tbl_personalinformation pi 
         ON ap.int_applicationID = pi.int_applicationID
-        WHERE ap.int_projectID = "${req.params.int_projectID}"`
+        WHERE ap.int_projectID = "${req.params.int_projectID}"
+        AND ap.enum_applicationStatus = "Pending"`
 
         db.query(queryString2, (err, results2, fields) => {
-    
     
             res.render('office/projects/views/viewapplication',{
                     tbl_project:results1,
@@ -159,34 +208,108 @@ router.get('/ongoingproject/:int_projectID/viewapp',(req, res) => {
     });
 });
 
+
+router.post('/ongoingproject/:int_projectID/viewapp/accept',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS -ACCEPT APPLICATION');
+    console.log('=================================');
+
+    var queryString1 =`UPDATE tbl_application
+    SET enum_applicationStatus = 'Approved' 
+    WHERE int_applicationID = ${req.body.buttonaccept}`
+
+    db.query(queryString1, (err, results1, fields) => {
+
+        res.redirect(`/office/projects/ongoingproject/${req.params.int_projectID}/viewapp`);
+    });
+});
+
+router.post('/ongoingproject/:int_projectID/viewapp/reject',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS -REJECT APPLICATION');
+    console.log('=================================');
+
+    var queryString1 =`UPDATE tbl_application
+    SET enum_applicationStatus = 'Rejected' 
+    WHERE int_applicationID = ${req.body.buttonreject}`
+
+    db.query(queryString1, (err, results1, fields) => {
+
+        res.redirect(`/office/projects/ongoingproject/${req.params.int_projectID}/viewapp`);
+    });
+});
+
+
+// AJAX GET DETAILS ONGOING PROJECT - VIEW APPLICANT DETAILS
+router.post('/ongoingproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROJECT ONGOING-VIEW APPLICATION-AJAX GET DETAILS (POST)');
+    console.log('=================================');
+    console.log(`${req.body.ajApplicationID}`);
+
+    var queryString = `SELECT * FROM tbl_personalinformation pi
+    JOIN tbl_application ap 
+    ON pi.int_applicationID=ap.int_applicationID 
+    JOIN tbl_address ad
+    ON pi.int_addressID=ad.int_addressID
+    WHERE pi.int_applicationID=${req.body.ajApplicationID}`
+
+
+    db.query(queryString,(err, results, fields) => {
+        if (err) console.log(err);
+
+        console.log(results);
+
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
+        }
+
+        var resultss = results[0];
+
+        console.log("===================RESULTSS")
+        console.log(resultss)
+
+        return res.send({tbl_application:resultss});
+    });
+});
+
 router.get('/finishedproject',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: FINISHED PROJECT');
     console.log('=================================');
+
     var queryString =`SELECT * FROM tbl_project pr
-    JOIN tbl_projectproposal prpro ON pr.int_projectID=prpro.int_projectID
+    JOIN tbl_projectproposal prpro 
+    ON pr.int_projectID=prpro.int_projectID
     WHERE pr.enum_projectStatus = 'Finished' 
     ORDER BY pr.int_projectID DESC`
 
-    var queryString2 =`SELECT * FROM tbl_projectcategory pr
-    JOIN tbl_projectproposal prcat ON pr.int_projectID=prcat.int_projectID
-    JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"
-    ORDER BY pr.int_projectID DESC `
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
-        // console.log(results);
-        db.query(queryString2, (err, results2, fields) => {
-            console.log(results2);
-            if (err) console.log(err);
-            // console.log(results);
-        res.render('office/projects/views/finishedproject',{tbl_project:results});
-    });
-    });
 
+        var queryString2=`SELECT * FROM tbl_projectcategory pc
+        JOIN tbl_projectproposal pr ON pr.int_projectID=pc.int_projectID
+        JOIN tbl_category cat ON cat.int_categoryID=pc.int_categoryID
+        JOIN tbl_project pro ON pro.int_projectID = pr.int_projectID
+        WHERE pro.enum_projectStatus="Finished"`
+
+        db.query(queryString2, (err, results2, fields) => {
+            console.log("-----------RESULTS2")
+            console.log(results2);
+
+      
+            res.render('office/projects/views/finishedproject',{
+                tbl_project:results,
+                tbl_category:results2});
+        });
+    });
 });
+
+
 router.get('/finishedproject/:int_projectID/viewfinished',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT');
@@ -232,10 +355,78 @@ router.get('/finishedproject/:int_projectID/viewfinished',(req, res) => {
                     db.query(queryString5, (err, results5, fields) => {
                         console.log(results5);
                         if (err) console.log(err);
-     res.render('office/projects/views/viewfinished', {tbl_projectproposal:results, tbl_projectrequirement:results2, tbl_projectbeneficiary:results3, tbl_releaselocation:results4,tbl_projectcategory:results5});
+        res.render('office/projects/views/viewfinished', {tbl_projectproposal:results, tbl_projectrequirement:results2, tbl_projectbeneficiary:results3, tbl_releaselocation:results4,tbl_projectcategory:results5});
 
     });});});});
 });
+});
+
+router.get('/finishedproject/:int_projectID/viewapp',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: FINISHED PROJECT - VIEW APPLICATION');
+    console.log('=================================');
+
+    var queryString =`SELECT * FROM tbl_project pr
+    JOIN tbl_application app
+    ON pr.int_projectID=app.int_projectID
+    JOIN tbl_personalinformation pi
+    ON pi.int_applicationID = app.int_applicationID
+    WHERE pr.enum_projectStatus = 'Finished'
+    AND app.int_projectID=${req.params.int_projectID}`
+
+    
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+
+        var queryString2= `SELECT * FROM tbl_project pr
+        JOIN tbl_projectproposal pp 
+        ON pr.int_projectID = pp.int_projectID
+        WHERE pr.enum_projectStatus = 'Finished'
+        AND pr.int_projectID=${req.params.int_projectID}`
+
+        db.query(queryString2, (err, results2, fields) => {
+
+            res.render('office/projects/views/appfinishedproject',{
+                tbl_project:results,
+                project:results2});
+        });
+    });
+});
+
+// AJAX GET DETAILS FINISHED PROJECT - VIEW APPLICANT DETAILS
+router.post('/finishedproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROJECT ONGOING-VIEW APPLICATION-AJAX GET DETAILS (POST)');
+    console.log('=================================');
+    console.log(`${req.body.ajApplicationID}`);
+
+    var queryString = `SELECT * FROM tbl_personalinformation pi
+    JOIN tbl_application ap 
+    ON pi.int_applicationID=ap.int_applicationID 
+    JOIN tbl_address ad
+    ON pi.int_addressID=ad.int_addressID
+    WHERE pi.int_applicationID=${req.body.ajApplicationID}`
+
+
+    db.query(queryString,(err, results, fields) => {
+        if (err) console.log(err);
+
+        console.log(results);
+
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
+        }
+
+        var resultss = results[0];
+
+        console.log("===================RESULTSS")
+        console.log(resultss)
+
+        return res.send({tbl_application:resultss});
+    });
 });
 
 
