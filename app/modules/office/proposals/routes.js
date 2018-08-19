@@ -91,25 +91,25 @@ router.get('/submittedproposals',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROPOSALS');
     console.log('=================================');
-    console.log("ALLLLLLLL"); 
-    var queryString =`SELECT * FROM tbl_projectproposal
-    WHERE enum_proposalStatus = "Pending"`
+ 
 
-    var queryString2 =`SELECT * FROM tbl_projectcategory pr
-    JOIN tbl_projectproposal prcat ON pr.int_projectID=prcat.int_projectID
-    JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+    var queryString =`SELECT * FROM tbl_projectproposal pp
+    JOIN tbl_projectcategory pc
+    ON pp.int_projectID = pc.int_projectID
+    JOIN tbl_category cat
+    ON pc.int_categoryID = cat.int_categoryID
+    WHERE pp.enum_proposalStatus = "Pending"`
+
+
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
-        // console.log(results);
-        db.query(queryString2, (err, results2, fields) => {
-            console.log(results2);
-            if (err) console.log(err);
-        res.render('office/proposals/views/submittedproposals', {tbl_projectproposal: results,tbl_projectcategory: results2});
+        
+        res.render('office/proposals/views/submittedproposals', {
+            tbl_projectproposal: results});
     });
 });
-});
+
 router.get('/submittedproposals/:int_projectID/proposaldetails',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT');

@@ -59,13 +59,17 @@ router.get('/submittedproblems',(req, res) => {
     console.log('=================================');
 
     var queryString = `SELECT * FROM tbl_problemstatement pr
-    JOIN tbl_projectcategory prcat ON pr.int_categoryID=prcat.int_categoryID ORDER BY pr.int_statementID DESC `
+    JOIN tbl_projectcategory prcat 
+    ON pr.int_categoryID=prcat.int_categoryID 
+    JOIN tbl_category cat
+    ON pr.int_categoryID = cat.int_categoryID
+    ORDER BY pr.int_statementID DESC `
 
 
     db.query(queryString,(err, results, fields) => {
         if (err) console.log(err);       
 
-    res.render('office/problems/views/submittedproblems',{tbl_problemstatement:results});
+        res.render('office/problems/views/submittedproblems',{tbl_problemstatement:results});
     });
 
 });
