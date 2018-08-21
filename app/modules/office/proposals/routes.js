@@ -9,14 +9,53 @@ router.get('/',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROPOSALS');
     console.log('=================================');
-    
-    var queryString =`SELECT * FROM tbl_category WHERE enum_categoryStatus = 'Active'`
-    
-    var queryString2 =`SELECT * FROM tbl_beneficiary WHERE enum_beneficiaryStatus = 'Active'`
+ 
 
-    var queryString3 =`SELECT * FROM tbl_requirement WHERE enum_requirementStatus = 'Active'`
+    var queryString =`SELECT * FROM tbl_projectproposal pr
+    JOIN tbl_proposalapproval proapp ON pr.int_projectID=proapp.int_projectID
+    JOIN tbl_project proj ON pr.int_projectID=proj.int_projectID
+    WHERE proj.enum_projectStatus="New"`
 
-    var queryString4 =`SELECT * FROM tbl_releaselocation WHERE enum_locationStatus = 'Active'`
+
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+        
+        res.render('office/proposals/views/proposals', {
+            tbl_projectproposal: results});
+    });
+    
+});
+
+router.get('/proposals/:int_projectID/proposaldetails',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: ONGOING PROJECT');
+    console.log('=================================');
+    console.log(req.params.int_projectID);
+    var queryString =`SELECT * FROM tbl_projectproposal pr
+    JOIN tbl_project proj ON pr.int_projectID = proj.int_projectID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString2 =`SELECT * FROM tbl_projectrequirement prcat
+    JOIN tbl_projectproposal pr ON pr.int_projectID=prcat.int_projectID
+    JOIN tbl_requirement rq ON rq.int_requirementID=prcat.int_requirementID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString3 =`SELECT * FROM tbl_projectbeneficiary prbf
+    JOIN tbl_projectproposal pr ON pr.int_projectID=prbf.int_projectID
+    JOIN tbl_beneficiary bf ON prbf.int_beneficiaryID=bf.int_beneficiaryID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString4 =`SELECT * FROM tbl_projectlocation pl
+    JOIN tbl_projectproposal pr ON pr.int_projectID=pl.int_projectID
+    JOIN tbl_releaselocation rl ON pl.int_locationID=rl.int_locationID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString5 =`SELECT * FROM tbl_projectcategory pc
+    JOIN tbl_projectproposal pr ON pr.int_projectID=pc.int_projectID
+    JOIN tbl_category cat ON cat.int_categoryID=pc.int_categoryID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+    
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -30,14 +69,18 @@ router.get('/',(req, res) => {
                 db.query(queryString4, (err, results4, fields) => {
                     console.log(results4);
                     if (err) console.log(err);
-        // console.log(results);
-                        res.render('office/proposals/views/proposals', {tbl_category: results,tbl_beneficiary:results2,tbl_requirement:results3,tbl_releaselocation:results4});
-                });
+                    db.query(queryString5, (err, results5, fields) => {
+                        console.log(results5);
+                        if (err) console.log(err);
+
+                    res.render('office/proposals/views/proposaldetails', {tbl_projectproposal:results, tbl_projectrequirement:results2, tbl_projectbeneficiary:results3, tbl_releaselocation:results4,tbl_projectcategory:results5});
+
+                 }); 
             });
         });
     });
 });
-
+});
 router.post('/',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROPOSALS');
@@ -105,58 +148,23 @@ router.post('/',(req, res) => {
     });
 });
 
-router.get('/submittedproposals',(req, res) => {
+router.get('/createproposals',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROPOSALS');
     console.log('=================================');
  
 
-    var queryString =`SELECT * FROM tbl_projectproposal pr
-    JOIN tbl_proposalapproval proapp ON pr.int_projectID=proapp.int_projectID
-    JOIN tbl_projectcategory pc ON pr.int_projectID = pc.int_projectID
-    JOIN tbl_category cat ON pc.int_categoryID = cat.int_categoryID
-    WHERE enum_proposalStatus = "Pending"
-    OR enum_proposalStatus = "Revision"`
-
-
-    db.query(queryString, (err, results, fields) => {
-        console.log(results);
-        if (err) console.log(err);
-        
-        res.render('office/proposals/views/submittedproposals', {
-            tbl_projectproposal: results});
-    });
-});
-
-router.get('/submittedproposals/:int_projectID/proposaldetails',(req, res) => {
     console.log('=================================');
-    console.log('OFFICE: ONGOING PROJECT');
+    console.log('OFFICE: PROPOSALS');
     console.log('=================================');
-    console.log(req.params.int_projectID);
-    var queryString =`SELECT * FROM tbl_projectproposal pr
-    JOIN tbl_project proj ON pr.int_projectID = proj.int_projectID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
-
-    var queryString2 =`SELECT * FROM tbl_projectrequirement prcat
-    JOIN tbl_projectproposal pr ON pr.int_projectID=prcat.int_projectID
-    JOIN tbl_requirement rq ON rq.int_requirementID=prcat.int_requirementID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
-
-    var queryString3 =`SELECT * FROM tbl_projectbeneficiary prbf
-    JOIN tbl_projectproposal pr ON pr.int_projectID=prbf.int_projectID
-    JOIN tbl_beneficiary bf ON prbf.int_beneficiaryID=bf.int_beneficiaryID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
-
-    var queryString4 =`SELECT * FROM tbl_projectlocation pl
-    JOIN tbl_projectproposal pr ON pr.int_projectID=pl.int_projectID
-    JOIN tbl_releaselocation rl ON pl.int_locationID=rl.int_locationID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
-
-    var queryString5 =`SELECT * FROM tbl_projectcategory pc
-    JOIN tbl_projectproposal pr ON pr.int_projectID=pc.int_projectID
-    JOIN tbl_category cat ON cat.int_categoryID=pc.int_categoryID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
     
+    var queryString =`SELECT * FROM tbl_category WHERE enum_categoryStatus = 'Active'`
+    
+    var queryString2 =`SELECT * FROM tbl_beneficiary WHERE enum_beneficiaryStatus = 'Active'`
+
+    var queryString3 =`SELECT * FROM tbl_requirement WHERE enum_requirementStatus = 'Active'`
+
+    var queryString4 =`SELECT * FROM tbl_releaselocation WHERE enum_locationStatus = 'Active'`
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -170,17 +178,13 @@ router.get('/submittedproposals/:int_projectID/proposaldetails',(req, res) => {
                 db.query(queryString4, (err, results4, fields) => {
                     console.log(results4);
                     if (err) console.log(err);
-                    db.query(queryString5, (err, results5, fields) => {
-                        console.log(results5);
-                        if (err) console.log(err);
-
-                    res.render('office/proposals/views/proposaldetails', {tbl_projectproposal:results, tbl_projectrequirement:results2, tbl_projectbeneficiary:results3, tbl_releaselocation:results4,tbl_projectcategory:results5});
-
-                 }); 
+        // console.log(results);
+                        res.render('office/proposals/views/createproposals', {tbl_category: results,tbl_beneficiary:results2,tbl_requirement:results3,tbl_releaselocation:results4});
+                });
             });
         });
     });
 });
-});
+
 
 module.exports = router;

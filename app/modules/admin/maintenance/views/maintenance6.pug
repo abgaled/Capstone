@@ -22,7 +22,6 @@ block content
                       <thead>
                         <tr>
                           <th>Award Name</th>
-                          <th>Description</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -31,9 +30,6 @@ block content
                           <tr>
                           <td>
                             value=award.varchar_awardName
-                          </td>
-                          <td>
-                            value=award.text_awardDescription
                           </td>
                           <td>
                             a(href=`/admin/maintenance/awards/${award.int_awardID}/editaward` id="editaward" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit

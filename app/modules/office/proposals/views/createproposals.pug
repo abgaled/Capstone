@@ -1,0 +1,348 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Proposal Form<small></small></h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="wizard" class="form_wizard wizard_horizontal">
+                                <ul class="wizard_steps">
+                                    <li>
+                                        <a href="#step-1">
+                                        <span class="step_no">1</span>
+                                        <span class="step_descr">Problem List<br/>
+                                        <small>Approved problems of barangay</small>
+                                        </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#step-2">
+                                        <span class="step_no">2</span>
+                                        <span class="step_descr">Basic<br/>Proposal Information<br/>
+                                        <small>Basic information regarding the project.</small>
+                                        </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#step-3">
+                                        <span class="step_no">3</span>
+                                        <span class="step_descr">Beneficiary Details<br/>
+                                        <small>What details do we need about the beneficiary?</small>
+                                        </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#step-4">
+                                        <span class="step_no">4</span>
+                                        <span class="step_descr">Requirements<br/>
+                                        <small>What requirements are needed to <br/>be passed in this project?</small>
+                                        </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#step-5">
+                                        <span class="step_no">5</span>
+                                        <span class="step_descr">Timeline<br/>
+                                        <small>Important dates in the project.</small>
+                                        </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#step-6">
+                                        <span class="step_no">6</span>
+                                        <span class="step_descr">Budget<br/>
+                                        <small>How much should be in this project?</small>
+                                        </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#step-7">
+                                        <span class="step_no">7</span>
+                                        <span class="step_descr">Summary<br/>
+                                        <small>Project proposal overview.</small>   
+                                        </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                
+                                <div id="step-1">
+                                    <form class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Problems to be solved</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <select class="select2_multiple form-control" multiple="multiple">
+                                                    <option>Choose option</option>
+                                                        <option>
+                                                        </option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div id="step-2">
+                                    <form class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectname">Project Name <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" id="projectname" required="required"placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="select2_multiple form-control" multiple="multiple">
+                                                <option>Choose option</option>
+                                                each category in tbl_category
+                                                    <option>
+                                                    value=category.varchar_categoryName
+                                                    </option>
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectrationale">Project Rationale</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <textarea class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="projectrationale"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectobjectives">Project Objective</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <textarea class="resizable_textarea form-control" placeholder="Please fill project objective ..." id="projectobjectives"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectdescription">Project Description</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <textarea class="resizable_textarea form-control" placeholder="Please fill project description ..." id="projectdescription"></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                                <div id="step-3">
+                                    <form class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Target Beneficiary</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="select2_multiple form-control" multiple="multiple">
+                                                <option>Choose option</option>
+                                                each beneficiary in tbl_beneficiary
+                                                    <option>
+                                                    value=beneficiary.varchar_beneficiaryName
+                                                    </option>
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Alloted Slot <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" id="allotedslot" required="required"placeholder="Number of beneficiary ..."onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div id="step-4">
+                                    <form class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select requirements</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="select2_multiple form-control" multiple="multiple">
+                                                <option>Choose option</option>
+                                                each requirement in tbl_requirement
+                                                    <option>
+                                                    value=requirement.varchar_requirementName
+                                                    </option>
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div id="step-5">
+                                    <form class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Duration of application <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" id="applicationDuration" required="required" placeholder="Number of days residents can apply ..." class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Releasing Date <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" id="releasingDate" required="required" placeholder="Number of days after closing application ..." class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="select2_multiple form-control" multiple="multiple">
+                                                <option>Choose option</option>
+                                                each location in tbl_releaselocation
+                                                    <option>
+                                                    value=location.varchar_locationName
+                                                    </option>
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div id="step-6">
+                                    <form class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estimatedbudget">Estimated Budget <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" id="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="individualbudget">Individual Budget <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" id="individualbudget" readonly="readonly" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div id="step-7">
+                                    <form class="form-horizontal form-label-left">
+                                        <div class="x_panel">
+                                        <div class="x_title">
+                                            <h2><i class=""></i> Proposal Summary <small></small></h2>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content">
+                                            <div class="col-xs-3">
+                                            <!-- required for floating -->
+                                            <!-- Nav tabs -->
+                                            <ul class="nav nav-tabs tabs-left">
+                                                <li class="active"><a href="#problemlist" data-toggle="tab">Problem List</a>
+                                                </li>
+                                                <li><a href="#basicinformation" data-toggle="tab">Basic Proposal Information</a>
+                                                </li>
+                                                <li><a href="#beneficiary" data-toggle="tab">Beneficiary Details</a>
+                                                </li>
+                                                <li><a href="#requirements" data-toggle="tab">Requirements</a>
+                                                </li>
+                                                <li><a href="#timeline" data-toggle="tab">Timeline</a>
+                                                </li>
+                                                <li><a href="#budget" data-toggle="tab">budget</a>
+                                                </li>
+                                            </ul>
+                                            </div>
+
+                                            <div class="col-xs-9">
+                                            <!-- Tab panes -->
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="problemlist">
+                                                    <p class="excerpt"><strong>Problem to be solved:</strong> 
+                                                        </a>
+                                                    </p></br>
+                                                </div>
+                                                <div class="tab-pane" id="basicinformation">
+                                                    <h2 class="title">
+                                                    <a><strong>Project Title:</strong> </a> </br> 
+                                                    </h2>
+                                                    <div class="byline">
+                                                        <span></a><strong>Category</strong></span> : <a>
+                                                        </a></br>
+                                                    </div>
+                                                    <p class="excerpt"></a><strong>Problem to be solved: </strong>
+                                                        </a></br>
+                                                    </p>
+                                                    <p class="excerpt"></a><strong>Project Rationale: </strong>
+                                                        </a></br>
+                                                    </p>
+                                                    <p class="excerpt"></a><strong>Project Objective: </strong>
+                                                        </a></br>
+                                                    </p>
+                                                    <p class="excerpt"></a><strong>Project Description:</strong> 
+                                                        </a></br>
+                                                    </p>
+                                                </div>
+                                                <div class="tab-pane" id="beneficiary">
+                                                    <p class="excerpt"><a><strong>Target Beneficiary:</strong> 
+                                                        <br/>
+                                                        </a>
+                                                    </p>
+                                                    <p class="excerpt"></a><strong>Alloted Slot: </strong>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                                <div class="tab-pane" id="requirements">
+                                                    <p class="excerpt"><strong>Requirements: </strong>
+                                                        <a>
+                                                        <br/>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                                <div class="tab-pane" id="timeline">
+                                                    <p class="excerpt"></a><strong>Duration of Application: </strong>
+                                                        </a></br>
+                                                    </p>
+                                                    <p class="excerpt"></a><strong>Releasing Date: </strong>
+                                                        </a></br>
+                                                    </p>
+                                                    <p class="excerpt"></a><strong>Releasing Location: </strong>
+                                                        </a></br>
+                                                    </p>
+                                                </div>
+                                                <div class="tab-pane" id="budget">
+                                                    <p class="excerpt"><strong>Estimated Budget:</strong> PHP 
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                            <div class="clearfix"></div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>      
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+            
+            script.
+                $('#myDatepicker2').datetimepicker({
+                format: 'DD.MM.YYYY'
+                });
+                    
+                function autobudget() {
+                    var x = document.getElementById("allotedslot").value;
+                    var y = document.getElementById("estimatedbudget").value;
+                    var z = y/x;
+                    if(x!=0)
+                    {
+                        if(x>y)
+                        document.getElementById("individualbudget").value = 0;
+                        else
+                        document.getElementById("individualbudget").value = z;}
+                    
+                    else
+                    document.getElementById("individualbudget").value = 0;
+                }

@@ -6,7 +6,7 @@ block content
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h1>List of Received Problem Statements</h1>
+                        <h1 class="text-center">Statement of Problem</h1>
                     </div>              
                     <div class="content-wrapper">
                         <div class="container-fluid">
@@ -18,8 +18,6 @@ block content
                                                 <thead>
                                                     <tr>
                                                     <th>Problem Name</th>
-                                                    <th>Category Name</th>
-                                                    <th>Date Created</th>
                                                     <th>Status</th>
                                                     <th>Actions</th>
                                                     </tr>
@@ -27,8 +25,6 @@ block content
                                                 <tfoot>
                                                     <tr>
                                                     <th>Problem Name</th>
-                                                    <th>Category Name</th>
-                                                    <th>Date Created</th>
                                                     <th>Status</th>
                                                     <th>Actions</th>
                                                     </tr>
@@ -40,17 +36,12 @@ block content
                                                         value=problem.varchar_statementTitle
                                                     </td>
                                                     <td>
-                                                        value=problem.varchar_categoryName
-                                                    </td>
-                                                    <td>
-                                                        value=problem.text_statementContent
-                                                    </td>
-                                                    <td>
                                                         value=problem.enum_problemStatus
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-success btn-xs btn-block " id="view" type="button" data-toggle="modal" data-target=".bs-example-modal-lg"><span class=""></span>Acknowledge</button>
-                                                        a(href=`/office/problems/submittedproblems/${problem.int_statementID}/rejectstatement` id="rejectstatement" class="btn btn-danger btn-xs btn-block"): span.fa.fa-ban  Reject
+                                                        button.btn.btn-info.mb-1.btn-sm.btn-block(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID): span.fa.fa-eye View
+                                                        a(href=`/office/problems/submittedproblems/${problem.int_statementID}/acknowledge` id="acknowledge" class="btn btn-success btn-sm btn-block"): span.fa.fa-check  Acknowledge
+                                                        a(href=`/office/problems/submittedproblems/${problem.int_statementID}/rejectstatement` id="rejectstatement" class="btn btn-danger btn-sm btn-block"): span.fa.fa-ban  Reject
                                                     </td>
                                                     </tr>
                                                 </tbody>
@@ -58,5 +49,113 @@ block content
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal fade bs-example-modal-lg" id="modalviewproblem" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                        <div class="modal-body">
+                                            
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title" id="myModalLabel"><span class="section">View Statement of Problem</span></h4> 
+                                                <div class="item form-group">
+                                                        <label class="control-label col-md-2" for="problemtitle">Statement Title:
+                                                        </label>
+                                                        <div class="col-md-9" id="aj-problemtitle">
+                                            
+                                                        </div>
+                                                        <br>
+                                                </div>
+                                                <div class="item form-group">
+                                                        <label class="control-label col-md-2" for="problemstatus">Status:
+                                                        </label>
+                                                        <div class="col-md-9" id="aj-problemstatus" >
+                                            
+                                                        </div>
+                                                        <br>
+                                                </div>
+                                                <div class="item form-group">
+                                                        <label class="control-label col-md-2" for="problemcontent">Statement Content:
+                                                        </label>
+                                                        <div class="col-md-9" id="aj-problemcontent">
+                                            
+                                                        </div>
+                                                        <br>
+                                                </div>
+                                                <div class="item form-group">
+                                                        <label class="control-label col-md-2" for="problemcreated">Date Created:
+                                                        </label>
+                                                        <div class="col-md-9" id="aj-problemcreated">
+                                            
+                                                        </div>
+                                                        <br>
+                                                </div>
+                                                <div class="item form-group">
+                                                        <label class="control-label col-md-2" for="problemcategory">Category:
+                                                        </label>
+                                                        <div class="col-md-9" id="aj-problemcategory">
+                                            
+                                                        </div>
+                                                        <br>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+                                script.
+
+                                    //- SCRIPT GET INT_STATEMENTID (VIEW MODAL)
+
+                                        $(document).ready(function () {
+
+                                            $('.btn-view-problem').click(function (e) {
+                                                e.preventDefault()
+                                                var Id = $(this).val();
+                                                console.log("================================Id(Class)")
+                                                console.log(Id);
+                                                console.log("================================Id(Class)")
+                                                $('#modalviewproblem').modal('show');
+                                                ajaxGet();
+
+                                                function ajaxGet(){
+                                                console.log("========Id");
+                                                console.log(Id);
+                                                console.log("========Id");
+
+                                                $.ajax({
+                                                    type : "POST",
+                                                    url : window.location + "/ajaxgetdetails",
+                                                    data: { ajStatementID: Id},
+                                                    dataType: "json",
+                                                    success: function(tbl_problemstatement1){
+
+                                                    console.log(tbl_problemstatement1)
+
+                                                        $.each(tbl_problemstatement1, function (index, value) {
+                                                            console.log(value);
+
+                                                            document.getElementById("aj-problemstatus").innerHTML = value.enum_problemStatus     
+                                                            document.getElementById("aj-problemtitle").innerHTML = value.varchar_statementTitle
+                                                            document.getElementById("aj-problemcontent").innerHTML = value.text_statementContent
+                                                            document.getElementById("aj-problemcreated").innerHTML = value.date_createdDate
+                                                            document.getElementById("aj-problemcategory").innerHTML = value.varchar_categoryName
+                                                                
+                                                            console.log("Success: " );
+                                                        });
+                                                                                    
+                                                        
+                                                    },
+                                                    error : function(e) {
+                                                        console.log("ERROR: ", e);
+                                                    }
+                                                });	
+                                            }
+                                            }); 
+
+                                            
+                                        });
         <!-- END STATISTIC-->
             

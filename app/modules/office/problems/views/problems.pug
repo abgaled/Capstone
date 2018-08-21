@@ -1,67 +1,167 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <link href="/barangay/styles.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
-        <!-- page-header -->
-        <div class="page-header-problems rounded-bottom ">
-            <div class="container rounded-top" id="container-header" >
-                <div class="row">
-                    <div class="page-caption pb-4 pt-3" style="background-color: #C0C0C0; opacity: .8; ">
-                        <p class="page-title font-weight-bold" style="color: ;margin-bottom:0;">PROBLEM STATEMENT</p>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.page-header-->
-        <!-- tour-booking -->
-        <div class="container container-fluid " style="padding-top:1.5%; padding-bottom:1.5%; background-color: #CCE5FF;">
-        <div class="">
-        <div class="card-header">
-            <div class="form-row">
-                <div class="col-md-4">
-                    <h4 style="color:whitesmoke;">Problem Statement Submitted</h4>
-                </div>
-                <div class="col-md-4"></div>
-                    
-                </div>
-            </div>
-        //- Content
-        each problem in tbl_problemstatement
-            <div class="card-body" style="background-color: whitesmoke;">
-                <div class="card" style="transition: 0.3s;">
-                <div class="card-header bg-transparent " style="color:black;size:20px; ">
-                    <div class=" font-weight-bold" >
-                        value=problem.varchar_statementTitle
-                        <h5 class="card-title float-right pr-4">Category: 
-                            <u>
-                            value=problem.varchar_categoryName
-                            </u>
-                        </h5>
-                    </div>
-                    <div class="card-body" >
-                        <p class="card-text text-justify">
-                            value=problem.text_statementContent
-                        </p>
-                    </div>
-                </div>
-                    <div class="card-footer bg-transparent pr-5" style="border-color:#3B5997">
-                        <small>Date Created:
-                            value=problem.date_createdDate
-                        </small>
-                        form(method="POST" action="/office/problems/acknowledge")
-                                input(value=problem.int_statementID name="id" required, hidden)
-                                button.btn.btn-info.btn-s.float-right(type='submit') Acknowledgement
-                        <br>
-                        <medium class="pl-5 ">From Barangay:
-                            value=problem.int_barangayID
-                        </medium>
-                    </div>
-                </div>   
-            </div>
-        //- End of Content
-        </div>
-        </div>
-        <!-- /.tour-booking -->
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1 class="text-center">Statement of Problem</h1>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                    <th>Problem Name</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                    <th>Problem Name</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                each problem in tbl_problemstatement
+                                                    <tr>
+                                                    <td>
+                                                        value=problem.varchar_statementTitle
+                                                    </td>
+                                                    <td>
+                                                        value=problem.enum_problemStatus
+                                                    </td>
+                                                    <td>
+                                                        button.btn.btn-info.mb-1.btn-sm.btn-block(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID): span.fa.fa-eye View
+                                                        if problem.enum_problemStatus == "Submitted"
+                                                            form(method="POST" action=`/office/problems/${problem.int_statementID}/acknowledge`)
+                                                                input(value=problem.int_statementID name="id" required, hidden)
+                                                                button.btn.btn-success.btn-sm.btn-block(type='submit'): span.fa.fa-check Approve
+                                                            form(method="POST" action=`/office/problems/${problem.int_statementID}/rejectstatement`)
+                                                                input(value=problem.int_statementID name="id" required, hidden)
+                                                                button.btn.btn-danger.btn-sm.btn-block(type='submit'): span.fa.fa-ban Reject
+                                                    </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal fade bs-example-modal-lg" id="modalviewproblem" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                        <div class="modal-body">
+                                            
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title" id="myModalLabel"><span class="section">View Statement of Problem</span></h4> 
+                                                <div class="item form-group">
+                                                        <label class="control-label col-md-2" for="problemtitle">Statement Title:
+                                                        </label>
+                                                        <div class="col-md-9" id="aj-problemtitle">
+                                            
+                                                        </div>
+                                                        <br>
+                                                </div>
+                                                <div class="item form-group">
+                                                        <label class="control-label col-md-2" for="problemstatus">Status:
+                                                        </label>
+                                                        <div class="col-md-9" id="aj-problemstatus" >
+                                            
+                                                        </div>
+                                                        <br>
+                                                </div>
+                                                <div class="item form-group">
+                                                        <label class="control-label col-md-2" for="problemcontent">Statement Content:
+                                                        </label>
+                                                        <div class="col-md-9" id="aj-problemcontent">
+                                            
+                                                        </div>
+                                                        <br>
+                                                </div>
+                                                <div class="item form-group">
+                                                        <label class="control-label col-md-2" for="problemcreated">Date Created:
+                                                        </label>
+                                                        <div class="col-md-9" id="aj-problemcreated">
+                                            
+                                                        </div>
+                                                        <br>
+                                                </div>
+                                                <div class="item form-group">
+                                                        <label class="control-label col-md-2" for="problemcategory">Category:
+                                                        </label>
+                                                        <div class="col-md-9" id="aj-problemcategory">
+                                            
+                                                        </div>
+                                                        <br>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+                                script.
+
+                                    //- SCRIPT GET INT_STATEMENTID (VIEW MODAL)
+
+                                        $(document).ready(function () {
+
+                                            $('.btn-view-problem').click(function (e) {
+                                                e.preventDefault()
+                                                var Id = $(this).val();
+                                                console.log("================================Id(Class)")
+                                                console.log(Id);
+                                                console.log("================================Id(Class)")
+                                                $('#modalviewproblem').modal('show');
+                                                ajaxGet();
+
+                                                function ajaxGet(){
+                                                console.log("========Id");
+                                                console.log(Id);
+                                                console.log("========Id");
+
+                                                $.ajax({
+                                                    type : "POST",
+                                                    url : window.location + "/ajaxgetdetails",
+                                                    data: { ajStatementID: Id},
+                                                    dataType: "json",
+                                                    success: function(tbl_problemstatement1){
+
+                                                    console.log(tbl_problemstatement1)
+
+                                                        $.each(tbl_problemstatement1, function (index, value) {
+                                                            console.log(value);
+
+                                                            document.getElementById("aj-problemstatus").innerHTML = value.enum_problemStatus     
+                                                            document.getElementById("aj-problemtitle").innerHTML = value.varchar_statementTitle
+                                                            document.getElementById("aj-problemcontent").innerHTML = value.text_statementContent
+                                                            document.getElementById("aj-problemcreated").innerHTML = value.date_createdDate
+                                                            document.getElementById("aj-problemcategory").innerHTML = value.varchar_categoryName
+                                                                
+                                                            console.log("Success: " );
+                                                        });
+                                                                                    
+                                                        
+                                                    },
+                                                    error : function(e) {
+                                                        console.log("ERROR: ", e);
+                                                    }
+                                                });	
+                                            }
+                                            }); 
+
+                                            
+                                        });
+        <!-- END STATISTIC-->
             

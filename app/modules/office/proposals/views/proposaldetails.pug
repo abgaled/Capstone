@@ -26,24 +26,24 @@ block content
                                     </div>
                                     <div class="block_content">
                                         <h2 class="title">
-                                            <a>Project Title: </a> 
+                                            <a><strong>Project Title:</strong> </a>  
                                             value=project.varchar_projectName
                                         </h2>
                                         <div class="byline">
-                                            <span>Category</span> : <a>
+                                            <span><strong>Category</strong></span> : <a>
                                             each cat in tbl_projectcategory
                                                 value=cat.varchar_categoryName
                                             </a>
                                         </div>
-                                        <p class="excerpt">Project Rationale: 
+                                        <p class="excerpt"><strong>Project Rationale: </strong>
                                             value=project.varchar_projectRationale
                                             </a>
                                             </p>
-                                        <p class="excerpt">Project Objective: 
+                                        <p class="excerpt"><strong>Project Objective: </strong>
                                             value=project.text_projectObjective
                                             </a>
                                             </p>
-                                        <p class="excerpt">Project Description: 
+                                        <p class="excerpt"><strong>Project Description:</strong> 
                                             value=project.text_projectDescription
                                             </a>
                                         </p>
@@ -58,14 +58,14 @@ block content
                                     </a>
                                     </div>
                                     <div class="block_content">
-                                        <p class="excerpt">Target Beneficiary: 
+                                        <p class="excerpt"><strong>Target Beneficiary:</strong> 
                                         each prbf in tbl_projectbeneficiary
                                             <a>
                                             <br/>
                                             value=prbf.varchar_beneficiaryName
                                             </a>
                                         </p>
-                                        <p class="excerpt">Alloted Slot: 
+                                        <p class="excerpt"><strong>Alloted Slot: </strong>
                                             value=project.int_allotedSlot
                                             </a>
                                         </p>
@@ -80,7 +80,7 @@ block content
                                         </a>
                                         </div>
                                         <div class="block_content">
-                                            <p class="excerpt">Requirements: 
+                                            <p class="excerpt"><strong>Requirements: </strong>
                                             each prjreq in tbl_projectrequirement
                                                 <a >
                                                 <br/>
@@ -98,23 +98,23 @@ block content
                                     </a>
                                     </div>
                                     <div class="block_content">
-                                        <p class="excerpt">Starting Date: 
+                                        <p class="excerpt"><strong>Starting Date: </strong>
                                             value=project.date_projectStart
                                             </a>
                                         </p>
-                                        <p class="excerpt">Closing Date: 
+                                        <p class="excerpt"><strong>Closing Date: </strong>
                                             value=project.date_projectEnd
                                             </a>
                                         </p>
-                                        <p class="excerpt">Releasing Start Date: 
+                                        <p class="excerpt"><strong>Releasing Start Date: </strong>
                                             value=project.datetime_releasingStart
                                             </a>
                                         </p>
-                                        <p class="excerpt">Releasing End Date: 
+                                        <p class="excerpt"><strong>Releasing End Date:</strong> 
                                             value=project.datetime_releasingEnd
                                             </a>
                                         </p>
-                                        <p class="excerpt">Releasing Location: 
+                                        <p class="excerpt"><strong>Releasing Location: </strong>
                                         each rel in tbl_releaselocation
                                             value=rel.varchar_locationName
                                             </a>
@@ -130,7 +130,7 @@ block content
                                     </a>
                                     </div>
                                     <div class="block_content">
-                                        <p class="excerpt">Estimated Budget: PHP 
+                                        <p class="excerpt"><strong>Estimated Budget:</strong> PHP 
                                             value=project.decimal_estimatedBudget
                                             </a>
                                         </p>
@@ -138,6 +138,7 @@ block content
                                 </div>
                                 </li>
                             </ul>
+                            a(href=`/office/proposals/` id="viewproj" class="btn btn-dark btn-s pull-right"): span Back
                         </div>
                 </div>
             </div>

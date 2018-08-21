@@ -6,18 +6,15 @@ block content
     //- <!-- DATA TABLE-->
     <center>
         <h1>STATEMENT OF PROBLEM</h1>
-        <h4>(Made by the residents/office of this barangay)</h4>
+        <button class="btn btn-primary btn-lg" id="addproblem" type="button" data-toggle="modal" data-target="#modaladdproblem"><span class="fa fa-plus"></span> Add</button></h1>
     </center>
     <hr>
     <div class="container">
         <div class="table-responsive m-b-40">
-        <button class="btn btn-primary btn-md pull-right" id="addproblem" type="button" data-toggle="modal" data-target="#modaladdproblem"><span class="fa fa-plus"></span> Add</button></h1>
                 <table id="datatable" class="table table-borderless table-data3">
                     <thead>
                         <tr>
                             <th>Statement Title</th>
-                            <th>Category</th>
-                            <th>Date Created</th>
                             <th>Status</th>
                             <th>Action/s</th>
                         </tr>
@@ -29,16 +26,9 @@ block content
                                 value=problem.varchar_statementTitle
                             </td>
                             <td>
-                                value=problem.varchar_categoryName
-                            </td>
-                            <td>
-                                value=problem.date_createdDate
-                            </td>
-                            <td>
                                 value=problem.enum_problemStatus
                             </td>
                             <td>
-                                //- a(href=`/barangay/problemstatement/viewprobcategory/${problem.int_statementID}/viewprob` id="viewprob" class="btn btn-info btn-s"): span  View
                                 button.btn.btn-success.mb-1(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID): span.fa.fa-eye View
                             </td>
                         </tr>        

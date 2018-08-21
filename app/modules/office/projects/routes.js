@@ -40,6 +40,13 @@ router.get('/newproject/:int_projectID/viewproj',(req, res) => {
         console.log(results);
         if (err) console.log(err);
         // console.log(results);
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
+        }
+
+        var resultss = results[0];
      res.render('office/projects/views/viewproj', {tbl_project:results});
 
 

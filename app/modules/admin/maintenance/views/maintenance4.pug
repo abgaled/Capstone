@@ -22,7 +22,6 @@ block content
                       <thead>
                         <tr>
                           <th>Problem Category Name</th>
-                          <th>Description</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -31,9 +30,6 @@ block content
                           <tr>
                           <td>
                             value=probcat.varchar_problemCategName
-                          </td>
-                          <td>
-                            value=probcat.text_problemCategDescription
                           </td>
                           <td>
                             a(href=`/admin/maintenance/problemcategory/${probcat.int_problemCategID}/editproblemcategory` id="editproblemcategory" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
