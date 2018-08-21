@@ -63,6 +63,7 @@ router.get('/submittedproblems',(req, res) => {
     ON pr.int_categoryID=prcat.int_categoryID 
     JOIN tbl_category cat
     ON pr.int_categoryID = cat.int_categoryID
+    WHERE pr.enum_problemStatus = 'Submitted'
     ORDER BY pr.int_statementID DESC `
 
 
@@ -89,5 +90,36 @@ router.post('/acknowledge', (req, res) => {
 
 });
 
+router.get('/submittedproblems/:int_statementID/rejectstatement', (req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: problem - 1 reject GET');
+    console.log('=================================');
+    
+    var queryString =`SELECT * FROM tbl_problemstatement
+    WHERE enum_problemStatus = 'Submitted' 
+    AND tbl_problemstatement.int_statementID=${req.params.int_statementID}`
+        
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+    
+        res.render(`office/problems/views/rejectstatement`,{tbl_problemstatement:results});
+    });
+});
+
+router.post('/submittedproblems/:int_statementID/rejectstatement', (req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: problem - 1 reject POST');
+    console.log('=================================');
+    
+    var queryString1 = `UPDATE tbl_problemstatement SET
+    enum_problemStatus = 'Rejected'
+    WHERE tbl_problemstatement.int_statementID=${req.body.int_statementID}`
+            
+    db.query(queryString1, (err, results) => {        
+        if (err) throw err;
+        res.redirect('/office/problems/submittedproblems');
+    });
+});
 
 module.exports = router;

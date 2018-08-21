@@ -1,0 +1,40 @@
+extends ../../navbar/views/navbar.pug
+
+block content
+        <div class="right_col" role="main">
+        each barangay in tbl_barangay
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h3>Update:<h3>
+                  a(href=`/admin/maintenance/barangay` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle      
+                </div>
+                  <form method="POST" action="editbarangay">
+                    input(type="hidden" value=`${barangay.int_barangayID}` name="int_barangayID")
+
+                    <div class="row form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="barangayname"> Barangay Name <span class="required">*</span>
+                      </label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                        //- <input id="beneficiaryname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="3" name="beneficiaryname" placeholder="" required="required" value=`${form.varchar_beneficiaryName}` type="text">
+                        input(type="text" class="form-control col-md-7 col-xs-12" id="barangayname" placeholder="Barangay Name" name="barangayname" value=`${barangay.varchar_barangayName}` required)
+                      </div>
+                    </div>
+                      
+                    <div class="row form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="barangaycontact"> Barangay Contact <span class="required">*</span>
+                      </label>
+                      <div class="col-md-8 col-sm-8 col-xs-12">
+                        //- <input id="beneficiarydescription" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="beneficiarydescription" placeholder="" required="required" value=`${form.text_beneficiaryDescription}` type="text">
+                        input(type="text" class="form-control col-md-7 col-xs-12" id="barangaycontact" placeholder="Barangay Contact" name="barangaycontact" value=`${barangay.varchar_barangayContact}` required)
+                        
+                      </div>
+                    </div>
+                      <button type="submit" class="btn btn-default float-right" id="editbarangaysubmit">Submit</button>
+                  </div>
+                  </form>
+                </div>
+            </div>
+          </div>
+        </div>

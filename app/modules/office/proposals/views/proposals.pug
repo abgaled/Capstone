@@ -76,12 +76,10 @@ block content
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                             <select class="select2_multiple form-control" multiple="multiple">
                                                 <option>Choose option</option>
-                                                <option>Option one</option>
-                                                <option>Option two</option>
-                                                <option>Option three</option>
-                                                <option>Option four</option>
-                                                <option>Option five</option>
-                                                <option>Option six</option>
+                                                each category in tbl_category
+                                                    <option>
+                                                    value=category.varchar_categoryName
+                                                    </option>
                                             </select>
                                             </div>
                                         </div>
@@ -113,12 +111,10 @@ block content
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                             <select class="select2_multiple form-control" multiple="multiple">
                                                 <option>Choose option</option>
-                                                <option>Option one</option>
-                                                <option>Option two</option>
-                                                <option>Option three</option>
-                                                <option>Option four</option>
-                                                <option>Option five</option>
-                                                <option>Option six</option>
+                                                each beneficiary in tbl_beneficiary
+                                                    <option>
+                                                    value=beneficiary.varchar_beneficiaryName
+                                                    </option>
                                             </select>
                                             </div>
                                         </div>
@@ -139,12 +135,10 @@ block content
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                             <select class="select2_multiple form-control" multiple="multiple">
                                                 <option>Choose option</option>
-                                                <option>Option one</option>
-                                                <option>Option two</option>
-                                                <option>Option three</option>
-                                                <option>Option four</option>
-                                                <option>Option five</option>
-                                                <option>Option six</option>
+                                                each requirement in tbl_requirement
+                                                    <option>
+                                                    value=requirement.varchar_requirementName
+                                                    </option>
                                             </select>
                                             </div>
                                         </div>
@@ -173,7 +167,7 @@ block content
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">Releasing Date
+                                        <div class="col-md-6 col-sm-6 col-xs-12">Releasing Date and Time
                                             <div class="form-group">
                                                 <div class='input-group date' id='myDatepicker2'>
                                                     <input type='text' class="form-control" />
@@ -183,16 +177,15 @@ block content
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-md-6 col-sm-6 col-xs-12">Select Releasing Location
                                             <div class="form-group">
                                             <select class="select2_multiple form-control" multiple="multiple">
                                                 <option>Choose option</option>
-                                                <option>Option one</option>
-                                                <option>Option two</option>
-                                                <option>Option three</option>
-                                                <option>Option four</option>
-                                                <option>Option five</option>
-                                                <option>Option six</option>
+                                                each location in tbl_releaselocation
+                                                    <option>
+                                                    value=location.varchar_locationName
+                                                    </option>
                                             </select>
                                             </div>
                                         </div>
@@ -230,6 +223,7 @@ block content
             </div>
         </div>
     </div>
+
 
             
             script.

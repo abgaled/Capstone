@@ -51,20 +51,22 @@ router.get('/ongoingproject',(req, res) => {
     console.log('OFFICE: ONGOING PROJECT');
     console.log('=================================');
 
-    var queryString =`SELECT * FROM tbl_project pr
+    var queryString =`SELECT *, GROUP_CONCAT(DISTINCT varchar_categoryName) varchar_categoryName 
+    FROM tbl_project pr
     JOIN tbl_projectproposal prpro 
     ON pr.int_projectID=prpro.int_projectID
     JOIN tbl_projectcategory projcat
-    ON pr.int_projectID = projcat.int_categoryID
+    ON pr.int_projectID = projcat.int_projectID
     JOIN tbl_category cat
     ON cat.int_categoryID = projcat.int_categoryID
-    WHERE pr.enum_projectStatus = 'Ongoing' 
+    WHERE pr.enum_projectStatus = 'Ongoing'
+    GROUP BY pr.int_projectID 
     ORDER BY pr.int_projectID DESC`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
-        
+
         res.render('office/projects/views/ongoingproject',{tbl_project:results});
 
 });
@@ -291,20 +293,19 @@ router.get('/finishedproject',(req, res) => {
         console.log(results);
         if (err) console.log(err);
 
-        var queryString2=`SELECT * FROM tbl_projectcategory pc
-        JOIN tbl_projectproposal pr ON pr.int_projectID=pc.int_projectID
-        JOIN tbl_category cat ON cat.int_categoryID=pc.int_categoryID
-        JOIN tbl_project pro ON pro.int_projectID = pr.int_projectID
-        WHERE pro.enum_projectStatus="Finished"`
+            var queryString2=`SELECT *, GROUP_CONCAT(DISTINCT varchar_categoryName) varchar_categoryName
+                FROM tbl_projectcategory PC JOIN tbl_projectproposal PR ON pr.int_projectID=pc.int_projectID
+                JOIN tbl_category C ON C.int_categoryID=PC.int_categoryID
+                JOIN tbl_project P ON P.int_projectID = PR.int_projectID
+                WHERE P.enum_projectStatus="Finished"
+                GROUP BY P.int_projectID`;
 
         db.query(queryString2, (err, results2, fields) => {
             console.log("-----------RESULTS2")
             console.log(results2);
 
-      
             res.render('office/projects/views/finishedproject',{
-                tbl_project:results,
-                tbl_category:results2});
+                tbl_project:results2});
         });
     });
 });

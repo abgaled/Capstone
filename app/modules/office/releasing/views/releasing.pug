@@ -6,7 +6,8 @@ block content
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h1>List of releasing projects</h1>
+                        <h1>List of Releasing Projects</h1>
+                        <h4>(For this day)</h4>
                     </div>              
                     <div class="content-wrapper">
                         <div class="container-fluid">
@@ -14,12 +15,11 @@ block content
                                 <div class="card-header">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th>Project Name</th>
                                                         <th>Category</th>
-                                                        <th>Project Objectives</th>
                                                         <th>Status</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -28,7 +28,6 @@ block content
                                                     <tr>
                                                         <th>Project Name</th>
                                                         <th>Category</th>
-                                                        <th>Project Objectives</th>
                                                         <th>Status</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -42,13 +41,10 @@ block content
                                                         <td>
                                                         </td>
                                                         <td>
-                                                            value=project.text_projectObjective
-                                                        </td>
-                                                        <td>
                                                             value=project.enum_projectStatus
                                                         </td>
                                                         <td>
-                                                            a(href=`/office/releasing/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-primary btn-xs btn-block"): span View Details
+                                                            a(href=`/office/releasing/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-success btn-xs btn-block"): span View Details
                                                             a(href=`/office/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-primary btn-xs btn-block"): span Beneficiaries
                                                         </td>
                                                     </tr>

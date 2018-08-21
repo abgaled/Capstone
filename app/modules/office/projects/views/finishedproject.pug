@@ -18,7 +18,6 @@ block content
                                                 <thead>
                                                     <tr>
                                                         <th>Project Name</th>
-                                                        <th>Project Objectives</th>
                                                         <th>Category</th>
                                                         <th>Alloted Slot</th>
                                                         <th>Status</th>
@@ -28,7 +27,6 @@ block content
                                                 <tfoot>
                                                     <tr>
                                                         <th>Project Name</th>
-                                                        <th>Project Objectives</th>
                                                         <th>Category</th>
                                                         <th>Alloted Slot</th>
                                                         <th>Status</th>
@@ -42,12 +40,7 @@ block content
                                                             value=project.varchar_projectName
                                                         </td>
                                                         <td>
-                                                            value=project.text_projectObjective
-                                                        </td>
-                                                        <td>
-                                                        //- each cat in tbl_category
-                                                        value=project.varchar_categoryName
-                                                            <br>
+                                                            value=project.varchar_categoryName
                                                         </td>
                                                         <td>
                                                             value=project.int_allotedSlot

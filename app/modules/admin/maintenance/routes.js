@@ -3,202 +3,13 @@ var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 
-// router.get('/projects',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1');
-//     console.log('=================================');
-
-//     var queryString =`SELECT tbl_projectproposal.int_projectID, tbl_projectproposal.varchar_projectName, tbl_projectproposal.text_projectDescription, tbl_projectproposal.int_allotedSlot, tbl_project.date_startDate, tbl_project.date_endDate FROM tbl_projectproposal JOIN tbl_project ON tbl_projectproposal.int_projectID=tbl_project.int_projectID WHERE enum_proposalStatus = 'Accepted' AND enum_projectState = 'Active'`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-//         // console.log(results);
-//         res.render('admin/maintenance/views/maintenance1', {tbl_projectproposal: results});
-//         console.log(results);
-//     });
-// });
-
-// router.post('/projects',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1 POST');
-//     console.log('=================================');
-
-//     var queryString = `INSERT INTO \`tbl_projectproposal\` (
-        
-//         \`varchar_projectName\`,
-//         \`varchar_releaseLocation\`,
-//         \`varchar_projectRationale\`,
-//         \`varchar_projectObjective\`,
-//         \`text_projectDescription\`,
-//         \`text_expectedOutput\`,
-//         \`int_allotedSlot\`,
-//         \`decimal_estimatedBudget\`,
-//         \`decimal_individualBudget\`,
-//         \`enum_proposalStatus\`)
-                
-//         VALUES(
-//         "${req.body.projectname}",
-//         "${req.body.releaselocation}",
-//         "${req.body.projectrationale}",
-//         "${req.body.projectobjective}",
-//         "${req.body.projectdescription}",
-//         "${req.body.expectedoutput}",
-//         "${req.body.allotedslot}",
-//         "${req.body.estimatedbudget}",
-//         "${req.body.individualbudget}",
-//         "Accepted");`;
-
-//         db.query(queryString, (err, results, fields) => {        
-//             if (err) throw err;    
-//             console.log(results);
-       
-//         var queryString1 =`SELECT * FROM tbl_projectproposal ORDER BY int_projectID DESC LIMIT 0,1`
-
-//         db.query(queryString1, (err, results1, fields) => {        
-//             if (err) throw err;
-
-//             var toproject = results1[0];
-
-//             var queryString2 = `INSERT INTO \`tbl_project\` (
-//                 \`int_projectID\`,
-//                 \`date_startDate\`,
-//                 \`date_endDate\`,
-//                 \`date_approvedDate\`,
-//                 \`date_releaseDate\`,
-//                 \`decimal_actualBudget\`,
-//                 \`enum_projectState\`)
-                
-//                 VALUES(
-//                 "${toproject.int_projectID}",
-//                 "${req.body.startdate}",
-//                 "${req.body.enddate}",
-//                 "${req.body.approveddate}",
-//                 "${req.body.releasedate}",
-//                 "${req.body.actualbudget}",
-//                 "Active");`;
-
-//                         db.query(queryString2, (err, results2, fields) => {        
-//                             if (err) throw err;
-
-//                             console.log(results2);
-                    
-//                 res.redirect('/admin/maintenance/projects');
-//         });
-//         });
-
-//     });
-// });
-
-// router.get('/projects/:int_projectID/editproject',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1');
-//     console.log('=================================');
-//     console.log("PUMASOK SA GET REQ.PARAMS")
-    
-//     var queryString = `SELECT * FROM tbl_projectproposal JOIN tbl_project ON tbl_projectproposal.int_projectID=tbl_project.int_projectID
-//     WHERE tbl_projectproposal.int_projectID = "${req.params.int_projectID}"`;
-    
-//     db.query(queryString, (err, results, fields) => {        
-//         if (err) throw err;
-//         res.render(`admin/maintenance/views/editproject`,{tbl_projectproposal:results});
-//     });
-// });
-
-
-// router.post('/projects/:int_projectID/editproject', (req, res) => {
-//     console.log("MAINTENANCE - POST PROJECT EDIT")
-    
-//     var queryString = `UPDATE tbl_projectproposal SET varchar_projectName = "${req.body.projectname}",
-//         varchar_releaseLocation = "${req.body.releaselocation}",
-//         varchar_projectRationale = "${req.body.projectrationale}",
-//         varchar_projectObjective = "${req.body.projectobjective}",
-//         text_projectDescription = "${req.body.projectdescription}",
-//         text_expectedOutput = "${req.body.expectedoutput}",
-//         int_allotedSlot = "${req.body.allotedslot}",
-//         decimal_estimatedBudget = "${req.body.estimatedbudget}",
-//         decimal_individualBudget = "${req.body.individualbudget}",
-//         enum_proposalStatus = "Accepted"
-//         WHERE tbl_projectproposal.int_projectID = "${req.body.int_projectID}"`;
-    
-//     db.query(queryString, (err, results, fields) => {        
-//         if (err) throw err;
-//         console.log(results);
-
-//         var queryString1 = `UPDATE tbl_project SET
-//             date_startDate = "${req.body.startdate}",
-//             date_endDate = "${req.body.enddate}",
-//             date_approvedDate = "${req.body.approveddate}",
-//             date_releaseDate = "${req.body.releasedate}",
-//             decimal_actualBudget = "${req.body.actualbudget}",
-//             enum_projectState = "Active"
-//             WHERE tbl_project.int_projectID = "${req.body.int_projectID}"`;
-        
-//             db.query(queryString1, (err, results1, fields) => {        
-//             if (err) throw err;
-//             console.log(results1);
-//             res.redirect('/admin/maintenance/projects');
-//     });
-// });
-// });
-
-
-// router.get('/projects/:int_projectID/viewproject',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1');
-//     console.log("PUMASOK SA GET REQ.PARAMS")
-//     console.log('=================================');
-    
-//     var queryString = `SELECT * FROM tbl_projectproposal JOIN tbl_project ON tbl_projectproposal.int_projectID=tbl_project.int_projectID
-//     WHERE tbl_projectproposal.int_projectID = "${req.params.int_projectID}"`;
-    
-//     db.query(queryString, (err, results, fields) => {        
-//         if (err) throw err;
-//         console.log(results);
-
-//         res.render(`admin/maintenance/views/viewproject`,{tbl_projectproposal:results});
-//     });
-// });
-
-// router.get('/projects/:int_projectID/deleteproject', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1 DELETE GET');
-//     console.log('=================================');
-
-//     var queryString =`SELECT tbl_projectproposal.int_projectID, 
-//     tbl_projectproposal.varchar_projectName, tbl_projectproposal.varchar_releaseLocation, 
-//     tbl_projectproposal.text_projectDescription, tbl_projectproposal.int_allotedSlot, 
-//     tbl_project.date_startDate, tbl_project.date_endDate FROM tbl_projectproposal 
-//     JOIN tbl_project ON tbl_projectproposal.int_projectID=tbl_project.int_projectID 
-//     WHERE enum_proposalStatus = 'Accepted' AND enum_projectState = 'Active' 
-//     AND tbl_projectproposal.int_projectID=${req.params.int_projectID}`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-
-//         res.render(`admin/maintenance/views/deleteproject`,{tbl_project:results});
-//     });
-// });
-
-// router.post('/projects/:int_projectID/deleteproject', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1 DELETE POST');
-//     console.log('=================================');
-
-//     var queryString1 = `UPDATE tbl_project SET
-//             enum_projectState = 'Inactive'
-//             WHERE tbl_project.int_projectID = ${req.body.int_projectID}`;
-        
-//             db.query(queryString1, (err, results) => {        
-//             if (err) throw err;
-//             res.redirect('/admin/maintenance/projects');
-// });
-// });
+//============================================================
+// MAINTENANCE REQUIREMENTS
+//============================================================
 
 router.get('/requirements',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 2');
+    console.log('ADMIN: MAINTENANCE - 5');
     console.log('=================================');
     var queryString =`SELECT * FROM tbl_requirement`
     
@@ -213,7 +24,7 @@ router.get('/requirements',(req, res) => {
 
 router.post('/requirements',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1 POST');
+    console.log('ADMIN: MAINTENANCE - 5 POST');
     console.log('=================================');
 
     var queryString = `INSERT INTO \`tbl_requirement\` (
@@ -244,10 +55,9 @@ router.post('/requirements',(req, res) => {
     });
 });
 
-
 router.get('/requirements/:int_requirementID/editrequirement',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1');
+    console.log('ADMIN: MAINTENANCE - 5');
     console.log('=================================');
     console.log("PUMASOK SA GET REQ.PARAMS")
     
@@ -259,7 +69,6 @@ router.get('/requirements/:int_requirementID/editrequirement',(req, res) => {
         res.render(`admin/maintenance/views/editrequirement`,{tbl_requirement:results});
     });
 });
-
 
 router.post('/requirements/:int_requirementID/editrequirement', (req, res) => {
     console.log("PUMASOK SA POST REQ.PARAMS")
@@ -277,41 +86,9 @@ router.post('/requirements/:int_requirementID/editrequirement', (req, res) => {
 });
 });
 
-// router.get('/requirements/:int_requirementID/deleterequirement', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1 DELETE GET');
-//     console.log('=================================');
-
-//     var queryString =`SELECT * FROM tbl_requirement
-//     WHERE enum_requirementStatus = 'Active' 
-//     AND tbl_requirement.int_requirementID=${req.params.int_requirementID}`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-
-//         res.render(`admin/maintenance/views/deleterequirement`,{tbl_requirement:results});
-//     });
-// });
-
-// router.post('/requirements/:int_requirementID/deleterequirement', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1 DELETE POST');
-//     console.log('=================================');
-
-//     var queryString1 = `UPDATE tbl_requirement SET
-//             enum_requirementStatus = 'Inactive'
-//             WHERE tbl_requirement.int_requirementID = ${req.body.int_requirementID}`;
-        
-//             db.query(queryString1, (err, results) => {        
-//             if (err) throw err;
-//             res.redirect('/admin/maintenance/requirements');
-// });
-// });
-
 router.post('/requirements/activate', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 4 Status Active POST');
+    console.log('ADMIN: MAINTENANCE - 5 Status Active POST');
     console.log('=================================');
 
     db.query("UPDATE tbl_requirement SET enum_requirementStatus = 'Active' WHERE int_requirementID = ?",[req.body.id], (err, results, fields) =>{
@@ -326,7 +103,7 @@ router.post('/requirements/activate', (req, res) => {
 
 router.post('/requirements/inactive', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 4 Status Inactive POST');
+    console.log('ADMIN: MAINTENANCE - 5 Status Inactive POST');
     console.log('=================================');
 
     db.query("UPDATE tbl_requirement SET enum_requirementStatus = 'Inactive' WHERE int_requirementID = ?",[req.body.id], (err, results, fields) =>{
@@ -339,28 +116,32 @@ router.post('/requirements/inactive', (req, res) => {
 
 });
 
+//============================================================
+// MAINTENANCE PROJECT CATEGORY
+//============================================================
+
 router.get('/projectcategory',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 3');
+    console.log('ADMIN: MAINTENANCE - 2');
     console.log('=================================');
 
-    var queryString =`SELECT * FROM tbl_projectcategory`
+    var queryString =`SELECT * FROM tbl_category`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
         // console.log(results);
-        res.render('admin/maintenance/views/maintenance3', {tbl_projectcategory: results});
+        res.render('admin/maintenance/views/maintenance3', {tbl_category: results});
         console.log(results);
     });
 });
 
 router.post('/projectcategory',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1 POST');
+    console.log('ADMIN: MAINTENANCE - 2 POST');
     console.log('=================================');
 
-    var queryString = `INSERT INTO \`tbl_projectcategory\` (
+    var queryString = `INSERT INTO \`tbl_category\` (
         
         \`varchar_categoryName\`,
         \`text_categoryDescription\`,
@@ -375,7 +156,7 @@ router.post('/projectcategory',(req, res) => {
             if (err) throw err;    
             console.log(results);
        
-        var queryString1 =`SELECT * FROM tbl_projectcategory ORDER BY int_categoryID DESC LIMIT 0,1`
+        var queryString1 =`SELECT * FROM tbl_category ORDER BY int_categoryID DESC LIMIT 0,1`
 
         db.query(queryString1, (err, results1, fields) => {        
             if (err) throw err;
@@ -388,15 +169,14 @@ router.post('/projectcategory',(req, res) => {
     });
 });
 
-
 router.get('/projectcategory/:int_projectCategID/editprojectcategory',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1');
+    console.log('ADMIN: MAINTENANCE - 2');
     console.log('=================================');
     console.log("PUMASOK SA GET REQ.PARAMS")
     
-    var queryString = `SELECT * FROM tbl_projectcategory
-    WHERE tbl_projectcategory.int_categoryID = "${req.params.int_projectCategID}"`;
+    var queryString = `SELECT * FROM tbl_category
+    WHERE tbl_category.int_categoryID = "${req.params.int_projectCategID}"`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
@@ -404,15 +184,14 @@ router.get('/projectcategory/:int_projectCategID/editprojectcategory',(req, res)
     });
 });
 
-
 router.post('/projectcategory/:int_projectCategID/editprojectcategory', (req, res) => {
     console.log("PUMASOK SA POST REQ.PARAMS")
     
-    var queryString = `UPDATE tbl_projectcategory SET
+    var queryString = `UPDATE tbl_category SET
     varchar_categoryName = "${req.body.projectcategoryname}",
     text_categoryDescription = "${req.body.projectcategorydescription}",
     enum_categoryStatus = "Active"
-    WHERE tbl_projectcategory.int_categoryID = "${req.body.int_categoryID}"`
+    WHERE tbl_category.int_categoryID = "${req.body.int_categoryID}"`
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
         console.log(results);
@@ -420,44 +199,12 @@ router.post('/projectcategory/:int_projectCategID/editprojectcategory', (req, re
 });
 });
 
-// router.get('/projectcategory/:int_projectCategID/deleteprojectcategory', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 3 DELETE GET');
-//     console.log('=================================');
-
-//     var queryString =`SELECT * FROM tbl_projectcategory
-//     WHERE enum_categoryStatus = 'Active' 
-//     AND tbl_projectcategory.int_categoryID=${req.params.int_projectCategID}`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-
-//         res.render(`admin/maintenance/views/deleteprojectcategory`,{tbl_projectcategory:results});
-//     });
-// });
-
-// router.post('/projectcategory/:int_projectCategID/deleteprojectcategory', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 3 DELETE POST');
-//     console.log('=================================');
-
-//     var queryString1 = `UPDATE tbl_projectcategory SET
-//             enum_categoryStatus = 'Inactive'
-//             WHERE tbl_projectcategory.int_categoryID = ${req.body.int_projectCategID}`;
-        
-//             db.query(queryString1, (err, results) => {        
-//             if (err) throw err;
-//             res.redirect('/admin/maintenance/projectcategory');
-// });
-// });
-
 router.post('/projectcategory/activate', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1 Status Active POST');
+    console.log('ADMIN: MAINTENANCE - 2 Status Active POST');
     console.log('=================================');
 
-    db.query("UPDATE tbl_projectcategory SET enum_categoryStatus = 'Active' WHERE int_categoryID = ?",[req.body.id], (err, results, fields) =>{
+    db.query("UPDATE tbl_category SET enum_categoryStatus = 'Active' WHERE int_categoryID = ?",[req.body.id], (err, results, fields) =>{
         if(err)
             console.log(err);
         else{
@@ -469,10 +216,10 @@ router.post('/projectcategory/activate', (req, res) => {
 
 router.post('/projectcategory/inactive', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1 Status Inactive POST');
+    console.log('ADMIN: MAINTENANCE - 2 Status Inactive POST');
     console.log('=================================');
 
-    db.query("UPDATE tbl_projectcategory SET enum_categoryStatus = 'Inactive' WHERE int_categoryID = ?",[req.body.id], (err, results, fields) =>{
+    db.query("UPDATE tbl_category SET enum_categoryStatus = 'Inactive' WHERE int_categoryID = ?",[req.body.id], (err, results, fields) =>{
         if(err)
             console.log(err);
         else{
@@ -482,125 +229,13 @@ router.post('/projectcategory/inactive', (req, res) => {
 
 });
 
-// router.get('/problemcategory',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 4');
-//     console.log('=================================');
-
-//     var queryString =`SELECT * FROM tbl_problemcategory WHERE enum_probCategState = 'Active'`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-//         // console.log(results);
-//         res.render('admin/maintenance/views/maintenance4', {tbl_problemcategory: results});
-//         console.log(results);
-//     });
-// });
-
-// router.get('/problemcategory/:int_problemCategID/deleteproblemcategory', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 3 DELETE GET');
-//     console.log('=================================');
-
-//     var queryString =`SELECT * FROM tbl_problemcategory
-//     WHERE enum_probCategState = 'Active' 
-//     AND tbl_problemcategory.int_problemCategID=${req.params.int_problemCategID}`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-
-//         res.render(`admin/maintenance/views/deleteproblemcategory`,{tbl_problemcategory:results});
-//     });
-// });
-
-// router.post('/problemcategory/:int_problemCategID/deleteproblemcategory', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 3 DELETE POST');
-//     console.log('=================================');
-
-//     var queryString1 = `UPDATE tbl_problemcategory SET
-//             enum_probCategState = 'Inactive'
-//             WHERE tbl_problemcategory.int_problemCategID = ${req.body.int_problemCategID}`;
-        
-//             db.query(queryString1, (err, results) => {        
-//             if (err) throw err;
-//             res.redirect('/admin/maintenance/problemcategory');
-// });
-// });
-
-
-
-// router.post('/problemcategory',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 4 POST ADD');
-//     console.log('=================================');
-
-//     var queryString = `INSERT INTO \`tbl_problemcategory\` (
-        
-//         \`varchar_problemCategName\`,
-//         \`text_problemCategDescription\`,
-//         \`enum_probCategState\`)
-                
-//         VALUES(
-//         "${req.body.problemcategoryname}",
-//         "${req.body.problemcategorydescription}",
-//         "Active");`;
-
-//         db.query(queryString, (err, results, fields) => {        
-//             if (err) throw err;    
-//             console.log(results);
-       
-//         var queryString1 =`SELECT * FROM tbl_problemcategory ORDER BY int_problemCategID DESC LIMIT 0,1`
-
-//         db.query(queryString1, (err, results1, fields) => {        
-//             if (err) throw err;
-//             var results1 = results1;
-//             console.log(results1);
-                    
-//                 res.redirect('/admin/maintenance/problemcategory');
-//         });
-
-//     });
-// });
-
-// router.get('/problemcategory/:int_problemCategID/editproblemcategory',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1');
-//     console.log('=================================');
-//     console.log("PUMASOK SA GET REQ.PARAMS")
-    
-//     var queryString = `SELECT * FROM tbl_problemcategory
-//     WHERE tbl_problemcategory.int_problemCategID = "${req.params.int_problemCategID}"`;
-    
-//     db.query(queryString, (err, results, fields) => {        
-//         if (err) throw err;
-//         res.render(`admin/maintenance/views/editproblemcategory`,{tbl_problemcategory:results});
-//     });
-// });
-
-
-// router.post('/problemcategory/:int_problemCategID/editproblemcategory', (req, res) => {
-//     console.log("PUMASOK SA POST REQ.PARAMS")
-    
-//     var queryString = `UPDATE tbl_problemcategory SET
-//     varchar_problemCategName = "${req.body.problemcategoryname}",
-//     text_problemCategDescription = "${req.body.problemcategorydescription}",
-//     enum_probCategState = "Active"
-//     WHERE tbl_problemcategory.int_problemCategID = "${req.body.int_problemCategID}"`;
-    
-//     db.query(queryString, (err, results, fields) => {        
-//         if (err) throw err;
-//         console.log(results);
-//         res.redirect('/admin/maintenance/problemcategory');
-// });
-// });
-
+//============================================================
+// MAINTENANCE TARGET BENEFICIARY
+//============================================================
 
 router.get('/targetbeneficiary',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 5');
+    console.log('ADMIN: MAINTENANCE - 4');
     console.log('=================================');
     
     var queryString =`SELECT * FROM tbl_beneficiary`
@@ -616,7 +251,7 @@ router.get('/targetbeneficiary',(req, res) => {
 
 router.post('/targetbeneficiary',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1 POST');
+    console.log('ADMIN: MAINTENANCE - 4 POST');
     console.log('=================================');
 
     var queryString = `INSERT INTO \`tbl_beneficiary\` (
@@ -649,7 +284,7 @@ router.post('/targetbeneficiary',(req, res) => {
 
 router.get('/targetbeneficiary/:int_beneficiaryID/edittargetbeneficiary',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 1');
+    console.log('ADMIN: MAINTENANCE - 4');
     console.log('=================================');
     console.log("PUMASOK SA GET REQ.PARAMS")
     
@@ -662,7 +297,6 @@ router.get('/targetbeneficiary/:int_beneficiaryID/edittargetbeneficiary',(req, r
         res.render(`admin/maintenance/views/edittargetbeneficiary`,{tbl_beneficiary:results});
     });
 });
-
 
 router.post('/targetbeneficiary/:int_beneficiaryID/edittargetbeneficiary', (req, res) => {
     console.log("PUMASOK SA POST REQ.PARAMS")
@@ -680,41 +314,9 @@ router.post('/targetbeneficiary/:int_beneficiaryID/edittargetbeneficiary', (req,
 });
 });
 
-// router.get('/targetbeneficiary/:int_beneficiaryID/deletetargetbeneficiary', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 5 DELETE GET');
-//     console.log('=================================');
-
-//     var queryString =`SELECT * FROM tbl_beneficiary
-//     WHERE enum_beneficiaryStatus = 'Active' 
-//     AND tbl_beneficiary.int_beneficiaryID=${req.params.int_beneficiaryID}`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-
-//         res.render(`admin/maintenance/views/deletetargetbeneficiary`,{tbl_beneficiary:results});
-//     });
-// });
-
-// router.post('/targetbeneficiary/:int_beneficiaryID/deletetargetbeneficiary', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 5 DELETE POST');
-//     console.log('=================================');
-
-//     var queryString1 = `UPDATE tbl_beneficiary SET
-//             enum_beneficiaryStatus = 'Inactive'
-//             WHERE tbl_beneficiary.int_beneficiaryID = ${req.body.int_beneficiaryID}`;
-        
-//             db.query(queryString1, (err, results) => {        
-//             if (err) throw err;
-//             res.redirect('/admin/maintenance/targetbeneficiary');
-// });
-// });
-
 router.post('/targetbeneficiary/activate', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 3 Status Active POST');
+    console.log('ADMIN: MAINTENANCE - 4 Status Active POST');
     console.log('=================================');
 
     db.query("UPDATE tbl_beneficiary SET enum_beneficiaryStatus = 'Active' WHERE int_beneficiaryID = ?",[req.body.id], (err, results, fields) =>{
@@ -729,7 +331,7 @@ router.post('/targetbeneficiary/activate', (req, res) => {
 
 router.post('/targetbeneficiary/inactive', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 3 Status Inactive POST');
+    console.log('ADMIN: MAINTENANCE - 4 Status Inactive POST');
     console.log('=================================');
 
     db.query("UPDATE tbl_beneficiary SET enum_beneficiaryStatus = 'Inactive' WHERE int_beneficiaryID = ?",[req.body.id], (err, results, fields) =>{
@@ -742,123 +344,13 @@ router.post('/targetbeneficiary/inactive', (req, res) => {
 
 });
 
-// router.get('/awards',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 7');
-//     console.log('=================================');
-    
-//     var queryString =`SELECT * FROM tbl_award WHERE enum_awardStatus = 'Active'`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-//         // console.log(results);
-//         res.render('admin/maintenance/views/maintenance6', {tbl_award: results});
-//         console.log(results);
-//     });
-// });
-
-// router.post('/awards',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1 POST');
-//     console.log('=================================');
-
-//     var queryString = `INSERT INTO \`tbl_award\` (
-        
-//         \`varchar_awardName\`,
-//         \`text_awardDescription\`,
-//         \`enum_awardStatus\`)
-                
-//         VALUES(
-//         "${req.body.awardname}",
-//         "${req.body.awarddescription}",
-//         "Active");`;
-
-//         db.query(queryString, (err, results, fields) => {        
-//             if (err) throw err;    
-//             console.log(results);
-       
-//         var queryString1 =`SELECT * FROM tbl_award ORDER BY int_awardID DESC LIMIT 0,1`
-
-//         db.query(queryString1, (err, results1, fields) => {        
-//             if (err) throw err;
-//             var results1 = results1;
-//             console.log(results1);
-                    
-//                 res.redirect('/admin/maintenance/awards');
-//         });
-
-//     });
-// });
-
-// router.get('/awards/:int_awardID/editaward',(req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 1');
-//     console.log('=================================');
-//     console.log("PUMASOK SA GET REQ.PARAMS")
-    
-//     var queryString = `SELECT * FROM tbl_award
-//     WHERE tbl_award.int_awardID = "${req.params.int_awardID}"`;
-    
-//     db.query(queryString, (err, results, fields) => {        
-//         if (err) throw err;
-//         res.render(`admin/maintenance/views/editaward`,{tbl_award:results});
-//     });
-// });
-
-
-// router.post('/awards/:int_awardID/editaward', (req, res) => {
-//     console.log("PUMASOK SA POST REQ.PARAMS")
-    
-//     var queryString = `UPDATE tbl_award SET
-//     varchar_awardName = "${req.body.awardname}",
-//     text_awardDescription = "${req.body.awarddescription}",
-//     enum_awardStatus = "Active"
-//     WHERE tbl_award.int_awardID = "${req.body.int_awardID}"`;
-    
-//     db.query(queryString, (err, results, fields) => {        
-//         if (err) throw err;
-//         console.log(results);
-//         res.redirect('/admin/maintenance/awards');
-// });
-// });
-
-// router.get('/awards/:int_awardID/deleteaward', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 6 DELETE GET');
-//     console.log('=================================');
-
-//     var queryString =`SELECT * FROM tbl_award
-//     WHERE enum_awardStatus = 'Active' 
-//     AND tbl_award.int_awardID=${req.params.int_awardID}`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-
-//         res.render(`admin/maintenance/views/deleteaward`,{tbl_award:results});
-//     });
-// });
-
-// router.post('/awards/:int_awardID/deleteaward', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 6 DELETE POST');
-//     console.log('=================================');
-
-//     var queryString1 = `UPDATE tbl_award SET
-//             enum_awardStatus = 'Inactive'
-//             WHERE tbl_award.int_awardID = ${req.body.int_awardID}`;
-        
-//             db.query(queryString1, (err, results) => {        
-//             if (err) throw err;
-//             res.redirect('/admin/maintenance/awards');
-// });
-// });
-
+//============================================================
+// MAINTENANCE RELEASE LOCATION
+//============================================================
 
 router.get('/releaselocation',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 7');
+    console.log('ADMIN: MAINTENANCE - 3');
     console.log('=================================');
 
     var queryString =`SELECT * FROM tbl_releaselocation JOIN tbl_address ON tbl_releaselocation.int_locationAddressID=tbl_address.int_addressID`
@@ -874,15 +366,15 @@ router.get('/releaselocation',(req, res) => {
 
 router.post('/releaselocation',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 7 POST');
+    console.log('ADMIN: MAINTENANCE - 3 POST');
     console.log('=================================');
 
     var queryString = `INSERT INTO \`tbl_address\` (
         
-                \`varchar_addressLine1\`,
-                \`varchar_addressLine2\`,
-                \`varchar_addressLine3\`,
-                \`varchar_cityName\`,
+                \`varchar_numberBlockLot\`,
+                \`varchar_streetAvenueRoad\`,
+                \`varchar_villageSubdivision\`,
+                \`varchar_purokSitioZone\`,
                 \`enum_addressType\`)
                         
                 VALUES(
@@ -928,7 +420,7 @@ router.post('/releaselocation',(req, res) => {
 
 router.get('/releaselocation/:int_locationID/editreleaselocation',(req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 7 EDIT GET');
+    console.log('ADMIN: MAINTENANCE - 3 EDIT GET');
     console.log('=================================');
     console.log("PUMASOK SA GET REQ.PARAMS")
     
@@ -942,20 +434,9 @@ router.get('/releaselocation/:int_locationID/editreleaselocation',(req, res) => 
     });
 });
 
-
 router.post('/releaselocation/:int_locationID/editreleaselocation', (req, res) => {
     console.log("PUMASOK SA POST REQ.PARAMS")
-    
-    // var queryString = `UPDATE tbl_releaselocation SET
-    // varchar_locationName = "${req.body.locationname}",
-    // int_locationAddressID = "${req.body.locationaddress}",
-    // enum_locationStatus = "Active"
-    // WHERE tbl_releaselocation.int_locationID = "${req.body.int_locationID}"`;
-    
-    // db.query(queryString, (err, results, fields) => {        
-    //     if (err) throw err;
-    //     console.log(results);
-    //     res.redirect('/admin/maintenance/releaselocation');
+
     var queryString = `UPDATE tbl_address SET
         varchar_addressLine1 = "${req.body.blocknumber}",
         varchar_addressLine2 = "${req.body.street}",
@@ -989,42 +470,11 @@ router.post('/releaselocation/:int_locationID/editreleaselocation', (req, res) =
                 });
         });
         });
-        });
-// router.get('/releaselocation/:int_locationID/deletereleaselocation', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 7 DELETE GET');
-//     console.log('=================================');
-
-//     var queryString =`SELECT * FROM tbl_releaselocation
-//     WHERE enum_locationStatus = 'Active' 
-//     AND tbl_releaselocation.int_locationID = ${req.params.int_locationID}`
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-
-//         res.render(`admin/maintenance/views/deletereleaselocation`,{tbl_releaselocation:results});
-//     });
-// });
-
-// router.post('/releaselocation/:int_locationID/deletereleaselocation', (req, res) => {
-//     console.log('=================================');
-//     console.log('ADMIN: MAINTENANCE - 7 DELETE POST');
-//     console.log('=================================');
-
-//     var queryString1 = `UPDATE tbl_releaselocation SET
-//             enum_locationStatus = 'Inactive'
-//             WHERE tbl_releaselocation.int_locationID = ${req.body.int_locationID}`;
-        
-//             db.query(queryString1, (err, results) => {        
-//             if (err) throw err;
-//             res.redirect('/admin/maintenance/releaselocation');
-// });
-// });
+});
 
 router.post('/releaselocation/activate', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 2 Status Active POST');
+    console.log('ADMIN: MAINTENANCE - 3 Status Active POST');
     console.log('=================================');
 
     db.query("UPDATE tbl_releaselocation SET enum_locationStatus = 'Active' WHERE int_locationID = ?",[req.body.id], (err, results, fields) =>{
@@ -1039,7 +489,7 @@ router.post('/releaselocation/activate', (req, res) => {
 
 router.post('/releaselocation/inactive', (req, res) => {
     console.log('=================================');
-    console.log('ADMIN: MAINTENANCE - 2 Status Inactive POST');
+    console.log('ADMIN: MAINTENANCE - 3 Status Inactive POST');
     console.log('=================================');
 
     db.query("UPDATE tbl_releaselocation SET enum_locationStatus = 'Inactive' WHERE int_locationID = ?",[req.body.id], (err, results, fields) =>{
@@ -1047,6 +497,238 @@ router.post('/releaselocation/inactive', (req, res) => {
             console.log(err);
         else{
             return res.redirect('/admin/maintenance/releaselocation')
+        }
+    });
+
+});
+
+//============================================================
+// MAINTENANCE FORMS
+//============================================================
+
+router.get('/forms',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 6');
+    console.log('=================================');
+    
+    var queryString =`SELECT * FROM tbl_formtype`
+    
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+        // console.log(results);
+        res.render('admin/maintenance/views/maintenance8', {tbl_formtype: results});
+        console.log(results);
+    });
+});
+
+router.post('/forms',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 6 POST');
+    console.log('=================================');
+
+    var queryString = `INSERT INTO \`tbl_formtype\` (
+        
+        \`varchar_formName\`,
+        \`text_formDescription\`,
+        \`enum_formStatus\`)
+                
+        VALUES(
+        "${req.body.formname}",
+        "${req.body.formdescription}",
+        "Active");`;
+
+        db.query(queryString, (err, results, fields) => {        
+            if (err) throw err;    
+            console.log(results);
+       
+        var queryString1 =`SELECT * FROM tbl_formtype ORDER BY int_formTypeID DESC LIMIT 0,1`
+
+        db.query(queryString1, (err, results1, fields) => {        
+            if (err) throw err;
+            var results1 = results1;
+            console.log(results1);
+                    
+                res.redirect('/admin/maintenance/forms');
+        });
+
+    });
+});
+
+router.get('/forms/:int_formTypeID/editforms',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 6');
+    console.log('=================================');
+    console.log("PUMASOK SA GET REQ.PARAMS")
+    
+    var queryString = `SELECT * FROM tbl_formtype
+    WHERE tbl_formtype.int_formTypeID = "${req.params.int_formTypeID}"`;
+    
+    db.query(queryString, (err, results, fields) => {        
+        if (err) throw err;
+        console.log(results);
+        res.render(`admin/maintenance/views/editforms`,{tbl_formtype:results});
+    });
+});
+
+router.post('/forms/:int_formTypeID/editforms', (req, res) => {
+    console.log("PUMASOK SA POST REQ.PARAMS")
+    
+    var queryString = `UPDATE tbl_formtype SET
+    varchar_formName = "${req.body.formname}",
+    text_formDescription = "${req.body.formdescription}",
+    enum_formStatus = "Active"
+    WHERE tbl_formtype.int_formTypeID = "${req.body.int_formTypeID}"`;
+    
+    db.query(queryString, (err, results, fields) => {        
+        if (err) throw err;
+        console.log(results);
+        res.redirect('/admin/maintenance/forms');
+});
+});
+
+router.post('/forms/activate', (req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 6 Status Active POST');
+    console.log('=================================');
+
+    db.query("UPDATE tbl_formtype SET enum_formStatus = 'Active' WHERE int_formTypeID = ?",[req.body.id], (err, results, fields) =>{
+        if(err)
+            console.log(err);
+        else{
+            return res.redirect('/admin/maintenance/forms')
+        }
+    });
+
+});
+
+router.post('/forms/inactive', (req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 6 Status Inactive POST');
+    console.log('=================================');
+
+    db.query("UPDATE tbl_formtype SET enum_formStatus = 'Inactive' WHERE int_formTypeID = ?",[req.body.id], (err, results, fields) =>{
+        if(err)
+            console.log(err);
+        else{
+            return res.redirect('/admin/maintenance/forms')
+        }
+    });
+
+});
+
+//============================================================
+// MAINTENANCE BARANGAY
+//============================================================
+
+router.get('/barangay',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 1');
+    console.log('=================================');
+    
+    var queryString =`SELECT * FROM tbl_barangay`
+    
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+        // console.log(results);
+        res.render('admin/maintenance/views/maintenance', {tbl_barangay: results});
+        console.log(results);
+    });
+});
+
+router.post('/barangay',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 1 POST');
+    console.log('=================================');
+
+    var queryString = `INSERT INTO \`tbl_barangay\` (
+        
+        \`int_cityID\`,
+        \`varchar_barangayName\`,
+        \`varchar_barangayContact\`,
+        \`enum_barangayStatus\`)
+                
+        VALUES(
+        "1",
+        "${req.body.barangayname}",
+        "${req.body.barangaycontact}",
+        "Active");`;
+
+        db.query(queryString, (err, results, fields) => {        
+            if (err) throw err;    
+            console.log(results);
+       
+        var queryString1 =`SELECT * FROM tbl_barangay ORDER BY int_barangayID DESC LIMIT 0,1`
+
+        db.query(queryString1, (err, results1, fields) => {        
+            if (err) throw err;
+            var results1 = results1;
+            console.log(results1);
+                    
+                res.redirect('/admin/maintenance/barangay');
+        });
+
+    });
+});
+
+router.get('/barangay/:int_barangayID/editbarangay',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 1');
+    console.log('=================================');
+    console.log("PUMASOK SA GET REQ.PARAMS")
+    
+    var queryString = `SELECT * FROM tbl_barangay
+    WHERE tbl_barangay.int_barangayID = "${req.params.int_barangayID}"`;
+    
+    db.query(queryString, (err, results, fields) => {        
+        if (err) throw err;
+        console.log(results);
+        res.render(`admin/maintenance/views/editbarangay`,{tbl_barangay:results});
+    });
+});
+
+router.post('/barangay/:int_barangayID/editbarangay', (req, res) => {
+    console.log("PUMASOK SA POST REQ.PARAMS")
+    
+    var queryString = `UPDATE tbl_barangay SET
+    varchar_barangayName = "${req.body.barangayname}",
+    varchar_barangayContact = "${req.body.barangaycontact}",
+    enum_barangayStatus = "Active"
+    WHERE tbl_barangay.int_barangayID = "${req.body.int_barangayID}"`;
+    
+    db.query(queryString, (err, results, fields) => {        
+        if (err) throw err;
+        console.log(results);
+        res.redirect('/admin/maintenance/barangay');
+});
+});
+
+router.post('/barangay/activate', (req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 1 Status Active POST');
+    console.log('=================================');
+
+    db.query("UPDATE tbl_barangay SET enum_barangayStatus = 'Active' WHERE int_barangayID = ?",[req.body.id], (err, results, fields) =>{
+        if(err)
+            console.log(err);
+        else{
+            return res.redirect('/admin/maintenance/barangay')
+        }
+    });
+
+});
+
+router.post('/barangay/inactive', (req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 6 Status Inactive POST');
+    console.log('=================================');
+
+    db.query("UPDATE tbl_barangay SET enum_barangayStatus = 'Inactive' WHERE int_barangayID = ?",[req.body.id], (err, results, fields) =>{
+        if(err)
+            console.log(err);
+        else{
+            return res.redirect('/admin/maintenance/barangay')
         }
     });
 

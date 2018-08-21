@@ -4,20 +4,38 @@ var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 
 
+
 router.get('/',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROPOSALS');
     console.log('=================================');
     
-    var queryString =`SELECT * FROM tbl_projectcategory WHERE enum_projCategState = 'Active'`
+    var queryString =`SELECT * FROM tbl_category WHERE enum_categoryStatus = 'Active'`
     
+    var queryString2 =`SELECT * FROM tbl_beneficiary WHERE enum_beneficiaryStatus = 'Active'`
+
+    var queryString3 =`SELECT * FROM tbl_requirement WHERE enum_requirementStatus = 'Active'`
+
+    var queryString4 =`SELECT * FROM tbl_releaselocation WHERE enum_locationStatus = 'Active'`
+
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
+        db.query(queryString2, (err, results2, fields) => {
+            console.log(results2);
+            if (err) console.log(err);
+            db.query(queryString3, (err, results3, fields) => {
+                console.log(results3);
+                if (err) console.log(err);
+                db.query(queryString4, (err, results4, fields) => {
+                    console.log(results4);
+                    if (err) console.log(err);
         // console.log(results);
-        res.render('office/proposals/views/proposals', {tbl_projectcategory: results});
-
-});
+                        res.render('office/proposals/views/proposals', {tbl_category: results,tbl_beneficiary:results2,tbl_requirement:results3,tbl_releaselocation:results4});
+                });
+            });
+        });
+    });
 });
 
 router.post('/',(req, res) => {
@@ -28,7 +46,7 @@ router.post('/',(req, res) => {
     var queryString = `INSERT INTO \`tbl_projectproposal\` (
         
         \`varchar_projectName\`,
-        \`int_projectCategID\`,
+        \`int_categoryID\`,
         \`varchar_releaseLocation\`,
         \`varchar_projectRationale\`,
         \`text_projectDescription\`,
@@ -93,12 +111,12 @@ router.get('/submittedproposals',(req, res) => {
     console.log('=================================');
  
 
-    var queryString =`SELECT * FROM tbl_projectproposal pp
-    JOIN tbl_projectcategory pc
-    ON pp.int_projectID = pc.int_projectID
-    JOIN tbl_category cat
-    ON pc.int_categoryID = cat.int_categoryID
-    WHERE pp.enum_proposalStatus = "Pending"`
+    var queryString =`SELECT * FROM tbl_projectproposal pr
+    JOIN tbl_proposalapproval proapp ON pr.int_projectID=proapp.int_projectID
+    JOIN tbl_projectcategory pc ON pr.int_projectID = pc.int_projectID
+    JOIN tbl_category cat ON pc.int_categoryID = cat.int_categoryID
+    WHERE enum_proposalStatus = "Pending"
+    OR enum_proposalStatus = "Revision"`
 
 
     db.query(queryString, (err, results, fields) => {

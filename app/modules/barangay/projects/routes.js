@@ -50,7 +50,7 @@ router.get('/applications',(req, res) => {
     var queryString1 = `SELECT * FROM tbl_project p 
     JOIN tbl_projectproposal pp 
     ON p.int_projectID=pp.int_projectID
-    WHERE p.enum_projectStatus = "Approved"`
+    WHERE p.enum_projectStatus = "Ongoing"`
 
     db.query(queryString1,(err, results1) => {
 

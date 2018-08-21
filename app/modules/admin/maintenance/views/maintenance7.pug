@@ -46,13 +46,13 @@ block content
                             value=location.varchar_locationName
                         </td>
                         <td>
-                            value=location.varchar_addressLine1
+                            value=location.varchar_numberBlockLot
                             <br>
-                            value=location.varchar_addressLine2
+                            value=location.varchar_streetAvenueRoad
                             <br>
-                            value=location.varchar_addressLine3
+                            value=location.varchar_villageSubdivision
                             <br>
-                            value=location.varchar_cityName
+                            value=location.varchar_purokSitioZone
                         </td>
                         <td>
                             value=location.enum_addressType
@@ -64,11 +64,11 @@ block content
                             if location.enum_locationStatus == "Inactive"
                               form(method="POST" action="/admin/maintenance/releaselocation/activate")
                                 input(value=location.int_locationID name="id" required, hidden)
-                                button.btn.btn-info.btn-s(type='submit') Active
+                                button.btn.btn-danger.btn-s(type='submit') Inactive
                             if location.enum_locationStatus == "Active"
                               form(method="POST" action="/admin/maintenance/releaselocation/inactive")
                                 input(value=location.int_locationID name="id" required, hidden)
-                                button.btn.btn-danger.btn-s(type='submit') Inactive
+                                button.btn.btn-success.btn-s(type='submit') Active
                         </td>
                         </tr>
                     </tbody>

@@ -2153,7 +2153,7 @@ section {
 }
 
 .account2 {
-    padding: 38px;
+    padding: 0.5em;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -2183,7 +2183,7 @@ section {
     text-transform: capitalize;
     font-weight: 500;
     font-size: 20px;
-    margin-top: 20px;
+    margin-top: 0.5em;
     margin-bottom: 5px;
 }
 
@@ -4747,8 +4747,8 @@ section {
 
 /* ----- Breadcrumb ----- */
 .au-breadcrumb {
-    height: 75px;
-    background: #fff;
+    height: 3em;
+    background: silver;
     position: relative;
     z-index: 0;
 }
@@ -4821,8 +4821,12 @@ section {
 
 .au-breadcrumb-span {
     font-size: 14px;
-    color: #999;
+    color: white;
     display: inline-block;
+}
+
+.au-breadcrumb-span:hover {
+    color: #333;
 }
 
 .au-breadcrumb__list {
@@ -4832,7 +4836,7 @@ section {
 
 .au-breadcrumb__list li {
     font-size: 14px;
-    color: #999;
+    color: white;
 }
 
 .au-breadcrumb__list .list-inline-item:not(:last-child) {
@@ -4840,7 +4844,7 @@ section {
 }
 
 .au-breadcrumb__list .active a {
-    color: #999;
+    color: white;
 }
 
 .au-breadcrumb__list .active a:hover {
@@ -4853,19 +4857,19 @@ section {
 }
 
 .au-breadcrumb2 .au-breadcrumb-span {
-    color: #808080;
+    color: white;
 }
 
 .au-breadcrumb2 .au-breadcrumb__list .active a {
-    color: #808080;
+    color: white;
 }
 
 .au-breadcrumb2 .au-breadcrumb__list .active a:hover {
-    color: #666;
+    color: #333;
 }
 
 .au-breadcrumb2 .au-breadcrumb__list li {
-    color: #808080;
+    color: white;
 }
 
 @media (max-width: 991px) {

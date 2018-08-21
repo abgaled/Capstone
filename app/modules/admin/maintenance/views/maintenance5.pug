@@ -19,7 +19,6 @@ block content
                       <thead>
                         <tr>
                           <th>Target Beneficiary Name</th>
-                          <th>Description</th>
                           <th>Actions</th>
                           <th>Status</th>
                         </tr>
@@ -27,7 +26,6 @@ block content
                       <tfoot>
                         <tr>
                           <th>Target Beneficiary Name</th>
-                          <th>Description</th>
                           <th>Actions</th>
                           <th>Status</th>
                         </tr>
@@ -39,20 +37,17 @@ block content
                             value=target.varchar_beneficiaryName
                           </td>
                           <td>
-                            value=target.text_beneficiaryDescription
-                          </td>
-                          <td>
                             a(href=`/admin/maintenance/targetbeneficiary/${target.int_beneficiaryID}/edittargetbeneficiary` id="edittargetbeneficiary" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
                           </td>
                           <td>
                             if target.enum_beneficiaryStatus == "Inactive"
                               form(method="POST" action="/admin/maintenance/targetbeneficiary/activate")
                                 input(value=target.int_beneficiaryID name="id" required, hidden)
-                                button.btn.btn-info.btn-s(type='submit') Active
+                                button.btn.btn-danger.btn-s(type='submit') Inactive
                             if target.enum_beneficiaryStatus == "Active"
                               form(method="POST" action="/admin/maintenance/targetbeneficiary/inactive")
                                 input(value=target.int_beneficiaryID name="id" required, hidden)
-                                button.btn.btn-danger.btn-s(type='submit') Inactive
+                                button.btn.btn-success.btn-s(type='submit') Active
                           </td>
                           </tr>
                       </tbody>
