@@ -1,48 +1,58 @@
 extends ../../home/views/navbar.pug
 
 block content
-    //- <!-- page content -->
     <div class="right_col" role="main">
-    <div class="x_panel">
-        <div class="x_title">
-                <h2><i class="fa fa-users"></i> Barangay<small>(Releasing of Benefits)</small></h2>
-                <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-        <div class="container">
-            <div class="table-responsive m-b-40">
-                <table id="datatable" class="table table-borderless table-data3">
-                    <thead>
-                        <tr>
-                            <th>Project</th>
-                            <th>Description</th>
-                            <th>Releasing Date</th>
-                            <th>Action/s</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    each proj in releasingprojects
-                        <tr class="tr-shadow">
-                            <td>
-                                value=proj.varchar_projectName
-                            </td>
-                            <td>
-                                value=proj.text_projectDescription
-                            </td>
-                            <td>
-                                value=proj.datetime_releasingStart
-                            </td>
-                            <td>
-                                a(href=`/barangay/releasing/${proj.int_projectID}/beneficiaries` class="btn btn-success btn-sm"): <i class="fa fa-files-o"></i> View Beneficiaries
-                            </td>
-                        </tr>        
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        //- END OF DATA TABLE
-        </div>
-    </div>
-    </div>
-
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1 class="text-center">Releasing Projects</h1>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Releasing Date</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Releasing Date</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                each project in tbl_project
+                                                    <tr>
+                                                        <td>
+                                                            value=project.varchar_projectName
+                                                        </td>
+                                                        <td>
+                                                            value=project.datetime_releasingStart
+                                                        </td>
+                                                        <td>
+                                                            value=project.enum_projectStatus
+                                                        </td>
+                                                        <td>
+                                                            a(href=`/barangay/releasing/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
+                                                            //a(href=`/office/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-primary btn-xs btn-block"): span Beneficiaries
+                                                            a(href=`/barangay/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-success btn-xs btn-block"): span Start Releasing
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+        <!-- END STATISTIC-->
             

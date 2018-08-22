@@ -14,9 +14,7 @@ router.get('/pending',(req, res) => {
     var newQuery = `SELECT * 
         FROM tbl_projectproposal propr
         JOIN tbl_proposalapproval proapp 
-        ON propr.int_projectID = proapp.int_projectID
-        WHERE propr.enum_proposalStatus='Pending' 
-        OR proapp.enum_propappStatus='Pending'`;
+        ON propr.int_projectID = proapp.int_projectID`;
 
     db.query(newQuery, (err, newResult, fields) => {
 
@@ -28,7 +26,27 @@ router.get('/pending',(req, res) => {
     });
 });
 
+router.post('/pending',(req, res) => {
+    console.log('=================================');
+    console.log('BUDGET: PROPOSALS-APPROVAL-CHECKNUMBER');
+    console.log('=================================');
+    
+    console.log(req.body.chequeNumber);
+    var insertCheckQuery = `UPDATE tbl_proposalapproval
+    SET varchar_checkNumber = "${req.body.chequeNumber}"
+    WHERE int_projectID = ${req.body.PROJECT_idcheq}`;
+    db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
+    if(err) console.log(err);
 
+    
+
+    console.log("Succesfully inserted the check number");
+    console.log(insertCheckResult);
+
+    
+        res.redirect('/budget/proposals/pending');
+});
+});
 
 router.get('/approved',(req, res) => {
     console.log('=================================');
@@ -53,9 +71,6 @@ router.get('/approved',(req, res) => {
     });
 });
 
-
-
-
 router.get('/:int_projectID/details',(req, res) => {
     console.log('=================================');
     console.log('BUDGET: PROPOSALS-REVIEWED-DETAILS');
@@ -67,8 +82,6 @@ router.get('/:int_projectID/details',(req, res) => {
 
     res.redirect('/budget/proposals/viewdetail');
 });
-
-
 
 router.get('/viewdetail', (req, res) => {
     console.log('=================================');
@@ -254,6 +267,55 @@ router.post('/revision',(req, res) => {
 });
 
 
+router.post('/revisiondetails',(req, res) => {
+    console.log('=================================');
+    console.log('BUDGET: PROPOSALS-REVISION');
+    console.log('=================================');
+
+    var approveQuery = `SELECT * 
+        FROM tbl_projectproposal PP JOIN tbl_projectcategory PC 
+        ON PP.int_projectID=PC.int_projectID
+        JOIN tbl_category C ON PC.int_categoryID=C.int_categoryID
+        WHERE PP.enum_proposalStatus='Approved'
+        GROUP BY PP.int_projectID`;
+
+    var selectRevisionQuery = `SELECT * FROM tbl_revisioncomment`;
+
+    db.query(selectRevisionQuery, (err, selectRevisionResult, fields) => {
+        if(err) console.log(err);
+
+        console.log("Succesfully inserted the revision comment");
+        console.log(selectRevisionResult);
+
+            res.redirect('/budget/proposals/pending');
+        });
+});
+
+
+// AJAX GET REVISION DETAILS
+router.post('/pending/ajaxrevisiondetails',(req,res) => {
+    console.log('=================================');
+    console.log('BUDGET: PROPOSALS-REVISION-GET DETAILS AJAX');
+    console.log('=================================');
+
+    var viewRevisionQuery = `SELECT * FROM tbl_revisioncomment 
+    WHERE int_projectID = ${req.body.ajProjRevisionID}`;
+
+    db.query(viewRevisionQuery,(err, results, fields) => {
+        if (err) console.log(err);
+
+
+        console.log(results);
+
+        var resultss = results[0];
+
+        console.log("===================RESULTSS")
+        console.log(resultss)
+
+        return res.send({tbl_revision:resultss});
+    });
+});
+
 
 router.post('/approval',(req, res) => {
     console.log('=================================');
@@ -307,26 +369,25 @@ router.post('/checkinsertid',(req, res) => {
 
 
 
-router.post('/checknumberget', (req,res) => {
-    console.log('=================================');
-    console.log('BUDGET: PROPOSALS-APPROVAL-CHECKNUMBER');
-    console.log('=================================');
+// router.post('/checknumberget', (req,res) => {
+//     console.log('=================================');
+//     console.log('BUDGET: PROPOSALS-APPROVAL-CHECKNUMBER');
+//     console.log('=================================');
     
-    console.log(req.body.chequeNumber);
-    var insertCheckQuery = `UPDATE tbl_proposalapproval
-    SET varchar_checkNumber = "${req.body.chequeNumber}"
-    WHERE int_projectID = ${req.body.PROJECT_idcheq}`;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-    db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
-    if(err) console.log(err);
+//     console.log(req.body.chequeNumber);
+//     var insertCheckQuery = `UPDATE tbl_proposalapproval
+//     SET varchar_checkNumber = "${req.body.chequeNumber}"
+//     WHERE int_projectID = ${req.body.PROJECT_idcheq}`;
+//     db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
+//     if(err) console.log(err);
 
-    console.log("Succesfully inserted the check number");
-    console.log(insertCheckResult);
+//     console.log("Succesfully inserted the check number");
+//     console.log(insertCheckResult);
 
     
-        res.redirect('/budget/proposals/pending');
-    });
-});
+//         res.redirect('/budget/proposals/pending');
+//     });
+// });
 
 
 

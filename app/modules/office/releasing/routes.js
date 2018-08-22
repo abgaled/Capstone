@@ -26,12 +26,17 @@ router.get('/',(req, res) => {
     JOIN tbl_projectproposal prpro 
     ON pr.int_projectID=prpro.int_projectID
     WHERE pr.enum_projectStatus = 'Releasing'
-    AND pr.datetime_releasingStart >= "${now}"
     ORDER BY pr.datetime_releasingStart DESC`
 
-    db.query(queryString,[currentDate], (err, results, fields) => {
+    db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
+
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].datetime_releasingStart = moment(date_results[i].datetime_releasingStart).format('MM-DD-YYYY');
+        }
 
         res.render('office/releasing/views/releasing',{tbl_project:results});
     });
@@ -101,12 +106,16 @@ router.get('/:int_projectID/viewben',(req, res) => {
     JOIN tbl_personalinformation pi ON app.int_applicationID = pi.int_applicationID
     JOIN tbl_projectproposal propr ON propr.int_projectID = proj.int_projectID
     WHERE app.int_projectID = "${req.params.int_projectID}"
-    AND app.enum_applicationStatus = 'Approved'  
-    OR app.enum_applicationStatus = 'Received'`
+    AND app.enum_applicationStatus = 'Approved'`
     
     db.query(queryString1, (err, results1, fields) => {
         console.log(results1);
         if (err) console.log(err);
+
+        req.session.office.sesReleasingProjectID = req.params.int_projectID
+
+        console.log("=====SESSION SESRELEASINGPROJECTID=====");
+        console.log(req.session.office.sesReleasingProjectID);
 
         var queryString2 =`SELECT * FROM tbl_project proj
         JOIN tbl_projectproposal propr ON propr.int_projectID = proj.int_projectID
@@ -152,28 +161,16 @@ router.post('/viewben/:int_applicationID/receiveben', (req, res) => {
             
     db.query(queryString, (err, results) => {        
         if (err) throw err;
+
         var queryString1 =`SELECT * FROM tbl_projectproposal pr
-    JOIN tbl_project proj ON pr.int_projectID = proj.int_projectID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+        JOIN tbl_project proj ON pr.int_projectID = proj.int_projectID
+        WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     db.query(queryString1, (err, results1, fields) => {
-        console.log("=========RESULTS1==========")
-        console.log(results1);
         if (err) console.log(err);
-
-        var queryString2 =`SELECT * FROM tbl_application ap
-        JOIN tbl_personalinformation pi 
-        ON ap.int_applicationID = pi.int_applicationID
-        WHERE ap.int_projectID = "${req.params.int_projectID}"
-        AND ap.enum_applicationStatus = "Pending"`
-
-        db.query(queryString2, (err, results2, fields) => {
-            if (err) console.log(err);
+  
     
-            res.render('office/releasing/views/beneficiary',{
-                    tbl_project:results1,
-                    tbl_application:results2});
-            });
+        res.redirect(`/office/releasing/${req.session.office.sesReleasingProjectID}/viewben`);
         });
     });
 });
@@ -188,8 +185,6 @@ router.post('/:int_projectID/viewben/ajaxapplicantdetails',(req,res) => {
     var queryString = `SELECT * FROM tbl_personalinformation pi
     JOIN tbl_application ap 
     ON pi.int_applicationID=ap.int_applicationID 
-    JOIN tbl_address ad
-    ON pi.int_addressID=ad.int_addressID
     WHERE pi.int_applicationID=${req.body.ajApplicationID}`
 
 

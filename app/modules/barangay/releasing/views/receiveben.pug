@@ -1,0 +1,21 @@
+extends ../../home/views/navbar.pug
+
+block content
+  <link rel="stylesheet" type="text/css" href="/loader/style_loader.css">
+
+  <div id="loading"></div>
+    <form method="POST" action="receiveben" id="form_receiveben">
+      each app in tbl_application
+        input(type="hidden" value=`${app.int_applicationID}` name="int_applicationID" id="int_applicationID")
+                       
+    </form>
+
+  script.
+    
+    window.onload=function() {
+      jQuery(document).ready(function() {
+      jQuery('#loading').fadeOut(3500);
+      });
+
+      document.getElementById("form_receiveben").submit();
+    }

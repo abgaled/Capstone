@@ -10,6 +10,7 @@ block content
                             <h2>Proposal Form<small></small></h2>
                             <div class="clearfix"></div>
                         </div>
+                        <form method="POST" action="/office/proposals" class="form-horizontal form-label-left">
                         <div class="x_content">
                             <div id="wizard" class="form_wizard wizard_horizontal">
                                 <ul class="wizard_steps">
@@ -70,349 +71,350 @@ block content
                                         </a>
                                     </li>
                                 </ul>
-                                
-                                <div id="step-1">
-                                    <form class="form-horizontal form-label-left">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped jambo_table bulk_action">
-                                                <thead>
-                                                <tr class="headings">
-                                                    <th>
-                                                    <input type="checkbox" id="check-all" class="flat">
-                                                    </th>
-                                                    <th class="column-title">Problem Name </th>
-                                                    <th class="column-title">Statement</th>
-                                                    <th class="column-title">Categories</th>
-                                                    </th>
-                                                    <th class="bulk-actions" colspan="7">
-                                                    <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                                                    </th>
-                                                </tr>
-                                                </thead>
 
-                                                <tbody>
-                                                each statement in tbl_problemstatement
-                                                    <tr class="even pointer">
-                                                        <td class="a-center ">
-                                                        <input type="checkbox" class="flat" name="table_records">
-                                                        </td>
-                                                        <td class=" ">
-                                                        value=statement.varchar_statementTitle
-                                                        </td>
-                                                        <td class=" ">
-                                                        value=statement.text_statementContent
-                                                        </td>
-                                                        <td class=" ">
-                                                        value=statement.varchar_categoryName
-                                                        </td>
-                                                        </td>
+                                    <div id="step-1">
+                                        <form class="form-horizontal form-label-left">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped jambo_table bulk_action">
+                                                    <thead>
+                                                    <tr class="headings">
+                                                        <th>
+                                                        <input type="checkbox" id="check-all" class="flat">
+                                                        </th>
+                                                        <th class="column-title">Problem Name </th>
+                                                        <th class="column-title">Statement</th>
+                                                        <th class="column-title">Categories</th>
+                                                        </th>
+                                                        <th class="bulk-actions" colspan="7">
+                                                        <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                                        </th>
                                                     </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </form>
-                                </div>
+                                                    </thead>
 
-                                <div id="step-2">
-                                    <form class="form-horizontal form-label-left">
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectname">Project Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="projectname" required="required"placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <select class="select2_multiple form-control" multiple="multiple">
-                                                <option>Choose option</option>
-                                                each category in tbl_category
-                                                    <option>
-                                                    value=category.varchar_categoryName
-                                                    </option>
-                                            </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectrationale">Project Rationale</label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <textarea class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="projectrationale"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectobjectives">Project Objective</label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <textarea class="resizable_textarea form-control" placeholder="Please fill project objective ..." id="projectobjectives"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectdescription">Project Description</label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <textarea class="resizable_textarea form-control" placeholder="Please fill project description ..." id="projectdescription"></textarea>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                
-                                <div id="step-3">
-                                    <form class="form-horizontal form-label-left">
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Target Beneficiary</label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <select class="select2_multiple form-control" multiple="multiple">
-                                                <option>Choose option</option>
-                                                each beneficiary in tbl_beneficiary
-                                                    <option>
-                                                    value=beneficiary.varchar_beneficiaryName
-                                                    </option>
-                                            </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Alloted Slot <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" id="allotedslot" required="required"placeholder="Number of beneficiary ..."onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div id="step-4">
-                                    <form class="form-horizontal form-label-left">
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select requirements</label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <select class="select2_multiple form-control" multiple="multiple">
-                                                <option>Choose option</option>
-                                                each requirement in tbl_requirement
-                                                    <option>
-                                                    value=requirement.varchar_requirementName
-                                                    </option>
-                                            </select>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div id="step-5">
-                                    <form class="form-horizontal form-label-left">
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Start Date<span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" id="startDate" required="required" placeholder="number of days after approval ..." class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days of application<span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" id="applicationDays" required="required" placeholder="Duration of beneficiary application..." class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">No. of Days of Releasing<span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" id="releasingday" required="required" onchange="unhide()" placeholder="number of days of releasing..." class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                        <div class="form-group" hidden id="daychange">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days Between Release Dates<span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" id="betweenDays" required="required" placeholder="Number of days skip..." class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Date of releasing<span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" id="releasedate" required="required" placeholder="days after closing..." class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <select class="select2_multiple form-control" multiple="multiple">
-                                                <option>Choose option</option>
-                                                <option>Mandaluyong City</option>
-                                                each location in tbl_barangay
-                                                    <option>
-                                                    value=location.varchar_barangayName
-                                                    </option>
-                                            </select>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div id="step-6">
-                                    <form class="form-horizontal form-label-left">
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estimatedbudget">Estimated Budget <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" id="estimatedbudget" name="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="individualbudget">Individual Budget <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="individualbudget" readonly="readonly" placeholder="0" class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div id="step-7" onload="">
-                                    <form class="form-horizontal form-label-left">
-                                        <div class="x_panel">
-                                            <div class="x_title">
-                                                <h2>Proposal Summary <small></small></h2>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="x_content">
-                                                <table class="table table-hover">
-                                                <thead>
-                                                    <tr >
-                                                    <th>Problem</th>
-                                                    <th>   </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                    <th scope="row">Problem to be solved:</th>
-                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row"></th>
-                                                    <td></td>
-                                                    </tr>
-                                                </tbody>
-                                                <thead>
-                                                    <tr>
-                                                    <th>Basic Information</th>
-                                                    <th>   </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                    <th scope="row">Project Title:</th>
-                                                    <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row">Category:</th>
-                                                    <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row">Project Rationale:</th>
-                                                    <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row">Project Description:</th>
-                                                    <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row">Project Objective:</th>
-                                                    <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row"></th>
-                                                    <td></td>
-                                                    </tr>
-                                                </tbody>
-                                                <thead>
-                                                    <tr >
-                                                    <th>Beneficiary</th>
-                                                    <th>   </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                    <th scope="row">Target Beneficiary:</th>
-                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row">Alloted Slot:</th>
-                                                    <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row"></th>
-                                                    <td></td>
-                                                    </tr>
-                                                </tbody>
-                                                <thead>
-                                                    <tr >
-                                                    <th>Requirements</th>
-                                                    <th>   </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                    <th scope="row">Requirements to be passed:</th>
-                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row"></th>
-                                                    <td></td>
-                                                    </tr>
-                                                </tbody>
-                                                <thead>
-                                                    <tr >
-                                                    <th>Timeline</th>
-                                                    <th>   </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                    <th scope="row">Duration of Application:</th>
-                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row">Releasing Date:</th>
-                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row">Releasing Location:</th>
-                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row"></th>
-                                                    <td></td>
-                                                    </tr>
-                                                </tbody>
-                                                <thead>
-                                                    <tr >
-                                                    <th>Budget</th>
-                                                    <th>   </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                    <th scope="row">Estimated Budget:</th>
-                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row">Individual Budget:</th>
-                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                    </tr>
-                                                    <tr>
-                                                    <th scope="row"></th>
-                                                    <td></td>
-                                                    </tr>
-                                                </tbody>
+                                                    <tbody>
+                                                    each statement in tbl_problemstatement
+                                                        <tr class="even pointer">
+                                                            <td class="a-center ">
+                                                            input(type="checkbox" id="ap-statementid" name="statementID" value=`${statement.int_statementID}` )
+                                                            </td>
+                                                            <td class=" ">
+                                                            value= " " + statement.varchar_statementTitle
+                                                            </td>
+                                                            <td class=" ">
+                                                            value=statement.text_statementContent
+                                                            </td>
+                                                            <td class=" ">
+                                                            value=statement.varchar_categoryName
+                                                            </td>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
                                                 </table>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
+
+                                    <div id="step-2">
+                                        <form class="form-horizontal form-label-left">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectname">Project Name <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id="projectname" required="required"placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <select class="select2_multiple form-control" multiple="multiple">
+                                                    <option>Choose option</option>
+                                                    each category in tbl_category
+                                                        <option>
+                                                        value=category.varchar_categoryName
+                                                        </option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectrationale">Project Rationale</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="projectrationale"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectobjectives">Project Objective</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project objective ..." id="projectobjectives"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectdescription">Project Description</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project description ..." id="projectdescription"></textarea>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                    <div id="step-3">
+                                        <form class="form-horizontal form-label-left">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Target Beneficiary</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <select class="select2_multiple form-control" name="apbeneficiary" multiple="multiple">
+                                                    <option>Choose option</option>
+                                                    each beneficiary in tbl_beneficiary
+                                                        <option>
+                                                        value=beneficiary.varchar_beneficiaryName
+                                                        </option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Alloted Slot <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="number" id="allotedslot" required="required"placeholder="Number of beneficiary ..."onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div id="step-4">
+                                        <form class="form-horizontal form-label-left">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select requirements</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <select class="select2_multiple form-control" multiple="multiple" name="aprequirement">
+                                                    <option>Choose option</option>
+                                                    each requirement in tbl_requirement
+                                                        <option>
+                                                        value=requirement.varchar_requirementName
+                                                        </option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div id="step-5">
+                                        <form class="form-horizontal form-label-left">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Start Date<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="number" id="startDate" required="required" placeholder="number of days after approval ..." class="form-control col-md-7 col-xs-12">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days of application<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="number" id="applicationDays" required="required" placeholder="Duration of beneficiary application..." class="form-control col-md-7 col-xs-12">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">No. of Days of Releasing<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="number" id="releasingday" required="required" onchange="unhide()" placeholder="number of days of releasing..." class="form-control col-md-7 col-xs-12">
+                                                </div>
+                                            </div>
+                                            <div class="form-group" hidden id="daychange">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days Between Release Dates<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="number" id="betweenDays" required="required" placeholder="Number of days skip..." class="form-control col-md-7 col-xs-12">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Date of releasing<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="number" id="releasedate" required="required" placeholder="days after closing..." class="form-control col-md-7 col-xs-12">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <select class="select2_multiple form-control" multiple="multiple">
+                                                    <option>Choose option</option>
+                                                    <option>Mandaluyong City</option>
+                                                    each location in tbl_barangay
+                                                        <option>
+                                                        value=location.varchar_barangayName
+                                                        </option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div id="step-6">
+                                        <form class="form-horizontal form-label-left">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estimatedbudget">Estimated Budget <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="number" id="estimatedbudget" name="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="individualbudget">Individual Budget <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id="individualbudget" readonly="readonly" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div id="step-7" onload="">
+                                        <form class="form-horizontal form-label-left">
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <h2>Proposal Summary <small></small></h2>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                    <table class="table table-hover">
+                                                    <thead>
+                                                        <tr >
+                                                        <th>Problem</th>
+                                                        <th>   </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <th scope="row">Problem to be solved:</th>
+                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row"></th>
+                                                        <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <thead>
+                                                        <tr>
+                                                        <th>Basic Information</th>
+                                                        <th>   </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <th scope="row">Project Title:</th>
+                                                        <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row">Category:</th>
+                                                        <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row">Project Rationale:</th>
+                                                        <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row">Project Description:</th>
+                                                        <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row">Project Objective:</th>
+                                                        <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row"></th>
+                                                        <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <thead>
+                                                        <tr >
+                                                        <th>Beneficiary</th>
+                                                        <th>   </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <th scope="row">Target Beneficiary:</th>
+                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row">Alloted Slot:</th>
+                                                        <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row"></th>
+                                                        <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <thead>
+                                                        <tr >
+                                                        <th>Requirements</th>
+                                                        <th>   </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <th scope="row">Requirements to be passed:</th>
+                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row"></th>
+                                                        <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <thead>
+                                                        <tr >
+                                                        <th>Timeline</th>
+                                                        <th>   </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <th scope="row">Duration of Application:</th>
+                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row">Releasing Date:</th>
+                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row">Releasing Location:</th>
+                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row"></th>
+                                                        <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <thead>
+                                                        <tr >
+                                                        <th>Budget</th>
+                                                        <th>   </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <th scope="row">Estimated Budget:</th>
+                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row">Individual Budget:</th>
+                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                        </tr>
+                                                        <tr>
+                                                        <th scope="row"></th>
+                                                        <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
                                 </div>
                             </div>      
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
