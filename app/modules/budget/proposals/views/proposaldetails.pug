@@ -3,272 +3,176 @@ extends ../../home/views/navbar.pug
 block content
     <div class="right_col" role="main">
         <div class="x_panel">
+        each project in details
             <div class="x_title">
-                <h2>PROJECT DETAILS <small></small></h2>
+                <h2> Proposed Details<small>
+                value=project.date_createdDate
+                </small></h2>
+                <small class="pull-right">
+                </small>
                 <div class="clearfix"></div>
             </div>
-        <div class="x_content">
-            <ul class="list-unstyled timeline">
-                <li>
-                    <div class="block">
-                        <div class="tags">
-                            <a href="" class="tag">
-                                <span>Basic Information</span>
-                            </a>
-                        </div>
-                        
-                        each detail in details
-                            <div class="block_content">
-                                <h2 class="title">
-                                    <a>Basic information of the Project Proposal</a>
-                                </h2>
-                                <hr/>                                
-                                //- <div class="byline">
-                                //-     <span>13 hours ago</span> by <a>Jane Smith</a>
-                                //- </div>
-                                <p class="excerpt">
-                                    <b>Project Name:   </b>
-                                    value=detail.varchar_projectName
+            <div class="x_content">
+            each project in details
+                <table class="table table-striped jambo_table">
+                    <thead>
+                        <tr>
+                            <th>Problem</th>
+                            <th>   </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Problem to be solved:</th>
+                            <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th>Basic Information</th>
+                            <th>   </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Project Title:</th>
+                            <td>
+                                <p>
+                                    value=project.varchar_projectName
                                 </p>
-                                <p class="excerpt">
-                                    <b>Project Rationale:   </b>
-                                    value=detail.varchar_projectRationale
-                                </p>
-                                <p class="excerpt">
-                                    <b>Project Description:   </b>
-                                    value=detail.text_projectDescription
-                                </p>
-                                <p class="excerpt">
-                                    <b>Project Objective:   </b>
-                                    value=detail.text_projectObjective
-                                </p>
-                            </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="block">
-                        <div class="tags">
-                            <a href="" class="tag">
-                                <span>Categories</span>
-                            </a>
-                        </div>
-                        
-                        <div class="block_content">
-                            <h2 class="title">
-                                <a>List of categories of the project proposal</a>
-                            </h2>
-                            <hr/>                                
-                            //- <div class="byline">
-                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
-                            //- </div>
-
-                            each category in categories
-                                <ul>
-                                    <li>
-                                        value=category.varchar_categoryName
-                                    </li>
-                                </ul>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="block">
-                        <div class="tags">
-                            <a href="" class="tag">
-                                <span>Releasing Location</span>
-                            </a>
-                        </div>
-                        
-                        <div class="block_content">
-                            <h2 class="title">
-                                <a>List of location/s where the benefits of the project proposal will be distributed</a>
-                            </h2>
-                            <hr/>                                
-                            //- <div class="byline">
-                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
-                            //- </div>
-
-                            each location in locations
-                                <ul>
-                                    <li>
-                                        value=location.varchar_locationName
-                                    </li>
-                                </ul>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="block">
-                        <div class="tags">
-                            <a href="" class="tag">
-                                <span>Beneficiary</span>
-                            </a>
-                        </div>
-                        
-                        <div class="block_content">
-                            <h2 class="title">
-                                <a>List of target beneficiaries of this project proposal</a>
-                            </h2>
-                            <hr />                                
-                            //- <div class="byline">
-                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
-                            //- </div>
-
-                            each beneficiary in beneficiaries
-                                <ul>
-                                    <li>
-                                        value=beneficiary.varchar_beneficiaryName
-                                    </li>
-                                </ul>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="block">
-                        <div class="tags">
-                            <a href="" class="tag">
-                                <span>Requirement</span>
-                            </a>
-                        </div>
-                        
-                        <div class="block_content">
-                            <h2 class="title">
-                                <a>List of requirement/s needed for the application for this project proposal</a>
-                            </h2>
-                            <hr/>                                
-                            //- <div class="byline">
-                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
-                            //- </div>
-
-                            each requirement in requirements
-                                <ul>
-                                    <li>
-                                        value=requirement.varchar_requirementName
-                                    </li>
-                                </ul>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="block">
-                        <div class="tags">
-                            <a href="" class="tag">
-                                <span>Timeline</span>
-                            </a>
-                        </div>
-                        
-                        <div class="block_content">
-                            <h2 class="title">
-                                <a>List of requirement/s needed for the application for this project proposal</a>
-                            </h2>
-                            <hr/>                                
-                            //- <div class="byline">
-                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
-                            //- </div>
-
-                            each timeline in timelines
-                                <p class="excerpt">
-                                    <b>Start Date:   </b>
-                                    value=timeline.date_projectStart
-                                </p>
-                                <p class="excerpt">
-                                    <b>End Date:   </b>
-                                    value=timeline.date_projectEnd
-                                </p>
-                                <p class="excerpt">
-                                    <b>Releasing Date:   </b>
-                                    value=timeline.datetime_releasingStart+" - "+timeline.datetime_releasingEnd
-                                </p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="block">
-                        <div class="tags">
-                            <a href="" class="tag">
-                                <span>Budget</span>
-                            </a>
-                        </div>
-                        
-                        <div class="block_content">
-                            <h2 class="title">
-                                <a>Estimated budget for the project</a>
-                            </h2>
-                            <hr/>                                
-                            //- <div class="byline">
-                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
-                            //- </div>
-
-                            each budget in budgets
-                                <p class="excerpt">
-                                    <b>Alloted Slot for the beneficiaries:   </b>
-                                    value=budget.int_allotedSlot
-                                </p>
-                                <p class="excerpt">
-                                    <b>Duration of the project to open:   </b>
-                                    value=budget.int_dayDuration
-                                </p>
-                                <p class="excerpt">
-                                    <b>Estimated Budget:   </b>
-                                    value=budget.decimal_estimatedBudget
-                                </p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="block">
-                        <div class="tags">
-                            <a href="" class="tag">
-                                <span>Form</span>
-                            </a>
-                        </div>
-                        
-                        <div class="block_content">
-                            <h2 class="title">
-                                <a>List of form/s that the applicant needed to comply</a>
-                            </h2>
-                            <hr/>                                
-                            //- <div class="byline">
-                            //-     <span>13 hours ago</span> by <a>Jane Smith</a>
-                            //- </div>
-
-                            each form in forms
-                                <ul>
-                                    <li>
-                                        value=form.varchar_formName
-                                    </li>
-                                </ul>
-                        </div>
-                    </div>
-                </li>
-                
-                <li>
-                    <div class="block">
-                        <div class="tags">
-                            <a href="" class="tag">
-                                <span>Approval</span>
-                            </a>
-                        </div>
-                        
-                        <div class="block_content">
-                            <h2 class="title">
-                                <a>List of form/s that the applicant needed to comply</a>
-                            </h2>
-                            <hr/>
-                            <div class="row" style="block-inline">
-                                each detail in details
-                                    //- a(href='#'): button.btn.btn-success Approve
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approveModal">Approve</button>
-                                    //- <button type="button" class="btn btn-info btn-lg btn-block"  data-toggle="modal" data-target="#reviseModal">REVISE</button>
-                                    button.btn.btn-info(data-toggle="modal" data-target="#reviseModal") Revise
-                                    a(href=`/budget/proposals/${detail.int_projectID}/delete`): button.btn.btn-danger Reject
-                            </div>          
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>    
-    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Category:</th>
+                            <td>
+                            each cat in categories
+                                value=cat.varchar_categoryName
+                            <br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Project Rationale:</th>
+                                <td>
+                                value=project.varchar_projectRationale
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Project Description:</th>
+                                <td>
+                                value=project.text_projectDescription
+                                </td>
+                            </tr>
+                            <tr>
+                            <th scope="row">Project Objective:</th>
+                                <td>
+                                value=project.text_projectObjective
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Beneficiary</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Target Beneficiary:</th>
+                                    <td>
+                                    each prbf in beneficiaries
+                                        value=prbf.varchar_beneficiaryName
+                                        <br/>
+                                    </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Alloted Slot:</th>
+                                <td>
+                                value=project.int_allotedSlot
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Requirements</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Requirements to be passed:</th>
+                                <td>
+                                each prjreq in requirements
+                                    value=prjreq.varchar_requirementName
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Timeline</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Duration of Application:</th>
+                                <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Releasing Date:</th>
+                                <td>
+                                value=project.datetime_releasingEnd
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Releasing Location:</th>
+                                <td>
+                                each rel in locations
+                                    value=rel.varchar_locationName
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Budget</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Estimated Budget:</th>
+                                <td>PHP 
+                                    value=project.decimal_estimatedBudget
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
 
     <!-- modal medium -->
     <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">

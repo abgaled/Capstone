@@ -67,10 +67,6 @@ block content
                                                         </td>
                                                         <td>
                                                             button.btn.btn-success(id="btn-view-application" class="btn-view-application btn-s" value= app.int_applicationID): span.fa.fa-eye View
-                                                            form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewapp/accept`)
-                                                                button(type="submit" id="approveApp" class="btn btn-primary btn-s" name="buttonaccept" value= app.int_applicationID): span.fa.fa-check  Accept
-                                                            form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewapp/reject`)
-                                                                button(type="submit" id="rejectApp" class="btn btn-danger btn-s" name="buttonreject" value= app.int_applicationID): span.fa.fa-close  Reject
                                                         </td>
                                                     </tr>     
                                                 </tbody>

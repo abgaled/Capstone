@@ -12,9 +12,11 @@ router.get('/pending',(req, res) => {
     console.log('=================================');
 
     var newQuery = `SELECT * 
-        FROM tbl_projectproposal
-        WHERE enum_proposalStatus='Pending'
-        GROUP BY int_projectID`;
+        FROM tbl_projectproposal propr
+        JOIN tbl_proposalapproval proapp 
+        ON propr.int_projectID = proapp.int_projectID
+        WHERE propr.enum_proposalStatus='Pending' 
+        OR proapp.enum_propappStatus='Pending'`;
 
     db.query(newQuery, (err, newResult, fields) => {
 
@@ -174,19 +176,39 @@ router.get('/viewdetail', (req, res) => {
 
 
 
-router.get('/:int_projectID/delete',(req, res) => {
+router.get('/:int_projectID/rejectproposal', (req, res) => {
     console.log('=================================');
-    console.log('BUDGET: PROPOSALS-DELETE');
+    console.log('BUDGET: PROPOSAL - 1 reject GET');
     console.log('=================================');
+    
+    var queryString =`SELECT * FROM tbl_projectproposal
+    WHERE enum_proposalStatus = 'Pending' 
+    AND tbl_projectproposal.int_projectID=${req.params.int_projectID}`
+    resultIndex = `${req.params.int_projectID}`;
 
-    var updateDeleteQuery = `UPDATE tbl_projectproposal
-        SET enum_proposalStatus='Rejected'
-        WHERE int_projectID= ${req.params.int_projectID}`;
+    console.log(resultIndex);
+    console.log('${req.params.int_projectID}');
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+    
+        res.render(`budget/proposals/views/rejectproposal`,{tbl_projectproposal:results});
+    });
+});
 
-    db.query(updateDeleteQuery, (err, deleteResult, fields) => {
-        if(err) console.log(err);
+router.post('/:int_projectID/rejectproposal', (req, res) => {
+    console.log('=================================');
+    console.log('BUDGET: PROPOSAL - 1 reject POST');
+    console.log('=================================');
+    resultIndex = `${req.body.int_projectID}`;
 
-        console.log('Succesfully updated the data from reviewed to rejected');
+    console.log(resultIndex);
+    var queryString1 = `UPDATE tbl_projectproposal SET
+    enum_proposalStatus = 'Rejected'
+    WHERE tbl_projectproposal.int_projectID = ${req.body.int_projectID}`
+            
+    db.query(queryString1, (err, results) => {        
+        if (err) throw err;
         res.redirect('/budget/proposals/pending');
     });
 });
@@ -206,7 +228,7 @@ router.post('/revision',(req, res) => {
 
         VALUES
         (
-            "${resultIndex}",
+            "${req.body.PROJECT_idrev}",
             "${req.body.revision}"
         )`;
 
@@ -218,7 +240,7 @@ router.post('/revision',(req, res) => {
 
         var updateProjStatQuery = `UPDATE tbl_projectproposal
             SET enum_proposalStatus="Revision"
-            WHERE int_projectID= ${resultIndex}`;
+            WHERE int_projectID= ${req.body.PROJECT_idrev}`;
 
         db.query(updateProjStatQuery, (err, updateProjStatResult, fields) => {
             if(err) console.log(err);
@@ -238,7 +260,7 @@ router.post('/approval',(req, res) => {
     console.log('BUDGET: PROPOSALS-APPROVAL');
     console.log('=================================');
 
-    // resultIndex = `${req.body.int_projectID}`;
+    resultIndex = `${req.body.PROJECT_id}`;
 
 
     console.log(resultIndex);
@@ -246,27 +268,9 @@ router.post('/approval',(req, res) => {
     console.log(req.body.actualbudget);
 
 
-    var insertApprovalQuery = `INSERT INTO \`tbl_proposalapproval\`
-        (
-            \`int_projectID\`, 
-            \`blob_approvalLetter\`
-        )
-
-        VALUES
-        (
-            "${resultIndex}",
-            "${req.body.letterfile}"
-        )`;
-
-    db.query(insertApprovalQuery, (err, insertApprovalResult, fields) => {
-        if(err) console.log(err);
-
-        console.log("Succesfully inserted the approval letter");
-        console.log(insertApprovalResult);
-
-        var updateProjStatQuery = `UPDATE tbl_projectproposal
-            SET enum_proposalStatus="Approved"
-            WHERE int_projectID= ${resultIndex}`;
+        var updateProjStatQuery = `UPDATE tbl_projectproposal SET 
+            enum_proposalStatus = 'Approved'
+            WHERE int_projectID= ${req.body.PROJECT_id}`;
 
         db.query(updateProjStatQuery, (err, updateProjStatResult, fields) => {
             if(err) console.log(err);
@@ -275,8 +279,8 @@ router.post('/approval',(req, res) => {
             console.log(updateProjStatResult);
 
             var updateBudgetQuery = `UPDATE tbl_project
-                SET decimal_actualBudget = ${req.body.actualbudget}
-                WHERE int_projectID = ${resultIndex}`;
+                SET decimal_actualBudget = ${req.body.actual_budget}
+                WHERE int_projectID = ${req.body.PROJECT_id}`;
 
             db.query(updateBudgetQuery, (err, updateBudgetResult, fields) => {
                 if(err) console.log(err);
@@ -285,7 +289,6 @@ router.post('/approval',(req, res) => {
                 console.log(updateBudgetResult);
 
                 res.redirect('/budget/proposals/approved');
-            });
         });
     });
 });
@@ -308,41 +311,25 @@ router.post('/checknumberget', (req,res) => {
     console.log('=================================');
     console.log('BUDGET: PROPOSALS-APPROVAL-CHECKNUMBER');
     console.log('=================================');
-
-
-    res.redirect('/budget/proposals/checkinsert');
-});
-
-
-
-router.post('/checkinsert',(req, res) => {
-    console.log('=================================');
-    console.log('BUDGET: PROPOSALS-APPROVAL-INSERT');
-    console.log('=================================');
-
+    
+    console.log(req.body.chequeNumber);
     var insertCheckQuery = `UPDATE tbl_proposalapproval
-        SET varchar_checkNumber = "${req.body.checknumber}"
-        WHERE int_projectID = ${resultIndex}`;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+    SET varchar_checkNumber = "${req.body.chequeNumber}"
+    WHERE int_projectID = ${req.body.PROJECT_idcheq}`;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
-        if(err) console.log(err);
+    if(err) console.log(err);
 
-        console.log("Succesfully inserted the check number");
-        console.log(insertCheckResult);
+    console.log("Succesfully inserted the check number");
+    console.log(insertCheckResult);
 
-        var updateProjStatQuery = `UPDATE tbl_projectproposal
-            SET enum_proposalStatus="Ready to Open"
-            WHERE int_projectID= ${resultIndex}`;
-
-        db.query(updateProjStatQuery, (err, updateProjStatResult, fields) => {
-            if(err) console.log(err);
-
-            console.log("Succesfully updated the proposal status");           
-            console.log(updateProjStatResult);
-            
-            res.redirect('/budget/proposals/approved');
-        });
+    
+        res.redirect('/budget/proposals/pending');
     });
 });
+
+
+
+
 
 module.exports = router;

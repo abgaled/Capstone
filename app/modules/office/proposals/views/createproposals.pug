@@ -73,17 +73,42 @@ block content
                                 
                                 <div id="step-1">
                                     <form class="form-horizontal form-label-left">
-                                        <div class="form-group">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Problems to be solved</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" multiple="multiple">
-                                                    <option>Choose option</option>
-                                                        <option>
-                                                        </option>
-                                                </select>
-                                                </div>
-                                            </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped jambo_table bulk_action">
+                                                <thead>
+                                                <tr class="headings">
+                                                    <th>
+                                                    <input type="checkbox" id="check-all" class="flat">
+                                                    </th>
+                                                    <th class="column-title">Problem Name </th>
+                                                    <th class="column-title">Statement</th>
+                                                    <th class="column-title">Categories</th>
+                                                    </th>
+                                                    <th class="bulk-actions" colspan="7">
+                                                    <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                                    </th>
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                each statement in tbl_problemstatement
+                                                    <tr class="even pointer">
+                                                        <td class="a-center ">
+                                                        <input type="checkbox" class="flat" name="table_records">
+                                                        </td>
+                                                        <td class=" ">
+                                                        value=statement.varchar_statementTitle
+                                                        </td>
+                                                        <td class=" ">
+                                                        value=statement.text_statementContent
+                                                        </td>
+                                                        <td class=" ">
+                                                        value=statement.varchar_categoryName
+                                                        </td>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </form>
                                 </div>
@@ -174,27 +199,50 @@ block content
                                 <div id="step-5">
                                     <form class="form-horizontal form-label-left">
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Duration of application <span class="required">*</span>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Start Date<span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" id="applicationDuration" required="required" placeholder="Number of days residents can apply ..." class="form-control col-md-7 col-xs-12">
+                                                <input type="number" id="startDate" required="required" placeholder="number of days after approval ..." class="form-control col-md-7 col-xs-12">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Releasing Date <span class="required">*</span>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days of application<span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" id="releasingDate" required="required" placeholder="Number of days after closing application ..." class="form-control col-md-7 col-xs-12">
+                                                <input type="number" id="applicationDays" required="required" placeholder="Duration of beneficiary application..." class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">No. of Days of Releasing<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" id="releasingday" required="required" onchange="unhide()" placeholder="number of days of releasing..." class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" hidden id="daychange">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days Between Release Dates<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" id="betweenDays" required="required" placeholder="Number of days skip..." class="form-control col-md-7 col-xs-12">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Date of releasing<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" id="releasedate" required="required" placeholder="days after closing..." class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                             <select class="select2_multiple form-control" multiple="multiple">
                                                 <option>Choose option</option>
-                                                each location in tbl_releaselocation
+                                                <option>Mandaluyong City</option>
+                                                each location in tbl_barangay
                                                     <option>
-                                                    value=location.varchar_locationName
+                                                    value=location.varchar_barangayName
                                                     </option>
                                             </select>
                                             </div>
@@ -208,7 +256,7 @@ block content
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estimatedbudget">Estimated Budget <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" id="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                                <input type="number" id="estimatedbudget" name="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -221,99 +269,145 @@ block content
                                     </form>
                                 </div>
 
-                                <div id="step-7">
+                                <div id="step-7" onload="">
                                     <form class="form-horizontal form-label-left">
                                         <div class="x_panel">
-                                        <div class="x_title">
-                                            <h2><i class=""></i> Proposal Summary <small></small></h2>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                        <div class="x_content">
-                                            <div class="col-xs-3">
-                                            <!-- required for floating -->
-                                            <!-- Nav tabs -->
-                                            <ul class="nav nav-tabs tabs-left">
-                                                <li class="active"><a href="#problemlist" data-toggle="tab">Problem List</a>
-                                                </li>
-                                                <li><a href="#basicinformation" data-toggle="tab">Basic Proposal Information</a>
-                                                </li>
-                                                <li><a href="#beneficiary" data-toggle="tab">Beneficiary Details</a>
-                                                </li>
-                                                <li><a href="#requirements" data-toggle="tab">Requirements</a>
-                                                </li>
-                                                <li><a href="#timeline" data-toggle="tab">Timeline</a>
-                                                </li>
-                                                <li><a href="#budget" data-toggle="tab">budget</a>
-                                                </li>
-                                            </ul>
+                                            <div class="x_title">
+                                                <h2>Proposal Summary <small></small></h2>
+                                                <div class="clearfix"></div>
                                             </div>
-
-                                            <div class="col-xs-9">
-                                            <!-- Tab panes -->
-                                            <div class="tab-content">
-                                                <div class="tab-pane active" id="problemlist">
-                                                    <p class="excerpt"><strong>Problem to be solved:</strong> 
-                                                        </a>
-                                                    </p></br>
-                                                </div>
-                                                <div class="tab-pane" id="basicinformation">
-                                                    <h2 class="title">
-                                                    <a><strong>Project Title:</strong> </a> </br> 
-                                                    </h2>
-                                                    <div class="byline">
-                                                        <span></a><strong>Category</strong></span> : <a>
-                                                        </a></br>
-                                                    </div>
-                                                    <p class="excerpt"></a><strong>Problem to be solved: </strong>
-                                                        </a></br>
-                                                    </p>
-                                                    <p class="excerpt"></a><strong>Project Rationale: </strong>
-                                                        </a></br>
-                                                    </p>
-                                                    <p class="excerpt"></a><strong>Project Objective: </strong>
-                                                        </a></br>
-                                                    </p>
-                                                    <p class="excerpt"></a><strong>Project Description:</strong> 
-                                                        </a></br>
-                                                    </p>
-                                                </div>
-                                                <div class="tab-pane" id="beneficiary">
-                                                    <p class="excerpt"><a><strong>Target Beneficiary:</strong> 
-                                                        <br/>
-                                                        </a>
-                                                    </p>
-                                                    <p class="excerpt"></a><strong>Alloted Slot: </strong>
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                                <div class="tab-pane" id="requirements">
-                                                    <p class="excerpt"><strong>Requirements: </strong>
-                                                        <a>
-                                                        <br/>
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                                <div class="tab-pane" id="timeline">
-                                                    <p class="excerpt"></a><strong>Duration of Application: </strong>
-                                                        </a></br>
-                                                    </p>
-                                                    <p class="excerpt"></a><strong>Releasing Date: </strong>
-                                                        </a></br>
-                                                    </p>
-                                                    <p class="excerpt"></a><strong>Releasing Location: </strong>
-                                                        </a></br>
-                                                    </p>
-                                                </div>
-                                                <div class="tab-pane" id="budget">
-                                                    <p class="excerpt"><strong>Estimated Budget:</strong> PHP 
-                                                        </a>
-                                                    </p>
-                                                </div>
+                                            <div class="x_content">
+                                                <table class="table table-hover">
+                                                <thead>
+                                                    <tr >
+                                                    <th>Problem</th>
+                                                    <th>   </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                    <th scope="row">Problem to be solved:</th>
+                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row"></th>
+                                                    <td></td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr>
+                                                    <th>Basic Information</th>
+                                                    <th>   </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                    <th scope="row">Project Title:</th>
+                                                    <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row">Category:</th>
+                                                    <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row">Project Rationale:</th>
+                                                    <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row">Project Description:</th>
+                                                    <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row">Project Objective:</th>
+                                                    <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row"></th>
+                                                    <td></td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr >
+                                                    <th>Beneficiary</th>
+                                                    <th>   </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                    <th scope="row">Target Beneficiary:</th>
+                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row">Alloted Slot:</th>
+                                                    <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row"></th>
+                                                    <td></td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr >
+                                                    <th>Requirements</th>
+                                                    <th>   </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                    <th scope="row">Requirements to be passed:</th>
+                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row"></th>
+                                                    <td></td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr >
+                                                    <th>Timeline</th>
+                                                    <th>   </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                    <th scope="row">Duration of Application:</th>
+                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row">Releasing Date:</th>
+                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row">Releasing Location:</th>
+                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row"></th>
+                                                    <td></td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr >
+                                                    <th>Budget</th>
+                                                    <th>   </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                    <th scope="row">Estimated Budget:</th>
+                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row">Individual Budget:</th>
+                                                    <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <th scope="row"></th>
+                                                    <td></td>
+                                                    </tr>
+                                                </tbody>
+                                                </table>
                                             </div>
-                                            </div>
-
-                                            <div class="clearfix"></div>
-
                                         </div>
                                     </form>
                                 </div>
@@ -328,9 +422,6 @@ block content
 
             
             script.
-                $('#myDatepicker2').datetimepicker({
-                format: 'DD.MM.YYYY'
-                });
                     
                 function autobudget() {
                     var x = document.getElementById("allotedslot").value;
@@ -345,4 +436,15 @@ block content
                     
                     else
                     document.getElementById("individualbudget").value = 0;
+                }
+                
+                function unhide() {
+                    var x = document.getElementById("daychange");
+                    var y = document.getElementById("releasingday").value;
+                    document.getElementById("applicationduration");
+                    if (y >= "2") {
+                        x.style.display = "block";
+                    } else {
+                        x.style.display = "none";
+                    }
                 }

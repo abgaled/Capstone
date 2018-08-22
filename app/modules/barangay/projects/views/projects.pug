@@ -114,7 +114,7 @@ block content
                     <h4 class="modal-title" id="myModalLabel"><span class="section">Applicants</span></h4> 
                     <div class="form-group">
                         <div class="table-responsive m-b-40">
-                            <table id="datatable" class="table table-borderless table-data3">
+                            <table id="datatable1" class="table table-borderless table-data3">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -138,9 +138,13 @@ block content
                                         <td id="apappstatus">
                                             
                                         </td>
-                                        <td>
-                                            button.btn.btn-success.mb-1(id="btn-view-applicant-detail" class="btn-view-applicant-detail" value=): span.fa.fa-eye View
+                                        <td name="btnview" class="btnview">
+                
+                                            
                                         </td>
+                                        //- <td>
+                                        //-     button.btn.btn-success.mb-1(id="btn-view-applicant-detail" name="btn-view-applicant-detail" class="btn-view-applicant-detail"): span.fa.fa-eye View
+                                        //- </td>
                                     </tr>                   
                                 </tbody>
                             </table>
@@ -318,16 +322,29 @@ block content
                         success: function(tbl_applicants){
 
                         console.log(tbl_applicants)
-
                             $.each(tbl_applicants, function (index, value) {
+                                console.log("TBL_APPLICANTS")
                                 console.log(value);
 
-                                document.getElementById("apname").innerHTML = value.varchar_lastName + ", "  + value.varchar_firstName + " "+ value.varchar_middleName
-                                document.getElementById("apgender").innerHTML = value.enum_gender
-                                document.getElementById("apcivil").innerHTML = value.enum_civilStatus
-                                document.getElementById("apappstatus").innerHTML = value.enum_applicationStatus
-                                document.getElementsByClassName("btn-view-applicant-detail") = value.int_applicationID
-                                    
+                                var mytd = document.getElementById("apname");
+                                
+                                
+                                for(x=0; x<value.length; x++){
+                                    $("#apname").append(`<tr> <td>`+value[x].varchar_lastName+", "  + value[x].varchar_firstName + " "+ value[x].varchar_middleName+'</td> <tr>');
+                                    $("#apgender").append(`<tr> <td>`+value[x].enum_gender+'</td> <tr>');
+                                    $("#apcivil").append(`<tr> <td>`+value[x].enum_civilStatus+'</td> <tr>');
+                                    $("#apappstatus").append(`<tr> <td>`+value[x].enum_applicationStatus+'</td> <tr>');
+                                    $(".btnview").val(value[x].int_applicationID).append(`<tr> <td> <button class="btn-view-applicant-detail">`+"View"+`</button></td> <tr>`);
+                                    console.log("VALUE INT APPLICATIONID")
+                                    console.log(document.getElementsByClassName("btnview").val = value[x].int_applicationID);
+
+                                    console.log(document.getElementsByClassName("apname").innerHTML = value[x].varchar_lastName + ", "  + value[x].varchar_firstName + " "+ value[x].varchar_middleName)
+                                    document.getElementsByClassName("apgender").innerHTML = value[x].enum_gender
+                                    document.getElementsByClassName("apcivil").innerHTML = value[x].enum_civilStatus
+                                    document.getElementsByClassName("apappstatus").innerHTML = value[x].enum_applicationStatus
+                                    console.log("Application ID:")
+                                    console.log(document.getElementsByClassName("btn-view-applicant-detail").value = value[x].int_applicationID)
+                                }
                                 console.log("Success: " );
                             });
                                                         
@@ -338,29 +355,25 @@ block content
                         }
                     });	
                 }
-                    return {projectID:projectID};
                 }); 
                 
 
                 //- VIEW SPECIFIC APPLICANT
-                $('.btn-view-applicant-detail').click(function (e) {
+                $('.btnview').click(function (e) {
                     e.preventDefault()
-                    var Id = $(this).val();
-                    console.log("================================Id(Class) Specific")
-                    console.log(Id);
-                    console.log("================================Id(Class)")
+                    
                     $('#modalviewspecificapp').modal('show');
                     ajaxGet();
 
                     function ajaxGet(){
-                    console.log("========Id");
-                    console.log(Id);
-                    console.log("========Id");
+                    console.log("=== Specific Application Id ===");
+                    console.log(document.getElementsByClassName("btn-view-applicant-detail").value);
+                    console.log("=== Specific Application Id ===");
 
                     $.ajax({
                         type : "POST",
                         url : window.location + "/viewspecificapplicant",
-                        data: { ajViewSpecificApplicant: Id, projectID:projectID},
+                        data: { ajViewSpecificApplicant: document.getElementsByClassName("btn-view-applicant-detail").value},
                         dataType: "json",
                         success: function(tbl_specificapplicant){
 

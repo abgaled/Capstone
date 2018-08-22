@@ -8,7 +8,7 @@ block content
                     <div class="x_title">
                         <h1 class="text-center">Proposal</h1>
                         <div class="text-center">
-                            a(href=`/office/proposals/createproposals/` id="viewproj" class="btn btn-primary") Create Proposal
+                            a(href=`/office/proposals/createproposals/` id="viewproj" class="btn btn-primary"): span Create Proposal
                         </div>
                     </div>             
                     <div class="content-wrapper">
@@ -42,11 +42,12 @@ block content
                                                             value=project.enum_proposalStatus
                                                         </td>
                                                         <td>
-                                                            a(href=`/office/proposals${project.int_projectID}/proposaldetails` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
+                                                            a(href=`/office/proposals/proposals/${project.int_projectID}/proposaldetails` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
                                                             if project.enum_proposalStatus == "Approved"
-                                                                button.btn.btn-success.btn-s.btn-block(type='button' data-toggle="modal" data-target=".bs-example-modal-sm") Confirm Check
+                                                                button.btn.btn-success.btn-sm.btn-block(id="btn-pro-cheque" class="" value= project.int_projectID onclick="projectIDcheque()" data-toggle="modal" data-target="#chequeModal"): span.fa.fa-check Cheque Number
+                                                                button.hidden.btn.btn-success.btn-sm.btn-block(id="btn-pro-check" class="" hidden value= project.varchar_checkNumber onclick="" data-toggle="modal" data-target=".bs-example-modal-sm"): span.fa.fa-check Confirm Chequ
                                                             if project.enum_proposalStatus == "Revision"
-                                                                button.btn.btn-info.btn-s.btn-block(type='submit') Revise
+                                                                button.btn.btn-warning.btn-s.btn-block(type='submit') Revise
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -54,26 +55,55 @@ block content
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog modal-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                <div class="modal fade" id="chequeModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                                         <div class="modal-content">
-                                            <div class="modal-body">
-                                                <form class="form-horizontal form-label-left" method="POST" action='projectcategory' name="addprojcat" novalidate>
-                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                                                    </button>
-                                                    <h4 class="modal-title" id="myModalLabel"><span class="section">Confirm Check Number</span></h4>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control">
-                                                        <span class="input-group-btn">
-                                                            <button type="button" class="btn btn-success">Submit</button>
-                                                        </span>
+                                        
+                                            <form method="POST" action="checknumberget" data-parsley-validate class="form-horizontal form-label-left">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="mediumModalLabel">Cheque Number
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        </h4>
                                                     </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                            </div>
+                                                    <div class="modal-body">
+                                                        <div class="input-group">
+                                                            <input type="text" id="PROJECT_idcheq" name="PROJECT_idcheq" >
+                                                            <input type="text" id="ch" name="PROJECT_idcheq" >
+                                                            <input type="text" id="chequeNumber" onchange="check()" name="chequeNumber"class="form-control">
+                                                            <span class="input-group-btn">
+                                                                <button type="submit" id="but-sub" class="btn btn-success">Send</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
         <!-- END STATISTIC-->
-            
+
+                script.
+                    function projectIDcheque() {
+                        var ID = document.getElementById("btn-pro-cheque").value;
+                        var checkNumber = document.getElementById("btn-pro-check").value;
+                        console.log(ID);
+                        document.getElementById("PROJECT_idcheq").value = ID;
+                        document.getElementById("ch").value = checkNumber;
+                        document.getElementById("but-sub").disabled = true;
+                    }
+
+                    function check() {
+                        var checknum = document.getElementById("chequeNumber").value;
+                        var check = document.getElementById("ch").value;
+                        if (checknum == check)
+                            document.getElementById("but-sub").disabled = false;
+                        else    
+                            document.getElementById("but-sub").disabled = true;
+
+                    }
+                    

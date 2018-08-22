@@ -14,7 +14,7 @@ router.get('/',(req, res) => {
     var queryString =`SELECT * FROM tbl_projectproposal pr
     JOIN tbl_proposalapproval proapp ON pr.int_projectID=proapp.int_projectID
     JOIN tbl_project proj ON pr.int_projectID=proj.int_projectID
-    WHERE proj.enum_projectStatus="New"`
+    WHERE proj.enum_projectStatus="Proposed"`
 
 
     db.query(queryString, (err, results, fields) => {
@@ -81,6 +81,8 @@ router.get('/proposals/:int_projectID/proposaldetails',(req, res) => {
     });
 });
 });
+
+
 router.post('/',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROPOSALS');
@@ -164,7 +166,11 @@ router.get('/createproposals',(req, res) => {
 
     var queryString3 =`SELECT * FROM tbl_requirement WHERE enum_requirementStatus = 'Active'`
 
-    var queryString4 =`SELECT * FROM tbl_releaselocation WHERE enum_locationStatus = 'Active'`
+    var queryString4 =`SELECT * FROM tbl_barangay WHERE enum_barangayStatus = 'Active'`
+    
+    var queryString5 =`SELECT * FROM tbl_problemstatement ps
+    JOIN tbl_category cat ON ps.int_categoryID = cat.int_categoryID
+    WHERE enum_problemStatus = 'Acknowledged'`
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -178,13 +184,36 @@ router.get('/createproposals',(req, res) => {
                 db.query(queryString4, (err, results4, fields) => {
                     console.log(results4);
                     if (err) console.log(err);
+                    db.query(queryString5, (err, results5, fields) => {
+                        console.log(results5);
+                        if (err) console.log(err);
         // console.log(results);
-                        res.render('office/proposals/views/createproposals', {tbl_category: results,tbl_beneficiary:results2,tbl_requirement:results3,tbl_releaselocation:results4});
+                        res.render('office/proposals/views/createproposals', {tbl_category: results,tbl_beneficiary:results2,tbl_requirement:results3,tbl_barangay:results4,tbl_problemstatement:results5});
+                    });
                 });
             });
         });
     });
 });
 
+router.post('/',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROPOSALS-APPROVAL-CHECKNUMBER');
+    console.log('=================================');
+    
+    console.log(req.body.chequeNumber);
+    var insertCheckQuery = `UPDATE tbl_proposalapproval
+    SET enum_propappStatus = "Received"
+    WHERE int_projectID = ${req.body.PROJECT_id}`;                                                                                                                                   
+    db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
+    if(err) console.log(err);
+
+    console.log("Succesfully inserted the check number");
+    console.log(insertCheckResult);
+
+    
+        res.redirect('/office/proposals/');
+    });
+});
 
 module.exports = router;

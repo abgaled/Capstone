@@ -4,54 +4,7 @@ var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 var moment = require('moment');
 
-router.get('/newproject',(req, res) => {
-    console.log('=================================');
-    console.log('OFFICE: newprojects');
-    console.log('=================================');
 
-    var queryString =`SELECT * FROM tbl_project pr
-    JOIN tbl_projectproposal prpro ON pr.int_projectID=prpro.int_projectID
-    JOIN tbl_projectcategory prcat ON prpro.int_categoryID=prcat.int_categoryID
-    JOIN tbl_proposalapproval prapp ON pr.int_projectID=prapp.int_projectID
-    WHERE pr.enum_projectStatus = 'Open' 
-    AND prapp.enum_propapprovalStatus = 'Received'
-    ORDER BY pr.int_projectID DESC`
-    
-    db.query(queryString, (err, results, fields) => {
-        console.log(results);
-        if (err) console.log(err);
-        // console.log(results);
-        res.render('office/projects/views/newproject', {tbl_project: results});
-
-});
-});
-
-
-router.get('/newproject/:int_projectID/viewproj',(req, res) => {
-    console.log('=================================');
-    console.log('OFFICE: ONGOING PROJECT');
-    console.log('=================================');
-    var queryString =`SELECT * FROM tbl_project pr
-    JOIN tbl_projectproposal prpro ON pr.int_projectID=prpro.int_projectID
-    JOIN tbl_projectcategory prcat ON prpro.int_categoryID=prcat.int_categoryID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
-    
-    db.query(queryString, (err, results, fields) => {
-        console.log(results);
-        if (err) console.log(err);
-        // console.log(results);
-        var date_results = results;
-
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
-        }
-
-        var resultss = results[0];
-     res.render('office/projects/views/viewproj', {tbl_project:results});
-
-
-});
-});
 
 router.get('/ongoingproject',(req, res) => {
     console.log('=================================');
@@ -66,7 +19,6 @@ router.get('/ongoingproject',(req, res) => {
     ON pr.int_projectID = projcat.int_projectID
     JOIN tbl_category cat
     ON cat.int_categoryID = projcat.int_categoryID
-    WHERE pr.enum_projectStatus = 'Ongoing'
     GROUP BY pr.int_projectID 
     ORDER BY pr.int_projectID DESC`
     
@@ -113,6 +65,15 @@ router.get('/ongoingproject/:int_projectID/viewproj',(req, res) => {
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
+
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
+            date_results[i].datetime_releasingEnd = moment(date_results[i].datetime_releasingEnd).format('MM-DD-YYYY');
+        }
+
+
         if (err) console.log(err);
         db.query(queryString2, (err, results2, fields) => {
             console.log(results2);
@@ -130,9 +91,7 @@ router.get('/ongoingproject/:int_projectID/viewproj',(req, res) => {
                         var queryString6 =`SELECT * FROM tbl_application ap
                         JOIN tbl_personalinformation pi 
                         ON ap.int_applicationID = pi.int_applicationID
-                        WHERE ap.int_projectID = "${req.params.int_projectID}"
-                        AND ap.enum_applicationStatus = "Approved" 
-                        OR ap.enum_applicationStatus = "Rejected"`
+                        WHERE ap.int_projectID = "${req.params.int_projectID}"`
                         
                         db.query(queryString6, (err, results6, fields) => {
                             console.log(results6);
@@ -153,6 +112,37 @@ router.get('/ongoingproject/:int_projectID/viewproj',(req, res) => {
 });
 });
 
+router.post('/ongoingproject/:int_projectID/viewproj/accept',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS -ACCEPT APPLICATION');
+    console.log('=================================');
+    console.log("BUTTON ACCEPT ID:"+ req.body.int_applicationID);
+
+    var queryString1 =`UPDATE tbl_application
+    SET enum_applicationStatus = 'Approved' 
+    WHERE int_applicationID = ${req.body.int_applicationID}`
+
+    db.query(queryString1, (err, results1, fields) => {
+
+        res.redirect(`/office/projects/ongoingproject/${req.params.int_projectID}/viewproj`);
+    });
+});
+
+router.post('/ongoingproject/:int_projectID/viewproj/reject',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS -REJECT APPLICATION');
+    console.log('=================================');
+
+    var queryString1 =`UPDATE tbl_application
+    SET enum_applicationStatus = 'Rejected' 
+    WHERE int_applicationID = ${req.body.int_applicationID}`
+
+    db.query(queryString1, (err, results1, fields) => {
+
+        res.redirect(`/office/projects/ongoingproject/${req.params.int_projectID}/viewproj`);
+    });
+});
+
 // AJAX GET DETAILS VIEW DETAILS PROJECT - VIEW APPLICANT DETAILS
 router.post('/ongoingproject/:int_projectID/viewproj/ajaxapplicantdetails',(req,res) => {
     console.log('=================================');
@@ -163,8 +153,6 @@ router.post('/ongoingproject/:int_projectID/viewproj/ajaxapplicantdetails',(req,
     var queryString = `SELECT * FROM tbl_personalinformation pi
     JOIN tbl_application ap 
     ON pi.int_applicationID=ap.int_applicationID 
-    JOIN tbl_address ad
-    ON pi.int_addressID=ad.int_addressID
     WHERE pi.int_applicationID=${req.body.ajApplicationID}`
 
 
@@ -205,7 +193,7 @@ router.get('/ongoingproject/:int_projectID/viewapp',(req, res) => {
         JOIN tbl_personalinformation pi 
         ON ap.int_applicationID = pi.int_applicationID
         WHERE ap.int_projectID = "${req.params.int_projectID}"
-        AND ap.enum_applicationStatus = "Pending"`
+        AND ap.enum_applicationStatus = "Approved"`
 
         db.query(queryString2, (err, results2, fields) => {
     
@@ -218,35 +206,7 @@ router.get('/ongoingproject/:int_projectID/viewapp',(req, res) => {
 });
 
 
-router.post('/ongoingproject/:int_projectID/viewapp/accept',(req, res) => {
-    console.log('=================================');
-    console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS -ACCEPT APPLICATION');
-    console.log('=================================');
 
-    var queryString1 =`UPDATE tbl_application
-    SET enum_applicationStatus = 'Approved' 
-    WHERE int_applicationID = ${req.body.buttonaccept}`
-
-    db.query(queryString1, (err, results1, fields) => {
-
-        res.redirect(`/office/projects/ongoingproject/${req.params.int_projectID}/viewapp`);
-    });
-});
-
-router.post('/ongoingproject/:int_projectID/viewapp/reject',(req, res) => {
-    console.log('=================================');
-    console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS -REJECT APPLICATION');
-    console.log('=================================');
-
-    var queryString1 =`UPDATE tbl_application
-    SET enum_applicationStatus = 'Rejected' 
-    WHERE int_applicationID = ${req.body.buttonreject}`
-
-    db.query(queryString1, (err, results1, fields) => {
-
-        res.redirect(`/office/projects/ongoingproject/${req.params.int_projectID}/viewapp`);
-    });
-});
 
 
 // AJAX GET DETAILS ONGOING PROJECT - VIEW APPLICANT DETAILS
@@ -284,6 +244,37 @@ router.post('/ongoingproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,r
     });
 });
 
+router.get('/ongoingproject/:int_projectID/startproj', (req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: Project - 1 Startproject GET');
+    console.log('=================================');
+    
+    var queryString =`SELECT * FROM tbl_project
+    WHERE enum_projectStatus = 'Approved' 
+    AND tbl_project.int_projectID=${req.params.int_projectID}`
+        
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+    
+        res.render(`office/projects/views/startproj`,{tbl_project:results});
+    });
+});
+
+router.post('/ongoingproject/:int_projectID/startproj', (req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: Project - 1 Startproject POST');
+    console.log('=================================');
+    
+    var queryString1 = `UPDATE tbl_project SET
+    enum_projectStatus = 'Ongoing'
+    WHERE tbl_project.int_projectID=${req.body.int_projectID}`
+            
+    db.query(queryString1, (err, results) => {        
+        if (err) throw err;
+        res.redirect('/office/projects/ongoingproject');
+    });
+});
 router.get('/finishedproject',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: FINISHED PROJECT');

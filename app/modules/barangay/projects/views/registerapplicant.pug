@@ -53,11 +53,11 @@ block content
                                         </div>
                                         <div class="form-group col-md-4 col-sm-12">
                                             <label for="ap-lname" class="form-control-label"><strong>Last</strong> Name</label>
-                                                <input type="text" id="ap-lname" name="apply_mname" placeholder="Applicant's Last name ..." class="names col-sm-11 form-control ">
+                                                <input type="text" id="ap-lname" name="apply_lname" placeholder="Applicant's Last name ..." class="names col-sm-11 form-control ">
                                         </div>
                                         <div class="form-group col-md-4 col-sm-12">
                                             <label for="ap-mname" class="form-control-label"><strong>Middle</strong> Name</label>
-                                                <input type="text" id="ap-mname" name="apply_lname" placeholder="Applicant's Middle name ..." class="middle col-sm-11 form-control ">
+                                                <input type="text" id="ap-mname" name="apply_mname" placeholder="Applicant's Middle name ..." class="middle col-sm-11 form-control ">
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -109,39 +109,23 @@ block content
                                 //- APPLICANT'S REQUIREMENT/S
                                 <div class="tab" id="requirement">
                                     <hr/>
-                                    <h3>APPLICANT'S REQUIREMENT LIST</h3>
-                                    <small>Below are the list of the requirements that the applicant needed to comply</small>
+                                    <h3>REQUIREMENTS</h3>
+                                    <small>Below are the list of the requirements that the applicant needed to comply.</small>
 
 
                                     <div class="table-responsive m-b-40">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Requirement</th>
-                                                    <th>Status</th>
-                                                    <th>File Location</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                 each requirement in requirements 
-                                                    <tr>
-                                                        <td>
-                                                            value=requirement.varchar_requirementName
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-group">
-                                                                <div id="gender" class="btn-group" data-toggle="buttons">
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            input(type="text" id="ap-requirementid" name="requirementID[]" value=`${requirement.int_requirementID}` hidden)
-                                                            <input type="text" id="ap-storage" name="storageid[]" placeholder="Storage Number" class="col-sm-11 form-control ">
-                                                        </td>
-                                                    </tr>                   
-                                            </tbody>
-                                        </table>
+                                        <tr>
+                                            <div class="form-check">
+                                                <label for="Requirements"></label>
+                                                <br>
+                                                <label for="checkbox1" class="form-check-label ">
+                                                each req in requirements
+                                                    input(type="checkbox" id="ap-requirementid" name="requirementID[]" value=`${req.int_requirementID}` )
+                                                    value= " " + req.varchar_requirementName
+                                                    <br>
+                                                </label>
+                                            </div>
+                                        </tr>                   
                                     </div>
                                 </div> 
                                 //- END OF APPLICANT'S REQUIREMENT/S 

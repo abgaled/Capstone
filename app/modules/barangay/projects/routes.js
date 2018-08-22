@@ -124,13 +124,18 @@ router.post('/viewapplicants',(req,res) => {
     console.log('=================================');
     console.log(`${req.body.ajViewApplicants}`);
 
+
     var queryString = `SELECT * FROM tbl_application app
     JOIN tbl_project pro 
     ON app.int_projectID = pro.int_projectID 
     JOIN tbl_personalinformation pi
     ON app.int_applicationID = pi.int_applicationID
-    WHERE app.enum_applicationStatus = "Approved" 
+    WHERE app.int_barangayID = ${req.session.barangay.int_userID}
     AND app.int_projectID = ${req.body.ajViewApplicants}`
+
+    req.session.barangay.specprojID = req.body.ajViewApplicants;
+    console.log("PROJECT ID")
+    console.log(req.session.barangay.specprojID)
 
 
     db.query(queryString,(err, results, fields) => {
@@ -144,12 +149,11 @@ router.post('/viewapplicants',(req,res) => {
             date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
         }
 
-        var resultss = results[0];
 
-        console.log("=====RESULTSS=====")
-        console.log(resultss)
+        console.log("VIEW APPLICANTS RESULTS")
+        console.log(results);
 
-        return res.send({tbl_applicants:resultss});
+        return res.send({tbl_applicants:results});
     });
 });
 
@@ -160,13 +164,14 @@ router.post('/viewspecificapplicant',(req,res) => {
     console.log('=================================');
     console.log(`${req.body.ajViewSpecificApplicant}`);
 
+
     var queryString = `SELECT * FROM tbl_application app
     JOIN tbl_project pro 
     ON app.int_projectID = pro.int_projectID 
     JOIN tbl_personalinformation pi
     ON app.int_applicationID = pi.int_applicationID
     WHERE app.enum_applicationStatus = "Approved" 
-    AND app.int_projectID = ${req.body.projectID}
+    AND app.int_projectID = ${req.session.barangay.specprojID}
     AND app.int_applicationID = ${req.body.ajViewSpecificApplicant}`
 
 
@@ -250,7 +255,7 @@ router.get('/:int_projectID/apply',(req,res) => {
             console.log('RESULTS IDDD')
             console.log(int_formTypeIDDD);
 
-            var requirementQuery = `SELECT R.int_requirementID, R.varchar_requirementName
+            var requirementQuery = `SELECT *
                 FROM tbl_requirement R JOIN tbl_projectrequirement PR
                 ON R.int_requirementID=PR.int_requirementID
                 WHERE PR.int_projectID= ${req.params.int_projectID}`;
@@ -277,11 +282,10 @@ router.get('/:int_projectID/apply',(req,res) => {
 //                                  APPLICATION
 // ===============================================================================
 
-router.post('/applications/:int_projectID/apply',(req,res) => {
+router.post('/:int_projectID/apply',(req,res) => {
     console.log('=================================');
     console.log('BARANGAY: PROJECTS-APPLICATION-FORM-POST');
     console.log('=================================');
-
 
     // ===============================================================================
     //                          INSERT INTO TBL_APPLICATION
@@ -318,49 +322,8 @@ router.post('/applications/:int_projectID/apply',(req,res) => {
                 console.log("SELECT & JOIN: USER & OFFICE");
                 console.log(results2);
 
-                var join_useroffice = results2[0];
-
-
-                // ===============================================================================
-                //                  INSERT INTO tbl_address FOR APPLICATION DETAILS
-                // ===============================================================================
-
-                var queryString3 = `INSERT INTO tbl_address 
-                    (\`varchar_numberBlockLot\`,
-                    \`varchar_streetAvenueRoad\`,
-                    \`varchar_villageSubdivision\`,
-                    \`varchar_purokSitioZone\`,
-                    \`varchar_cityName\`,
-                    \`enum_addressType\`) 
-                    VALUES 
-                    ("${req.body.apply_numblklot}",
-                    "${req.body.apply_streetaveroad}",
-                    "${req.body.apply_villsub}",
-                    "${req.body.apply_puroksitiozone}",
-                    "${join_useroffice.varchar_cityName}",
-                    "${req.body.apply_addresstype}")`
-
-
-                db.query(queryString3,(err, results3, fields) => {
-                    if (err) console.log(err);
-                    console.log("SELECT & JOIN: USER & OFFICE");
-                
-                    var queryString4 =`SELECT * FROM tbl_address ORDER BY int_addressID DESC LIMIT 0,1`
-
-                    db.query(queryString4,(err, results4, fields) => {
-                        if (err) console.log(err);
-                        console.log("SELECT:");
-                
-                        var select_addressID = results4[0];
-                        console.log(select_addressID.int_addressID);
-
-
-                        // ===============================================================================
-                        //                  INSERT INTO tbl_personalinformation FOR APPLICATION
-                        // ===============================================================================
-                        var queryString5 = `INSERT INTO tbl_personalinformation
+                    var insertPersonalInfo = `INSERT INTO tbl_personalinformation
                             (\`int_applicationID\`,
-                            \`int_addressID\`,
                             \`varchar_firstName\`,
                             \`varchar_middleName\`,
                             \`varchar_lastName\`,
@@ -372,7 +335,6 @@ router.post('/applications/:int_projectID/apply',(req,res) => {
                             \`varchar_emailAddress\`) 
                             VALUES 
                             (${int_applicationID},
-                            ${select_addressID.int_addressID},
                             "${req.body.apply_fname}",
                             "${req.body.apply_mname}",
                             "${req.body.apply_lname}",
@@ -382,338 +344,39 @@ router.post('/applications/:int_projectID/apply',(req,res) => {
                             "${req.body.apply_civilstat}",
                             "${req.body.apply_contact}",
                             "${req.body.apply_emailaddress}")`
-            
-                        db.query(queryString5,(err, results5, fields) => {
+
+                        db.query(insertPersonalInfo,(err, personalinfo, fields) => {
                             if (err) console.log(err);
-                            console.log("INSERT: Table Personal Info");
 
+                            // INSERT TABLE APPLICATION REQUIREMENT
+                            var requirements = req.body.requirementID;
+                            console.log("==============REQUIREMENT=============");
+                            console.log(requirements)
 
-                            // ===============================================================================
-                            //                                  ADDITIONAL FORMS
-                            // ===============================================================================
-                            console.log("INSERT: Form List");
-                            console.log(int_formTypeIDD);
-                            console.log(int_formTypeIDD.length);
-                            console.log(int_formTypeIDD[0]);
-
-                            for(var i = 0; i < int_formTypeIDD.length; i++)
-                            {
-                                
-
-                                // ===============================================================================
-                                //                     MEDICAL FORM   -   ADDITIONAL FORMS
-                                // ===============================================================================
-                                if(int_formTypeIDD[i].int_formTypeID == 1){
-                                    console.log("=============MEDICAL FORM===========");
-                                    console.log(req.body.apply_medication);
-                                    console.log(req.body.apply_medicationdesc);
-
-
-                                    var medFormQuery = `INSERT INTO tbl_medicalhistory
+                                for(i = 0 ; i < requirements.length ; i++)
+                                    {
+                                    var appreqQuery = `INSERT INTO tbl_applicationrequirement
                                         (
                                             \`int_applicationID\`,
-                                            \`varchar_medication\`,
-                                            \`text_medDescription\`
-                                        ) 
-                                        VALUES 
-                                        (${int_applicationID},
-                                        "${req.body.apply_medication}",
-                                        "${req.body.apply_medicationdesc}")`
-
-                                    db.query(medFormQuery,(err, medFormResult, fields) => {
-                                        if(err) console.log(err);
-
-                                        console.log("------SUCCESSFUL MDICAL HISTORY POST------");
-                                    });
-                                }
-
-
-
-                                // ===============================================================================
-                                //                     ACCOUNT FORM   -   ADDITIONAL FORMS
-                                // ===============================================================================
-                                if(int_formTypeIDD[i].int_formTypeID == 5){
-                                    console.log("=============ACCOUNT FORM===========");
-                                    console.log(req.body.apply_gsis);
-                                    console.log(req.body.apply_sss);
-                                    console.log(req.body.apply_tin);
-                                    console.log(req.body.apply_prc);
-                                    console.log(req.body.apply_philhealth);
-                                    console.log(req.body.apply_hdmf);
-
-                                    var accFormQuery = `INSERT INTO tbl_accountdetail
-                                        (
-                                            \`int_applicationID\`,
-                                            \`varchar_gsisNumber\`,
-                                            \`varchar_sssNumber\`,
-                                            \`varchar_tinNumber\`,
-                                            \`varchar_crnNumber\`,
-                                            \`varchar_philHealthNumber\`,
-                                            \`varchar_hdmfNumber\`
+                                            \`int_requirement\`,
+                                            \`enum_appreqStatus\`
                                         )
                                         VALUES
                                         (
                                             ${int_applicationID},
-                                            "${req.body.apply_gsis}",
-                                            "${req.body.apply_sss}",
-                                            "${req.body.apply_tin}",
-                                            "${req.body.apply_prc}",
-                                            "${req.body.apply_philhealth}",
-                                            "${req.body.apply_hdmf}"
+                                            ${requirements[i]},
+                                            "Passed"
                                         )`;
-
-                                    db.query(accFormQuery,(err, accFormResult, fields) => {
-                                        if(err) console.log(err);
-
-                                        console.log("------SUCCESSFUL ACCOUNT DETAIL POST------");
-                                    });
-                                }
-                                
-
-
-                                // ===============================================================================
-                                //                  FAMILY BACKGROUND   -   ADDITIONAL FORMS
-                                // ===============================================================================
-
-                                if(int_formTypeIDD[i].int_formTypeID == 3){
-                                    console.log("=============FAMILY BACKGROUND===========");
-                                    console.log(req.body.family_fname);
-                                    console.log(req.body.family_lname);
-                                    console.log(req.body.family_mname);
-                                    console.log(req.body.family_birthdate);
-                                    console.log(req.body.family_educattainment);
-                                    console.log(req.body.family_relationship);
-
-                                     var fambgQuery = `INSERT INTO tbl_familybg
-                                        (
-                                            \`int_applicationID\`,
-                                            \`varchar_familyFName\`,
-                                            \`varchar_familyMName\`,
-                                            \`varchar_familyLName\`,
-                                            \`varchar_educationalAttainment\`,
-                                            \`date_familyBdate\`,
-                                            \`varchar_relationship\`
-                                        )
-                                        VALUES
-                                        (
-                                            ${int_applicationID},
-                                            "${req.body.family_fname}",
-                                            "${req.body.family_mname}",
-                                            "${req.body.family_lname}",
-                                            "${req.body.family_birthdate}",
-                                            "${req.body.family_educattainment}",
-                                            "${req.body.family_relationship}"
-                                        )`;
-
-                                    db.query(fambgQuery,(err, fambgResult, fields) => {
-                                        if(err) console.log(err);
-
-                                        console.log("------SUCCESSFUL FAMILY BACKGROUND POST------");
-                                    });
-                                }
-
-
-                                // ===============================================================================
-                                //                 EDUCATIONAL BACKGROUND   -   ADDITIONAL FORMS
-                                // ===============================================================================
-
-                                if(int_formTypeIDD[i].int_formTypeID == 4){
-                                    console.log("=============EDUCATIONAL BACKGROUND===========");
-                                    console.log(req.body.school_name);
-                                    console.log(req.body.school_year);
-
-                                    var schoolAddressQuery = `INSERT INTO tbl_address 
-                                        (
-                                            \`varchar_numberBlockLot\`,
-                                            \`varchar_streetAvenueRoad\`,
-                                            \`varchar_villageSubdivision\`,
-                                            \`varchar_purokSitioZone\`,
-                                            \`varchar_cityName\`,
-                                            \`enum_addressType\`
-                                        ) 
-                                        VALUES 
-                                        (
-                                            "${req.body.school_numblklot}",
-                                            "${req.body.school_streetaveroad}",
-                                            "${req.body.school_villsub}",
-                                            "${req.body.school_puroksitiozone}",
-                                            "${req.body.school_city}",
-                                            "Permanent"
-                                        )`;
-
-
-                                    db.query(schoolAddressQuery,(err, schoolAddressResult, fields) => {
-                                        if (err) console.log(err);
-                                        console.log("------SCHOOL ADDRESS POSTED------");
-                                    
-                                        var schoolAddressGet =`SELECT * FROM tbl_address ORDER BY int_addressID DESC LIMIT 0,1`
-
-                                        db.query(schoolAddressGet,(err, schoolAddressGetResult, fields) => {
-                                            if (err) console.log(err);
-                                            console.log("SELECT Address:   ");
-                                    
-                                            var school_addressID = schoolAddressGetResult[0];
-                                            console.log(school_addressID.int_addressID);
-
-                                            var educFormQuery = `INSERT INTO tbl_educationalbg
-                                                (
-                                                    \`int_applicationID\`,
-                                                    \`int_schoolAddressID\`,
-                                                    \`varchar_schoolName\`,
-                                                    \`varchar_schoolYear\`
-                                                )
-                                                VALUES
-                                                (
-                                                    ${int_applicationID},
-                                                    ${school_addressID.int_addressID},
-                                                    "${req.body.school_name}",
-                                                    "${req.body.school_year}"
-                                                )`;
-
-                                            db.query(educFormQuery,(err, educFormResult, fields) => {
-                                                if(err) console.log(err);
-
-                                                console.log("------EDUCATIONAL BACKGROUND POSTED------");
-                                            });
+                                        
+                                        db.query(appreqQuery,(err, appreqResult, fields) => {
+                                            if(err) console.log(err);
+                                            
                                         });
-                                    });
-                                }
-
-
-
-                                // ===============================================================================
-                                //                     INCOME DETAILS   -   ADDITIONAL FORMS
-                                // ===============================================================================
-
-                                if(int_formTypeIDD[i].int_formTypeID == 2){
-                                    console.log("=============INCOME DETAILS===========");
-                                    console.log(req.body.apply_incomesource);
-                                    console.log(req.body.apply_incomeamount);
-
-                                    var incomeFormQuery = `INSERT INTO tbl_incomedetail
-                                        (
-                                            \`int_applicationID\`,
-                                            \`varchar_incomeSource\`,
-                                            \`decimal_incomeAmount\`,
-                                        )
-                                        VALUES
-                                        (
-                                            ${int_applicationID},
-                                            "${req.body.apply_incomesource}",
-                                            "${req.body.apply_incomeamount}"
-                                        )`;
-
-                                    db.query(incomeFormQuery,(err, incomeFormResult, fields) => {
-                                        if(err) console.log(err);
-
-                                        console.log("------INCOME DETAIL POSTED------");
-                                    });
-                                }
-
-
-
-                                // ===============================================================================
-                                //                  PROFESSIONAL BACKGROUND   -   ADDITIONAL FORMS
-                                // ===============================================================================
-
-                                if(int_formTypeIDD[i].int_formTypeID == 6){
-                                    console.log("=============PROFESSIONAL BACKGROUND===========");
-                                    console.log(req.body.prof_position);
-                                    console.log(req.body.prof_companyname);
-
-                                    var profAddressQuery = `INSERT INTO tbl_address 
-                                        (
-                                            \`varchar_numberBlockLot\`,
-                                            \`varchar_streetAvenueRoad\`,
-                                            \`varchar_villageSubdivision\`,
-                                            \`varchar_purokSitioZone\`,
-                                            \`varchar_cityName\`,
-                                            \`enum_addressType\`
-                                        ) 
-                                        VALUES 
-                                        (
-                                            "${req.body.prof_numblklot}",
-                                            "${req.body.prof_streetaveroad}",
-                                            "${req.body.prof_villsub}",
-                                            "${req.body.prof_puroksitiozone}",
-                                            "${req.body.prof_city}",
-                                            "Permanent"
-                                        )`;
-
-
-                                    db.query(profAddressQuery,(err, profAddressResult, fields) => {
-                                        if (err) console.log(err);
-                                        console.log("------SCHOOL ADDRESS POSTED------");
-                                    
-                                        var profAddressGet =`SELECT * FROM tbl_address ORDER BY int_addressID DESC LIMIT 0,1`
-
-                                        db.query(profAddressGet,(err, profAddressGetResult, fields) => {
-                                            if (err) console.log(err);
-                                            console.log("SELECT Address:   ");
-                                    
-                                            var prof_addressID = profAddressGetResult[0];
-                                            console.log(prof_addressID.int_addressID);
-
-                                            var educFormQuery = `INSERT INTO tbl_professionalbg
-                                                (
-                                                    \`int_applicationID\`,
-                                                    \`int_companyAddressID\`,
-                                                    \`varchar_companyName\`,
-                                                    \`varchar_position\`
-                                                )
-                                                VALUES
-                                                (
-                                                    ${int_applicationID},
-                                                    ${prof_addressID.int_addressID},
-                                                    "${req.body.prof_companyname}",
-                                                    "${req.body.prof_position}"
-                                                )`;
-
-                                            db.query(educFormQuery,(err, educFormResult, fields) => {
-                                                if(err) console.log(err);
-
-                                                console.log("------PROFESSIONAL BACKGROUND POSTED------");
-                                            });
-                                        });
-                                    });
-                                }
-                            }
-                            // =============== END OF FOR LOOP ==================
-
-
-                            console.log("=====================REQUIREMENT========================");
-
-                            var requirement = req.body.requirementID;
-                            var storage = req.body.storageid;
-
-                            for(i = 0 ; i < requirement.length ; i++)
-                            {
-                                var appreqQuery = `INSERT INTO tbl_applicationrequirement
-                                    (
-                                        \`int_applicationID\`,
-                                        \`int_requirement\`,
-                                        \`varchar_fileLocation\`,
-                                        \`enum_appreqStatus\`
-                                    )
-                                    VALUES
-                                    (
-                                        ${int_applicationID},
-                                        ${requirement[i]},
-                                        "${storage[i]}",
-                                        "Completed"
-                                    )`;
-
-                                db.query(appreqQuery,(err, appreqResult, fields) => {
-                                    if(err) console.log(err);
-
-                                    console.log("------APPLICATION REQUIREMENT POSTED------")
-                                });
-                            }
-                            
-                            res.redirect('/barangay/home');
-                        });
-                    });
-                });
+                                    }
+                                    res.redirect('/barangay/home');
+                            });
+                        
+                        
             });
         });
     });

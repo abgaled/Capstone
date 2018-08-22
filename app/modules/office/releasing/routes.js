@@ -9,6 +9,10 @@ var n =  new Date();
 var y = n.getFullYear();
 var m = n.getMonth() + 1;
 var d = n.getDate();
+var hr = n.getHours();
+var min = n.getMinutes();
+var sec = n.getSeconds();
+var now = y +"-"+ m +"-"+ d + " "+ hr +":"+ min +":"+ sec 
 
 var currentDate = y + "-" + m + "-" + d
 
@@ -16,13 +20,14 @@ router.get('/',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: Releasing');
     console.log('=================================');
-
+    
+    console.log(now);
     var queryString =`SELECT * FROM tbl_project pr
     JOIN tbl_projectproposal prpro 
     ON pr.int_projectID=prpro.int_projectID
     WHERE pr.enum_projectStatus = 'Releasing'
-    AND pr.datetime_releasingStart=? 
-    ORDER BY pr.int_projectID DESC`
+    AND pr.datetime_releasingStart >= "${now}"
+    ORDER BY pr.datetime_releasingStart DESC`
 
     db.query(queryString,[currentDate], (err, results, fields) => {
         console.log(results);
@@ -96,7 +101,8 @@ router.get('/:int_projectID/viewben',(req, res) => {
     JOIN tbl_personalinformation pi ON app.int_applicationID = pi.int_applicationID
     JOIN tbl_projectproposal propr ON propr.int_projectID = proj.int_projectID
     WHERE app.int_projectID = "${req.params.int_projectID}"
-    AND app.enum_applicationStatus = 'Approved'`
+    AND app.enum_applicationStatus = 'Approved'  
+    OR app.enum_applicationStatus = 'Received'`
     
     db.query(queryString1, (err, results1, fields) => {
         console.log(results1);
@@ -117,7 +123,60 @@ router.get('/:int_projectID/viewben',(req, res) => {
     });
 });
 
+router.get('/viewben/:int_applicationID/receiveben', (req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: project - 1 acceptapplication GET');
+    console.log('=================================');
+    
+    var queryString =`SELECT * FROM tbl_application
+    WHERE enum_applicationStatus = 'Approved' 
+    AND tbl_application.int_applicationID=${req.params.int_applicationID}`
+        
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+    
+        res.render(`office/releasing/views/receiveben`,{tbl_application:results});
+    });
+});
 
+router.post('/viewben/:int_applicationID/receiveben', (req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: releasing - 1 releasedben POST');
+    console.log('=================================');
+    
+    var queryString = `UPDATE tbl_application SET
+    enum_applicationStatus = 'Received',
+    datetime_receivedDate = "${now}"
+    WHERE tbl_application.int_applicationID=${req.body.int_applicationID}`
+            
+    db.query(queryString, (err, results) => {        
+        if (err) throw err;
+        var queryString1 =`SELECT * FROM tbl_projectproposal pr
+    JOIN tbl_project proj ON pr.int_projectID = proj.int_projectID
+    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+    db.query(queryString1, (err, results1, fields) => {
+        console.log("=========RESULTS1==========")
+        console.log(results1);
+        if (err) console.log(err);
+
+        var queryString2 =`SELECT * FROM tbl_application ap
+        JOIN tbl_personalinformation pi 
+        ON ap.int_applicationID = pi.int_applicationID
+        WHERE ap.int_projectID = "${req.params.int_projectID}"
+        AND ap.enum_applicationStatus = "Pending"`
+
+        db.query(queryString2, (err, results2, fields) => {
+            if (err) console.log(err);
+    
+            res.render('office/releasing/views/beneficiary',{
+                    tbl_project:results1,
+                    tbl_application:results2});
+            });
+        });
+    });
+});
 
 // AJAX GET DETAILS RELEASING PROJECT - VIEW APPLICANT DETAILS
 router.post('/:int_projectID/viewben/ajaxapplicantdetails',(req,res) => {

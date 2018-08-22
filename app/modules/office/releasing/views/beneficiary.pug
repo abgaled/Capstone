@@ -7,21 +7,27 @@ block content
                 <div class="x_panel">
                     <div class="x_title">
                     each proj in tbl_project
+                        <center>
                         <h3> Project Title: 
                             value=proj.varchar_projectName
                         </h3>
                         <small>
                             value= "(" + proj.text_projectDescription + ")"
-                            a(href=`/office/releasing/${proj.int_projectID}/viewproj` id="viewproj" style="float:right;" class="btn btn-success btn-xs") View Project Details
                         </small>  
-                        <center>
-                        <div>
-                            <label class="control-label form-label-left" for="applicationid">Application Code:&nbsp
-                            </label>
-                            input(type="text" id="applicationid" style="margin-right:1%;")
-                            a(href=`#` id="applicationid" class="btn btn-primary btn-s" name="applicationid") Enter
-                        </div>
                         </center>
+                        <div>
+                            <div class="col-sm-4 pull-right">
+                                <div class="input-group">
+                                    <input type="text" id="applicationid" class="form-control">
+                                    <span class="input-group-btn">
+                                        a(href=`#` id="applicationid" class="btn btn-primary btn-s" name="applicationid") Search
+                                    </span>
+                                </div>
+                            </div>
+                            a(href=`/office/releasing/${proj.int_projectID}/viewproj` id="viewproj" style="float:left;" class="btn btn-info btn-s") View Project Details
+                            </br>
+                            </br>
+                        </div>
                     </div>              
                     <div class="content-wrapper">
                         <div class="container-fluid">
@@ -36,7 +42,7 @@ block content
                                                         <th>Gender</th>
                                                         <th>Civil Status</th>
                                                         <th>Contact Number</th>
-                                                        <th>Email Address</th>
+                                                        <th>Status</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -71,11 +77,13 @@ block content
                                                             value=app2.varchar_contactNumber
                                                         </td>
                                                         <td>
-                                                            value=app2.varchar_emailAddress
+                                                            value=app2.enum_applicationStatus
                                                         </td>
                                                         <td>
                                                             //- a(href=`/office/releasing/beneficiary/${app2.int_applicationID}/viewAppDet` id="viewAppDet" class="btn btn-primary btn-xs btn-block"): span Application Details
-                                                            button.btn.btn-success.mb-1(id="btn-view-app" class="btn-view-application" value= app2.int_applicationID): span.fa.fa-eye Application Details
+                                                            if app2.enum_applicationStatus == 'Approved'
+                                                                button.btn.btn-info.mb-1(id="btn-view-app" class="btn-view-application" value= app2.int_applicationID): span.fa.fa-eye Application Details
+                                                                a(href=`/office/Releasing/viewben/${app2.int_applicationID}/receiveben` id="receiveben" class="btn btn-success btn-sm btn-block"): span.fa.fa-check  Received
                                                         </td>
                                                     </tr>
                                                 </tbody>

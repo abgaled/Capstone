@@ -42,10 +42,10 @@ block content
                                                         button.btn.btn-info.mb-1.btn-sm.btn-block(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID): span.fa.fa-eye View
                                                         if problem.enum_problemStatus == "Submitted"
                                                             form(method="POST" action=`/office/problems/${problem.int_statementID}/acknowledge`)
-                                                                input(value=problem.int_statementID name="id" required, hidden)
+                                                                input(value=problem.int_statementID name="int_statementID" required, hidden)
                                                                 button.btn.btn-success.btn-sm.btn-block(type='submit'): span.fa.fa-check Approve
                                                             form(method="POST" action=`/office/problems/${problem.int_statementID}/rejectstatement`)
-                                                                input(value=problem.int_statementID name="id" required, hidden)
+                                                                input(value=problem.int_statementID name="int_statementID" required, hidden)
                                                                 button.btn.btn-danger.btn-sm.btn-block(type='submit'): span.fa.fa-ban Reject
                                                     </td>
                                                     </tr>

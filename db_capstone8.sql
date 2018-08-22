@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2018 at 10:19 PM
+-- Generation Time: Aug 22, 2018 at 03:30 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -60,7 +60,7 @@ CREATE TABLE `tbl_address` (
 INSERT INTO `tbl_address` (`int_addressID`, `varchar_numberBlockLot`, `varchar_streetAvenueRoad`, `varchar_villageSubdivision`, `varchar_purokSitioZone`, `enum_addressType`) VALUES
 (1, '315', 'Maysilo', 'Cir', NULL, 'Permanent'),
 (2, 'Blk 12', NULL, 'Welfareville Compound\r\n', NULL, 'Permanent'),
-(3, 'cor. J. ', 'Luna Street', NULL, NULL, 'Permanent'),
+(3, 'cor. J. ', 'Luna Street', '', '', 'Permanent'),
 (4, '775 ', 'Barangka Drive', 'cor. Sgt.', ' Bumatay', 'Permanent');
 
 -- --------------------------------------------------------
@@ -95,7 +95,12 @@ CREATE TABLE `tbl_application` (
 --
 
 INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_projectID`, `enum_applicationStatus`) VALUES
-(1, 3, 1, 'Approved');
+(1, 3, 3, 'Pending'),
+(2, 3, 3, 'Approved'),
+(6, 3, 3, 'Pending'),
+(7, 3, 3, 'Rejected'),
+(8, 3, 3, 'Pending'),
+(24, 3, 3, 'Pending');
 
 -- --------------------------------------------------------
 
@@ -109,6 +114,14 @@ CREATE TABLE `tbl_applicationcode` (
   `enum_releasingStatus` enum('Received','Pending','Not Received') NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_applicationcode`
+--
+
+INSERT INTO `tbl_applicationcode` (`int_applicationID`, `char_applicationCode`, `enum_releasingStatus`) VALUES
+(1, 'hello25', 'Pending'),
+(2, 'HI123', 'Pending');
+
 -- --------------------------------------------------------
 
 --
@@ -119,9 +132,17 @@ CREATE TABLE `tbl_applicationrequirement` (
   `int_appreqID` int(11) NOT NULL,
   `int_applicationID` int(11) NOT NULL,
   `int_requirement` int(11) NOT NULL,
-  `varchar_fileLocation` varchar(100) NOT NULL,
-  `enum_appreqStatus` enum('Incomplete','Completed') NOT NULL DEFAULT 'Incomplete'
+  `enum_appreqStatus` enum('Passed','Not Passed') NOT NULL DEFAULT 'Passed'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_applicationrequirement`
+--
+
+INSERT INTO `tbl_applicationrequirement` (`int_appreqID`, `int_applicationID`, `int_requirement`, `enum_appreqStatus`) VALUES
+(7, 20, 14, 'Passed'),
+(8, 20, 16, 'Passed'),
+(14, 24, 16, 'Passed');
 
 -- --------------------------------------------------------
 
@@ -175,7 +196,7 @@ CREATE TABLE `tbl_barangay` (
 --
 
 INSERT INTO `tbl_barangay` (`int_barangayID`, `int_userID`, `int_cityID`, `varchar_barangayName`, `varchar_barangayContact`, `enum_barangayStatus`) VALUES
-(1, 3, 1, 'Addition Hills', '226-6666', 'Active'),
+(1, 3, 1, 'Addition Hills', '226-6666', 'Inactive'),
 (2, 5, 1, 'Bagong Silang', '514-8312/9953354', 'Active'),
 (3, 6, 1, 'Barangka Drive', '531-6544', 'Active'),
 (4, 7, 1, 'Hulo', '534-5056/535-2505', 'Active'),
@@ -226,7 +247,7 @@ CREATE TABLE `tbl_beneficiary` (
 INSERT INTO `tbl_beneficiary` (`int_beneficiaryID`, `varchar_beneficiaryName`, `enum_beneficiaryStatus`) VALUES
 (1, 'Senior Citizen', 'Active'),
 (2, 'Person with Disability (PWD)', 'Active'),
-(3, 'College Student', 'Active'),
+(3, 'College Student', 'Inactive'),
 (4, 'Women and girls', 'Active'),
 (5, 'Men', 'Active'),
 (6, 'Elementary Students', 'Active'),
@@ -257,9 +278,9 @@ CREATE TABLE `tbl_category` (
 INSERT INTO `tbl_category` (`int_categoryID`, `varchar_categoryName`, `text_categoryDescription`, `enum_categoryStatus`) VALUES
 (1, 'Health', 'It is a set of actions developed by a Government with the aim of improving the health conditions of the population. So the authorities promote prevention campaigns and to ensure democratic and mass access to medical centers. ', 'Active'),
 (2, 'Monetary', 'A value in currency that a person, business, or the market places on a resource, product, or service. In fact, most goods and services in our modern economy are priced based on monetary value. ', 'Active'),
-(3, 'Disaster Management ', 'Disaster Management can be defined as the organization and management of resources and responsibilities for dealing with all humanitarian aspects of emergencies, in particular preparedness, response and recovery in order to lessen the impact of disasters.', 'Active'),
+(3, 'Disaster Management ', 'Disaster Management can be defined as the organization and management of resources and responsibilities for dealing with all humanitarian aspects of emergencies, in particular preparedness, response and recovery in order to lessen the impact of disasters.', 'Inactive'),
 (4, 'Non-resident', 'A non-resident project is a project where there is no resident or citizen involve, no application and releasing of project\'s benefit', 'Active'),
-(5, 'Education', 'A project in education is a collaborative process, frequently involving different teacher and educational staff, that is carefully planned to achieve a particular aim of learning.', 'Active');
+(5, 'Education', 'A project in education is a collaborative process, frequently involving different teacher and educational staff, that is carefully planned to achieve a particular aim of learning.', 'Inactive');
 
 -- --------------------------------------------------------
 
@@ -385,7 +406,6 @@ CREATE TABLE `tbl_notification` (
 --
 
 INSERT INTO `tbl_notification` (`int_notifID`, `int_notifReceiverID`, `int_notifSenderID`, `int_linkID`, `varchar_notifTitle`, `text_notifContent`, `enum_notifStatus`, `enum_notifInfo`) VALUES
-(1, 3, 2, 1, 'There are changes in Barangay Awards!', 'Please check the problem statement with title \"Yey\"', 'New', 'Barangay Award'),
 (2, 3, 2, 5, 'There are changes in Problem Statement!', 'cjaaaaaaaaaaaaaaaaaaacnasicnsiuanisuannnnnnnnnnnnnnnnnnnnnncisajsiajcisajjjjjjjjjjjjjjjjjjjjjjjjicjisja', 'New', 'Problem Statement'),
 (3, 3, 2, 1, 'Changes in Project Application!', 'kXNJKKKKKKKKKKKKKKKKKKKKKKKKKKKKNJAJBHJBAbBXA', 'New', 'Project Releasing');
 
@@ -397,7 +417,6 @@ INSERT INTO `tbl_notification` (`int_notifID`, `int_notifReceiverID`, `int_notif
 
 CREATE TABLE `tbl_personalinformation` (
   `int_applicationID` int(11) NOT NULL,
-  `int_addressID` int(11) NOT NULL,
   `varchar_firstName` varchar(100) NOT NULL,
   `varchar_middleName` varchar(100) DEFAULT NULL,
   `varchar_lastName` varchar(100) NOT NULL,
@@ -413,8 +432,12 @@ CREATE TABLE `tbl_personalinformation` (
 -- Dumping data for table `tbl_personalinformation`
 --
 
-INSERT INTO `tbl_personalinformation` (`int_applicationID`, `int_addressID`, `varchar_firstName`, `varchar_middleName`, `varchar_lastName`, `date_birthDate`, `enum_gender`, `int_applicantResidency`, `enum_civilStatus`, `varchar_contactNumber`, `varchar_emailAddress`) VALUES
-(1, 4, 'Abigale', 'Punzalan', 'Del Rosario', '1999-06-13', 'Female', 1999, 'Single', '09156662933', 'delrosarioabigale@gmail.com');
+INSERT INTO `tbl_personalinformation` (`int_applicationID`, `varchar_firstName`, `varchar_middleName`, `varchar_lastName`, `date_birthDate`, `enum_gender`, `int_applicantResidency`, `enum_civilStatus`, `varchar_contactNumber`, `varchar_emailAddress`) VALUES
+(1, 'Abigale', 'Punzalan', 'Del Rosario', '1999-06-13', 'Female', 1999, 'Single', '09156662933', 'delrosarioabigale@gmail.com'),
+(2, 'Gale', 'Napiza', 'Del Rosario', '2000-06-13', 'Female', 2000, 'Single', '09152222933', 'delrosariocheww@gmail.com'),
+(6, 'Marlon', '', 'Napiza', '1969-05-16', 'Male', 1989, 'Married', '(+63) 126-663-2123', 'marlon@gmail.com'),
+(7, 'Jillmarie', 'Gainsan', 'Inocencio', '1999-06-22', 'Female', 2000, 'Single', '(+63) 192-632-5626', 'jillmarie@gmail.com'),
+(24, 'Lander Dashiell', 'Del Rosario', 'Manabat', '2002-08-10', 'Male', 2002, 'Single', '(+63) 155-156-1561', 'dash@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -449,9 +472,12 @@ CREATE TABLE `tbl_problemstatement` (
 --
 
 INSERT INTO `tbl_problemstatement` (`int_statementID`, `int_barangayID`, `int_categoryID`, `varchar_statementTitle`, `text_statementContent`, `date_createdDate`, `enum_problemStatus`) VALUES
-(1, 3, 1, 'Check up for pregnant women.', 'Dummy', '2018-08-08', 'Submitted'),
-(5, 3, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Dummy1', '2018-08-08', 'Submitted'),
-(13, 3, 5, 'Scholarship grant for top 20 most outstanding students of muntinlupa city.', 'Dummy3', '2018-08-08', 'Submitted');
+(1, 3, 1, 'Check up for pregnant women.', 'Dummy', '2018-08-08', 'Rejected'),
+(5, 3, 1, 'Petition For Full Body Check Up And Medicine Giving For The Residents Of Barangay Unknown', 'Dummy1', '2018-08-08', 'Acknowledged'),
+(13, 3, 5, 'Scholarship grant for top 20 most outstanding students of muntinlupa city.', 'Dummy3', '2018-08-08', 'Submitted'),
+(14, 3, 2, 'khio', 'jgkjb', '2018-08-18', 'Rejected'),
+(15, 3, 1, 'Dengue', 'DengueCheck up', '2018-08-20', 'Rejected'),
+(16, 3, 1, 'Diarrhea', 'Check up for Diarrhea', '2018-08-21', 'Acknowledged');
 
 -- --------------------------------------------------------
 
@@ -488,7 +514,8 @@ CREATE TABLE `tbl_project` (
 --
 
 INSERT INTO `tbl_project` (`int_projectID`, `date_projectStart`, `date_projectEnd`, `datetime_releasingStart`, `datetime_releasingEnd`, `decimal_actualBudget`, `enum_projectStatus`) VALUES
-(1, '2018-08-08', '2018-09-30', '2018-09-13 00:00:00', '2018-09-13 00:00:00', '1000000.00', 'Releasing'),
+(1, '2018-08-08', '2018-09-30', '2018-08-20 00:00:00', '2018-09-13 00:00:00', '1000000.00', 'Releasing'),
+(2, '2018-08-19', '2018-09-19', '2018-09-11 00:00:00', '2018-09-11 00:00:00', '1000000.00', 'Finished'),
 (3, '2018-08-18', '2018-09-30', '2018-09-10 00:00:00', '2018-09-10 00:00:00', '1000000.00', 'Ongoing');
 
 -- --------------------------------------------------------
@@ -533,8 +560,8 @@ CREATE TABLE `tbl_projectcategory` (
 INSERT INTO `tbl_projectcategory` (`int_projcategID`, `int_projectID`, `int_categoryID`) VALUES
 (1, 1, 1),
 (2, 2, 2),
-(3, 2, 5),
-(4, 3, 3);
+(4, 3, 3),
+(5, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -607,8 +634,8 @@ CREATE TABLE `tbl_projectproposal` (
 
 INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_cityID`, `varchar_projectName`, `varchar_projectRationale`, `text_projectDescription`, `text_projectObjective`, `int_allotedSlot`, `int_dayDuration`, `decimal_estimatedBudget`, `date_createdDate`, `enum_proposalStatus`) VALUES
 (1, 1, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 1000, 150, '1000000', '2017-12-11', 'Pending'),
-(2, 2, 'Financial Assistance for Grade 4 students of Mababang Paaralan ng Sucat', 'It will help them to restore their school supplies that they recently used.', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 1500, 100, '10000000', '2018-02-13', 'Approved'),
-(3, 1, 'Distribution of Supplies for Fire Victims', 'Residents will received their supplies.', 'Give the residents who were affected by the fire. Given that they pass the required requirements.', 'Giving of supplies to residents. First come first served service (first to complete the requirements will automatically gain a slot).', 1000, 120, '3509995234', '2018-03-15', 'Pending');
+(2, 2, 'Financial Assistance for Grade 4 students of Mababang Paaralan ng Sucat', 'It will help them to restore their school supplies that they recently used.', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 1500, 100, '10000000', '2018-02-13', 'Revision'),
+(3, 1, 'Distribution of Supplies for Fire Victims', 'Residents will received their supplies.', 'Give the residents who were affected by the fire. Given that they pass the required requirements.', 'Giving of supplies to residents. First come first served service (first to complete the requirements will automatically gain a slot).', 1000, 120, '3509995234', '2018-03-15', 'Approved');
 
 -- --------------------------------------------------------
 
@@ -628,8 +655,8 @@ CREATE TABLE `tbl_projectrequirement` (
 
 INSERT INTO `tbl_projectrequirement` (`int_projreqID`, `int_requirementID`, `int_projectID`) VALUES
 (1, 1, 1),
-(2, 8, 1),
-(3, 14, 1),
+(2, 14, 3),
+(3, 16, 3),
 (4, 2, 16),
 (5, 3, 14),
 (6, 3, 16);
@@ -652,7 +679,7 @@ CREATE TABLE `tbl_proposalapproval` (
 --
 
 INSERT INTO `tbl_proposalapproval` (`int_projectID`, `blob_approvalLetter`, `varchar_checkNumber`, `enum_propappStatus`) VALUES
-(1, 0x756e646566696e6564, NULL, 'Received'),
+(1, 0x756e646566696e6564, ':100000000 :00000000', 'Received'),
 (2, 0x756e646566696e6564, ':100000000 :00000000', 'Received');
 
 -- --------------------------------------------------------
@@ -705,7 +732,7 @@ INSERT INTO `tbl_requirement` (`int_requirementID`, `varchar_requirementName`, `
 (9, 'BIR forms', 'The Bureau of Internal Revenue (BIR) is our tax collection agency. There are many forms from the BIR that you will need: your TIN registration form, TIN card, ITR/2316 from previous employer, and Form 1905/Transfer of RDO are some of them. Worry not, as most companies often apply for first time employees.', 'Active'),
 (10, 'Valid Driver’s License', 'A driver\'s license is an official document permitting a specific individual to operate one or more types of motorized vehicles, such as a motorcycle, car, truck, or bus on a public road.', 'Active'),
 (11, 'Valid Passport', 'A passport is a travel document, usually issued by a country\'s government, that certifies the identity and nationality of its holder primarily for the purpose of international travel.[1] Standard passports may contain information such as the holder\'s name, place and date of birth, photograph, signature, and other identifying information. ', 'Active'),
-(12, 'Baptismal Certificate', 'A formal document normally kept by a church of baptisms that occurred in their congregation. It typically contains the names of the individuals baptized, the date of baptism, where it took place, the clergyman\'s name, and possibly the names of sponsors and place of residence.', 'Active'),
+(12, 'Baptismal Certificate', 'A formal document normally kept by a church of baptisms that occurred in their congregation. It typically contains the names of the individuals baptized, the date of baptism, where it took place, the clergyman\'s name, and possibly the names of sponsors and place of residence.', 'Inactive'),
 (13, 'Marriage Certificate', 'A marriage certificate (sometimes: marriage lines) is an official statement that two people are married. In most jurisdictions, a marriage certificate is issued by a government official only after the civil registration of the marriage.', 'Active'),
 (14, 'Barangay Certificate of Residency', 'Barangay Clearance or Certificate of Residency is one the Philippine government issued identification documents needed for many important business, job, or personal transactions. You might need it for the following reasons: ... certify that you are living or residing in a certain barangay. It issued within three (3 months) prior to PID application\r\n', 'Active'),
 (15, 'Utility Bill/s', 'The amount a household or office is expected to pay for electricity, water and/or gas each month. Utility bills vary according to one\'s usage. However, many local and national governments regulate the profits of utility companies, limiting the amount they can charge customers.', 'Active'),
@@ -979,12 +1006,12 @@ ALTER TABLE `tbl_announcement`
 -- AUTO_INCREMENT for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `tbl_applicationrequirement`
 --
 ALTER TABLE `tbl_applicationrequirement`
-  MODIFY `int_appreqID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_appreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `tbl_award`
 --
@@ -1054,7 +1081,7 @@ ALTER TABLE `tbl_problemproposal`
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
 ALTER TABLE `tbl_problemstatement`
-  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `tbl_professionalbg`
 --
@@ -1069,7 +1096,7 @@ ALTER TABLE `tbl_projectbeneficiary`
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
 ALTER TABLE `tbl_projectcategory`
-  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `tbl_projectform`
 --
@@ -1109,7 +1136,7 @@ ALTER TABLE `tbl_requirement`
 -- AUTO_INCREMENT for table `tbl_revisioncomment`
 --
 ALTER TABLE `tbl_revisioncomment`
-  MODIFY `int_revisionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `int_revisionID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
