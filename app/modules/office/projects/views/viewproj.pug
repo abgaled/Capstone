@@ -179,81 +179,83 @@ block content
                     </table>
                 </div>
             </div>
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Applications</h2>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <div>
-                        input(type="checkbox" id="check-applications" name="checkApplications[]" class="icheckbox_flat-green" style="margin-left:3%;")
-                        button(type="submit" id="buttonaccept" class="btn btn-primary btn-s" name="buttonaccept" style="margin-left:2%;"): span.fa.fa-check  Accept
-                        button(type="submit" id="buttonreject" class="btn btn-danger btn-s" name="buttonreject"): span.fa.fa-close  Reject
-                    <br>
-                    <br>
+            each project in tbl_projectproposal
+                if project.enum_projectStatus !== "Proposed"
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Applications</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div>
+                                input(type="checkbox" id="check-applications" name="checkApplications[]" class="icheckbox_flat-green" style="margin-left:3%;")
+                                button(type="submit" id="buttonaccept" class="btn btn-primary btn-s" name="buttonaccept" style="margin-left:2%;"): span.fa.fa-check  Accept
+                                button(type="submit" id="buttonreject" class="btn btn-danger btn-s" name="buttonreject"): span.fa.fa-close  Reject
+                            <br>
+                            <br>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="datatable" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Last Name</th>
+                                            <th>First Name</th>
+                                            <th>Middle Name</th>
+                                            <th>Email Address</th>
+                                            <th>Status</th>
+                                            <th>Action/s</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th>Last Name</th>
+                                            <th>First Name</th>
+                                            <th>Middle Name</th>
+                                            <th>Email Address</th>
+                                            <th>Status</th>
+                                            <th>Action/s</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        each app in applications
+                                            <tr>
+                                                <td>
+                                                    input(type="checkbox" id="check-applications" name="checkApplications[]" class="icheckbox_flat-green" value=`${app.int_applicationID}` )
+                                                </td>
+                                                <td>
+                                                    value=app.varchar_lastName
+                                                </td>
+                                                <td>
+                                                    value=app.varchar_firstName
+                                                </td>
+                                                <td>
+                                                    value=app.varchar_middleName
+                                                </td>
+                                                <td>
+                                                    value=app.varchar_emailAddress
+                                                </td>
+                                                <td>
+                                                    value=app.enum_applicationStatus
+                                                </td>
+                                                <td>
+                                                    button.btn.btn-success(id="btn-view-application" class="btn-view-application btn-s" value= app.int_applicationID): span.fa.fa-eye View Details
+                                                    if app.enum_applicationStatus == "Pending"
+                                                        form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewproj/accept`)
+                                                            input(value= app.int_applicationID name="int_applicationID" required, hidden)
+                                                            button(type="submit" id="buttonaccept" class="btn btn-primary btn-s" name="buttonaccept" ): span.fa.fa-check  Accept
+                                                        form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewproj/reject`)
+                                                            input(value= app.int_applicationID name="int_applicationID"  required, hidden)
+                                                            button(type="submit" id="buttonreject" class="btn btn-danger btn-s" name="buttonreject" value= app.int_applicationID): span.fa.fa-close  Reject
+                                                </td>
+                                            </tr>
+                                    </tbody>
+                                </table> 
+                            
+                            </div>                   
+                        </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="datatable" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Last Name</th>
-                                    <th>First Name</th>
-                                    <th>Middle Name</th>
-                                    <th>Email Address</th>
-                                    <th>Status</th>
-                                    <th>Action/s</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th></th>
-                                    <th>Last Name</th>
-                                    <th>First Name</th>
-                                    <th>Middle Name</th>
-                                    <th>Email Address</th>
-                                    <th>Status</th>
-                                    <th>Action/s</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                each app in applications
-                                    <tr>
-                                        <td>
-                                            input(type="checkbox" id="check-applications" name="checkApplications[]" class="icheckbox_flat-green" value=`${app.int_applicationID}` )
-                                        </td>
-                                        <td>
-                                            value=app.varchar_lastName
-                                        </td>
-                                        <td>
-                                            value=app.varchar_firstName
-                                        </td>
-                                        <td>
-                                            value=app.varchar_middleName
-                                        </td>
-                                        <td>
-                                            value=app.varchar_emailAddress
-                                        </td>
-                                        <td>
-                                            value=app.enum_applicationStatus
-                                        </td>
-                                        <td>
-                                            button.btn.btn-success(id="btn-view-application" class="btn-view-application btn-s" value= app.int_applicationID): span.fa.fa-eye View Details
-                                            if app.enum_applicationStatus == "Pending"
-                                                form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewproj/accept`)
-                                                    input(value= app.int_applicationID name="int_applicationID" required, hidden)
-                                                    button(type="submit" id="buttonaccept" class="btn btn-primary btn-s" name="buttonaccept" ): span.fa.fa-check  Accept
-                                                form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewproj/reject`)
-                                                    input(value= app.int_applicationID name="int_applicationID"  required, hidden)
-                                                    button(type="submit" id="buttonreject" class="btn btn-danger btn-s" name="buttonreject" value= app.int_applicationID): span.fa.fa-close  Reject
-                                        </td>
-                                    </tr>
-                            </tbody>
-                        </table> 
-                    
-                    </div>                   
-                </div>
-            </div>
             //- DIV RIGHT
             </div>
 

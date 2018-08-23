@@ -157,23 +157,6 @@ block content
                             </div>
                             <br>
                     </div>
-                    <hr>
-                    <div class="item form-group">
-                            <label class="control-label col-md-2" for="aj-address">Address:
-                            </label>
-                            <div class="col-md-9" id="aj-address">
-                
-                            </div>
-                            <br>
-                    </div>
-                    <div class="item form-group">
-                            <label class="control-label col-md-2" for="aj-addresstype">Address Type:
-                            </label>
-                            <div class="col-md-9" id="aj-addresstype">
-                
-                            </div>
-                            <br>
-                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
                     </div>
@@ -222,8 +205,6 @@ block content
                                 document.getElementById("aj-civil").innerHTML = value.enum_civilStatus
                                 document.getElementById("aj-contact").innerHTML = value.varchar_contactNumber
                                 document.getElementById("aj-email").innerHTML = value.varchar_emailAddress
-                                document.getElementById("aj-address").innerHTML = value.varchar_numberBlockLot + " " + value.varchar_streetAvenueRoad + " " + value.varchar_villageSubdivision + " " + value.varchar_purokSitioZone
-                                document.getElementById("aj-addresstype").innerHTML = value.enum_addressType
                                     
                                 console.log("Success: " );
                             });                             

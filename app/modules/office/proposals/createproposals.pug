@@ -120,35 +120,37 @@ block content
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectname">Project Name <span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" id="projectname" required="required"placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12" name="projectname">
+                                                    <input type="text" id="projectname" required="required"placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" multiple="multiple" name="projectcategory">
+                                                <select class="select2_multiple form-control" multiple="multiple">
                                                     <option>Choose option</option>
                                                     each category in tbl_category
-                                                        option(value=`${category.int_categoryID}`)=category.varchar_categoryName
+                                                        <option>
+                                                        value=category.varchar_categoryName
+                                                        </option>
                                                 </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectrationale">Project Rationale</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="projectrationale" name="projectrationale"></textarea>
+                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="projectrationale"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectobjectives">Project Objective</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project objective ..." id="projectobjectives" name="projectobjectives"></textarea>
+                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project objective ..." id="projectobjectives"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectdescription">Project Description</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project description ..." id="projectdescription" name="projectdescription"></textarea>
+                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project description ..." id="projectdescription"></textarea>
                                                 </div>
                                             </div>
                                         </form>
@@ -162,7 +164,9 @@ block content
                                                 <select class="select2_multiple form-control" name="apbeneficiary" multiple="multiple">
                                                     <option>Choose option</option>
                                                     each beneficiary in tbl_beneficiary
-                                                        option(value=`beneficiary.int_beneficiaryID`)=beneficiary.varchar_beneficiaryName
+                                                        <option>
+                                                        value=beneficiary.varchar_beneficiaryName
+                                                        </option>
                                                 </select>
                                                 </div>
                                             </div>

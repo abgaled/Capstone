@@ -33,7 +33,8 @@ router.post('/pending',(req, res) => {
     
     console.log(req.body.chequeNumber);
     var insertCheckQuery = `UPDATE tbl_proposalapproval
-    SET varchar_checkNumber = "${req.body.chequeNumber}"
+    SET varchar_checkNumber = "${req.body.chequeNumber}",
+    enum_propappStatus = "Sent"
     WHERE int_projectID = ${req.body.PROJECT_idcheq}`;
     db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
     if(err) console.log(err);
@@ -67,7 +68,7 @@ router.get('/approved',(req, res) => {
 
         console.log(approveResult);
 
-        res.render('budget/proposals/views/approvedproposals', {approvedproposals:approveResult});
+        res.render('budget/proposals/views/pendingproposals', {approvedproposals:approveResult});
     });
 });
 
@@ -266,46 +267,26 @@ router.post('/revision',(req, res) => {
     });
 });
 
-
-router.post('/revisiondetails',(req, res) => {
-    console.log('=================================');
-    console.log('BUDGET: PROPOSALS-REVISION');
-    console.log('=================================');
-
-    var approveQuery = `SELECT * 
-        FROM tbl_projectproposal PP JOIN tbl_projectcategory PC 
-        ON PP.int_projectID=PC.int_projectID
-        JOIN tbl_category C ON PC.int_categoryID=C.int_categoryID
-        WHERE PP.enum_proposalStatus='Approved'
-        GROUP BY PP.int_projectID`;
-
-    var selectRevisionQuery = `SELECT * FROM tbl_revisioncomment`;
-
-    db.query(selectRevisionQuery, (err, selectRevisionResult, fields) => {
-        if(err) console.log(err);
-
-        console.log("Succesfully inserted the revision comment");
-        console.log(selectRevisionResult);
-
-            res.redirect('/budget/proposals/pending');
-        });
-});
-
-
 // AJAX GET REVISION DETAILS
-router.post('/pending/ajaxrevisiondetails',(req,res) => {
+router.post('/ajaxrevisiondetails',(req,res) => {
     console.log('=================================');
     console.log('BUDGET: PROPOSALS-REVISION-GET DETAILS AJAX');
     console.log('=================================');
+    console.log(`${req.body.ajaxrevisionID}`);
 
-    var viewRevisionQuery = `SELECT * FROM tbl_revisioncomment 
-    WHERE int_projectID = ${req.body.ajProjRevisionID}`;
+    var viewRevisionQuery = `SELECT * FROM tbl_revisioncomment WHERE int_projectID = ${req.body.ajaxrevisionID}`;
 
     db.query(viewRevisionQuery,(err, results, fields) => {
         if (err) console.log(err);
 
 
         console.log(results);
+
+        // var date_results = results;
+
+        // for (var i = 0; i < date_results.length;i++){
+        //     date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
+        // }
 
         var resultss = results[0];
 
@@ -326,7 +307,6 @@ router.post('/approval',(req, res) => {
 
 
     console.log(resultIndex);
-    console.log(req.body.letterfile);
     console.log(req.body.actualbudget);
 
 
@@ -341,7 +321,8 @@ router.post('/approval',(req, res) => {
             console.log(updateProjStatResult);
 
             var updateBudgetQuery = `UPDATE tbl_project
-                SET decimal_actualBudget = ${req.body.actual_budget}
+                SET decimal_actualBudget = ${req.body.actual_budget},
+                enum_projectStatus = 'New'
                 WHERE int_projectID = ${req.body.PROJECT_id}`;
 
             db.query(updateBudgetQuery, (err, updateBudgetResult, fields) => {
@@ -350,7 +331,7 @@ router.post('/approval',(req, res) => {
                 console.log("Succesfully updated the project actual budget");
                 console.log(updateBudgetResult);
 
-                res.redirect('/budget/proposals/approved');
+                res.redirect('/budget/proposals/pending');
         });
     });
 });

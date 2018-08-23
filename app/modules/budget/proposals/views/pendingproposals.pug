@@ -42,11 +42,10 @@ block content
                                                     a(href=`/budget/proposals/${proposals.int_projectID}/rejectproposal`): button.btn.btn-danger.btn-sm: span.fa.fa-ban  Reject
                                                     button.btn.btn-warning.btn-sm(id="btn-pro-rev" class="" value= proposals.int_projectID onclick="projectIDrevise()" data-toggle="modal" data-target="#reviseModal"): span.fa.fa-undo  Revise
                                                 if proposals.enum_proposalStatus == "Revision"
-                                                    button.btn.btn-primary.btn-sm(id="btn-pro" class="btn-revision" value= proposals.int_projectID onclick="projectID()" data-toggle="modal" data-target="#revisiondetails"): span.fa.fa-eye  View Revision
-                                                    
+                                                    button.btn.btn-primary.btn-sm(id="btn-revision" class="btn-revision" value= proposals.int_projectID): span.fa.fa-eye View Revision
                                                     button.btn.btn-success.btn-sm(id="btn-pro" class="" value= proposals.int_projectID onclick="projectID()" data-toggle="modal" data-target="#approveModal"): span.fa.fa-check Approve
                                                     a(href=`/budget/proposals/${proposals.int_projectID}/rejectproposal`): button.btn.btn-danger.btn-sm: span.fa.fa-ban  Reject
-                                                if proposals.enum_propappStatus == "Received" && proposals.enum_proposalStatus == "Approved"
+                                                if proposals.enum_propappStatus == "Pending" && proposals.enum_proposalStatus == "Approved"
                                                     button.btn.btn-success.btn-sm(id="btn-pro-cheque" class="" value= proposals.int_projectID onclick="projectIDcheque()" data-toggle="modal" data-target="#chequeModal"): span.fa.fa-check  Cheque Number
                                             
                                         </td>
@@ -249,7 +248,7 @@ block content
                     $.ajax({
                         type : "POST",
                         url : window.location + "/ajaxrevisiondetails",
-                        data: { ajProjRevisionID: Id},
+                        data: { ajaxrevisionID: Id},
                         dataType: "json",
                         success: function(tbl_revision){
 
@@ -276,21 +275,20 @@ block content
                 
             });
 
-    script.
-        function projectID() {
-            var ID = document.getElementById("btn-pro").value;
-            console.log(ID);
-            document.getElementById("PROJECT_id").value = ID;
-        }
-        function projectIDcheque() {
-            var ID = document.getElementById("btn-pro-cheque").value;
-            console.log(ID);
-            document.getElementById("PROJECT_idcheq").value = ID;
-        }
-        function projectIDrevise() {
-            var ID = document.getElementById("btn-pro-rev").value;
-            console.log(ID);
-            document.getElementById("PROJECT_idrev").value = ID;
-        }
+            function projectID() {
+                var ID = document.getElementById("btn-pro").value;
+                console.log(ID);
+                document.getElementById("PROJECT_id").value = ID;
+            }
+            function projectIDcheque() {
+                var ID = document.getElementById("btn-pro-cheque").value;
+                console.log(ID);
+                document.getElementById("PROJECT_idcheq").value = ID;
+            }
+            function projectIDrevise() {
+                var ID = document.getElementById("btn-pro-rev").value;
+                console.log(ID);
+                document.getElementById("PROJECT_idrev").value = ID;
+            }
 
         

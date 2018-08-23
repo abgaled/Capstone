@@ -143,6 +143,34 @@ router.post('/ongoingproject/:int_projectID/viewproj/reject',(req, res) => {
     });
 });
 
+router.post('/confirmcheck',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: CONFIRM CHECK');
+    console.log('=================================');
+    console.log(req.body.PROJECT_idcheq)
+    console.log(req.body.chequeNumber)
+
+    var selectQuery = `SELECT * FROM tbl_proposalapproval WHERE
+    varchar_checkNumber="${req.body.chequeNumber}"
+    AND int_projectID = ${req.body.PROJECT_idcheq}`
+
+        db.query(selectQuery, (err, resultSelect, fields) => {
+
+        if (resultSelect.varchar_checkNumber == req.body.chequeNumber && resultSelect.int_projectID == req.body.PROJECT_idcheq ){
+
+            var confirmCheck = `UPDATE tbl_proposalapproval
+            SET enum_proappStatus = 'Received' 
+            WHERE int_projectID = ${req.body.PROJECT_idcheq}
+            AND varchar_checkNumber == "${req.body.chequeNumber}"`
+            
+        }
+            db.query(confirmCheck, (err, results1, fields) => {
+                
+                res.redirect(`/office/projects/ongoingproject`);
+            });
+    });
+});
+
 // AJAX GET DETAILS VIEW DETAILS PROJECT - VIEW APPLICANT DETAILS
 router.post('/ongoingproject/:int_projectID/viewproj/ajaxapplicantdetails',(req,res) => {
     console.log('=================================');
@@ -219,8 +247,6 @@ router.post('/ongoingproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,r
     var queryString = `SELECT * FROM tbl_personalinformation pi
     JOIN tbl_application ap 
     ON pi.int_applicationID=ap.int_applicationID 
-    JOIN tbl_address ad
-    ON pi.int_addressID=ad.int_addressID
     WHERE pi.int_applicationID=${req.body.ajApplicationID}`
 
 
