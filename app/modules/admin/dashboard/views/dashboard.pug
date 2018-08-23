@@ -1,204 +1,50 @@
+extends ../../navbar/views/navbar.pug
 
-block navcontent
-    <link rel="icon" href="cityadmin/production/images/favicon.png" type="image/png" />
-
-    <title>City Projects Application and Benefits Releasing</title>
-
-    <!-- Bootstrap -->
-    <link href="/cityadmin/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="/cityadmin/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="/cityadmin/vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="/cityadmin/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-	
-    <!-- bootstrap-progressbar -->
-    <link href="/cityadmin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
-    <!-- JQVMap -->
-    <link href="/cityadmin/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
-    <!-- bootstrap-daterangepicker -->
-    <link href="/cityadmin/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
-    <!-- Custom Theme Style -->
-    <link href="/cityadmin/build/css/custom.min.css" rel="stylesheet">
-    </head>
-
-    <body class="nav-md">
-        <div class="container body">
-        <div class="main_container">
-            <div class="col-md-3 left_col">
-            <div class="left_col scroll-view">
-                <div class="clearfix"></div>
-                <!-- menu profile quick info -->
-                <div class="profile clearfix">
-                <div class="profile_pic">
-                    <img src="/cityadmin/production/images/img.png" alt="..." class="img-circle profile_img">
-                </div>
-                <div class="profile_info">
-                    <span>Welcome,</span>
-                    <h2>Abigale Del Rosario</h2>
-                    <small>Admin</small>
-                </div>
-                </div>
-                <!-- /menu profile quick info -->
-
-                <br />
-            
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <ul class="nav side-menu">
-                  <li><a href="dashboard"><i class="fa fa-bar-chart-o"></i> Dashboard </span></a>
-                  </li>
-                  <li><a><i class="fa fa-wrench"></i> Maintenance <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="maintenance/projects">Projects</a></li>
-                      <li><a href="maintenance/requirements">Requirements</a></li>
-                      <li><a href="maintenance/projectcategory">Project Category</a></li>
-                      <li><a href="maintenance/problemcategory">Problem Category</a></li>
-                      <li><a href="maintenance/targetbeneficiary">Target Beneficiary</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-exchange"></i> Transactions <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="transactions/transactions1">Transaction #1</a></li>
-                      <li><a href="transactions/transactions2">Transaction #2</a></li>
-                      <li><a href="transactions/transactions3">Transaction #3</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="/admin/queries"><i class="fa fa-search"></i> Queries</span></a>
-                  </li>
-                  <li><a href="/admin/reports"><i class="fa fa-folder-open"></i> Reports</a>
-                  </li>
-                  <li><a href="/admin/utilities"><i class="fa fa-paint-brush"></i> Utilities</a>
-                  </li>
-                </ul>
-              </div>
-
-            </div>
-            <!-- /sidebar menu -->
-
-            </div>
-            </div>
-
-            <!-- top navigation -->
-            <div class="top_nav">
-            <div class="nav_menu">
-                <nav>
-                <div class="nav toggle">
-                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                </div>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="">
-                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="/cityadmin/production/images/img.png" alt="">Abigale
-                        <span class=" fa fa-angle-down"></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="javascript:;"> Profile</a></li>
-                        <li>
-                        <a href="javascript:;">
-                            <span class="badge bg-red pull-right">50%</span>
-                            <span>Settings</span>
-                        </a>
-                        </li>
-                        <li><a href="javascript:;">Help</a></li>
-                        <li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                    </ul>
-                    </li>
-
-                    <li role="presentation" class="dropdown">
-                    <a style="margin-top:19%;"href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="badge bg-green">6</span>
-                    </a>
-                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                        <li>
-                        <a>
-                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
-                        </a>
-                        </li>
-                        <li>
-                        <a>
-                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
-                        </a>
-                        </li>
-                        <li>
-                        <a>
-                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
-                        </a>
-                        </li>
-                        <li>
-                        <a>
-                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                            <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                            </span>
-                            <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                            </span>
-                        </a>
-                        </li>
-                        <li>
-                        <div class="text-center">
-                            <a>
-                            <strong>See All Alerts</strong>
-                            <i class="fa fa-angle-right"></i>
-                            </a>
-                        </div>
-                        </li>
-                    </ul>
-                    </li>
-                </ul>
-                </nav>
-            </div>
-            </div>
+block content
             <!-- /top navigation -->
-
+                
             <!-- page content -->
             <div class="right_col" role="main">
+                //- each project in tbl_project
+                
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                    <div class="count">
+                        value=tbl_project.currentprojects
+                    </div>
+                    <h3>Current Projects</h3>
+                    <br>
+                    <p>As of 2018-07-22</p>
+                    </div>
+                </div>
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-paper-plane-o"></i></div>
+                    <div class="count">17</div>
+                    <h3>New Applications</h3>
+                    <br>
+                    <p>From last week</p>
+                    </div>
+                </div>
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-envelope"></i></div>
+                    <div class="count">1</div>
+                    <h3>New Problem Statements</h3>
+                    <p>From last week</p>
+                    </div>
+                </div>
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-file"></i></div>
+                    <div class="count">0</div>
+                    <h3>New Project Proposals</h3>
+                    <p>From last week</p>
+                    </div>
+                </div>
+                
+            
+            </div>
 
-            </div>
-            <!-- /page content -->
-
-            <!-- footer content -->
-            <footer>
-            <div class="pull-right">
-                City Project Application and Benefits Releasing | 2018
-            </div>
-            <div class="clearfix"></div>
-            </footer>
-            <!-- /footer content -->
-            </div>
-            </div>
-
-            <!-- jQuery -->
-            <script src="/cityadmin/vendors/jquery/dist/jquery.min.js"></script>
-            <!-- Bootstrap -->
-            <script src="/cityadmin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-            <!-- Custom Theme Scripts -->
-            <script src="/cityadmin/build/js/custom.min.js"></script>
+            

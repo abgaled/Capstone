@@ -1,0 +1,734 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        each project in tbl_project
+                            <center>
+                                <h1>APPLICATION FORM</h1>
+                                <h4>
+                                    value=project.varchar_projectName
+                                </h4>
+                                <small>
+                                    value="(" + project.text_projectObjective + ")"
+                                </small>
+                            </center>
+                        
+                        <div class="clearfix"></div>
+                    </div>
+                    <form id="regForm" action="" method="POST" class="form-horizontal form-label-left">
+                        <div class="x_content">
+                            <!-- Smart Wizard -->
+
+                            <div id="wizard" class="form_wizard wizard_horizontal">
+                                <ul class="wizard_steps">
+                                    <li>
+                                        <a href="#basicinfotab">
+                                            <span class="step_no">1</span>
+                                            <span class="step_descr"> Step 1<br />
+                                                <small>Basic Information</small>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#addresstab">
+                                            <span class="step_no">2</span>
+                                            <span class="step_descr"> Step 2<br />
+                                                <small>Address Information</small>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#additional">
+                                            <span class="step_no">3</span>
+                                            <span class="step_descr"> Step 3<br />
+                                                <small>Additional Forms</small>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#requirement">
+                                            <span class="step_no">4</span>
+                                            <span class="step_descr"> Step 4<br />
+                                                <small>Requirements</small>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab" id="basicinfotab">
+                                    <hr/>
+                                    <h3>BASIC PERSONAL INFORMATION</h3>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-fname" class="form-control-label"><strong>First</strong> Name</label>
+                                                <input type="text" id="ap-fname" name="apply_fname" placeholder="Applicant's First name ..." class="names col-sm-11 form-control ">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-lname" class="form-control-label"><strong>Last</strong> Name</label>
+                                                <input type="text" id="ap-lname" name="apply_mname" placeholder="Applicant's Last name ..." class="names col-sm-11 form-control ">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-mname" class="form-control-label"><strong>Middle</strong> Name</label>
+                                                <input type="text" id="ap-mname" name="apply_lname" placeholder="Applicant's Middle name ..." class="middle col-sm-11 form-control ">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-birthdate" class="form-control-label"><strong>Birthdate</strong></label>
+                                                <input type="date" id="ap-birthdate" name="apply_birthdate" placeholder="Birthdate" class="col-sm-11 form-control ">
+                                        </div>
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            <label for="ap-number" class="form-control-label"><strong>Contact Number</strong></label>
+                                                <input type="text" id="ap-number" name="apply_contact" data-inputmask="'mask' : '(+63) 999-999-9999'" class="col-sm-11 form-control ">
+                                        </div>
+                                        <div class="form-group col-md-5 col-sm-12">
+                                            <label for="ap-email" class="form-control-label"><strong>Email Address</strong></label>
+                                                <input type="email" id="ap-email" name="apply_emailaddress" placeholder="(ex: abc@gmail.com)" class="col-sm-11 form-control ">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-gender" class="control-label"><strong>Gender</strong></label>
+                                            <div class="form-check form-check-inline" id="ap-gender">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" value="Male" name="apply_gender" id="inlineRadio1"> Male
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" value="Female" name="apply_gender" id="inlineRadio2"> Female
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-yrres" class="form-control-label"><strong>Year of Residency</strong></label>
+                                                <input type="text" id="ap-yrres" name="apply_yrres" placeholder="(ex. 20xx, 2010)" class="col-sm-11 form-control ">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-civilstat" class="form-control-label"><strong>Civil Status</strong></label>
+                                            <select class="form-control" id="ap-civilstat" name="apply_civilstat">
+                                                <option value="Single">Single</option>
+                                                <option value="Married">Married</option>
+                                                <option value="Widowed">Widowed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                //- END OF FIRST TAB
+
+                                //- START OF 2ND TAB
+                                <div class="tab" id="addresstab">
+                                    <hr>
+                                    <h3>APPLICANT'S ADDRESS INFORMATION</h3>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            //- <label for="ap-address1" class="form-control-label"><strong>Number/Block/Lot</strong></label>
+                                            <input type="text" id="ap-address1" name="apply_numblklot" placeholder="Building Number/Lot Number" class="col-md-6 form-control ">
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            //- <label for="ap-address2" class="form-control-label"><strong>Street/Avenue/Road</strong></label>
+                                            <input type="text" id="ap-address2" name="apply_streetaveroad" placeholder="Street Name/Avenue/Road" class="form-control ">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            //- <label for="ap-province" class="form-control-label"><strong>Province</strong></label>
+                                            <input type="text" id="ap-province" name="apply_villsub" placeholder="Village/Subdivision" class="form-control ">
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <input type="text" id="ap-province" name="apply_puroksitiozone" placeholder="Purok/Sitio/Zone" class="form-control ">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            <label for="ap-addresstype" class="form-control-label"><strong>Address Type:</strong></label>
+                                            <div class="form-check form-check-inline" id="ap-addresstype">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" value="Permanent" name="apply_addresstype" id="inlineRadio1"> Permanent
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" value="Temporary" name="apply_addresstype" id="inlineRadio2"> Temporary
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                //- END OF 2ND TAB
+
+                                //- SCRIPT FOR ADDITIONAL FORMS
+                                script(src="/barangay/projects/routes.js")
+                                script.
+                                    window.onload = function additionalForms(){
+
+                                    var int_categoryID = #{int_categoryID.int_categoryID}
+                                    var int_formTypeID = !{JSON.stringify(int_formTypeID)}
+
+                                        console.log("=======IF STATEMENTS========")
+                                        for (var i=0; i < int_formTypeID.length; i++) {
+                                            if(int_formTypeID[i].int_formTypeID == 1){
+                                                console.log("Form Type - 1 (Medical)");
+                                                document.getElementById("add-medical").style.display ="inline";
+                                            }
+                                            if (int_formTypeID[i].int_formTypeID == 5){
+                                                console.log("Form Type - 2 (Account)");
+                                                document.getElementById("add-account").style.display ="inline";
+                                            }
+                                            if (int_formTypeID[i].int_formTypeID == 3){
+                                                console.log("Form Type - 3 (Family)");
+                                                document.getElementById("add-family").style.display ="inline";
+                                            }
+                                            if (int_formTypeID[i].int_formTypeID == 4){
+                                                console.log("Form Type - 4 (Educational)");
+                                                document.getElementById("add-educational").style.display ="inline";
+                                            }
+                                            if (int_formTypeID[i].int_formTypeID == 2){
+                                                console.log("Form Type - 5 (Income)");
+                                                document.getElementById("add-income").style.display ="inline";
+                                            }
+                                            if (int_formTypeID[i].int_formTypeID == 6){
+                                                console.log("Form Type - 6 (Professional)");
+                                                document.getElementById("add-professional").style.display ="inline";
+                                            }
+                                        }
+                                    }
+                                //- END OF SCRIPT FOR ADDITIONAL FORMS
+
+                                //- ADDITIONAL FORMS
+                                <div class="tab" style="display:none;" id="additional">
+                                
+                                            //- MEDICAL FORM (1)
+                                            <div class="form-row">
+                                                <span id="add-medical" style="display:none;">
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            //- <div style="float:right">
+                                                            //-     button.btn.btn-primary.btn-md(): span-fa-fa-plus Add another record
+                                                            //- </div>
+                                                            <h3>HEALTH / MEDICAL FORM</h3>
+                                                        </div>
+                                                        <div class="x_content">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                                    <label for="ap-med" class="form-control-label"><strong>Medication</strong></label>
+                                                                    <input type="textarea" id="ap-med" name="apply_medication" placeholder="Medication ..." class="col-sm-11 form-control ">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <label for="ap-meddesc" class="form-control-label"><strong>Medication Description</strong></label>
+                                                                        <textarea rows="4" id="ap-meddesc" name="apply_medicationdesc" placeholder="Medication description..." class="col-sm-11 form-control "></textarea>
+                                                                </div>
+                                                            </div>     
+                                                        </div>
+                                                    </div>
+                                                </span>                                                    
+                                            </div>
+
+                                            //- END OF 1ST ADDITIONAL FORM
+
+                                            //- ACCOUNT DETAILS (2)
+                                            <div class="form-row">
+                                                <span id="add-account" style="display:none;">
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <h3>ACCOUNT FORM</h3>
+                                                        </div>
+                                                        <div class="x_content">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    <label for="ap-gsis" class="form-control-label"><strong>GSIS Number:</strong></label>
+                                                                        <input type="text" id="ap-gsis" data-inputmask="'mask' : '999 9999'" name="apply_gsis" placeholder="GSIS Number" class="form-control">
+                                                                </div>
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    <label for="ap-sss" class="form-control-label"><strong>SSS Number:</strong></label>
+                                                                        <input type="text" id="ap-sss" data-inputmask="'mask' : '99-9999999-9'" name="apply_sss" placeholder="SSS Number" class="form-control ">
+                                                                </div>
+                                                            </div>   
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    <label for="ap-tin" class="form-control-label"><strong>TIN Number:</strong></label>
+                                                                        <input type="text" id="ap-tin" name="apply_tin" data-inputmask="'mask' : '999-99-9999'" placeholder="TIN Number" class="form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                                                    <label for="ap-crn" class="form-control-label"><strong>PRC Number:</strong></label>
+                                                                        <input type="text" id="ap-crn" name="apply_prc" data-inputmask="'mask' : '9999999'" placeholder="CRN Number" class="form-control ">
+                                                                </div>
+                                                            </div> 
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    <label for="ap-philhealth" class="form-control-label"><strong>PhilHealth Number:</strong></label>
+                                                                        <input type="text" id="ap-philhealth" name="apply_philhealth" data-inputmask="'mask' : '99-999999999-9'" placeholder="PhilHealth Number" class="form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    <label for="ap-hdmf" class="form-control-label"><strong>HDMF Number:</strong></label>
+                                                                    <input type="text" id="ap-hdmf" name="apply_hdmf" data-inputmask="'mask' : '9999-9999-9999'" placeholder="HDMF Number" class="form-control ">
+                                                                </div>
+                                                            </div>  
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                            //- END OF 2ND ADDITIONAL FORM
+
+                                            //- FAMILY BACKGROUND (3)
+                                            <div class="form-row">
+                                                <span id="add-family" style="display:none;" >
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <div style="float:right">
+                                                                button.btn.btn-primary.btn-md(): span-fa-fa-plus Add another record
+                                                            </div>
+                                                            <h3>FAMILY BACKGROUND FORM</h3>
+                                                        </div>
+                                                        <div class="x_content">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                    <label for="rel-fname" class="form-control-label"><strong>Relative's First</strong> Name</label>
+                                                                        <input type="text" id="rel-fname" name="family_fname" placeholder="Relative's First name ..." class="col-sm-11 form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                    <label for="rel-lname" class="form-control-label"><strong>Relative's Middle</strong> Name</label>
+                                                                        <input type="text" id="rel-lname" name="family_mname" placeholder="Relative's Last name ..." class="col-sm-11 form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                    <label for="rel-mname" class="form-control-label"><strong>Relative's Last</strong> Name</label>
+                                                                        <input type="text" id="rel-mname" name="family_lname" placeholder="Relative's Middle name ..." class="col-sm-11 form-control ">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                                    <label for="rel-birthdate" class="form-control-label"><strong>Relative's Birthdate</strong></label>
+                                                                        <input type="date" id="rel-birthdate" name="family_birthdate" placeholder="Birthdate" class="col-sm-11 form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    <label for="rel-educ" class="form-control-label"><strong>Educational Attainment:(Highest)</strong></label>
+                                                                        <input type="text" id="rel-educ" name="family_educattainment" placeholder="(ex: College, Highschool, etc ...)" class="col-sm-11 form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                                    <label for="rel-relationship" class="form-control-label"><strong>Relationship to Applicant</strong></label>
+                                                                        <select class="form-control" name="family_relationship">
+                                                                            <option value = "Mother">Mother</option>
+                                                                            <option value = "Father">Father</option>
+                                                                            <option value = "Sister">Sister</option>
+                                                                            <option value = "Brother">Brother</option>
+                                                                            <option value = "Aunt">Aunt</option>
+                                                                            <option value = "Uncle">Uncle</option>
+                                                                            <option value = "Cousin">Cousin</option>
+                                                                            <option value = "Son">Son</option>
+                                                                            <option value = "Daughter">Daughter</option>
+                                                                            <option value = "Spouse">Spouse</option>
+                                                                            <option value = "Nephew">Nephew</option>
+                                                                            <option value = "Niece">Niece</option>
+                                                                            <option value = "Grandchild">Grandchild</option>
+                                                                            <option value = "Grandparent">Grandparent</option>
+                                                                        </select>
+                                                                </div>
+                                                            </div>       
+                                                        </div>
+                                                    </div>
+                                                </span>        
+                                            </div>
+                                            //-END OF FAMILY BG FORM 
+
+                                            //- EDUCATIONAL BACKGROUND (4)
+                                            <div class="form-row">
+                                                <span id="add-educational" style="display:none;">
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <div style="float:right">
+                                                                button.btn.btn-primary.btn-md(): span-fa-fa-plus Add another record
+                                                            </div>
+                                                            <h3>EDUCATIONAL BACKGROUND</h3>
+                                                        </div>
+                                                        <div class="x_content">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                                        <label for="educ-schoolname" class="form-control-label"><strong>School Name</strong></label>
+                                                                            <input type="text" id="educ-schoolname" name="school_name" placeholder="School Name ..." class="col-sm-11 form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                        <label for="educ-schoolyear" class="form-control-label"><strong>School Year</strong></label>
+                                                                            <input type="text" id="educ-schoolyear" data-inputmask="'mask': '9999-9999'" name="school_year" placeholder="(ex: 2015 - 2019)" class="col-sm-11 form-control ">
+                                                                </div>
+                                                            </div>      
+                                                            <p>School Address</p>
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    //- <label for="ap-address1" class="form-control-label"><strong>Number/Block/Lot</strong></label>
+                                                                    <input type="text" id="ap-address1" name="school_numblklot" placeholder="Building Number/Lot Number" class="col-md-6 form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    //- <label for="ap-address2" class="form-control-label"><strong>Street/Avenue/Road</strong></label>
+                                                                    <input type="text" id="ap-address2" name="school_streetaveroad" placeholder="Street Name/Avenue/Road" class="form-control ">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                    //- <label for="ap-province" class="form-control-label"><strong>Province</strong></label>
+                                                                    <input type="text" id="ap-province" name="school_villsub" placeholder="Village/Subdivision" class="form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                    <input type="text" id="ap-province" name="school_puroksitiozone" placeholder="Purok/Sitio/Zone" class="form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                                    <input type="text" id="ap-province" name="school_city" placeholder="City" class="form-control ">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </span> 
+                                            </div>
+                                            //- END OF EDUCATIONAL BACKGROUND
+
+                                            //- INCOME DETAILS (5)
+                                            <div class="form-row">
+                                                <span id="add-income" style="display:none;">
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <div style="float:right">
+                                                                button.btn.btn-primary.btn-md(): span-fa-fa-plus Add another record
+                                                            </div>
+                                                            <h3>INCOME DETAILS</h3>
+                                                        </div>
+                                                        <div class="x_content">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-6 col-sm-12 col-xs-12">
+                                                                    <label for="ap-insource" class="form-control-label"><strong>Income Source</strong></label>
+                                                                        <input type="text" id="ap-insource" name="apply_incomesource" placeholder="Income Source" class="col-sm-11 form-control ">
+                                                                </div>
+                                                                <div class="form-group col-md-6 col-sm-12 col-xs-12">
+                                                                    <label for="ap-inspouse" class="form-control-label"><strong>Amount</strong></label>
+                                                                        <input type="text" id="ap-inspouse" name="apply_incomeamount" placeholder="Amount of Income" class="col-sm-11 form-control ">
+                                                                </div>
+                                                            </div>     
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                            //- END OF INCOME DETAILS
+
+                                            //- PROFESSIONAL BACKGROUND (6)
+                                            <div class="form-row">
+                                                <span id="add-professional" style="display:none;">
+                                                    <div class="x_panel">
+                                                        <div class="x_title">
+                                                            <div style="float:right">
+                                                                button.btn.btn-primary.btn-md(): span-fa-fa-plus Add another record
+                                                            </div>
+                                                            <h3>PROFESSIONAL BACKGROUND</h3>
+                                                        </div>
+                                                        <div class="x_content">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-7 col-sm-12 col-xs-12">
+                                                                    <label for="prof-company" class="form-control-label"><strong>Company Name</strong></label>
+                                                                        <input type="text" id="prof-company" name="prof_companyname" placeholder="Company Name" class="col-sm-11 form-control ">
+                                                                </div>
+                                                                <div class="form-group col-md-5 col-sm-12 col-xs-12">
+                                                                    <label for="prof-position" class="form-control-label"><strong>Position</strong></label>
+                                                                        <input type="text" id="prof-position" name="prof_position" placeholder="Position in Work" class="col-sm-11 form-control ">
+                                                                </div>
+                                                            </div>   
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-12 col-sm-12 col-xs-12"><strong>Company Address:</strong>
+                                                                </div>
+                                                            </div>  
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    //- <label for="ap-address1" class="form-control-label"><strong>Number/Block/Lot</strong></label>
+                                                                    <input type="text" id="ap-numblklot" name="prof_numblklot" placeholder="Building Number/Lot Number" class="col-md-6 form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    //- <label for="ap-address2" class="form-control-label"><strong>Street/Avenue/Road</strong></label>
+                                                                    <input type="text" id="ap-streetaveroad" name="prof_streetaveroad" placeholder="Street Name/Avenue/Road" class="form-control ">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                                                                    //- <label for="ap-province" class="form-control-label"><strong>Province</strong></label>
+                                                                    <input type="text" id="ap-villsub" name="prof_villsub" placeholder="Village/Subdivision" class="form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                                                                    <input type="text" id="ap-puroksitiozone" name="prof_puroksitiozone" placeholder="Purok/Sitio/Zone" class="form-control ">
+                                                                </div>
+                                                                <div class="form-group col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                                                                    <input type="text" id="ap-city" name="prof_city" placeholder="City" class="form-control ">
+                                                                </div>
+                                                            </div>    
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                            //- END OF PROFESSIONAL BACKGROUND
+                                </div>
+                                //- END OF ADDITIONAL TABS(AS OF NOW PER DIV)  
+
+
+                                //- APPLICANT'S REQUIREMENT/S
+                                <div class="tab" id="requirement">
+                                    <hr/>
+                                    <h3>APPLICANT'S REQUIREMENT LIST</h3>
+                                    <small>Below are the list of the requirements that the applicant needed to comply</small>
+
+
+                                    <div class="table-responsive m-b-40">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Requirement</th>
+                                                    <th>Status</th>
+                                                    <th>File Location</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                 each requirement in requirements 
+                                                    <tr>
+                                                        <td>
+                                                            value=requirement.int_requirementID
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            value=requirement.varchar_requirementName
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <div id="gender" class="btn-group" data-toggle="buttons">
+                                                                    //- <label class="btn btn-danger" data-toggle-class="btn-primary" data-toggle-passive-class="btn-danger">
+                                                                    //- <input type="radio" name="gender" value="male" checked> Incomeplete 
+                                                                    //- </label>
+                                                                    //- <label class="btn btn-success" data-toggle-class="btn-primary" data-toggle-passive-class="btn-success">
+                                                                    //- <input type="radio" name="gender" value="female"> Complete
+                                                                    //- </label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            input(type="text" id="ap-requirementid" name="requirementID[]" value=`${requirement.int_requirementID}` hidden)
+                                                            <input type="text" id="ap-storage" name="storageid[]" placeholder="Storage Number" class="col-sm-11 form-control ">
+                                                        </td>
+                                                    </tr>                   
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div> 
+                                //- END OF APPLICANT'S REQUIREMENT/S 
+
+                            </div>
+                            <!-- End SmartWizard Content -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    //- SCRIPT FOR TABS
+    script.
+        var currentTab = 0; // Current tab is set to be the first tab (0)
+        showTab(currentTab); // Display the current tab
+
+        function showTab(n) {
+        // This function will display the specified tab of the form ...
+        var x = document.getElementsByClassName("tab");
+        x[n].style.display = "block";
+        // ... and fix the Previous/Next buttons:
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+        } else {
+            document.getElementById("prevBtn").style.display = "inline";
+        }
+        if (n == (x.length - 1)) {
+            document.getElementById("nextBtn").innerHTML = "Submit";
+        } else {
+            document.getElementById("nextBtn").innerHTML = "Next";
+        }
+        // ... and run a function that displays the correct step indicator:
+        fixStepIndicator(n)
+        }
+
+        function nextPrev(n) {
+        // This function will figure out which tab to display
+        var x = document.getElementsByClassName("tab");
+        // Exit the function if any field in the current tab is invalid:
+        if (n == 1 && !validateForm()) return false;
+        // Hide the current tab:
+        x[currentTab].style.display = "none";
+        // Increase or decrease the current tab by 1:
+        currentTab = currentTab + n;
+        // if you have reached the end of the form... :
+        if (currentTab >= x.length) {
+            //...the form gets submitted:
+            document.getElementById("regForm").submit();
+            return false;
+        }
+        // Otherwise, display the correct tab:
+        showTab(currentTab);
+        }
+
+        function validateForm() {
+        // This function deals with validation of the form fields
+        var x, names,middle, a, b, valid = true;
+        x = document.getElementsByClassName("tab");
+        
+        //- VALIDATE APPLICATION NAMES(FIRST, LAST)
+        var noespchar = `[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]`;
+        names = x[currentTab].getElementsByClassName("names");
+        middle = x[currentTab].getElementsByClassName("middle");
+        //- END VALIDATE APPLICATION NAMES
+        
+        // A loop that checks every input field in the current tab:
+
+        //- NAMES(FIRST AND LAST)
+        for (a = 0; a < names.length; a++) {
+            // If a field is empty...
+            if (names[a].value == "" || names[a].value == noespchar ||  names[a].value == " ") {
+            console.log("INVALID NAMES(FIRST AND LAST)")
+            // add an "invalid" class to the field:
+            names[a].className += "invalid";
+            // and set the current valid status to false:
+            valid = false;
+            }
+        }
+        //- END OF NAMES(FIRST AND LAST)
+        //- NAME(MIDDLE NAME)
+        for (b = 0; b < middle.length; b++) {
+            // If a field is empty...
+            if (middle[b].value == noespchar ||  middle[b].value == " ") {
+            console.log("INVALID NAME(MIDDLE)")
+            // add an "invalid" class to the field:
+            middle[b].className += "invalid";
+            // and set the current valid status to false:
+            valid = false;
+            }
+        }
+        //- END OF NAMES(MIDDLENAME)
+
+
+        // If the valid status is true, mark the step as finished and valid:
+        if (valid) {
+            document.getElementsByClassName("step")[currentTab].className += " finish";
+        }
+        return valid; // return the valid status
+        }
+
+        function fixStepIndicator(n) {
+        // This function removes the "active" class of all steps...
+        var i, x = document.getElementsByClassName("step");
+        for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" active", "");
+        }
+        //... and adds the "active" class to the current step:
+        x[n].className += " active";
+        }
+
+
+        (function ($) {
+            var next = 1;
+            $(".add-more").click(function(e){
+                e.preventDefault();
+                var addto = "#field" + next;
+                var addRemove = "#field" + (next);
+                next = next + 1;
+                var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
+                var newInput = $(newIn);
+                var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
+                var removeButton = $(removeBtn);
+                $(addto).after(newInput);
+                $(addRemove).after(removeButton);
+                $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+                $("#count").val(next);  
+                
+                    $('.remove-me').click(function(e){
+                        e.preventDefault();
+                        var fieldNum = this.id.charAt(this.id.length-1);
+                        var fieldID = "#field" + fieldNum;
+                        $(this).remove();
+                        $(fieldID).remove();
+                    });
+            });            
+        });
+        //- SCRIPT FOR LABEL
+        (function ($) {
+            $.fn.floatLabels = function (options) {
+
+                // Settings
+                var self = this;
+                var settings = $.extend({}, options);
+
+
+                // Event Handlers
+                function registerEventHandlers() {
+                    self.on('input keyup change', 'input, textarea', function () {
+                        actions.swapLabels(this);
+                    });
+                }
+
+
+                // Actions
+                var actions = {
+                    initialize: function() {
+                        self.each(function () {
+                            var $this = $(this);
+                            var $label = $this.children('label');
+                            var $field = $this.find('input,textarea').first();
+
+                            if ($this.children().first().is('label')) {
+                                $this.children().first().remove();
+                                $this.append($label);
+                            }
+
+                            var placeholderText = ($field.attr('placeholder') && $field.attr('placeholder') != $label.text()) ? $field.attr('placeholder') : $label.text();
+
+                            $label.data('placeholder-text', placeholderText);
+                            $label.data('original-text', $label.text());
+
+                            if ($field.val() == '') {
+                                $field.addClass('empty')
+                            }
+                        });
+                    },
+                    swapLabels: function (field) {
+                        var $field = $(field);
+                        var $label = $(field).siblings('label').first();
+                        var isEmpty = Boolean($field.val());
+
+                        if (isEmpty) {
+                            $field.removeClass('empty');
+                            $label.text($label.data('original-text'));
+                        }
+                        else {
+                            $field.addClass('empty');
+                            $label.text($label.data('placeholder-text'));
+                        }
+                    }
+                }
+
+
+                // Initialization
+                function init() {
+                    registerEventHandlers();
+
+                    actions.initialize();
+                    self.each(function () {
+                        actions.swapLabels($(this).find('input,textarea').first());
+                    });
+                }
+                init();
+
+
+                return this;
+            };
+
+            $(function () {
+                $('.float-label-control').floatLabels();
+            });
+        })(jQuery);
+
+        //- END OF SCRIPT FOR LABEL

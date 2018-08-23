@@ -1,0 +1,52 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="x_panel">
+            <div class="x_title">
+                //- <!-- DATA TABLE-->
+                <center>
+                    <h1>OPEN PROJECTS</h1>
+                    <h4>(Available projects that a resident can apply to)</h4>
+                </center>
+            </div>
+            <div class="x_content">
+                <div class="container">
+                    <div class="table-responsive m-b-40">
+                            <table id="datatable" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Projects</th>
+                                        <th>End Date</th>
+                                        <th>Slots</th>
+                                        <th>Action/s</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                each project in tbl_project
+                                    <tr>
+                                        <td>
+                                            value=project.int_projectID
+                                        </td>
+                                        <td>
+                                            value=project.varchar_projectName
+                                        </td>
+                                        <td>
+                                            value=project.date_projectEnd
+                                        </td>
+                                        <td>
+                                            value=project.int_allotedSlot
+                                        </td>
+                                        <td>
+                                            a(href=`/barangay/projects/applications/${project.int_projectID}/apply` class="btn btn-primary btn-sm"): <i class="fa fa-files-o"></i>Apply
+                                        </td>
+                                    </tr>                   
+                                </tbody>
+                            </table>
+                    </div>
+                //- <!-- END DATA TABLE-->
+                </div>
+            </div>
+        </div>
+    </div>

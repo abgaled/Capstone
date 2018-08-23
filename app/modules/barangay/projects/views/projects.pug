@@ -1,0 +1,408 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="x_panel">
+            <div class="x_title">
+                //- <!-- DATA TABLE-->
+                <center>
+                    <h1>PROJECTS</h1>
+                </center>
+            </div>
+            <div class="x_content">
+                <div class="container">
+                    <div class="table-responsive m-b-40">
+                            <table id="datatable" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th>Project Name</th>
+                                        <th>End of Application</th>
+                                        <th>Available Slots</th>
+                                        <th>Status</th>
+                                        <th>Action/s</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                each project in tbl_project
+                                    <tr>
+                                        <td>
+                                            value=project.varchar_projectName
+                                        </td>
+                                        <td>
+                                            //- END OF APPLICATION DATE
+                                            value=project.date_projectEnd
+                                        </td>
+                                        <td>
+                                            //- ORIGINAL SLOT - APPROVED APPLICANTS
+                                            value=project.int_allotedSlot
+                                        </td>
+                                        <td>
+                                            value=project.enum_projectStatus
+                                        </td>
+                                        <td>
+                                            button.btn.btn-success.mb-1(id="btn-view-project" class="btn-view-project" value= project.int_projectID): span.fa.fa-eye View
+                                            a(href=`/barangay/projects/${project.int_projectID}/apply` class="btn btn-primary btn-sm"): <i class="fa fa-files-o"></i> Register
+                                            button.btn.btn-info.mb-1(id="btn-view-applicants" class="btn-view-applicants" value= project.int_projectID): span.fa.fa-users Applicants
+                                        </td>
+                                    </tr>                   
+                                </tbody>
+                            </table>
+                    </div>
+                //- <!-- END DATA TABLE-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    //- MODAL VIEW PROJECT
+    <div class="modal fade bs-example-modal-lg" id="modalviewproject" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-body">
+                
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><span class="section">View Project Details</span></h4> 
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="projecttitle">Project:
+                            </label>
+                            <div class="col-md-9" id="projecttitle">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="projectdescription">Description:
+                            </label>
+                            <div class="col-md-9" id="projectdescription" >
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="projectrelstart">Start of Releasing:
+                            </label>
+                            <div class="col-md-9" id="projectrelstart">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="projectrelend">End of Releasing:
+                            </label>
+                            <div class="col-md-9" id="projectrelend">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+     //- MODAL VIEW APPLICANTS
+    <div class="modal fade bs-example-modal-lg" id="modalviewapplicants" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-body">
+                
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><span class="section">Applicants</span></h4> 
+                    <div class="form-group">
+                        <div class="table-responsive m-b-40">
+                            <table id="datatable1" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Civil Status</th>
+                                        <th>Application Status</th>
+                                        <th>Action/s</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="apname">
+
+                                        </td>
+                                        <td id="apgender">
+                                            
+                                        </td>
+                                        <td id="apcivil">
+                                            
+                                        </td>
+                                        <td id="apappstatus">
+                                            
+                                        </td>
+                                        <td name="btnview" class="btnview">
+                
+                                            
+                                        </td>
+                                        //- <td>
+                                        //-     button.btn.btn-success.mb-1(id="btn-view-applicant-detail" name="btn-view-applicant-detail" class="btn-view-applicant-detail"): span.fa.fa-eye View
+                                        //- </td>
+                                    </tr>                   
+                                </tbody>
+                            </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    //- MODAL VIEW APPLICANTS (SPECIFIC APPLICANT)
+    <div class="modal fade bs-example-modal-lg" id="modalviewspecificapp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-body">
+                
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><span class="section">View Application Details</span></h4> 
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-lastname">Last Name:
+                            </label>
+                            <div class="col-md-9" id="aj-lastname">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-firstname">First Name:
+                            </label>
+                            <div class="col-md-9" id="aj-firstname" >
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-middlename">Middle Name:
+                            </label>
+                            <div class="col-md-9" id="aj-middlename">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-birthdate">Birthdate:
+                            </label>
+                            <div class="col-md-9" id="aj-birthdate">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-gender">Gender:
+                            </label>
+                            <div class="col-md-9" id="aj-gender">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-year">Year of Residency:
+                            </label>
+                            <div class="col-md-9" id="aj-year">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-civil">Civil Status:
+                            </label>
+                            <div class="col-md-9" id="aj-civil">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-contact">Contact Number:
+                            </label>
+                            <div class="col-md-9" id="aj-contact">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-email">Email Address:
+                            </label>
+                            <div class="col-md-9" id="aj-email">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+    script.
+
+        //- SCRIPT GET INT_PROJECTID (VIEW MODAL)
+
+            $(document).ready(function () {
+                
+                $('.btn-view-project').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#modalviewproject').modal('show');
+                    ajaxGet();
+
+                    function ajaxGet(){
+                    console.log("========Id");
+                    console.log(Id);
+                    console.log("========Id");
+
+                    $.ajax({
+                        type : "POST",
+                        url : window.location + "/projectdetails",
+                        data: { ajProjectID: Id},
+                        dataType: "json",
+                        success: function(tbl_project){
+
+                        console.log(tbl_project)
+
+                            $.each(tbl_project, function (index, value) {
+                                console.log(value);
+
+                                document.getElementById("projecttitle").innerHTML = value.varchar_projectName    
+                                document.getElementById("projectdescription").innerHTML = value.text_projectDescription
+                                document.getElementById("projectrelstart").innerHTML = value.datetime_releasingStart
+                                document.getElementById("projectrelend").innerHTML = value.datetime_releasingEnd
+                                    
+                                console.log("Success: " );
+                            });
+                                                        
+                            
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });	
+                }
+                }); 
+
+                //- VIEW APPLICANTS
+                $('.btn-view-applicants').click(function (e) {
+                    e.preventDefault()
+                    var projectID = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(projectID);
+                    console.log("================================Id(Class)")
+
+
+                    $('#modalviewapplicants').modal('show');
+                    ajaxGet();
+
+                    function ajaxGet(){
+                    console.log("========Id");
+                    console.log(projectID);
+                    console.log("========Id");
+
+                    $.ajax({
+                        type : "POST",
+                        url : window.location + "/viewapplicants",
+                        data: { ajViewApplicants: projectID},
+                        dataType: "json",
+                        success: function(tbl_applicants){
+
+                        console.log(tbl_applicants)
+                            $.each(tbl_applicants, function (index, value) {
+                                console.log("TBL_APPLICANTS")
+                                console.log(value);
+
+                                var mytd = document.getElementById("apname");
+                                
+                                
+                                for(x=0; x<value.length; x++){
+                                    $("#apname").append(`<tr> <td>`+value[x].varchar_lastName+", "  + value[x].varchar_firstName + " "+ value[x].varchar_middleName+'</td> <tr>');
+                                    $("#apgender").append(`<tr> <td>`+value[x].enum_gender+'</td> <tr>');
+                                    $("#apcivil").append(`<tr> <td>`+value[x].enum_civilStatus+'</td> <tr>');
+                                    $("#apappstatus").append(`<tr> <td>`+value[x].enum_applicationStatus+'</td> <tr>');
+                                    $(".btnview").val(value[x].int_applicationID).append(`<tr> <td> <button class="btn-view-applicant-detail">`+"View"+`</button></td> <tr>`);
+                                    console.log("VALUE INT APPLICATIONID")
+                                    console.log(document.getElementsByClassName("btnview").val = value[x].int_applicationID);
+
+                                    console.log(document.getElementsByClassName("apname").innerHTML = value[x].varchar_lastName + ", "  + value[x].varchar_firstName + " "+ value[x].varchar_middleName)
+                                    document.getElementsByClassName("apgender").innerHTML = value[x].enum_gender
+                                    document.getElementsByClassName("apcivil").innerHTML = value[x].enum_civilStatus
+                                    document.getElementsByClassName("apappstatus").innerHTML = value[x].enum_applicationStatus
+                                    console.log("Application ID:")
+                                    console.log(document.getElementsByClassName("btn-view-applicant-detail").value = value[x].int_applicationID)
+                                }
+                                console.log("Success: " );
+                            });
+                                                        
+                            
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });	
+                }
+                }); 
+                
+
+                //- VIEW SPECIFIC APPLICANT
+                $('.btnview').click(function (e) {
+                    e.preventDefault()
+                    
+                    $('#modalviewspecificapp').modal('show');
+                    ajaxGet();
+
+                    function ajaxGet(){
+                    console.log("=== Specific Application Id ===");
+                    console.log(document.getElementsByClassName("btn-view-applicant-detail").value);
+                    console.log("=== Specific Application Id ===");
+
+                    $.ajax({
+                        type : "POST",
+                        url : window.location + "/viewspecificapplicant",
+                        data: { ajViewSpecificApplicant: document.getElementsByClassName("btn-view-applicant-detail").value},
+                        dataType: "json",
+                        success: function(tbl_specificapplicant){
+
+                        console.log(tbl_specificapplicant)
+
+                            $.each(tbl_specificapplicant, function (index, value) {
+                                console.log(value);
+
+                                document.getElementById("aj-lastname").innerHTML = value.varchar_lastName    
+                                document.getElementById("aj-firstname").innerHTML = value.varchar_firstName
+                                document.getElementById("aj-middlename").innerHTML = value.varchar_middleName
+                                document.getElementById("aj-birthdate").innerHTML = value.date_birthDate
+                                document.getElementById("aj-gender").innerHTML = value.enum_gender
+                                document.getElementById("aj-year").innerHTML = value.int_applicantResidency
+                                document.getElementById("aj-civil").innerHTML = value.enum_civilStatus
+                                document.getElementById("aj-contact").innerHTML = value.varchar_contactNumber
+                                document.getElementById("aj-email").innerHTML = value.varchar_emailAddress
+                                    
+                                console.log("Success: " );
+                            });                          
+                            
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });	
+                }
+                }); 
+
+            //- END OF DOCUMENT READY
+            });
+

@@ -1,38 +1,225 @@
-extends ../../../../templates/master.pug
-
-block body
+<!DOCTYPE html>
+<html lang="en">
     <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/citybarangay/styles.css">
+    <link rel="icon" href="cityadmin/production/images/favicon.png" type="image/png" />
+
+    <title>City Projects Application and Benefits Releasing</title>
+
+    <!-- Bootstrap -->
+    <link href="/cityadmin/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/cityadmin/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/cityadmin/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/cityadmin/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="/cityadmin/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+    <link href="/cityadmin/vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+    <link href="/cityadmin/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+	
+    <!-- bootstrap-progressbar -->
+    <link href="/cityadmin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="/cityadmin/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="/cityadmin/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- date-tables -->
+    <link href="/cityadmin/vendors/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    
+    <script src="/cityadmin/vendors/datatables/jquery.dataTables.js"></script>
+
+    <script src="/cityadmin/vendors/datatables/dataTables.bootstrap4.js"></script>
+
+    <link href="/cityadmin/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <script src="/cityadmin/build/js/sb-admin-datatables.min.js"></script>
+    
+
+
+
+    <!-- Custom Theme Style -->
+    <link href="/cityadmin/build/css/custom.min.css" rel="stylesheet">
     </head>
-    <body>
+    <body class="nav-md">
+        <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="clearfix"></div>
+                <!-- menu profile quick info -->
+                <div class="profile clearfix">
+                <div class="profile_pic">
+                    <img src="/cityadmin/production/images/img.png" alt="..." class="img-circle profile_img">
+                </div>
+                <div class="profile_info">
+                    <span>Welcome,</span>
+                    <h2>OFFICE STAFF</h2>
+                </div>
+                </div>
+                <!-- /menu profile quick info -->
 
-    <div id='cssmenu'>
-    <ul>
-        <li><a href='/office/home' style="font-size:95%;font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;"><span>City Project Application and Benefits Releasing</span></a></li>
-        <li><a href='/office/home'><span>Home</span></a></li>
-        <li class='active has-sub'><a href='#'><span>Projects</span></a>
-            <ul>
-            <li><a href='/office/projects/newproject'><span>New Project</span></a>
-            </li>
-            <li><a href='/office/projects/ongoingproject'><span>Ongoing Projects</span></a>
-            </li>
-            <li><a href='/office/projects/finishedproject'><span>Finished Projects</span></a>
-            </li>
-        </ul>
-        </li>
-        <li><a href='/office/problems'><span>Problems</span></a></li>
-        <li><a href='/office/proposals'><span>Proposals</span></a></li>
-        <li><a href='/office/schedule'><span>Schedule</span></a></li>
-        <li><a href='/office/reports'><span>Reports</span></a></li>
-        <li><a href='/office/mailbox'><span>Mailbox</span></a></li>
-        <li><a href='/office/awards'><span>Awards</span></a></li>
-        <li class='last'><a href='/logout'><span>Logout</span></a></li>
-    </ul>
-    </div>
+                <br />
+            
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <ul class="nav side-menu">
+                  <li><a href="/office/home"><i class="fa fa-bar-chart-o"></i> Dashboard </span></a>
+                  </li>
+                  <li><a href="/office/problems"><i class="fa fa-copy"></i> Statement of Problem </span></a>
+                  </li>
+                  <li><a href="/office/proposals"><i class="fa fa-exchange"></i> Proposal </span></a>
+                  </li>
+                  <li><a href="/office/projects/ongoingproject"><i class="fa fa-folder-open"></i> Projects </span></a>
+                  </li>
+                  <li><a href="/office/releasing"><i class="fa fa-users"></i> Releasing </span></a>
+                  </li>
+                  <li><a href="/office/reports"><i class="fa fa-file-text"></i> Reports </span></a>
+                  </li>
+                </ul>
+              </div>
 
-    </body>
+            </div>
+            <!-- /sidebar menu -->
 
-    block content
+            </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                <div class="nav toggle">
+                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="">
+                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <img src="/cityadmin/production/images/img.png" alt="">Office Staff
+                        <span class=" fa fa-angle-down"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                        <li><a href="/profile/index"> Profile</a></li>
+                        <li>
+                        <a href="javascript:;">
+                            <span>Settings</span>
+                        </a>
+                        </li>
+                        <li><a href="/office/addbrgyaccnt"> Barangay </a></li>
+                        <li><a href="javascript:;">Help</a></li>
+                        <li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    </ul>
+                    </li>
+
+                    <li role="presentation" class="dropdown">
+                    <a style="margin-top:19%;"href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-envelope-o"></i>
+                        <span class="badge bg-green">6</span>
+                    </a>
+                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                        <li>
+                        <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                            <span>John Smith</span>
+                            <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                            Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                        </a>
+                        </li>
+                        <li>
+                        <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                            <span>John Smith</span>
+                            <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                            Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                        </a>
+                        </li>
+                        <li>
+                        <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                            <span>John Smith</span>
+                            <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                            Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                        </a>
+                        </li>
+                        <li>
+                        <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                            <span>John Smith</span>
+                            <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                            Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                        </a>
+                        </li>
+                        <li>
+                        <div class="text-center">
+                            <a>
+                            <strong>See All Alerts</strong>
+                            <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                        </li>
+                    </ul>
+                    </li>
+                </ul>
+                </nav>
+            </div>
+            </div>
+
+        
+        block content
+
+        <!-- footer content -->
+            <footer>
+            <div class="pull-right">
+                City Project Application and Benefits Releasing | 2018
+            </div>
+            <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+            </div>
+            </div>
+
+            <!-- jQuery -->
+            <script src="/cityadmin/vendors/jquery/dist/jquery.min.js"></script>
+            <!-- Bootstrap -->
+            <script src="/cityadmin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+            <!-- Custom Theme Scripts -->
+            <script src="/cityadmin/build/js/custom.min.js"></script>
+
+            <script src="/cityadmin/vendors/datatables/dataTables.bootstrap4.js"></script>
+
+            <script src="/cityadmin/build/js/sb-admin-datatables.min.js"></script>
+            
+            <script src="/cityadmin/build/js/sb-admin-charts.min.js"></script>
+
+            <script src="/cityadmin/vendors/chart.js/Chart.min.js"></script>
+            <script src="/cityadmin/vendors/datatables/jquery.dataTables.js"></script>
+            <script src="/cityadmin/vendors/datatables/dataTables.bootstrap4.js"></script>
+            
+            <script src="/cityadmin/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+            <script src="/cityadmin/vendors/moment/min/moment.min.js"></script>
+            <script src="/cityadmin/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+            <script src="/cityadmin/vendors/fastclick/lib/fastclick.js"></script>
+            <script src="/cityadmin/vendors/nprogress/nprogress.js"></script>
+            
+            <script src="/cityadmin/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+            <script src="/cityadmin/vendors/validator/validator.js"></script>
+
+        
+</html>

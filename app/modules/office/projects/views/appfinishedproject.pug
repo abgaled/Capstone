@@ -1,0 +1,227 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+            <div class="x_panel">
+                <div class="x_title">
+                each proj in project
+                    <h1>Finished Project - Applications</h1>
+                    <h2>
+                        value= "("+ proj.varchar_projectName +")"
+                    </h2>
+                    a(href=`/office/projects/finishedproject/${proj.int_projectID}/viewfinished` id="viewproj" style="float:right;" class="btn btn-success btn-xs") View Project Details
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="datatable" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Last Name</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
+                                    <th>Email Address</th>
+                                    <th>Status</th>
+                                    <th>Action/s</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Last Name</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
+                                    <th>Email Address</th>
+                                    <th>Status</th>
+                                    <th>Action/s</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                each app in tbl_project
+                                    <tr>
+                                        <td>
+                                            value=app.varchar_lastName
+                                        </td>
+                                        <td>
+                                            value=app.varchar_firstName
+                                        </td>
+                                        <td>
+                                            value=app.varchar_middleName
+                                        </td>
+                                        <td>
+                                            value=app.varchar_emailAddress
+                                        </td>
+                                        <td>
+                                            value=app.enum_applicationStatus
+                                        </td>
+                                        <td>
+                                            button.btn.btn-success(id="btn-view-application" class="btn-view-application btn-s" value= app.int_applicationID): span.fa.fa-eye View Details
+                                        </td>
+                                    </tr>
+                            </tbody>
+                        </table> 
+                    </div>                   
+                </div>
+            </div>
+            //- DIV RIGHT
+            </div>
+
+
+            //- MODAL VIEW APPLICANT DETAIL
+            <div class="modal fade bs-example-modal-lg" id="modalviewapplication" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                <div class="modal-body">
+                    
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">View Application Details</span></h4> 
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-lastname">Last Name:
+                                </label>
+                                <div class="col-md-9" id="aj-lastname">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-firstname">First Name:
+                                </label>
+                                <div class="col-md-9" id="aj-firstname" >
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-middlename">Middle Name:
+                                </label>
+                                <div class="col-md-9" id="aj-middlename">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-birthdate">Birthdate:
+                                </label>
+                                <div class="col-md-9" id="aj-birthdate">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-gender">Gender:
+                                </label>
+                                <div class="col-md-9" id="aj-gender">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-year">Year of Residency:
+                                </label>
+                                <div class="col-md-9" id="aj-year">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-civil">Civil Status:
+                                </label>
+                                <div class="col-md-9" id="aj-civil">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-contact">Contact Number:
+                                </label>
+                                <div class="col-md-9" id="aj-contact">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-email">Email Address:
+                                </label>
+                                <div class="col-md-9" id="aj-email">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <hr>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-address">Address:
+                                </label>
+                                <div class="col-md-9" id="aj-address">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-addresstype">Address Type:
+                                </label>
+                                <div class="col-md-9" id="aj-addresstype">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        
+
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+    script.
+
+        //- SCRIPT GET INT_APPLICATIONID (VIEW MODAL)
+
+            $(document).ready(function () {
+
+                $('.btn-view-application').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#modalviewapplication').modal('show');
+                    ajaxGet();
+
+                    function ajaxGet(){
+                    console.log("========Id");
+                    console.log(Id);
+                    console.log("========Id");
+
+                    $.ajax({
+                        type : "POST",
+                        url : window.location + "/ajaxapplicantdetails",
+                        data: {ajApplicationID: Id},
+                        dataType: "json",
+                        success: function(tbl_application){
+
+                            $.each(tbl_application, function (index, value) {
+
+                                document.getElementById("aj-lastname").innerHTML = value.varchar_lastName    
+                                document.getElementById("aj-firstname").innerHTML = value.varchar_firstName
+                                document.getElementById("aj-middlename").innerHTML = value.varchar_middleName
+                                document.getElementById("aj-birthdate").innerHTML = value.date_birthDate
+                                document.getElementById("aj-gender").innerHTML = value.enum_gender
+                                document.getElementById("aj-year").innerHTML = value.int_applicantResidency
+                                document.getElementById("aj-civil").innerHTML = value.enum_civilStatus
+                                document.getElementById("aj-contact").innerHTML = value.varchar_contactNumber
+                                document.getElementById("aj-email").innerHTML = value.varchar_emailAddress
+                                document.getElementById("aj-address").innerHTML = value.varchar_numberBlockLot + " " + value.varchar_streetAvenueRoad + " " + value.varchar_villageSubdivision + " " + value.varchar_purokSitioZone
+                                document.getElementById("aj-addresstype").innerHTML = value.enum_addressType
+                                    
+                                console.log("Success: " );
+                            });                             
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });	
+                }
+                }); 
+            });
+            

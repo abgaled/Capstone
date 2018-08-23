@@ -5,97 +5,78 @@ var db = require('../../../lib/database')();
 
 router.get('/',(req, res) => {
     console.log('=================================');
-    console.log('STUDENT PROFILE:');
+    console.log('BARANGAY: PROFILE');
     console.log('=================================');
-   
-    var queryString =`SELECT * FROM tbl_user WHERE int_userID = ?`
-    var queryString2 =`SELECT p.*, C.varchar_courseName FROM tbl_petition p, tbl_course C WHERE p.int_userID =${req.session.user.int_userID} && p.char_subjCode=C.char_courseCode`
-    var queryString3 = `SELECT p.*, C.varchar_courseName FROM tbl_petition p, tbl_course C WHERE p.int_petitID IN(SELECT int_petitID FROM tbl_petitmemb WHERE int_userID=${req.session.user.int_userID}) && p.char_subjCode=C.char_courseCode;`
-    var queryString4 = `SELECT DISTINCT tbl_schedsave.int_schedID FROM tbl_schedsave JOIN tbl_sched ON tbl_schedsave.int_schedID=tbl_sched.int_schedID WHERE int_userID = ${req.session.user.int_userID}`
-    var queryString5 = `SELECT * 
-    FROM tbl_sched
-    WHERE int_schedID IN (SELECT DISTINCT int_schedID
-    FROM tbl_schedSave
-    WHERE int_userID=${req.session.user.int_userID});`
 
-    db.query(queryString,[req.session.user.int_userID], (err, results1, fields) => {
+    var queryString = `SELECT * FROM tbl_user 
+    JOIN tbl_barangay ON tbl_user.int_userID=tbl_barangay.int_userID 
+    JOIN tbl_city ON tbl_barangay.int_cityID=tbl_city.int_cityID
+    WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
+
+    db.query(queryString,(err, results1) => {
+
         if (err) console.log(err);
-        console.log(results1);
+        console.log('=================================');
+        console.log('BARANGAY: PROFILE - GET PROFILE INFO');
+        console.log('=================================');
 
-        db.query(queryString2, (err, results2, fields) => {
-            if (err) console.log(err);
-            console.log(results2);
+        var queryString1 = `SELECT * FROM tbl_notification 
+        JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+        WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+        AND enum_notifStatus = "New"
+        ORDER BY tbl_notification.int_notifID DESC`
 
-            db.query(queryString3,(err, results3, fields) => {
+            db.query(queryString1,(err, notifications) => {
                 if (err) console.log(err);
-                console.log(results3);
+                console.log('=================================');
+                console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+                console.log('=================================');
+                console.log(notifications)
+        
+                var countrow = notifications.length;
 
-                db.query(queryString5,(err, results5, fields) => {
-                    if (err) console.log(err);
-                    console.log(results5);
 
-                    res.render('student/profile/views/index', {tbl_user:results1,tbl_petition:results2,tbl_join:results3,tbl_savedsched:results5});
-                })
-            })
-        })
+                res.render('barangay/profile/views/profile',{
+                    barangay_info:results1,
+                    notifications:notifications,
+                    numbernotif:countrow});
+            });
     });
 });
 
-router.post('/editprofile', (req, res) => {
-    console.log("============================");
-    console.log('STUDENT EDITPROFILE:');
-    console.log("============================");
-    const queryString = `UPDATE tbl_user SET        
-    varchar_userFName = ("${req.body.user_fname}"),
-    varchar_userLName = ("${req.body.user_lname}"),
-    varchar_userEmailAdd = ("${req.body.user_email}"),
-    varchar_userPassword = ("${req.body.user_password}"),
-    varchar_userAddress = ("${req.body.user_address}")
-    WHERE int_userID = ${req.session.user.int_userID};`;
+router.post('/', (req, res) => {
+    console.log('=================================');
+    console.log('BARANGAY: PROFILE - UPDATE PROFILE INFO');
+    console.log('=================================');
 
-    db.query(queryString, (err, results, fields) => {        
-        if (err) throw err;         
-        
-        return res.redirect('/student/profile'); 
-        
-    });
-});
-
-router.get('/:int_petitID/sendlist', (req, res) => {
-    console.log("PUMASOK SA GET REQ.PARAMS")
-
-    var queryString = `SELECT * FROM tbl_petition JOIN tbl_user ON tbl_petition.int_userID=tbl_user.int_userID
-    WHERE int_petitID= ${req.params.int_petitID}`;
-
-    var queryString1 = `SELECT * FROM tbl_petition JOIN tbl_petitmemb ON tbl_petition.int_petitID=tbl_petitmemb.int_petitID JOIN tbl_user ON tbl_petitmemb.int_userID=tbl_user.int_userID
-    WHERE tbl_petition.int_petitID= ${req.params.int_petitID}`;
+    var queryString1 = `UPDATE tbl_user SET
+    varchar_userEmailAddress = "${req.body.barangay_email}",
+    varchar_userPassword = "${req.body.barangay_password}"
+    WHERE tbl_user.int_userID = ${req.session.barangay.int_userID}`;
     
-    db.query(queryString, (err, results, fields) => {        
+    db.query(queryString1, (err, results1, fields) => {        
         if (err) throw err;
 
-        db.query(queryString1, (err, results1, fields) => {        
-            if (err) throw err;
+        console.log('=================================');
+        console.log('BARANGAY: PROFILE - UPDATE PROFILE INFO - UPDATE QUERY 1');
+        console.log('=================================');
 
-        res.render(`student/profile/views/sendlist`,{petition_list:results,petition_list1:results1});
+
+        var queryString2 = `UPDATE tbl_barangay SET
+        varchar_barangayContact = "${req.body.barangay_contact}"
+        WHERE tbl_barangay.int_userID = ${req.session.barangay.int_userID}`;
+
+        db.query(queryString2, (err, results2, fields) => {        
+        console.log('=================================');
+        console.log('BARANGAY: PROFILE - UPDATE PROFILE INFO - UPDATE QUERY 2');
+        console.log('=================================');
+
+        if (err) throw err;
+
+
+        res.redirect('/barangay/profile');
+
         });
-    });
-});
-
-router.get('/:int_petitID/sendlist/verify', (req, res) => {
-    console.log("PUMASOK SA VERIFY LIST");
-    console.log("SENDING TO OFFICE");
-
-
-    var queryString = `UPDATE tbl_petition SET        
-    varchar_petitStatus = ("Sending")
-    WHERE int_petitID = ${req.params.int_petitID};`;
-
-
-    
-    db.query(queryString, (err, results, fields) => {        
-        if (err) throw err;
-
-        res.redirect('/student/profile');
     });
 });
 

@@ -1,4 +1,107 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <h3> Proposals-New</h3>
+    <!-- STATISTIC-->
+    <section class="statistic">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+                //dito start ng content
+                <h1>NEW PROPOSALS</h1>
+
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+                            //- BUTTONS HEADER
+                            <div class="table-data__tool">
+                                //- FILTER SEGMENT
+                                <div class="table-data__tool-left">
+                                    <div class="rs-select2--light rs-select2--md">
+                                        <select class="js-select2" name="property">
+                                            <option selected="selected">All Properties</option>
+                                            <option value="">Option 1</option>
+                                            <option value="">Option 2</option>
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
+                                    </div>
+                                    <div class="rs-select2--light rs-select2--sm">
+                                        <select class="js-select2" name="time">
+                                            <option selected="selected">Today</option>
+                                            <option value="">3 Days</option>
+                                            <option value="">1 Week</option>
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
+                                    </div>
+                                    <button class="au-btn-filter">
+                                        <i class="zmdi zmdi-filter-list"></i>filters</button>
+                                </div>
+                                //- SEARCH SEGMENT
+                                <div class="table-data__tool-right">
+                                    <div class="col">
+                                        <div class="align-right">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-primary">
+                                                        <i class="fa fa-search"></i> Search
+                                                    </button>
+                                                </div>
+                                                <input type="text" id="input1-group2" name="input1-group2" placeholder="Username" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            //- TABLES
+                            <div class="row m-t-30">
+                                <div class="col-md-12">
+                                    <!-- DATA TABLE-->
+                                    <form method="GET" action="/budget/proposals/new">
+                                        <div class="table-responsive m-b-40">
+                                            <table class="table table-borderless table-data3">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th>Name</th>
+                                                        <th>Description</th>
+                                                        <th>Category</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    each proposal in newproposals
+                                                        <tr>
+                                                            <td>
+                                                                value= proposal.int_projectID
+                                                            </td>
+                                                            <td>
+                                                                value= proposal.varchar_projectName
+                                                            </td>
+
+                                                            <td>
+                                                                value= proposal.text_projectDescription
+                                                            </td>
+                                                            <td>
+                                                                value= proposal.varchar_categoryName
+                                                            </td>
+                                                            <td>
+                                                                <div class="row">
+                                                                    a(href=`/budget/proposals/${proposal.int_projectID}/details`): button.btn.btn-primary: span.fa.fa-eye
+                                                                    a(href=`/budget/proposals/${proposal.int_projectID}/delete`): button.btn.btn-danger: span.fa.fa-times
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- END DATA TABLE-->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                //end of content
+                
+            </div>
+        </div>
+    </section>
+    <!-- END STATISTIC-->

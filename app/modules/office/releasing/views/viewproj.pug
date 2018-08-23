@@ -1,0 +1,179 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                each project in tbl_projectproposal
+                    <div class="x_title">
+                        <h2>Project Details<small>
+                        value=project.date_createdDate
+                        </small></h2>
+                        a(href=`/office/releasing/` id="viewproj" class="btn btn-dark btn-s pull-right"): span.fa.fa-arrow-circle-left  Back
+                    <div class="clearfix"></div>
+                </div>
+                    <div class="x_content">
+                    each project in tbl_projectproposal
+                        <table class="table table-striped jambo_table">
+                        <thead>
+                            <tr>
+                                <th>Problem</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Problem to be solved:</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>Basic Information</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Project Title:</th>
+                                <td>
+                                    <p>
+                                        value=project.varchar_projectName
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Category:</th>
+                                <td>
+                                each cat in tbl_projectcategory
+                                    value=cat.varchar_categoryName
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Project Rationale:</th>
+                                <td>
+                                value=project.varchar_projectRationale
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Project Description:</th>
+                                <td>
+                                value=project.text_projectDescription
+                                </td>
+                            </tr>
+                            <tr>
+                            <th scope="row">Project Objective:</th>
+                                <td>
+                                value=project.text_projectObjective
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Beneficiary</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Target Beneficiary:</th>
+                                    <td>
+                                    each prbf in tbl_projectbeneficiary
+                                        value=prbf.varchar_beneficiaryName
+                                        <br/>
+                                    </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Alloted Slot:</th>
+                                <td>
+                                value=project.int_allotedSlot
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Requirements</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Requirements to be passed:</th>
+                                <td>
+                                each prjreq in tbl_projectrequirement
+                                    value=prjreq.varchar_requirementName
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Timeline</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Duration of Application:</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Releasing Date:</th>
+                                <td>
+                                value=project.datetime_releasingEnd
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Releasing Location:</th>
+                                <td>
+                                each rel in tbl_releaselocation
+                                    value=rel.varchar_locationName
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Budget</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Actual Budget:</th>
+                                <td>PHP 
+                                    value=project.decimal_actualBudget
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>

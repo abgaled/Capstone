@@ -1,5 +1,4 @@
 # Capstone
-Updates - 3rd Attempt
 
 Accounts:
 
@@ -16,9 +15,11 @@ budget@gmail.com
 budget
 
 
-***Yung db po sa loob kasama yan po muna ginamit ko.
-***Then may pupuntahan na po yan lahat pero for sure may ieedit pa po dyan.
-***Wag niyo na muna pansinin yung landing hahahahaha ginamit ko kase yung sa webdev namin hahahaha.
+***Paki-click po yung tatlong dots dun sa bawat attempt something :) may nakalagay na info kung anong bago every up ng prog.
+***Pag nag up din kayo lagay niyo "What's New???" Hahahaha.
 
 
 Thank you!!! :)
+
+
+Ajaaaa! Kaya natin to fighting!!!

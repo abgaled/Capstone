@@ -1,4 +1,57 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <h3> Project-Ongoing Project</h3>
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1>Projects</h1>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                each project in tbl_project
+                                                    <tr>
+                                                        <td>
+                                                            value=project.varchar_projectName
+                                                        </td>
+                                                        <td>
+                                                            value=project.enum_projectStatus
+                                                        </td>
+                                                        <td>
+                                                            if project.enum_projectStatus == "Approved"
+                                                                a(href=`/office/projects/ongoingproject/${project.int_projectID}/startproj` id="startproj" class="btn btn-success btn-s btn-block"): span Start Project
+                                                            if project.enum_projectStatus == "Finished"
+                                                                button.btn.btn-dark.btn-s.btn-block(type='submit') Liquidate
+                                                            if project.enum_projectStatus == "Ongoing"
+                                                                a(href=`/office/projects/ongoingproject/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-primary btn-xs btn-block"): span View Details
+                                                                a(href=`/office/projects/ongoingproject/${project.int_projectID}/viewapp` id="viewapp" class="btn btn-info btn-s btn-block"): span View Beneficiaries
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+        <!-- END STATISTIC-->
+            

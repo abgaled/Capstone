@@ -1,0 +1,86 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1>List of Pending Proposals</h1>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Proposed Project Name</th>
+                                                        <th>Category</th>
+                                                        <th>Alloted Slot</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Category</th>
+                                                        <th>Alloted Slot</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                each project in tbl_projectproposal
+                                                    <tr>
+                                                    <td>
+                                                        value=project.varchar_projectName
+                                                        </td>
+                                                        <td>
+                                                            value=project.varchar_categoryName
+                                                        </td>
+                                                        <td>
+                                                            value=project.int_allotedSlot
+                                                        </td>
+                                                        <td>
+                                                            value=project.enum_proposalStatus
+                                                        </td>
+                                                        <td>
+                                                            if project.enum_propappStatus == "Pending" && project.enum_proposalStatus == "Pending"
+                                                                button.btn.btn-success.btn-s.btn-block(type='button' data-toggle="modal" data-target=".bs-example-modal-sm") Confirm Check
+                                                            if project.enum_proposalStatus == "Revision"
+                                                                button.btn.btn-info.btn-s.btn-block(type='submit') Revise
+                                                                button.btn.btn-danger.btn-s.btn-block(type='submit') Reject
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <form class="form-horizontal form-label-left" method="POST" action='projectcategory' name="addprojcat" novalidate>
+                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                    </button>
+                                                    <h4 class="modal-title" id="myModalLabel"><span class="section">Confirm Check Number</span></h4>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-success">Submit</button>
+                                                        </span>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        <!-- END STATISTIC-->
+            

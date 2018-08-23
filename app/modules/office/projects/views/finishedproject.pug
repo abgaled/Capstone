@@ -1,4 +1,62 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <h3> Project-Finished Project</h3>
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1>List of Finished Projects</h1>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Category</th>
+                                                        <th>Alloted Slot</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Category</th>
+                                                        <th>Alloted Slot</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                each project in tbl_project
+                                                    <tr>
+                                                        <td>
+                                                            value=project.varchar_projectName
+                                                        </td>
+                                                        <td>
+                                                            value=project.varchar_categoryName
+                                                        </td>
+                                                        <td>
+                                                            value=project.int_allotedSlot
+                                                        </td>
+                                                        <td>
+                                                            value=project.enum_projectStatus
+                                                        </td>
+                                                        <td>
+                                                            a(href=`/office/projects/finishedproject/${project.int_projectID}/viewfinished` id="viewproj" class="btn btn-success btn-xs btn-block"): span View Details
+                                                            a(href=`/office/projects/finishedproject/${project.int_projectID}/viewapp` id="viewapp" class="btn btn-primary btn-xs btn-block"): span Applications
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+        <!-- END STATISTIC-->
+            

@@ -1,0 +1,33 @@
+extends ../../home/views/navbar.pug
+
+block content
+    //- <!-- page content -->
+    <div class="right_col" role="main">
+            
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-bell"></i> Notifications<small>(All)</small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+            each notif in notifications
+                <div class="x_panel" style="border-bottom: 1px solid rgba(0, 0, 0, 0.2);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);">
+                    a(href=`/barangay/notifications/${notif.int_notifID}`)
+                        <b>
+                        <span>From:
+                            value= " "+notif.varchar_userEmailAddress
+                        </span>
+                        </b>
+                        <p>About:
+                            value= " "+notif.enum_notifInfo
+                        </p>
+                        </span>
+                        <p class="message" style="float:right;">
+                            value= notif.varchar_notifTitle
+                        </p>
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    

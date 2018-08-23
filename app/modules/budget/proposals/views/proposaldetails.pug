@@ -1,0 +1,281 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="x_panel">
+        each project in details
+            <div class="x_title">
+                <h2> Proposed Details<small>
+                value=project.date_createdDate
+                </small></h2>
+                <small class="pull-right">
+                </small>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+            each project in details
+                <table class="table table-striped jambo_table">
+                    <thead>
+                        <tr>
+                            <th>Problem</th>
+                            <th>   </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Problem to be solved:</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th>Basic Information</th>
+                            <th>   </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Project Title:</th>
+                            <td>
+                                <p>
+                                    value=project.varchar_projectName
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Category:</th>
+                            <td>
+                            each cat in categories
+                                value=cat.varchar_categoryName
+                            <br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Project Rationale:</th>
+                                <td>
+                                value=project.varchar_projectRationale
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Project Description:</th>
+                                <td>
+                                value=project.text_projectDescription
+                                </td>
+                            </tr>
+                            <tr>
+                            <th scope="row">Project Objective:</th>
+                                <td>
+                                value=project.text_projectObjective
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Beneficiary</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Target Beneficiary:</th>
+                                    <td>
+                                    each prbf in beneficiaries
+                                        value=prbf.varchar_beneficiaryName
+                                        <br/>
+                                    </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Alloted Slot:</th>
+                                <td>
+                                value=project.int_allotedSlot
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Requirements</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Requirements to be passed:</th>
+                                <td>
+                                each prjreq in requirements
+                                    value=prjreq.varchar_requirementName
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Timeline</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Duration of Application:</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Releasing Date:</th>
+                                <td>
+                                value=project.datetime_releasingEnd
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Releasing Location:</th>
+                                <td>
+                                each rel in locations
+                                    value=rel.varchar_locationName
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Budget</th>
+                                <th>   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Estimated Budget:</th>
+                                <td>PHP 
+                                    value=project.decimal_estimatedBudget
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+
+    <!-- modal medium -->
+    <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+            - console.log( details )
+                each detail in details
+                    <form method="POST" action='/budget/proposals/revision'>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mediumModalLabel">Revision Form</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="textarea-input" class=" form-control-label">Suggestion</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <textarea name="revision" rows="9" placeholder="Content..." class="form-control" required></textarea>
+                                    <small class="form-text text-muted">Put all of the your suggestion,remarks or comment for the revision of this project. In this way, the proposal project might be approved when the revision is done.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            //- a(href=`/budget/proposals/${detail.int_projectID}/revision`): button.btn.btn-success Confirm
+                            //- <input type="submit" value="submit" class="btn btn-success">
+                            button.btn.btn-success.btn-s(type='submit') Submit
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+    <!-- end modal medium -->
+
+    <!-- modal medium -->
+        <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                
+                    <form method="POST" action="approval" data-parsley-validate class="form-horizontal form-label-left">
+                    
+                        each detail in details
+
+                            input(type="hidden" value=`${detail.int_projectID}` name="int_projectID")
+
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mediumModalLabel">Approval Requirement</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                //- <div class="input-group mb-3">
+                                //-     <div class="input-group-prepend">
+                                //-         <span class="input-group-text" >Approval Letter</span>
+                                //-     </div>
+                                //-     <div class="custom-file">
+                                //-         <input type="file" class="custom-file-input" name="letterfile">
+                                //-         <label class="custom-file-label" >Choose file</label>
+                                //-     </div>
+                                //- </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="approval-letter">Approval Letter <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="file" name="approval-letter" required="required" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="actual-budget">Actual Budget<span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" data-inputmask="'mask' : '999,999,999.99'" name="actual-budget" id="actual-budget" required="required" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                //- <div class="input-group mb-3">
+                                //-     <div class="input-group-prepend">
+                                //-         <span class="input-group-text">Actual Budget</span>
+                                //-         <span class="input-group-text"> P </span>
+                                //-     </div>
+                                //-     <input type="text" class="form-control" name="actualbudget" required> 
+                                //-     <div class="input-group-append">
+                                //-         <span class="input-group-text">0.00</span>
+                                //-     </div>
+                                //- </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                //- a(href=`/budget/proposals/${detail.int_projectID}/approval`): button.btn.btn-success Confirm
+                                //- <input type="submit" value="submit" class="btn btn-success">
+                                button.btn.btn-success.btn-s(type='submit') Submit
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end modal medium -->

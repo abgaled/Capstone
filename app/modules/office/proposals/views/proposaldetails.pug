@@ -1,0 +1,144 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                each project in tbl_projectproposal
+                    <div class="x_title">
+                        a(href=`/office/proposals/` id="viewproj" class="btn btn-dark btn-s pull-left"): span Back
+                        <h2>Proposal Details<small>
+                        value=project.date_createdDate
+                        </small></h2>
+                        <small class="pull-right">Status: 
+                        value=project.enum_projectStatus
+                        </small>
+                        <div class="clearfix"></div>
+                    </div>
+                        <div class="x_content">
+                            <ul class="list-unstyled timeline">
+                                <li>
+                                <div class="block">
+                                    <div class="tags">
+                                    <a href="" class="tag">
+                                        <span>Basic Information</span>
+                                    </a>
+                                    </div>
+                                    <div class="block_content">
+                                        <h2 class="title">
+                                            <a><strong>Project Title:</strong> </a>  
+                                            value=project.varchar_projectName
+                                        </h2>
+                                        <div class="byline">
+                                            <span><strong>Category</strong></span> : <a>
+                                            each cat in tbl_projectcategory
+                                                value=cat.varchar_categoryName
+                                            </a>
+                                        </div>
+                                        <p class="excerpt"><strong>Project Rationale: </strong>
+                                            value=project.varchar_projectRationale
+                                            </a>
+                                            </p>
+                                        <p class="excerpt"><strong>Project Objective: </strong>
+                                            value=project.text_projectObjective
+                                            </a>
+                                            </p>
+                                        <p class="excerpt"><strong>Project Description:</strong> 
+                                            value=project.text_projectDescription
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                </li>
+                                <li>
+                                <div class="block">
+                                    <div class="tags">
+                                    <a href="" class="tag">
+                                        <span>Beneficiary</span>
+                                    </a>
+                                    </div>
+                                    <div class="block_content">
+                                        <p class="excerpt"><strong>Target Beneficiary:</strong> 
+                                        each prbf in tbl_projectbeneficiary
+                                            <a>
+                                            <br/>
+                                            value=prbf.varchar_beneficiaryName
+                                            </a>
+                                        </p>
+                                        <p class="excerpt"><strong>Alloted Slot: </strong>
+                                            value=project.int_allotedSlot
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                </li>
+                                <li>
+                                    <div class="block">
+                                        <div class="tags">
+                                        <a href="" class="tag">
+                                            <span>Requirements</span>
+                                        </a>
+                                        </div>
+                                        <div class="block_content">
+                                            <p class="excerpt"><strong>Requirements: </strong>
+                                            each prjreq in tbl_projectrequirement
+                                                <a >
+                                                <br/>
+                                                value=prjreq.varchar_requirementName
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                <div class="block">
+                                    <div class="tags">
+                                    <a href="" class="tag">
+                                        <span>Timeline</span>
+                                    </a>
+                                    </div>
+                                    <div class="block_content">
+                                        <p class="excerpt"><strong>Starting Date: </strong>
+                                            value=project.date_projectStart
+                                            </a>
+                                        </p>
+                                        <p class="excerpt"><strong>Closing Date: </strong>
+                                            value=project.date_projectEnd
+                                            </a>
+                                        </p>
+                                        <p class="excerpt"><strong>Releasing Start Date: </strong>
+                                            value=project.datetime_releasingStart
+                                            </a>
+                                        </p>
+                                        <p class="excerpt"><strong>Releasing End Date:</strong> 
+                                            value=project.datetime_releasingEnd
+                                            </a>
+                                        </p>
+                                        <p class="excerpt"><strong>Releasing Location: </strong>
+                                        each rel in tbl_releaselocation
+                                            value=rel.varchar_locationName
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                </li>
+                                <li>
+                                <div class="block">
+                                    <div class="tags">
+                                    <a href="" class="tag">
+                                        <span>Budget</span>
+                                    </a>
+                                    </div>
+                                    <div class="block_content">
+                                        <p class="excerpt"><strong>Estimated Budget:</strong> PHP 
+                                            value=project.decimal_estimatedBudget
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                </li>
+                            </ul>
+                        </div>
+                </div>
+            </div>

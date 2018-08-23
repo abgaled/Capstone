@@ -1,0 +1,22 @@
+extends ../../home/views/navbar.pug
+
+block content
+  <link rel="stylesheet" type="text/css" href="/loader/style_loader.css">
+
+  <div id="loading"></div>
+    <form method="POST" action="startproj" id="form_startproj">
+      each project in tbl_project
+            
+        input(type="hidden" value=`${project.int_projectID}` name="int_projectID" id="int_projectID")
+                       
+    </form>
+
+  script.
+    
+    window.onload=function() {
+      jQuery(document).ready(function() {
+      jQuery('#loading').fadeOut(3500);
+      });
+
+      document.getElementById("form_startproj").submit();
+    }

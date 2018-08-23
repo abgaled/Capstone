@@ -1,0 +1,296 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <center>
+                            <h1>PROPOSALS</h1>
+                        </center>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="container">
+                        <div class="table-responsive m-b-40">
+                            <table id="datatable" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th>Project Name</th>
+                                        <th>Status</th>
+                                        <th>Action/s</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                each proposals in pendingproposals
+                                    <tr>
+                                        
+                                        <td>
+                                            value=proposals.varchar_projectName
+                                        </td>
+                                        //- <td>
+                                        //-     value=project.date_projectEnd
+                                        </td>
+                                        <td>
+                                            value=proposals.enum_proposalStatus
+                                        </td>
+                                        <td>
+                                                a(href=`/budget/proposals/${proposals.int_projectID}/details`): button.btn.btn-primary.btn-sm: span.fa.fa-eye  View Detail
+                                                if proposals.enum_proposalStatus == "Pending"
+                                                    button.btn.btn-success.btn-sm(id="btn-pro" class="" value= proposals.int_projectID onclick="projectID()" data-toggle="modal" data-target="#approveModal"): span.fa.fa-check Approve
+                                                    a(href=`/budget/proposals/${proposals.int_projectID}/rejectproposal`): button.btn.btn-danger.btn-sm: span.fa.fa-ban  Reject
+                                                    button.btn.btn-warning.btn-sm(id="btn-pro-rev" class="" value= proposals.int_projectID onclick="projectIDrevise()" data-toggle="modal" data-target="#reviseModal"): span.fa.fa-undo  Revise
+                                                if proposals.enum_proposalStatus == "Revision"
+                                                    button.btn.btn-primary.btn-sm(id="btn-pro" class="btn-revision" value= proposals.int_projectID onclick="projectID()" data-toggle="modal" data-target="#revisiondetails"): span.fa.fa-eye  View Revision
+                                                    
+                                                    button.btn.btn-success.btn-sm(id="btn-pro" class="" value= proposals.int_projectID onclick="projectID()" data-toggle="modal" data-target="#approveModal"): span.fa.fa-check Approve
+                                                    a(href=`/budget/proposals/${proposals.int_projectID}/rejectproposal`): button.btn.btn-danger.btn-sm: span.fa.fa-ban  Reject
+                                                if proposals.enum_propappStatus == "Received" && proposals.enum_proposalStatus == "Approved"
+                                                    button.btn.btn-success.btn-sm(id="btn-pro-cheque" class="" value= proposals.int_projectID onclick="projectIDcheque()" data-toggle="modal" data-target="#chequeModal"): span.fa.fa-check  Cheque Number
+                                            
+                                        </td>
+                                    </tr>                   
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                
+                    <form method="POST" action="approval" data-parsley-validate class="form-horizontal form-label-left">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="mediumModalLabel">Approval Requirement
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                //- <div class="input-group mb-3">
+                                //-     <div class="input-group-prepend">
+                                //-         <span class="input-group-text" >Approval Letter</span>
+                                //-     </div>
+                                //-     <div class="custom-file">
+                                //-         <input type="file" class="custom-file-input" name="letterfile">
+                                //-         <label class="custom-file-label" >Choose file</label>
+                                //-     </div>
+                                //- </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="actual-budget">Actual Budget<span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" name="actual_budget" id="actual-budget" required="required" class="form-control col-md-7 col-xs-12">
+                                            <input type="hidden" id="PROJECT_id" name="PROJECT_id" >  
+                                        </div>
+                                    </div>
+                                </div>
+
+                                //- <div class="input-group mb-3">
+                                //-     <div class="input-group-prepend">
+                                //-         <span class="input-group-text">Actual Budget</span>
+                                //-         <span class="input-group-text"> P </span>
+                                //-     </div>
+                                //-     <input type="text" class="form-control" name="actualbudget" required> 
+                                //-     <div class="input-group-append">
+                                //-         <span class="input-group-text">0.00</span>
+                                //-     </div>
+                                //- </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                //- a(href=`/budget/proposals/${detail.int_projectID}/approval`): button.btn.btn-success Confirm
+                                //- <input type="submit" value="submit" class="btn btn-success">
+                                button.btn.btn-success.btn-s(type='submit') Submit
+                            </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+
+            <div class="modal fade" id="chequeModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                
+                    <form method="POST" action="pending" data-parsley-validate class="form-horizontal form-label-left">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="mediumModalLabel">Cheque Number
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                //- <div class="input-group mb-3">
+                                //-     <div class="input-group-prepend">
+                                //-         <span class="input-group-text" >Approval Letter</span>
+                                //-     </div>
+                                //-     <div class="custom-file">
+                                //-         <input type="file" class="custom-file-input" name="letterfile">
+                                //-         <label class="custom-file-label" >Choose file</label>
+                                //-     </div>
+                                //- </div>
+
+                                <div class="input-group">
+                                    <input type="hidden" id="PROJECT_idcheq" name="PROJECT_idcheq" >
+                                    <input type="text" id="chequeNumber" name="chequeNumber"class="form-control">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-success">Send</button>
+                                    </span>
+                                </div>
+
+                                //- <div class="input-group mb-3">
+                                //-     <div class="input-group-prepend">
+                                //-         <span class="input-group-text">Actual Budget</span>
+                                //-         <span class="input-group-text"> P </span>
+                                //-     </div>
+                                //-     <input type="text" class="form-control" name="actualbudget" required> 
+                                //-     <div class="input-group-append">
+                                //-         <span class="input-group-text">0.00</span>
+                                //-     </div>
+                                //- </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+
+            <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                            <form method="POST" action='/budget/proposals/revision'>
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="mediumModalLabel">Revision Form
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </h3>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row form-group">
+                                        <div class="col col-md-2">
+                                            <label for="textarea-input" class=" form-control-label">Suggestion</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <textarea name="revision" rows="9" placeholder="Content..." class="form-control" required></textarea>
+                                            <small class="form-text text-muted">Put all of the your suggestion,remarks or comment for the revision of this project. In this way, the proposal project might be approved when the revision is done.</small>
+                                        </div>
+                                        <input type="hidden" id="PROJECT_idrev" name="PROJECT_idrev" >  
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    //- a(href=`/budget/proposals/${detail.int_projectID}/revision`): button.btn.btn-success Confirm
+                                    //- <input type="submit" value="submit" class="btn btn-success">
+                                    button.btn.btn-success.btn-s(type='submit') Submit
+                                </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+            <!-- end modal medium -->
+
+            //- MODAL VIEW REVISION
+            <div class="modal fade bs-example-modal-lg" id="modalviewrevision" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                    <div class="modal-body">
+                        
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><span class="section">View Revision Content</span></h4> 
+                            <div class="item form-group">
+                                    <label class="control-label col-md-2" for="aj-comment">Comment:
+                                    </label>
+                                    <div class="col-md-9" id="aj-comment">
+                        
+                                    </div>
+                                    <br>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+    
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+    script.
+
+        //- SCRIPT GET INT_STATEMENTID (VIEW MODAL)
+
+           //- SCRIPT GET INT_STATEMENTID (VIEW MODAL)
+
+            $(document).ready(function () {
+
+                $('.btn-revision').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Project Revision Id)")
+                    console.log(Id);
+                    console.log("================================Id(Revision Id)")
+                    $('#modalviewrevision').modal('show');
+                    ajaxGet();
+
+                    function ajaxGet(){
+                    console.log("========Id");
+                    console.log(Id);
+                    console.log("========Id");
+
+                    $.ajax({
+                        type : "POST",
+                        url : window.location + "/ajaxrevisiondetails",
+                        data: { ajProjRevisionID: Id},
+                        dataType: "json",
+                        success: function(tbl_revision){
+
+                        console.log(tbl_revision)
+
+                            $.each(tbl_revision, function (index, value) {
+                                console.log(value);
+
+                                document.getElementById("aj-comment").innerHTML = value.text_commentContent   
+                                
+                                    
+                                console.log("Success: " );
+                            });
+                                                        
+                            
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });	
+                }
+                }); 
+
+                
+            });
+
+    script.
+        function projectID() {
+            var ID = document.getElementById("btn-pro").value;
+            console.log(ID);
+            document.getElementById("PROJECT_id").value = ID;
+        }
+        function projectIDcheque() {
+            var ID = document.getElementById("btn-pro-cheque").value;
+            console.log(ID);
+            document.getElementById("PROJECT_idcheq").value = ID;
+        }
+        function projectIDrevise() {
+            var ID = document.getElementById("btn-pro-rev").value;
+            console.log(ID);
+            document.getElementById("PROJECT_idrev").value = ID;
+        }
+
+        
