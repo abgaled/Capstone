@@ -1,438 +1,248 @@
-extends ../../../templates/landingbase.pug
+extends ../../../templates/landing
 
-block body
-    <body class="bckgrndbase ">
-        <div class="wrapper">
-            <!-- header-section-->
-            <div class="header-wrapper">
-                <div class="top-header">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-9 col-lg-7 col-md-8 d-none d-xl-block d-sm-block">
-                                <div class="top-header-content">
-                                    <ul class="list       -none">
-                                        <li><i class="fa fa-envelope top-header-icon" style="color:#3B5997;"></i>municipal.address@gmail.com</li>
-                                        <li style="margin-left:1%;"><i class="fa fa-phone top-header-icon" style="color:#3B5997;"></i>+180-123-4567</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-xl-2 col-lg-4 col-md-3 col-sm-6 col-8 d-none d-block d-sm-block">
-                                <div class="top-header-content">
-                                    <div class="top-social"> <a href="#" class="btn-social-icon"><i class="fa fa-facebook"></i></a> <a href="#" class="btn-social-icon"><i class="fa fa-twitter"></i></a> <a href="#" class="btn-social-icon"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#" class="btn-social-icon" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-user">Login</i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- header-section-->
-                <div class="header">
-                    <div class="container ">
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-2 col-md-3 col-sm-3 col-12">
-                                <div class="logo" > <a href="/home"><img src="landing/images/logo2.png" alt=""><h2 style="color: #3B5997"><b>City</b><strong >Pro</strong></h2> </a> </div>
-                            </div>
-                            <div class="col-xl-9 col-lg-10 col-md-9 col-sm-12 col-12">
-                                <!-- navigations-->
-                                <div class="navigation">
-                                    <div id="navigation">
-                                        <ul>
-                                            <li class="active"><a href="index.html">Home</a></li>
-                                            <li class="has-sub"><a href="#">Projects/Programs</a>
-                                                <ul>
-                                                    <li><a href="#">Open Application</a></li>
-                                                    <li><a href="#">Finished Projects</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="contact-us.html">Contact</a></li>
-                                            <li class="active"><a href="#about-section">About</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- /.navigations-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /. header-section-->
-            <!-- slider -->
-            <div class="slider">
-                <div class="owl-carousel owl-one owl-theme">
-                    <!-- item -->
-                    <div class="item">
-                        <div class="slider-img">
-                            <img src="landing/images/slider_1.jpg" alt=""></div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                    <div class="slider-captions">
-                                        <h1 class="slider-title" >City Projects Application and Releasing of Benefits</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.item -->
-                    <!-- item -->
-                    <div class="item">
-                        <div class="slider-img"><img src="landing/images/slider_2.jpg" alt=""></div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                                    <div class="slider-captions">
-                                        <h1 class="slider-title" >Know the projects and programs inside your community.</h1>
-                                        <a href="#" class="btn btn-primary">Learn more</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.item -->
-                </div>
-            </div>
-            <!-- /.slider -->
+block prepend main
+  //- ================Slider Area =================
+  section.main_slider_area
+    #main_slider.rev_slider(data-version='5.3.1.6')
+      ul
+        li(data-index='rs-2946', data-transition='slidevertical', data-slotamount='1', data-hideafterloop='0', data-hideslideonmobile='off', data-easein='default', data-easeout='default', data-masterspeed='1000', data-rotate='0', data-fstransition='fade', data-fsmasterspeed='1500', data-fsslotamount='7', data-saveperformance='off', data-title='Intro', data-param1='', data-param2='', data-param3='', data-param4='', data-param5='', data-param6='', data-param7='', data-param8='', data-param9='', data-param10='', data-description='')
+          //- MAIN IMAGE
+          img.rev-slidebg(src='/landing/images/slider-1.jpg', alt='', data-bgposition='center center', data-bgfit='cover', data-bgrepeat='no-repeat', data-no-retina='')
+          //- LAYER NR. 1
+          .slider_text_box
+            .tp-caption.tp-resizeme.rev-btn.first_text(data-x="['center','center','center','center','center','center']", data-hoffset="['0','0','0','0']", data-y="['middle','middle','middle','middle']", data-voffset="['-130','-130','-130','-80','-80','-80']", data-fontsize="['12','12','12','12','12']", data-lineheight="['64','64','64','50','35']", data-width="['550','550','550','550','300']", data-height='none', data-whitespace='normal', data-type='text', data-actions='[{"event":"mouseenter","action":"startlayer","layer":"slide-2971-layer-18","delay":""},{"event":"mouseleave","action":"stoplayer","layer":"slide-2971-layer-18","delay":""},{"event":"click","action":"startlayer","layer":"slide-2971-layer-15","delay":""},{"event":"click","action":"startlayer","layer":"slide-2971-layer-19","delay":""},{"event":"click","action":"startlayer","layer":"slide-2971-layer-20","delay":"1000"},{"event":"click","action":"playvideo","layer":"slide-2971-layer-15","delay":"1000"}]', data-responsive_offset='on', data-frames='[{"delay":10,"speed":1500,"frame":"0","from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","to":"o:1;","ease":"Power2.easeInOut"},{"delay":"wait","speed":1500,"frame":"999","to":"y:[175%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]', data-textalign="['center','center','center','center','center','center']", style="z-index: 8;font-family: 'Poppins', sans-serif;font-weight:600;color:#fff;text-transform: uppercase;")
+              img(src='/landing/images/play-video.png', alt='')
+              span(style='text-decoration: underline;padding-left: 10px;') Watch The Overview
+            //- LAYER NR. 10
+            #slide-2971-layer-15.tp-caption.tp-resizeme.tp-videolayer(data-x="['center','center','center','center']", data-hoffset="['0','0','0','0']", data-y="['middle','middle','middle','middle']", data-voffset="['0','0','0','0']", data-whitespace='nowrap', data-type='video', data-responsive_offset='on', data-frames='[{"from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","speed":1500,"to":"o:1;","delay":"bytrigger","ease":"Power3.easeInOut"},{"delay":"bytrigger","speed":300,"to":"auto:auto;","ease":"nothing"}]', data-vimeoid='142874198', data-videoattributes='title=0&byline=0&portrait=0&api=1', data-videowidth="['960px','720px','480px','360px']", data-videoheight="['540px','405px','270px','203px']", data-videoloop='none', data-textalign="['left','left','left','left']", data-paddingtop='[0,0,0,0]', data-paddingright='[0,0,0,0]', data-paddingbottom='[0,0,0,0]', data-paddingleft='[0,0,0,0]', data-lasttriggerstate='reset', data-autoplay='off', data-volume='100', style='z-index: 14;text-transform:left;border-width:0px;')  
+            //- LAYER NR. 11
+            #slide-2971-layer-20.tp-caption.Agency-CloseBtn.rev-btn(data-x="['center','center','center','center']", data-hoffset="['510','389','270','199']", data-y="['middle','middle','middle','middle']", data-voffset="['-298','-229','-163','-118']", data-width='50', data-height='none', data-whitespace='nowrap', data-type='button', data-actions='[{"event":"click","action":"stoplayer","layer":"slide-2971-layer-15","delay":""},{"event":"click","action":"stoplayer","layer":"slide-2971-layer-19","delay":""},{"event":"click","action":"stoplayer","layer":"slide-2971-layer-20","delay":""}]', data-responsive_offset='on', data-responsive='off', data-frames='[{"from":"z:0;rX:0;rY:0;rZ:45deg;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","speed":500,"to":"o:1;","delay":"bytrigger","ease":"Power3.easeInOut"},{"delay":"bytrigger","speed":500,"to":"auto:auto;","ease":"nothing"},{"frame":"hover","speed":"500","ease":"Power1.easeInOut","to":"o:1;sX:1.1;sY:1.1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(255, 255, 255, 1.00);"}]', data-textalign="['center','center','center','center']", data-paddingtop='[0,0,0,0]', data-paddingright='[0,0,0,0]', data-paddingbottom='[0,0,0,0]', data-paddingleft='[0,0,0,0]', data-lasttriggerstate='reset', style='z-index: 15; min-width: 50px; max-width: 50px; white-space: nowrap;text-transform:left;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;font-size: 24px;')
+              i.fa.fa-close
+            .tp-caption.tp-resizeme.secand_text(data-x="['center','center','center','center','center','center']", data-hoffset="['0','0','0','0']", data-y="['middle','middle','middle','middle']", data-voffset="['0','0','0','0','0']", data-fontsize="['48','48','48','28','28','22']", data-lineheight="['60','60','60','36','36','30']", data-width='100%', data-height='none', data-whitespace='normal', data-type='text', data-responsive_offset='on', data-transform_idle='o:1;', data-frames='[{"delay":10,"speed":1500,"frame":"0","from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","to":"o:1;","ease":"Power2.easeInOut"},{"delay":"wait","speed":1500,"frame":"999","to":"y:[175%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]', data-textalign="['center','center','center','center','center','center']", style="z-index: 8;font-family:'Poppins', sans-serif;font-weight:700;color:#fff;")
+              | Website Design, Brand Strategy,
+              br
+              | Digital Marketing with Stunning Results
+            .tp-caption.tp-resizeme.slider_button(data-x="['center','center','center','center','center','center']", data-hoffset="['0','0','0','0']", data-y="['middle','middle','middle','middle']", data-voffset="['130','130','130','100','100','100']", data-width='none', data-height='none', data-whitespace='nowrap', data-type='text', data-responsive_offset='on', data-frames='[{"delay":10,"speed":1500,"frame":"0","from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","to":"o:1;","ease":"Power2.easeInOut"},{"delay":"wait","speed":1500,"frame":"999","to":"y:[175%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]', data-textalign="['center','center','center','center','center','center']")
+              a.bg_btn(href='#') About Us
+              a.tp_btn(href='#') Get a quote
+        li(data-index='rs-2947', data-transition='slidevertical', data-slotamount='1', data-hideafterloop='0', data-hideslideonmobile='off', data-easein='default', data-easeout='default', data-masterspeed='1000', data-rotate='0', data-fstransition='fade', data-fsmasterspeed='1500', data-fsslotamount='7', data-saveperformance='off', data-title='Intro', data-param1='', data-param2='', data-param3='', data-param4='', data-param5='', data-param6='', data-param7='', data-param8='', data-param9='', data-param10='', data-description='')
+          //- MAIN IMAGE
+          img.rev-slidebg(src='/landing/images/slider-1.jpg', alt='', data-bgposition='center center', data-bgfit='cover', data-bgrepeat='no-repeat', data-no-retina='')
+          //- LAYER NR. 1
+          .slider_text_box
+            .tp-caption.tp-resizeme.secand_text(data-x="['center','center','center','center','center','center']", data-hoffset="['0','80','80','0']", data-y="['middle','middle','middle','middle']", data-voffset="['0','0','0','0','0']", data-fontsize="['48','48','48','28','28','22']", data-lineheight="['60','60','60','36','36','30']", data-width='100%', data-height='none', data-whitespace='normal', data-type='text', data-responsive_offset='on', data-transform_idle='o:1;', data-frames='[{"delay":10,"speed":1500,"frame":"0","from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","to":"o:1;","ease":"Power2.easeInOut"},{"delay":"wait","speed":1500,"frame":"999","to":"y:[175%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]', data-textalign="['center','center','center','center','center','center']", style="z-index: 8;font-family:'Poppins', sans-serif;font-weight:700;color:#fff;")
+              | Website Design, Brand Strategy, 
+              br
+              | Digital Marketing with Stunning Results
+            .tp-caption.tp-resizeme.slider_button(data-x="['center','center','center','center','center','center']", data-hoffset="['0','0','0','0']", data-y="['middle','middle','middle','middle']", data-voffset="['130','130','130','100','100','100']", data-width='none', data-height='none', data-whitespace='nowrap', data-type='text', data-responsive_offset='on', data-frames='[{"delay":10,"speed":1500,"frame":"0","from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","to":"o:1;","ease":"Power2.easeInOut"},{"delay":"wait","speed":1500,"frame":"999","to":"y:[175%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]', data-textalign="['center','center','center','center','center','center']")
+              a.bg_btn(href='#') About Us
+              a.tp_btn(href='#') Get a quote
+  //- ================End Slider Area =================
 
-            <div style="padding-top:40px;">
-                <div class="container">
-                <section style="background-color: #white; padding-top: 40px; padding-bottom:40px;">
-                    <div class="row ">
+  //- ================Creative Feature Area =================
+  section.creative_feature_area
+    .container
+      .c_feature_box
+        .row
+          .col-lg-4
+            .c_box_item
+              a(href='#')
+                h4
+                  i.fa.fa-thumbs-o-up(aria-hidden='true')
+                  |  Reliability
+              p
+                | Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          .col-lg-4
+            .c_box_item
+              a(href='#')
+                h4
+                  i.fa.fa-clock-o(aria-hidden='true')
+                  |  Expertise
+              p
+                | Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          .col-lg-4
+            .c_box_item
+              a(href='#')
+                h4
+                  i.fa.fa-diamond(aria-hidden='true')
+                  |  Quality
+              p
+                | Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      .digital_feature.p_100
+        .row
+          .col-lg-6
+            .d_feature_text
+              .main_title
+                h2
+                  | We Are A Creative 
+                  br
+                  |  Digital Agency Focused on Growing Brands Online
+              p
+                | Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderi.
+              p
+                | Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia dese mollit anim id est laborum. Sed ut perspiciatis unde omnis iste.
+              a.read_btn(href='#') Read more
+          .col-lg-6
+            .d_feature_img
+              img(src='/landing/images/feature-right.jpg', alt='')
+  //- ================End Creative Feature Area =================
 
-                    <div class="overlayimage_container">
-                        <div style="padding-left:57px;">
-                            <img src="landing/images/projects.png" alt="" class="image_hover">
-                            <div class="overlayimage">
-                            <img src="landing/images/ongoing_projects.jpg" alt="" >
-                                <h1 class="texthover" style="color:#3B5997">Projects</h1>
-                                    <p class="mb30"><!----></p>
-                                <div class="texthoverlink">
-                                    <a href="#" class="btn-linkhover">Ongoing <br>project<i class="fa fa-angle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    </section>
-                    
-                    <div class="row">
-                        <div class="col-xl-4 col-lg-4 offset-md-1 col-md-4 col-sm-12 col-12 mb20">
-                            <div class="tour-img">
-                                <img src="landing/images/awards.png" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                        <div class="col-xl-5 col-lg-5 offset-md-1 col-md-5 col-sm-12 col-12 mb20">
-                            <div class="tour-block">
-                                <div class="tour-content">
-                                    <p class="mb30" style="font-size: 50px; color: #3B5997">Awards</p>
-                                    <p class="mb30">Every month we award some barangay for their efforts.</p>
-                                    <a href="#" class="btn-link">Go For Awarded barangay<i class="fa fa-angle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  //- ================Industries Area =================
+  section.industries_area
+    .left_indus
+      .indus_img
+        img(src='/landing/images/indus-laptop.png', alt='')
+    .right_indus
+      .indus_text
+        .main_title
+          h2 We Serve All Industries
+          p
+            | We stay on top of our industry by being experts in yours. We measure our success by the results we drive for our clients.
+        .our_skill_inner
+          .single_skill
+            h3 Website Design
+            .progress(data-value='90')
+              .progress-bar
+                .progress_parcent
+                  span.counter 90
+                  | %
+          .single_skill
+            h3 Brand Strategy
+            .progress(data-value='95')
+              .progress-bar
+                .progress_parcent
+                  span.counter 95
+                  | %
+          .single_skill
+            h3 Digital Marketing
+            .progress(data-value='85')
+              .progress-bar
+                .progress_parcent
+                  span.counter 85
+                  | %
+          .single_skill
+            h3 Website Development
+            .progress(data-value='90')
+              .progress-bar
+                .progress_parcent
+                  span.counter 90
+                  | %
+        a.read_btn(href='#') Work with us
+  //- ================End Industries Area =================
 
-            <section class="about-section" style="background-color: #AFCEE3">
-            <!-- /.destination-section -->
-            <!-- about-section -->
-            <div class="space-medium">
-                <div class="container">
-                    <!-- about-head -->
-                    <div class="row" style="">
-                        <div class=""style="">
-                            <div class="">
-                                <h2 style="font-size: 35px;color: #3B5997; font-weight: 800; padding-left: 125px;">VISION</h2>
-                            </div>
-                        </div>
-                        <div class="col-xl-8 col-lg-8 offset-md-1 col-md-8 col-sm-12 col-12 mb60">
-                            <div class="">
-                                <p class="lead" style="padding-left: 100px; font-size: 16px; padding-right: 20px; color:grey" >Layunin ng Pamahalaang Lungsod Mandaluyong ang tuluyang pagsasagawa ng mabisang pamamahala, sa pangangasiwa ng panlipunang paglilingkod, pagpapaunlad ng kabuhayan at pamamahala sa kapaligiran at ikintal sa mamamayan ang kahalagahan ng kolektibong pagkilos at pagpapanatili sa kakayahan tungo sa pagsasarili at likas-kayang kaunlaran.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="">
-                        <div class=""style="">
-                            <div class="">
-                                <h2 style="font-size: 32px; color: #3B5997;font-weight: 750; padding-left: 125px;">MISSION</h2>
-                            </div>
-                        </div>
-                        <div class="col-xl-8 col-lg-8 offset-md-1 col-md-8 col-sm-12 col-12 mb60">
-                            <div class="">
-                                <p class="lead" style="padding-left: 80px;padding-right: 25px; font-size: 16px; color:grey" >Isang lungsod na sentro ang Diyos, mapanagutan, matatag at namumuhay sa isang ligtas at planadong lipunan, likas-kaya at mapayapang kapaligiran na nagtataguyod ng maugnaying paglago ng ekonomiya tungo sa global na kakayahan, sa ilalim ng isang pamunuan na bisyonaryo, dinamiko at makaaktibo.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- /.about-head -->
-                    <div class="row">
-                        <!-- feature-section -->
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
-                            <div class="well-block">
-                                <!-- feature-left -->
-                                <div class="feature-left">
-                                    <div class="feature-icon"><img src="./images/calendar.png" alt=""></div>
-                                    <div class="counter-content">
-                                        <h4>Everything’s on Schedule</h4>
-                                        <p style="color:grey">The releasing of benefits are on schedule</p>
-                                    </div>
-                                </div>
-                                <!-- /.feature-left -->
-                                <!-- feature-left -->
-                                <div class="feature-left">
-                                    <div class="feature-icon"><img src="./images/adventure.png" alt=""></div>
-                                    <div class="counter-content">
-                                        <h4>Open for problems and suggestions</h4>
-                                        <p style="color:grey">Problems of each barangay can be heard easily</p>
-                                    </div>
-                                </div>
-                                <!-- /.feature-left -->
-                                <!-- feature-left -->
+  //- ================Our Service Area =================
+  section.service_area
+    .container
+      .center_title
+        h2 Our Services
+        p We Are A Creative Digital Agency. Focused on Growing Brands Online
+      .row.service_item_inner
+        .col-lg-4
+          .service_item
+            i.ti-ruler-pencil
+            h4 Website Design
+            p
+              | The Fancy that recognize the talent and effort of the best web designers, developers and agencies in the world.
+        .col-lg-4
+          .service_item
+            i.ti-desktop
+            h4 Website Development
+            p
+              | The Fancy that recognize the talent and effort of the best web designers, developers and agencies in the world.
+        .col-lg-4
+          .service_item
+            i.ti-announcement
+            h4 Digital Marketing
+            p
+              | The Fancy that recognize the talent and effort of the best web designers, developers and agencies in the world.
+  //- ================End Our Service Area =================
 
-                                <!-- /.feature-left -->
-                            </div>
-                        </div>
-                        <!-- /.feature-section -->
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
-                            <div class="well-block">
-                                <div class="counter-block">
-                                    <div class="counter-content">
-                                        <h4>Beneficiary application</h4>
-                                        <p style="color:grey">Residents can easily apply on their respective barangay.</p>
-                                    </div>
-                                </div>
-                                <div class="counter-block">
-                                    <div class="counter-content">
-                                        <h4>Updated</h4>
-                                        <p style="color:grey"   >Every newly or edited projects are posted.</p>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </section>
-            <!-- /.about-section -->
-            <div style="padding-top:70px;">
-                <div class="container-fluid">
-                    <div class="row">
-                        <!-- section-title -->
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 " style="padding-bottom:40px">
-                            <div class="section-title tour-form-title">
-                                <h2>Top performing barangays</h2>
-                            </div>
-                        </div>
-                        <!-- /.section-title -->
-                    </div>
-                    <div class="row" style="padding-left:50px;">
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 nopl nopr">
-                            <!-- destination-section -->
-                            <div class="destination-block">
-                                <div class="desti-img">
-                                    <img src="./images/destination_1.jpg" alt="">
-                                    <a href="#" class="desti-title"  style="color: black">Brgy. 1</a>
-                                    <div class="overlay">
-                                    </div>
-                                    <div class="text">
-                                        <h3 class="mb20" style="color: grey">Brgy. 1</h3>
-                                        <ul class="angle list-none">
-                                        </ul>
-                                        <p class="brgy_award" style="color: grey">Most Active Barangay</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.destination-section -->
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 nopl nopr">
-                            <!-- destination-section -->
-                            <div class="destination-block">
-                                <div class="desti-img">
-                                    <img src="./images/destination_2.jpg" alt="">
-                                    <a href="#" class="desti-title" style="color: black">Brgy. 2</a>
-                                    <div class="overlay">
-                                    </div>
-                                    <div class="text">
-                                        <h3 class="mb20" style="color: grey">Brgy. 2</h3>
-                                        <ul class="angle list-none">
-                                        <p class="brgy_award" style="color: grey">Most  Barangay</p>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.destination-section -->
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 nopr nopl">
-                            <!-- destination-section -->
-                            <div class="destination-block">
-                                <div class="desti-img">
-                                    <img src="./images/destination_3.jpg" alt="">
-                                    <a href="#" class="desti-title" style="color: black">Brgy. 3</a>
-                                    <div class="overlay">
-                                    </div>
-                                    <div class="text">
-                                        <h3 class="mb20" style="color: grey">Brgy. 3</h3>
-                                        <ul class="angle list-none">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.destination-section -->
-                        </div>
-                        <!-- destination-section -->
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 nopr nopl">
-                            <div class="destination-block">
-                                <div class="desti-img">
-                                    <img src="./images/destination_4.jpg" alt="">
-                                    <a href="#" class="desti-title" style="color: black">Brgy. 4</a>
-                                    <div class="overlay">
-                                    </div>
-                                    <div class="text">
-                                        <h3 class="mb20" style="color: grey">Brgy. 4</h3>
-                                        <ul class="angle list-none">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.destination-section -->
-                    </div>
-                </div>
-            </div>
-            
-            
-            <!-- /.client-section -->
-            <div class="space-small">
-                <div class="container">
-                    <div class="row">
-                        <!-- client-logo -->
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-6">
-                            <div class="client-logo">
-                                <a href="#"><img src="./images/dummy_logo_1.png" alt=""></a>
-                            </div>
-                        </div>
-                        <!-- /.client-logo -->
-                        <!-- client-logo -->
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-6">
-                            <div class="client-logo">
-                                <a href="#"> <img src="./images/dummy_logo_2.png" alt=""></a>
-                            </div>
-                        </div>
-                        <!-- /.client-logo -->
-                        <!-- client-logo -->
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-6">
-                            <div class="client-logo">
-                                <a href="#">  <img src="./images/dummy_logo_3.png" alt=""></a>
-                            </div>
-                        </div>
-                        <!-- /.client-logo -->
-                        <!-- client-logo -->
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-6">
-                            <div class="client-logo">
-                                <a href="#"><img src="./images/dummy_logo_4.png" alt=""></a>
-                            </div>
-                        </div>
-                        <!-- /.client-logo -->
-                        <!-- client-logo -->
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-6">
-                            <div class="client-logo">
-                                <a href="#"> <img src="./images/dummy_logo_2.png" alt=""></a>
-                            </div>
-                        </div>
-                        <!-- /.client-logo -->
-                        <!-- client-logo -->
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-6">
-                            <div class="client-logo">
-                                <a href="#">  <img src="./images/dummy_logo_1.png" alt=""></a>
-                            </div>
-                        </div>
-                        <!-- /.client-logo -->
-                    </div>
-                </div>
-            </div>
-            <!-- /.client-section -->
-            <!-- footer -->
-            
-            <!-- /.footer -->
+  //- ================Testimonials Area =================
+  section.testimonials_area.p_100
+    .container
+      .testimonials_slider.owl-carousel
+        .item
+          .media
+            img.d-flex.rounded-circle(src='/landing/images/testimonials-1.png', alt='')
+            .media-body
+              img(src='/landing/images/dotted-icon.png', alt='')
+              p
+                | I wanted to mention that these days, when the opposite of good customer and tech support tends to be the norm, it’s always great having a team like you guys at Fancy! So, be sure that I’ll always spread the word about how good your product is and the extraordinary level of support that you provide any time there is any need for it.
+              h4
+                a(href='#') Aigars Silkalns
+                |  - CEO DeerCreative
+        .item
+          .media
+            img.d-flex.rounded-circle(src='/landing/images/testimonials-1.png', alt='')
+            .media-body
+              img(src='/landing/images/dotted-icon.png', alt='')
+              p
+                | I wanted to mention that these days, when the opposite of good customer and tech support tends to be the norm, it’s always great having a team like you guys at Fancy! So, be sure that I’ll always spread the word about how good your product is and the extraordinary level of support that you provide any time there is any need for it.
+              h4
+                a(href='#') Aigars Silkalns
+                |  - CEO DeerCreative
+        .item
+          .media
+            img.d-flex.rounded-circle(src='/landing/images/testimonials-1.png', alt='')
+            .media-body
+              img(src='/landing/images/dotted-icon.png', alt='')
+              p
+                | I wanted to mention that these days, when the opposite of good customer and tech support tends to be the norm, it’s always great having a team like you guys at Fancy! So, be sure that I’ll always spread the word about how good your product is and the extraordinary level of support that you provide any time there is any need for it.
+              h4
+                a(href='#') Aigars Silkalns
+                |  - CEO DeerCreative
+  //- ================End Testimonials Area =================
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <h3 style="display:inline;">Sign in to your Account</h3><a data-dismiss="modal" style="display:inline;" class="float-right">X</a>
-                            <hr class="style9" style="margin-bottom:5%;margin-top:3%;">
-                            <form action="/home" method="POST">
-                                <div class="card">
-                                    <div class="card-body" >
-                                        <i class="fa fa-address-card-o" style="font-size:30px;margin-right:2%;"></i> Username: <input style="width:70%;margin-bottom:3%;" type="email" name="user_email" value="" required/>
-                                        <br>
-                                        <i class="fa fa-lock" style="font-size:30px;margin-left:2%;margin-right:4%;"></i> Password: <input style="width:70%;margin-left:1%;" type="password" name="user_password" value="" required/>
-                                    </div>
-                                </div>
-                                <button name="submit" class="btn btn-primary float-right" style="margin-top:3%;" value="submit">Login
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             <div class="" >
-                <div class="container contfooter">
-                    <div class="row " >
-                        <!-- footer-logo -->
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 ">
-                            <div class="ft-img"><img src="./images/ft_logo.png" alt=""></div>
-                        </div>
-                        
-                        <!-- /.footer-logo -->
-                        <!-- footer-links -->
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12 ">
-                            <div class="footer-widget ">
-                                <h3 class="footer-title " style="color: #3B5997;font-weight: 750; padding-top:15px;">Quick Links</h3>
-                                <ul class="angle list-none">
-                                    <li><a href="# " style="color: white">Home</a></li>
-                                    <li><a href="# " style="color: white">Open Projects</a></li>
-                                    <li><a href="# " style="color: white">Finished Projects</a></li>
-                                    <li><a href="# " style="color: white">Contact</a></li>
-                                    <li><a href="# " style="color: white">About</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /.footer-links -->
-                        
-                        <!-- footer-post -->
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 ">
-                            <div class="footer-widget">
-                                <h3 class="footer-title" style="color: #3B5997;font-weight: 750; padding-top:15px;">Contact Info </h3>
-                                <div class="ft-contact-info"> <span class="ft-contact-icon"><i class="fa fa-map-marker"></i></span> <span class="ft-contact-text" style="color: white">Municipal Address</span></div>
-                                <div class="ft-contact-info"> <span class="ft-contact-icon"><i class="fa fa-phone "></i></span> <span class="ft-contact-text" style="color: white">+180-123-4567</span></div>
-                                <div class="ft-contact-info"> <span class="ft-contact-icon"><i class="fa fa-envelope "></i></span> <span class="ft-contact-text" style="color: white">municipal.address@gmail.com</span></div>
-                                <div class="social-icon"> <a href="# " class="btn-social-icon "><i class="fa fa-facebook "></i></a> <a href="# " class="btn-social-icon "><i class="fa fa-twitter "></i></a> <a href="# " class="btn-social-icon "><i class="fa fa-linkedin "></i></a> <a href="# " class="btn-social-icon "><i class="fa fa-google-plus "></i></a> </div>
-                            </div>
-                        </div>
-                        <!-- /.footer-post -->
-                    </div>
-                    <!-- tiny-footer -->
-                </div>
-                
-                </div>
-            </div>
+  //- ================Project Area =================
+  section.project_area
+    .container
+      .project_inner
+        .center_title
+          h2 Ready To Discuss Your Project?
+          p
+            | There are many ways to contact us. You may drop us a line, give us a call or send an email, choose what suits you the most.
+        a.tp_btn(href='#') WORK WITH US
+  //- ================End Project Area =================
 
-            
-            <!-- /.Modal -->
-            <a href="javascript:" id="return-to-top"><i class="fa fa-angle-up"></i></a>
-            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-            <script src="landing/js/jquery.min.js"></script>
-            <!-- Include all compiled plugins (below), or include individual files as needed -->
-            <script src="landing/js/bootstrap.min.js"></script>
-            <script src="landing/js/menumaker.js"></script>
-            <script src="landing/js/jquery.sticky.js"></script>
-            <script src="landing/js/sticky-header.js"></script>
-            <script src="landing/js/owl.carousel.min.js"></script>
-            <script src="landing/js/multiple-carousel.js"></script>
-            <script src="landing/js/jquery-ui.js"></script>
-            <script src="landing/js/date.js"></script>
-            <script src="landing/js/return-to-top.js"></script>
-        </div>
+  //- ================Latest News Area =================
+  section.latest_news_area.p_100
+    .container
+      .b_center_title
+        h2 Latest News
+        p We Are A Creative Digital Agency. Focused on Growing Brands Online
+      .l_news_inner
+        .row
+          .col-lg-4.col-md-6
+            .l_news_item
+              .l_news_img
+                a(href='#')
+                  img.img-fluid(src='/landing/images/l-news-1.jpg', alt='')
+              .l_news_content
+                a(href='#')
+                  h4 We Create Experiences
+                p
+                  | The Fancy that recognize the talent and effort of the best web designers, develop-ers and agencies in the world.
+                a.more_btn(href='#') Learn More
+          .col-lg-4.col-md-6
+            .l_news_item
+              .l_news_img
+                a(href='#')
+                  img.img-fluid(src='/landing/images/l-news-2.jpg', alt='')
+              .l_news_content
+                a(href='#')
+                  h4 Simple, Fast And Fun
+                p
+                  | The Fancy that recognize the talent and effort of the best web designers, develop-ers and agencies in the world.
+                a.more_btn(href='#') Learn More
+          .col-lg-4.col-md-6
+            .l_news_item
+              .l_news_img
+                a(href='#')
+                  img.img-fluid(src='/landing/images/l-news-3.jpg', alt='')
+              .l_news_content
+                a(href='#')
+                  h4 Device Friendly
+                p
+                  | The Fancy that recognize the talent and effort of the best web designers, develop-ers and agencies in the world.
+                a.more_btn(href='#') Learn More
+  //- ================End Latest News Area =================

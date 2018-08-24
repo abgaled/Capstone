@@ -1,0 +1,70 @@
+extends ../../../templates/landing
+
+block prepend main
+  //- ================Banner Area =================
+  section.banner_area
+    .container
+      .banner_text_inner
+        h4 Contact Us
+        h5 Tell us about your story and your project.
+  //- ================End Banner Area =================
+
+  //- ================Contact Us Area =================
+  section.contact_us_area
+    .container
+      #mapBox.mapBox.row.m0(data-lat='1.30921', data-lon='103.8509813', data-zoom='14', data-marker='img/map-marker.png', data-info='Broadway Hotel', data-mlat='1.30921', data-mlon='103.8509813')
+      .contact_details_inner
+        .row
+          .col-lg-6
+            .contact_text
+              .main_title
+                h2 Contact Us
+                p
+                  | There are many ways to contact us. You may drop us a line, give us a call or send an email, choose what suits you the most
+              .contact_d_list
+                .contact_d_list_item
+                  a(href='#') (800) 686-6688
+                  a(href='#') info.deercreative@gmail.com
+                .contact_d_list_item
+                  p
+                    | 40 Baria Sreet 133/2 
+                    br
+                    |  NewYork City, US
+                .contact_d_list_item
+                  p
+                    | Open hours: 8.00-18.00 Mon-Fri 
+                    br
+                    | Sunday: Closed
+              .static_social
+                .main_title
+                  h2 Follow Us:
+                ul
+                  li
+                    a(href='#')
+                      i.fa.fa-facebook
+                  li
+                    a(href='#')
+                      i.fa.fa-twitter
+                  li
+                    a(href='#')
+                      i.fa.fa-google-plus
+                  li
+                    a(href='#')
+                      i.fa.fa-instagram
+          .col-lg-6
+            .contact_form
+              .main_title
+                h2 Get In Touch With Us!
+                p Fill out the form below to recieve a free and confidential.
+              form#contactForm.contact_us_form.row(action='contact_process.php', method='post', novalidate='novalidate')
+                .form-group.col-lg-12
+                  input#name.form-control(type='text', name='name', placeholder='Name')
+                .form-group.col-lg-12
+                  input#email.form-control(type='email', name='email', placeholder='Email')
+                .form-group.col-lg-12
+                  input#subject.form-control(type='text', name='subject', placeholder='Website')
+                .form-group.col-lg-12
+                  textarea#message.form-control(name='message', rows='1', placeholder='Message')
+                .form-group.col-md-12
+                  button.btn.submit_btn2.form-control(type='submit', value='submit') Send Messages
+  //- ================End Contact Us Area =================

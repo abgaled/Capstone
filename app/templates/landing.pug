@@ -1,0 +1,223 @@
+doctype
+html(lang="en")
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    //- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
+    link(rel='icon', href='/icons/cityprologo.png', sizes='16x16')
+    //- Icon css link
+    link(href="/assets/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet")
+    link(href='/landing/vendors/elegant-icon/style.css', rel='stylesheet')
+    link(href='/landing/vendors/themify-icon/themify-icons.css', rel='stylesheet')
+    //- Bootstrap
+    link(href='/landing/css/bootstrap.min.css', rel='stylesheet')
+    //- Rev slider css
+    link(href='/landing/vendors/revolution/css/settings.css', rel='stylesheet')
+    link(href='/landing/vendors/revolution/css/layers.css', rel='stylesheet')
+    link(href='/landing/vendors/revolution/css/navigation.css', rel='stylesheet')
+    link(href='/landing/vendors/animate-css/animate.css', rel='stylesheet')
+    //- Extra plugin css
+    link(href='/landing/vendors/owl-carousel/owl.carousel.min.css', rel='stylesheet')
+
+    link(href='/landing/css/stylelanding.css', rel='stylesheet')
+    link(href='/landing/css/responsivelanding.css', rel='stylesheet')
+
+    //-  WARNING: Respond.js doesn't work if you view the page via file://
+    //- [if lt IE 9]>
+    //- <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    //- <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    //- <![endif]
+    //-  HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+
+  body
+    //- ================Search Area ================
+    section.search_area
+      .search_inner
+        input(type='text', placeholder='Enter Your Search...')
+        i.ti-close
+    //- ================End Search Area =================
+
+    //- ================Header Menu Area =================
+    header.main_menu_area
+      nav.navbar.navbar-expand-lg.navbar-light.bg-light
+        a.navbar-brand(href='#')
+          img(src='/landing/images/logo3.png', alt='')
+        button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+          span
+          span
+          span
+        #navbarSupportedContent.collapse.navbar-collapse
+          ul.navbar-nav.mr-auto
+            li.nav-item
+              a.nav-link(href='/') Home
+            li.nav-item
+              a.nav-link(href='#') Pages
+            li.nav-item
+              a(href='/blog') Blog
+            li.nav-item
+              a.nav-link(href='#') Shop
+            li.nav-item
+              a.nav-link(href='/contact') Contact
+          ul.navbar-nav.justify-content-end
+            li
+              a(href='#')
+                i.icon_search
+            li
+              a(href='#')
+                i.icon_bag_alt
+    //- ================End Header Menu Area =================
+
+    //- ================Main Content =================
+    block main
+    //- ================End Main Content =================
+
+    //- ================Footer Area =================
+    footer.footer_area
+      .footer_widgets_area
+        .container
+          .f_widgets_inner.row
+            .col-lg-3.col-md-6
+              aside.f_widget.subscribe_widget
+                .f_w_title
+                  h3 Our Newsletter
+                p Subscribe to our mailing list to get the updates to your email inbox.
+                .input-group
+                  input.form-control(type='email', placeholder='E-mail', aria-label='E-mail')
+                  span.input-group-btn
+                    button.btn.btn-secondary.submit_btn(type='button') Subscribe
+                ul
+                  li
+                    a(href='#')
+                      i.fa.fa-facebook
+                  li
+                    a(href='#')
+                      i.fa.fa-twitter
+                  li
+                    a(href='#')
+                      i.fa.fa-google-plus
+                  li
+                    a(href='#')
+                      i.fa.fa-instagram
+                  li
+                    a(href='#')
+                      i.fa.fa-pinterest
+            .col-lg-3.col-md-6
+              aside.f_widget.twitter_widget
+                .f_w_title
+                  h3 Twitter Feed
+                .tweets_feed
+            .col-lg-3.col-md-6
+              aside.f_widget.categories_widget
+                .f_w_title
+                  h3 Link Categories
+                ul
+                  li
+                    a(href='#')
+                      i.fa.fa-angle-double-right(aria-hidden='true')
+                      | Agency
+                  li
+                    a(href='#')
+                      i.fa.fa-angle-double-right(aria-hidden='true')
+                      | Studio
+                  li
+                    a(href='#')
+                      i.fa.fa-angle-double-right(aria-hidden='true')
+                      | Studio
+                  li
+                    a(href='#')
+                      i.fa.fa-angle-double-right(aria-hidden='true')
+                      | Blogs
+                  li
+                    a(href='#')
+                      i.fa.fa-angle-double-right(aria-hidden='true')
+                      | Shop
+                ul
+                  li
+                    a(href='#')
+                      i.fa.fa-angle-double-right(aria-hidden='true')
+                      | Home
+                  li
+                    a(href='#')
+                      i.fa.fa-angle-double-right(aria-hidden='true')
+                      | About
+                  li
+                    a(href='#')
+                      i.fa.fa-angle-double-right(aria-hidden='true')
+                      | Services
+                  li
+                    a(href='#')
+                      i.fa.fa-angle-double-right(aria-hidden='true')
+                      | Work
+                  li
+                    a(href='#')
+                      i.fa.fa-angle-double-right(aria-hidden='true')
+                      | Privacy
+            .col-lg-3.col-md-6
+              aside.f_widget.contact_widget
+                .f_w_title
+                  h3 Contact Us
+                a(href='#') 1 (800) 686-6688
+                a(href='#') info.deercreative@gmail.com
+                p
+                  | 40 Baria Sreet 133/2 
+                  br
+                  | NewYork City, US
+                h6 Open hours: 8.00-18.00 Mon-Fri
+      .copy_right_area
+        .container
+          .float-md-left
+            h5
+              | Copyright ©
+              script.
+                document.write(new Date().getFullYear());
+              |  All rights reserved | This template is made with 
+              i.fa.fa-heart-o(aria-hidden='true')
+              |  by 
+              a(href='https://colorlib.com', target='_blank') Colorlib
+          .float-md-right
+            ul.nav
+              li.nav-item
+                a.nav-link.active(href='#') Disclaimer
+              li.nav-item
+                a.nav-link(href='#') Privacy
+              li.nav-item
+                a.nav-link(href='#') Advertisement
+              li.nav-item
+                a.nav-link(href='#') Contact us
+    //- ================End Footer Area =================
+
+    //- jQuery (necessary for Bootstrap's JavaScript plugins)
+    script(src='/landing/js/jquery-3.2.1.min.js')
+    //- Include all compiled plugins (below), or include individual files as needed
+    script(src='/landing/js/popperlanding.min.js')
+    script(src='/landing/js/bootstraplanding.min.js')
+
+    //- Rev slider js
+    script(src='/landing/vendors/revolution/js/jquery.themepunch.tools.min.js')
+    script(src='/landing/vendors/revolution/js/jquery.themepunch.revolution.min.js')
+    script(src='/landing/vendors/revolution/js/extensions/revolution.extension.actions.min.js')
+    script(src='/landing/vendors/revolution/js/extensions/revolution.extension.video.min.js')
+    script(src='/landing/vendors/revolution/js/extensions/revolution.extension.slideanims.min.js')
+    script(src='/landing/vendors/revolution/js/extensions/revolution.extension.layeranimation.min.js')
+    script(src='/landing/vendors/revolution/js/extensions/revolution.extension.navigation.min.js')
+    script(src='/landing/vendors/revolution/js/extensions/revolution.extension.slideanims.min.js')
+    //- Extra plugin css
+    script(src='/landing/vendors/counterup/jquery.waypoints.min.js')
+    script(src='/landing/vendors/counterup/jquery.counterup.min.js')
+    script(src='/landing/vendors/counterup/apear.js')
+    script(src='/landing/vendors/counterup/countto.js')
+    script(src='/landing/vendors/owl-carousel/owl.carousel.min.js')
+    script(src='/landing/vendors/parallaxer/jquery.parallax-1.1.3.js')
+    //- Tweets
+    script(src='/landing/vendors/tweet/tweetie.min.js')
+    script(src='/landing/vendors/tweet/script.js')
+    // gmaps Js
+    script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE')
+    script(src='/landing/js/gmaps.min.js')
+    // contact js
+    script(src='/landing/js/jquery.form.js')
+    script(src='/landing/js/jquery.validate.min.js')
+    script(src='/landing/js/contact.js')
+
+    script(src='/landing/js/theme.js')
