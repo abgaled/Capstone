@@ -67,7 +67,7 @@ router.post('/:int_statementID/acknowledge', (req, res) => {
             
     db.query(queryString1, (err, results) => {        
         if (err) throw err;
-        res.redirect('/office/problems/submittedproblems');
+        res.redirect('/office/problems');
     });
 });
 
@@ -82,7 +82,7 @@ router.post('/:int_statementID/rejectstatement', (req, res) => {
             
     db.query(queryString1, (err, results) => {        
         if (err) throw err;
-        res.redirect('/office/problems/submittedproblems');
+        res.redirect('/office/problems');
     });
 });
 

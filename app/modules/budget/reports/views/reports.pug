@@ -1,97 +1,53 @@
 extends ../../home/views/navbar.pug
 
 block content
-    <link rel="stylesheet" type="text/css" href="/barangay/css/specificproject.css">
-    <!-- page-header -->
-        <div class="page-header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="page-caption">
-                            <h1 class="page-title" style="color:#3B5997;">Reports</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.page-header-->
-        <!-- tour-booking -->
-        <div class="container">
-        <div class="card">
-        <div class="card-header"></div>
-        <div class="card-body">
-
-        <div class="content">
-
-        //- Panel Summary Report
-        <div class="col-lg-5">
-            <div class="row">
-                <!--Panel-->
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Approved Project Proposal</h5>
-                            <hr/>
-                            <p class="card-text">Number</p>
-                            <a href="#" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
-                </div>
-                <!--/.Panel-->
-
-                <!--Panel-->
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Rejected Project Proposal</h5>
-                            <hr/>
-                            <p class="card-text">Number</p>
-                            <a href="#" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
-                </div>
-                <!--/.Panel-->
-            </div>
-            <div class="row">
-                <!--Panel-->
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Pending Project Proposal</h5>
-                            <hr/>
-                            <p class="card-text">Number</p>
-                            <a href="#" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
-                </div>
-                <!--/.Panel-->
-
-                <!--Panel-->
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Proposed Project Proposal</h5>
-                            <hr/>
-                            <p class="card-text">Number</p>
-                            <a href="#" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
-                </div>
-                <!--/.Panel-->
-            </div>
-        </div>
-
-        //- Graph report
-        <div class="col-lg-7">
-            <div class="row">
-                <canvas id="myChart" style="max-width: 500px;"></canvas>
-            </div>
-        </div>
-
-        <div class="col-md-5">
-            <canvas id="myChart" ></canvas>
-        </div>
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1>Finished Projects</h1>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                each project in tbl_project
+                                                    <tr>
+                                                        <td>
+                                                            value=project.varchar_projectName
+                                                        </td>
+                                                        <td>
+                                                            value=project.enum_projectStatus
+                                                        </td>
+                                                        <td>
+                                                            a( id="viewproj" class="btn btn-success btn-sm"): span.fa.fa-eye  View Details
+                                                            a( id="viewapp" class="btn btn-primary btn-sm"): span.fa.fa-list  Applications
+                                                            a( id="viewapp" class="btn btn-info btn-sm"): span.fa.fa-eye  View Liquidation
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+        <!-- END STATISTIC-->
             
-        </div>
-        </div>
-        <!-- /.tour-booking -->

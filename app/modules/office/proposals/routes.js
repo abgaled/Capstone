@@ -93,41 +93,40 @@ router.post('/',(req, res) => {
     console.log("==============REQUIREMENT=============");
     console.log(req.body.statementID)
 
-        // for(i = 0 ; i < statements.length ; i++)
-        //     {
-                var updateProbStatus =  `UPDATE tbl_problemstatement SET
-                enum_problemStatus = "Proposed"
-                WHERE tbl_problemstatement.int_statementID = ${req.body.statementID}`;
-                
-            // }
-            db.query(updateProbStatus, (err, results, fields) => {        
-                if (err) throw err;    
-                console.log(results);
-
-                var insertprojProposal = `INSERT INTO \`tbl_projectproposal\` (
+        for(i = 0 ; i < statements.length ; i++)
+        {
+            var updateProbStatus =  `UPDATE tbl_problemstatement SET
+            enum_problemStatus = "Proposed"
+            WHERE tbl_problemstatement.int_statementID = ${req.body.statementID}`;
             
-                    \`varchar_projectName\`,
-                    \`int_categoryID\`,
-                    \`varchar_releaseLocation\`,
-                    \`varchar_projectRationale\`,
-                    \`text_projectDescription\`,
-                    \`text_expectedOutput\`,
-                    \`int_allotedSlot\`,
-                    \`decimal_estimatedBudget\`,
-                    \`decimal_individualBudget\`,
-                    \`enum_proposalStatus\`)
-                            
-                    VALUES(
-                    "${req.body.projectname}",
-                    "${req.body.projectcategory}",
-                    "${req.body.releaselocation}",
-                    "${req.body.projectrationale}",
-                    "${req.body.projectdescription}",
-                    "${req.body.expectedoutput}",
-                    "${req.body.allotedslot}",
-                    "${req.body.estimatedbudget}",
-                    "${req.body.individualbudget}",
-                    "Accepted");`;
+        }
+
+        db.query(updateProbStatus, (err, results, fields) => {        
+            if (err) throw err;    
+            console.log(results);
+
+            var insertprojProposal = `INSERT INTO \`tbl_projectproposal\` (
+        
+                \`varchar_projectName\`,
+                \`varchar_projectRationale\`,
+                \`text_projectDescription\`,
+                \`text_projectObjective\`,
+                \`int_allotedSlot\`,
+                \`int_dayDuration\`,
+                \`decimal_estimatedBudget\`,
+                \`date_createdDate\`,
+                \`enum_proposalStatus\`)
+                        
+                VALUES(
+                "${req.body.projectname}",
+                "${req.body.projectrationale}",
+                "${req.body.projectdescription}",
+                "${req.body.projectobjectives}",
+                "${req.body.allotedslot}",
+                "${req.body.allotedslot}",
+                "${req.body.estimatedbudget}",
+                CURDATE(),
+                "Accepted");`;
 
             db.query(insertprojProposal, (err, results, fields) => {        
                 if (err) throw err;    
