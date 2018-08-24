@@ -222,6 +222,7 @@ block content
                                         each app in applications
                                             <tr>
                                                 <td>
+                                                if app.enum_applicationStatus == "Pending" 
                                                     input(type="checkbox" id="check-applications" name="checkApplications[]" class="icheckbox_flat-green" value=`${app.int_applicationID}` )
                                                 </td>
                                                 <td>

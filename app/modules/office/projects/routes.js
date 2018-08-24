@@ -150,25 +150,18 @@ router.post('/confirmcheck',(req, res) => {
     console.log(req.body.PROJECT_idcheq)
     console.log(req.body.chequeNumber)
 
-    var selectQuery = `SELECT * FROM tbl_proposalapproval WHERE
-    varchar_checkNumber="${req.body.chequeNumber}"
-    AND int_projectID = ${req.body.PROJECT_idcheq}`
-
-        db.query(selectQuery, (err, resultSelect, fields) => {
-
-        if (resultSelect.varchar_checkNumber == req.body.chequeNumber && resultSelect.int_projectID == req.body.PROJECT_idcheq ){
-
-            var confirmCheck = `UPDATE tbl_proposalapproval
-            SET enum_proappStatus = 'Received' 
-            WHERE int_projectID = ${req.body.PROJECT_idcheq}
-            AND varchar_checkNumber == "${req.body.chequeNumber}"`
+    var confirmCheck = `UPDATE tbl_proposalapproval
+        SET enum_propappStatus = 'Received'
+        WHERE varchar_checkNumber = ${req.body.chequeNumber}
+        AND int_projectID = ${req.body.PROJECT_idcheq}`
             
-        }
-            db.query(confirmCheck, (err, results1, fields) => {
+        
+        db.query(confirmCheck, (err, results1, fields) => {
+
                 
-                res.redirect(`/office/projects/ongoingproject`);
-            });
-    });
+            res.redirect(`/office/projects/ongoingproject`);
+            
+        });
 });
 
 // AJAX GET DETAILS VIEW DETAILS PROJECT - VIEW APPLICANT DETAILS
