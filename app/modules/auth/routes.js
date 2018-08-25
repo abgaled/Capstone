@@ -7,7 +7,7 @@ var db = require('../../lib/database')();
 
 
 homepage.get('/',authMiddleware.noAuthed,(req, res) => {
-    res.render('auth/views/index1');
+    res.render('auth/views/index');
 });
 
 homepage.post('/', (req, res) =>{

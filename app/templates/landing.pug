@@ -30,6 +30,22 @@ html(lang="en")
     //- <![endif]
     //-  HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
 
+    //- ================ Internal Styles ================
+    style.
+      .input-group-text i {
+        background-image: -moz-linear-gradient(180deg, #20d497 0%, #744fff 100%);
+        background-image: -webkit-linear-gradient(180deg, #20d497 0%, #744fff 100%);
+        background-image: -ms-linear-gradient(180deg, #20d497 0%, #744fff 100%);
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+      #submit {
+        cursor: pointer;
+        height: 48.5px;
+      }
+    //- ================End Internal Styles ================
+
   body
     //- ================Search Area ================
     section.search_area
@@ -51,22 +67,51 @@ html(lang="en")
           ul.navbar-nav.mr-auto
             li.nav-item
               a.nav-link(href='/') Home
-            li.nav-item
-              a.nav-link(href='#') Pages
+            //- li.nav-item
+            //-   a.nav-link(href='#') Pages
             li.nav-item
               a(href='/blog') Blog
-            li.nav-item
-              a.nav-link(href='#') Shop
+            //- li.nav-item
+            //-   a.nav-link(href='#') Shop
             li.nav-item
               a.nav-link(href='/contact') Contact
+            li.nav-item
+              a.nav-link(href='#' data-toggle="modal" data-target="#exampleModal") Login
+            li.nav-item
+              a.nav-link(href='#') Signup
           ul.navbar-nav.justify-content-end
             li
               a(href='#')
                 i.icon_search
-            li
+            //- li
               a(href='#')
                 i.icon_bag_alt
     //- ================End Header Menu Area =================
+
+    //- ================Modal Login =================
+    #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+      .modal-dialog.modal-sm(role='document')
+        .modal-content
+          .modal-header
+            h5#exampleModalLabel.modal-title Login
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+          form#loginForm(action="/home" method="POST")
+            .modal-body
+              .input-group.mb-2
+                .input-group-prepend
+                  .input-group-text
+                    i.ti-email
+                input.form-control(type='email', name="user_email" placeholder='Email' required)
+              .input-group.mb-2
+                .input-group-prepend
+                  .input-group-text
+                    i.ti-lock
+                input.form-control(type='password', name="user_password" placeholder='Password' required)
+            .modal-footer
+              button#submit.read_btn(href='#') Login
+    //- ================End Modal Login =================
+
 
     //- ================Main Content =================
     block main
@@ -221,3 +266,7 @@ html(lang="en")
     script(src='/landing/js/contact.js')
 
     script(src='/landing/js/theme.js')
+    script.
+      $("#submit").click(function() {
+        $("#loginForm").submit();
+      });
