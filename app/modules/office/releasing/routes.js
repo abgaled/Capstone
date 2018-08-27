@@ -26,7 +26,7 @@ router.get('/',(req, res) => {
     JOIN tbl_projectproposal prpro 
     ON pr.int_projectID=prpro.int_projectID
     WHERE pr.enum_projectStatus = 'Releasing'
-    ORDER BY pr.datetime_releasingStart DESC`
+    ORDER BY pr.date_releaseDate DESC`
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -35,7 +35,7 @@ router.get('/',(req, res) => {
         var date_results = results;
 
         for (var i = 0; i < date_results.length;i++){
-            date_results[i].datetime_releasingStart = moment(date_results[i].datetime_releasingStart).format('MM-DD-YYYY');
+            date_results[i].datetime_releaseDate = moment(date_results[i].datetime_releasingStart).format('MM-DD-YYYY');
         }
 
         res.render('office/releasing/views/releasing',{tbl_project:results});
@@ -61,10 +61,6 @@ router.get('/:int_projectID/viewproj',(req, res) => {
     JOIN tbl_beneficiary bf ON prbf.int_beneficiaryID=bf.int_beneficiaryID
     WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
-    var queryString4 =`SELECT * FROM tbl_projectlocation pl
-    JOIN tbl_projectproposal pr ON pr.int_projectID=pl.int_projectID
-    JOIN tbl_releaselocation rl ON pl.int_locationID=rl.int_locationID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     var queryString5 =`SELECT * FROM tbl_projectcategory pc
     JOIN tbl_projectproposal pr ON pr.int_projectID=pc.int_projectID
@@ -82,16 +78,14 @@ router.get('/:int_projectID/viewproj',(req, res) => {
             db.query(queryString3, (err, results3, fields) => {
                 console.log(results3);
                 if (err) console.log(err);
-                db.query(queryString4, (err, results4, fields) => {
-                    console.log(results4);
-                    if (err) console.log(err);
+                
                     db.query(queryString5, (err, results5, fields) => {
                         console.log(results5);
                         if (err) console.log(err);
 
-                            res.render('office/releasing/views/viewproj', {tbl_projectproposal:results, tbl_projectrequirement:results2, tbl_projectbeneficiary:results3, tbl_releaselocation:results4,tbl_projectcategory:results5});
+                            res.render('office/releasing/views/viewproj', {tbl_projectproposal:results, tbl_projectrequirement:results2, tbl_projectbeneficiary:results3, tbl_projectcategory:results5});
 
-    });});});});
+    });});});
 });
 });
 
@@ -106,7 +100,8 @@ router.get('/:int_projectID/viewben',(req, res) => {
     JOIN tbl_personalinformation pi ON app.int_applicationID = pi.int_applicationID
     JOIN tbl_projectproposal propr ON propr.int_projectID = proj.int_projectID
     WHERE app.int_projectID = "${req.params.int_projectID}"
-    AND app.enum_applicationStatus = 'Approved'`
+    AND app.enum_applicationStatus = 'Approved' 
+    AND app.enum_applicationStatus = 'Received'`
     
     db.query(queryString1, (err, results1, fields) => {
         console.log(results1);

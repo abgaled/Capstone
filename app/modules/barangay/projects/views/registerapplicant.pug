@@ -436,6 +436,32 @@ block content
 
         //- END OF SCRIPT FOR LABEL
 
+        //- SWEET ALERT CONFIRM SUBMIT
+                $('#regForm').on('submit',function (e) {
+                    var form = $(this).parents('form');
+                    e.preventDefault(); //prevent submit
+                    
+                        swal({
+                        title: 'Are you sure?',
+                        text: "You will submit this application.",
+                        type: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, submit it!'
+                        }).then((result) => {
+                        if (result.value) {
+                            $('##regForm').submit();
+                            swal(
+                            'Success!',
+                            'Statement of Problem has been Submitted!',
+                            'success'
+                            )
+                        }
+                        })
+                });
+        //- END OF SWEET ALERT
+
         //- SCRIPT FOR SUMMARY OF APPLICATION
         function getlname() {
             var lname = document.getElementById("ap-lname").value;

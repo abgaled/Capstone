@@ -24,7 +24,7 @@ block content
                     <tbody>
                         <tr>
                             <th scope="row">Problem to be solved:</th>
-                            <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <th scope="row"></th>
@@ -134,12 +134,16 @@ block content
                         <tbody>
                             <tr>
                                 <th scope="row">Duration of Application:</th>
-                                <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
+                                <td>
+                                each detail in details
+                                    value= detail.int_applicationDuration
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row">Releasing Date:</th>
                                 <td>
-                                value=project.datetime_releasingEnd
+                                each timeline in timelines
+                                    value=timeline.date_releaseDate
                                 </td>
                             </tr>
                             <tr>

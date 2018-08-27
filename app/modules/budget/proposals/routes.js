@@ -12,9 +12,7 @@ router.get('/pending',(req, res) => {
     console.log('=================================');
 
     var newQuery = `SELECT * 
-        FROM tbl_projectproposal propr
-        JOIN tbl_proposalapproval proapp 
-        ON propr.int_projectID = proapp.int_projectID`;
+        FROM tbl_projectproposal `;
 
     db.query(newQuery, (err, newResult, fields) => {
 
@@ -32,21 +30,29 @@ router.post('/pending',(req, res) => {
     console.log('=================================');
     
     console.log(req.body.chequeNumber);
-    var insertCheckQuery = `UPDATE tbl_proposalapproval
-    SET varchar_checkNumber = "${req.body.chequeNumber}",
-    enum_propappStatus = "Sent"
-    WHERE int_projectID = ${req.body.PROJECT_idcheq}`;
-    db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
-    if(err) console.log(err);
+    console.log(req.body.PROJECT_idcheque)
 
-    
+    // var insertCheckQuery = `UPDATE tbl_proposalapproval
+    // SET varchar_checkNumber = "${req.body.chequeNumber}",
+    // enum_propappStatus = "Sent",
+    // int_projectID = ${req.body.PROJECT_idcheque}`;
 
-    console.log("Succesfully inserted the check number");
-    console.log(insertCheckResult);
+    var insertCheckQuery = `INSERT INTO \`tbl_proposalapproval\` 
+    (\`int_projectID\`, 
+    \`varchar_checkNumber\`,
+    \`enum_propappStatus\`)
+    VALUES
+    (${req.body.PROJECT_idcheque},
+    "${req.body.chequeNumber}",
+    "Sent")`
 
-    
-        res.redirect('/budget/proposals/pending');
-});
+        db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
+        if(err) console.log(err);
+
+        console.log("Succesfully inserted the check number");
+        
+            res.redirect('/budget/proposals/pending');
+        });
 });
 
 router.get('/approved',(req, res) => {
@@ -110,7 +116,7 @@ router.get('/viewdetail', (req, res) => {
             console.log('Succesfully retrieved project beneficiary data from the database');
 
             
-            var requirementDetailQuery = `SELECT varchar_requirementName, text_requirementDescription
+            var requirementDetailQuery = `SELECT varchar_requirementName
                 FROM tbl_requirement R JOIN tbl_projectrequirement PR
                 ON R.int_requirementID=PR.int_requirementID
                 JOIN tbl_projectproposal PP ON PR.int_projectID=PP.int_projectID
@@ -120,31 +126,22 @@ router.get('/viewdetail', (req, res) => {
                 if(err) console.log(err);
                 console.log('Succesfully retrieved project requirement data from the database');
 
-                var timelineDetailQuery = `SELECT date_projectStart, date_projectEnd, datetime_releasingStart, datetime_releasingEnd
-                    FROM tbl_project
-                    WHERE int_projectID= ${resultIndex}`;
+                var timelineDetailQuery = `SELECT date_startApplication, 
+                date_endApplication, date_releaseDate, date_projectClose
+                FROM tbl_project
+                WHERE int_projectID= ${resultIndex}`;
 
                 db.query(timelineDetailQuery, (err, timelineDetailResult, fields) => {
                     if(err) console.log(err);
                     console.log('Succesfully retrieved project timeline data from the database');
                 
-                    var budgetDetailQuery = `SELECT int_allotedSlot, decimal_estimatedBudget, int_dayDuration
+                    var budgetDetailQuery = `SELECT int_allotedSlot, decimal_estimatedBudget, int_releasingDuration
                         FROM tbl_projectproposal
                         WHERE int_projectID= ${resultIndex}`;
 
                     db.query(budgetDetailQuery, (err, budgetDetailResult, fields) => {
                         if(err) console.log(err);
                         console.log('Succesfully retrieved project budget data from the database');
-                            
-                        var formDetailQuery = `SELECT varchar_formName
-                            FROM tbl_formtype FT JOIN tbl_projectform PF
-                            ON FT.int_formTypeID=PF.int_formtypeID
-                            JOIN tbl_projectproposal PP ON PF.int_projectID=PP.int_projectID
-                            WHERE PP.int_projectID= ${resultIndex}`;
-
-                        db.query(formDetailQuery, (err, formDetailResult, fields) => {
-                            if(err) console.log(err);
-                            console.log('Succesfully retrieved project form data from the database');
                             
                             var categoryDetailQuery = `SELECT varchar_categoryName
                                 FROM tbl_projectcategory PC JOIN tbl_category C
@@ -158,8 +155,6 @@ router.get('/viewdetail', (req, res) => {
                                 var locationDetailQuery = ` SELECT *
                                     FROM tbl_projectproposal PP JOIN tbl_projectlocation PL
                                     ON PP.int_projectID=PL.int_projectID
-                                    JOIN tbl_releaselocation RL ON PL.int_locationID=RL.int_locationID
-                                    JOIN tbl_address A ON RL.int_locationAddressID=A.int_addressID
                                     WHERE PP.int_projectID= ${resultIndex}`;
 
                                 db.query(locationDetailQuery, (err, locationDetailResult, fields) => {
@@ -173,14 +168,13 @@ router.get('/viewdetail', (req, res) => {
                                         beneficiaries:beneDetailResult, 
                                         requirements:requireDetailResult, 
                                         timelines:timelineDetailResult, 
-                                        forms:formDetailResult, 
                                         budgets:budgetDetailResult, 
                                         categories:categoryDetailResult, 
                                         locations:locationDetailResult
                                     });
                                 });
                             });
-                        });
+                        
                     });
                 });
             });
@@ -307,7 +301,7 @@ router.post('/approval',(req, res) => {
 
 
     console.log(resultIndex);
-    console.log(req.body.actualbudget);
+    console.log(req.body.actual_budget);
 
 
         var updateProjStatQuery = `UPDATE tbl_projectproposal SET 
@@ -318,18 +312,16 @@ router.post('/approval',(req, res) => {
             if(err) console.log(err);
 
             console.log("Succesfully updated the proposal status");
-            console.log(updateProjStatResult);
 
             var updateBudgetQuery = `UPDATE tbl_project
                 SET decimal_actualBudget = ${req.body.actual_budget},
-                enum_projectStatus = 'New'
+                enum_projectStatus = 'Approved'
                 WHERE int_projectID = ${req.body.PROJECT_id}`;
 
             db.query(updateBudgetQuery, (err, updateBudgetResult, fields) => {
                 if(err) console.log(err);
 
                 console.log("Succesfully updated the project actual budget");
-                console.log(updateBudgetResult);
 
                 res.redirect('/budget/proposals/pending');
         });

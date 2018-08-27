@@ -12,25 +12,35 @@ router.get('/',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROPOSALS');
     console.log('=================================');
+
+    var officeQuery = `SELECT int_cityID 
+    FROM tbl_city
+    WHERE int_userID = ${req.session.office.int_userID}`
  
-
-    var queryString =`SELECT * FROM tbl_projectproposal pr
-    JOIN tbl_proposalapproval proapp ON pr.int_projectID=proapp.int_projectID
-    JOIN tbl_project proj ON pr.int_projectID=proj.int_projectID
-    WHERE proj.enum_projectStatus="Proposed"`
-
-
-    db.query(queryString, (err, results, fields) => {
-        console.log(results);
+    db.query(officeQuery, (err, officeresults, fields) => {
+        console.log(officeresults);
         if (err) console.log(err);
-        
-        res.render('office/proposals/views/proposals', {
-            tbl_projectproposal: results});
+
+        var officeFinal = officeresults[0];
+
+        var queryString =`SELECT * FROM tbl_projectproposal pr
+        JOIN tbl_proposalapproval proapp ON pr.int_projectID=proapp.int_projectID
+        JOIN tbl_project proj ON pr.int_projectID=proj.int_projectID
+        WHERE pr.int_cityID = ${officeFinal.int_cityID}`
+
+
+        db.query(queryString, (err, results, fields) => {
+            console.log(results);
+            if (err) console.log(err);
+            
+            res.render('office/proposals/views/proposals', {
+                tbl_projectproposal: results});
+        });
     });
     
 });
 
-router.get('/proposals/:int_projectID/proposaldetails',(req, res) => {
+router.get('/:int_projectID/proposaldetails',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT');
     console.log('=================================');
@@ -49,10 +59,6 @@ router.get('/proposals/:int_projectID/proposaldetails',(req, res) => {
     JOIN tbl_beneficiary bf ON prbf.int_beneficiaryID=bf.int_beneficiaryID
     WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
-    var queryString4 =`SELECT * FROM tbl_projectlocation pl
-    JOIN tbl_projectproposal pr ON pr.int_projectID=pl.int_projectID
-    JOIN tbl_releaselocation rl ON pl.int_locationID=rl.int_locationID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     var queryString5 =`SELECT * FROM tbl_projectcategory pc
     JOIN tbl_projectproposal pr ON pr.int_projectID=pc.int_projectID
@@ -69,17 +75,15 @@ router.get('/proposals/:int_projectID/proposaldetails',(req, res) => {
             db.query(queryString3, (err, results3, fields) => {
                 console.log(results3);
                 if (err) console.log(err);
-                db.query(queryString4, (err, results4, fields) => {
-                    console.log(results4);
                     if (err) console.log(err);
                     db.query(queryString5, (err, results5, fields) => {
                         console.log(results5);
                         if (err) console.log(err);
 
-                    res.render('office/proposals/views/proposaldetails', {tbl_projectproposal:results, tbl_projectrequirement:results2, tbl_projectbeneficiary:results3, tbl_releaselocation:results4,tbl_projectcategory:results5});
+                    res.render('office/proposals/views/proposaldetails', {tbl_projectproposal:results, tbl_projectrequirement:results2, tbl_projectbeneficiary:results3, tbl_projectcategory:results5});
 
                  }); 
-            });
+            
         });
     });
 });
@@ -304,15 +308,18 @@ router.get('/createproposals',(req, res) => {
     });
 });
 
-router.post('/',(req, res) => {
+router.post('/checknumberget',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROPOSALS-APPROVAL-CHECKNUMBER');
     console.log('=================================');
     
     console.log(req.body.chequeNumber);
+    console.log(req.body.project_id);
+
     var insertCheckQuery = `UPDATE tbl_proposalapproval
     SET enum_propappStatus = "Received"
-    WHERE int_projectID = ${req.body.PROJECT_id}`;                                                                                                                                   
+    WHERE int_projectID = ${req.body.project_id}`;  
+
     db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
     if(err) console.log(err);
 

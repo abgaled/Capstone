@@ -99,25 +99,16 @@ block content
                                     </a>
                                     </div>
                                     <div class="block_content">
-                                        <p class="excerpt"><strong>Starting Date: </strong>
-                                            value=project.date_projectStart
+                                        <p class="excerpt"><strong>Start of Application: </strong>
+                                            value=project.date_startApplication
                                             </a>
                                         </p>
                                         <p class="excerpt"><strong>Closing Date: </strong>
-                                            value=project.date_projectEnd
+                                            value=project.date_projectClose
                                             </a>
                                         </p>
                                         <p class="excerpt"><strong>Releasing Start Date: </strong>
-                                            value=project.datetime_releasingStart
-                                            </a>
-                                        </p>
-                                        <p class="excerpt"><strong>Releasing End Date:</strong> 
-                                            value=project.datetime_releasingEnd
-                                            </a>
-                                        </p>
-                                        <p class="excerpt"><strong>Releasing Location: </strong>
-                                        each rel in tbl_releaselocation
-                                            value=rel.varchar_locationName
+                                            value=project.date_releaseDate
                                             </a>
                                         </p>
                                     </div>

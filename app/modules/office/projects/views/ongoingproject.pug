@@ -39,9 +39,9 @@ block content
                                                             value=project.enum_projectStatus
                                                         </td>
                                                         <td>
-                                                            a(href=`/office/projects/ongoingproject/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-primary btn-xs btn-block"): span View Details
+                                                            a(href=`/office/projects/ongoingproject/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-primary btn-xs btn-block"): span View Details & Applications
                                                             if project.enum_projectStatus == "Approved"
-                                                                a(href=`/office/projects/ongoingproject/${project.int_projectID}/startproj` id="startproj" class="btn btn-success btn-s btn-block"): span Start Project
+                                                                a(href=`/office/projects/ongoingproject/${project.int_projectID}/startproj` id="startproj" class="btn btn-success btn-s btn-block"): span Open Project
                                                             if project.enum_projectStatus == "Finished"
                                                                 a(href=`/office/projects/ongoingproject/${project.int_projectID}/liquidation` id="liquidation" class="btn btn-dark btn-s btn-block"): span Liquidate
                                                             if project.enum_projectStatus == "Ongoing"

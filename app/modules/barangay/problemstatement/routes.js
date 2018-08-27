@@ -9,51 +9,61 @@ router.get('/',(req,res) => {
     console.log('BARANGAY: PROBLEM STATEMENT-PREVIOUS');
     console.log('=================================');
 
-    var queryString = `SELECT * FROM tbl_problemstatement pr
-    JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID WHERE 
-    pr.int_barangayID=${req.session.barangay.int_userID} ORDER BY pr.int_statementID DESC `
+    var barangayQuery = `SELECT int_barangayID 
+    FROM tbl_barangay 
+    WHERE int_userID = ${req.session.barangay.int_userID}`
+
+    db.query(barangayQuery, (err, barangay, fields) => {        
+        if (err) throw err;
+
+        var barangayFinal = barangay[0];
+
+        var queryString = `SELECT * FROM tbl_problemstatement pr
+        JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID WHERE 
+        pr.int_barangayID=${barangayFinal.int_barangayID} ORDER BY pr.int_statementID DESC `
 
 
-    db.query(queryString,(err, results, fields) => {
-        if (err) console.log(err);
-
-        var date_results = results;
-
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
-        }
-        console.log(results);
-
-        var queryString1 = `SELECT * FROM tbl_notification 
-        JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
-        WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
-        AND enum_notifStatus = "New"
-        ORDER BY tbl_notification.int_notifID DESC`
-
-        db.query(queryString1,(err, notifications) => {
+        db.query(queryString,(err, results, fields) => {
             if (err) console.log(err);
-            console.log('=================================');
-            console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
-            console.log('=================================');
-            console.log(notifications)
-    
-            var countrow = notifications.length;
 
-            var queryString2 = `SELECT * FROM tbl_category`
-    
-            db.query(queryString2,(err, results2) => {
-    
+            var date_results = results;
+
+            for (var i = 0; i < date_results.length;i++){
+                date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
+            }
+            console.log(results);
+
+            var queryString1 = `SELECT * FROM tbl_notification 
+            JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+            WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+            AND enum_notifStatus = "New"
+            ORDER BY tbl_notification.int_notifID DESC`
+
+            db.query(queryString1,(err, notifications) => {
                 if (err) console.log(err);
                 console.log('=================================');
-                console.log('BARANGAY: GET PROJECT CATEGORY');
+                console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
                 console.log('=================================');
-            
-    
-                res.render('barangay/problemstatement/views/problemstatement',{
-                    tbl_problemstatement:results,
-                    tbl_projectcategory:results2,
-                    notifications:notifications,
-                    numbernotif:countrow});
+                console.log(notifications)
+        
+                var countrow = notifications.length;
+
+                var queryString2 = `SELECT * FROM tbl_category`
+        
+                db.query(queryString2,(err, results2) => {
+        
+                    if (err) console.log(err);
+                    console.log('=================================');
+                    console.log('BARANGAY: GET PROJECT CATEGORY');
+                    console.log('=================================');
+                
+        
+                    res.render('barangay/problemstatement/views/problemstatement',{
+                        tbl_problemstatement:results,
+                        tbl_projectcategory:results2,
+                        notifications:notifications,
+                        numbernotif:countrow});
+                });
             });
         });
     });
@@ -64,6 +74,16 @@ router.post('/',(req, res) => {
     console.log(`${req.body.problem_createdValue}`);
     console.log("===============================createdValue");
 
+    var barangayQuery = `SELECT int_barangayID 
+    FROM tbl_barangay 
+    WHERE int_userID = ${req.session.barangay.int_userID}`
+
+    db.query(barangayQuery, (err, results1, fields) => {        
+        if (err) throw err;
+
+    var results1Final = results1[0];
+    console.log(results1Final);
+
     var queryString = `INSERT INTO \`tbl_problemstatement\` 
     (\`int_barangayID\`, 
     \`int_categoryID\`,
@@ -72,7 +92,7 @@ router.post('/',(req, res) => {
     \`date_createdDate\`,
     \`enum_problemStatus\`)
     VALUES
-    (${req.session.barangay.int_userID},
+    (${results1Final.int_barangayID},
     "${req.body.problem_category}",
     "${req.body.problem_title}",
     "${req.body.problem_description}",
@@ -83,10 +103,11 @@ router.post('/',(req, res) => {
     console.log('BARANGAY: PROBLEM STATEMENT-NEW?POST');
     console.log('=================================');
 
-    db.query(queryString, (err, results, fields) => {        
+    db.query(queryString, (err, results2, fields) => {        
         if (err) throw err;
        
         res.redirect('problemstatement');
+    });
     });
 });
 
@@ -96,29 +117,39 @@ router.post('/ajaxgetdetails',(req,res) => {
     console.log('=================================');
     console.log(`${req.body.ajStatementID}`);
 
-    var queryString = `SELECT * FROM tbl_problemstatement pr
-    JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID WHERE 
-    pr.int_barangayID=${req.session.barangay.int_userID} 
-    AND pr.int_statementID = ${req.body.ajStatementID}`
+    var barangayQuery = `SELECT int_barangayID 
+    FROM tbl_barangay 
+    WHERE int_userID = ${req.session.barangay.int_userID}`
+
+    db.query(barangayQuery, (err, barangay, fields) => {        
+        if (err) throw err;
+
+        var barangayFinal = barangay[0];
+
+        var queryString = `SELECT * FROM tbl_problemstatement pr
+        JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID WHERE 
+        pr.int_barangayID=${barangayFinal.int_barangayID} 
+        AND pr.int_statementID = ${req.body.ajStatementID}`
 
 
-    db.query(queryString,(err, results, fields) => {
-        if (err) console.log(err);
+        db.query(queryString,(err, results, fields) => {
+            if (err) console.log(err);
 
-        console.log(results);
+            console.log(results);
 
-        var date_results = results;
+            var date_results = results;
 
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
-        }
+            for (var i = 0; i < date_results.length;i++){
+                date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
+            }
 
-        var resultss = results[0];
+            var resultss = results[0];
 
-        console.log("===================RESULTSS")
-        console.log(resultss)
+            console.log("===================RESULTSS")
+            console.log(resultss)
 
-        return res.send({tbl_problemstatement1:resultss});
+            return res.send({tbl_problemstatement1:resultss});
+        });
     });
 });
 

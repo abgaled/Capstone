@@ -117,84 +117,6 @@ router.post('/projectdetails',(req,res) => {
     });
 });
 
-// AJAX - GET APPLICANTS (VIEW)
-router.post('/viewapplicants',(req,res) => {
-    console.log('=================================');
-    console.log('BARANGAY: PROJECTS - APPLICANTS - AJAX GET DETAILS (POST)');
-    console.log('=================================');
-    console.log(`${req.body.ajViewApplicants}`);
-
-
-    var queryString = `SELECT * FROM tbl_application app
-    JOIN tbl_project pro 
-    ON app.int_projectID = pro.int_projectID 
-    JOIN tbl_personalinformation pi
-    ON app.int_applicationID = pi.int_applicationID
-    WHERE app.int_barangayID = ${req.session.barangay.int_userID}
-    AND app.int_projectID = ${req.body.ajViewApplicants}`
-
-    req.session.barangay.specprojID = req.body.ajViewApplicants;
-    console.log("PROJECT ID")
-    console.log(req.session.barangay.specprojID)
-
-
-    db.query(queryString,(err, results, fields) => {
-        if (err) console.log(err);
-
-        console.log(results);
-
-        var date_results = results;
-
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
-        }
-
-
-        console.log("VIEW APPLICANTS RESULTS")
-        console.log(results);
-
-        return res.send({tbl_applicants:results});
-    });
-});
-
-// AJAX - GET SPECIFIC APPLICANT (VIEW)
-router.post('/viewspecificapplicant',(req,res) => {
-    console.log('=================================');
-    console.log('BARANGAY: PROJECTS - SPECIFIC APPLICANT - AJAX GET DETAILS (POST)');
-    console.log('=================================');
-    console.log(`${req.body.ajViewSpecificApplicant}`);
-
-
-    var queryString = `SELECT * FROM tbl_application app
-    JOIN tbl_project pro 
-    ON app.int_projectID = pro.int_projectID 
-    JOIN tbl_personalinformation pi
-    ON app.int_applicationID = pi.int_applicationID
-    WHERE app.enum_applicationStatus = "Approved" 
-    AND app.int_projectID = ${req.session.barangay.specprojID}
-    AND app.int_applicationID = ${req.body.ajViewSpecificApplicant}`
-
-
-    db.query(queryString,(err, results, fields) => {
-        if (err) console.log(err);
-
-        console.log(results);
-
-        var date_results = results;
-
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
-        }
-
-        var resultss = results[0];
-
-        console.log("=====RESULTSS=====")
-        console.log(resultss)
-
-        return res.send({tbl_specificapplicant:resultss});
-    });
-});
-
 
 router.get('/:int_projectID/apply',(req,res) => {
     console.log('=================================');
@@ -262,96 +184,106 @@ router.post('/:int_projectID/apply',(req,res) => {
     console.log('BARANGAY: PROJECTS-APPLICATION-FORM-POST');
     console.log('=================================');
 
-    // ===============================================================================
-    //                          INSERT INTO TBL_APPLICATION
-    // ===============================================================================
-    var queryString1 = `INSERT INTO tbl_application 
-    (\`int_barangayID\`,
-    \`int_projectID\`,
-    \`enum_applicationStatus\`) 
-    VALUES 
-    (${req.session.barangay.int_userID},
-    ${req.params.int_projectID},
-    "Pending")`
-   
+    var barangayQuery = `SELECT int_barangayID 
+    FROM tbl_barangay 
+    WHERE int_userID = ${req.session.barangay.int_userID}`
 
-    db.query(queryString1,(err, results1, fields) => {
-        if (err) console.log(err);
-        console.log("INSERT: Table Application");
+    db.query(barangayQuery, (err, barangay, fields) => {        
+        if (err) throw err;
 
-        var queryselect1 = `SELECT * FROM tbl_application ORDER BY int_applicationID DESC LIMIT 0,1`;
+        var barangayFinal = barangay[0];
 
-        db.query(queryselect1,(err, queryselect2, fields) => {
-            
-            console.log(queryselect2[0].int_applicationID);
+        // ===============================================================================
+        //                          INSERT INTO TBL_APPLICATION
+        // ===============================================================================
+        var queryString1 = `INSERT INTO tbl_application 
+        (\`int_barangayID\`,
+        \`int_projectID\`,
+        \`enum_applicationStatus\`) 
+        VALUES 
+        (${barangayFinal.int_barangayID},
+        ${req.params.int_projectID},
+        "Pending")`
+    
 
-            int_applicationID = queryselect2[0].int_applicationID;
+        db.query(queryString1,(err, results1, fields) => {
+            if (err) console.log(err);
+            console.log("INSERT: Table Application");
 
-            var queryString2 = `SELECT * FROM tbl_barangay JOIN tbl_user
-                ON tbl_user.int_userID = tbl_barangay.int_userID 
-                JOIN tbl_city ON tbl_barangay.int_cityID = tbl_city.int_cityID
-                WHERE tbl_user.int_userID = ${req.session.barangay.int_userID}`
+            var queryselect1 = `SELECT * FROM tbl_application ORDER BY int_applicationID DESC LIMIT 0,1`;
 
-            db.query(queryString2,(err, results2, fields) => {
-                if (err) console.log(err);
-                console.log("SELECT & JOIN: USER & OFFICE");
-                console.log(results2);
+            db.query(queryselect1,(err, queryselect2, fields) => {
+                
+                console.log(queryselect2[0].int_applicationID);
 
-                    var insertPersonalInfo = `INSERT INTO tbl_personalinformation
-                            (\`int_applicationID\`,
-                            \`varchar_firstName\`,
-                            \`varchar_middleName\`,
-                            \`varchar_lastName\`,
-                            \`date_birthDate\`,
-                            \`enum_gender\`,
-                            \`int_applicantResidency\`,
-                            \`enum_civilStatus\`,
-                            \`varchar_contactNumber\`,
-                            \`varchar_emailAddress\`) 
-                            VALUES 
-                            (${int_applicationID},
-                            "${req.body.apply_fname}",
-                            "${req.body.apply_mname}",
-                            "${req.body.apply_lname}",
-                            "${req.body.apply_birthdate}",
-                            "${req.body.apply_gender}",
-                            "${req.body.apply_yrres}",
-                            "${req.body.apply_civilstat}",
-                            "${req.body.apply_contact}",
-                            "${req.body.apply_emailaddress}")`
+                int_applicationID = queryselect2[0].int_applicationID;
 
-                        db.query(insertPersonalInfo,(err, personalinfo, fields) => {
-                            if (err) console.log(err);
+                var queryString2 = `SELECT * FROM tbl_barangay JOIN tbl_user
+                    ON tbl_user.int_userID = tbl_barangay.int_userID 
+                    JOIN tbl_city ON tbl_barangay.int_cityID = tbl_city.int_cityID
+                    WHERE tbl_user.int_userID = ${req.session.barangay.int_userID}`
 
-                            // INSERT TABLE APPLICATION REQUIREMENT
-                            var requirements = req.body.requirementID;
-                            console.log("==============REQUIREMENT=============");
-                            console.log(requirements)
+                db.query(queryString2,(err, results2, fields) => {
+                    if (err) console.log(err);
+                    console.log("SELECT & JOIN: USER & OFFICE");
+                    console.log(results2);
 
-                                for(i = 0 ; i < requirements.length ; i++)
-                                    {
-                                    var appreqQuery = `INSERT INTO tbl_applicationrequirement
-                                        (
-                                            \`int_applicationID\`,
-                                            \`int_requirement\`,
-                                            \`enum_appreqStatus\`
-                                        )
-                                        VALUES
-                                        (
-                                            ${int_applicationID},
-                                            ${requirements[i]},
-                                            "Passed"
-                                        )`;
-                                        
-                                        db.query(appreqQuery,(err, appreqResult, fields) => {
-                                            if(err) console.log(err);
+                        var insertPersonalInfo = `INSERT INTO tbl_personalinformation
+                                (\`int_applicationID\`,
+                                \`varchar_firstName\`,
+                                \`varchar_middleName\`,
+                                \`varchar_lastName\`,
+                                \`date_birthDate\`,
+                                \`enum_gender\`,
+                                \`int_applicantResidency\`,
+                                \`enum_civilStatus\`,
+                                \`varchar_contactNumber\`,
+                                \`varchar_emailAddress\`) 
+                                VALUES 
+                                (${int_applicationID},
+                                "${req.body.apply_fname}",
+                                "${req.body.apply_mname}",
+                                "${req.body.apply_lname}",
+                                "${req.body.apply_birthdate}",
+                                "${req.body.apply_gender}",
+                                "${req.body.apply_yrres}",
+                                "${req.body.apply_civilstat}",
+                                "${req.body.apply_contact}",
+                                "${req.body.apply_emailaddress}")`
+
+                            db.query(insertPersonalInfo,(err, personalinfo, fields) => {
+                                if (err) console.log(err);
+
+                                // INSERT TABLE APPLICATION REQUIREMENT
+                                var requirements = req.body.requirementID;
+                                console.log("==============REQUIREMENT=============");
+                                console.log(requirements)
+
+                                    for(i = 0 ; i < requirements.length ; i++)
+                                        {
+                                        var appreqQuery = `INSERT INTO tbl_applicationrequirement
+                                            (
+                                                \`int_applicationID\`,
+                                                \`int_requirementID\`,
+                                                \`enum_appreqStatus\`
+                                            )
+                                            VALUES
+                                            (
+                                                ${int_applicationID},
+                                                ${requirements[i]},
+                                                "Passed"
+                                            )`;
                                             
-                                        });
-                                    }
-                                    res.redirect('/barangay/projects');
-                            });
-                        
-                        
+                                            db.query(appreqQuery,(err, appreqResult, fields) => {
+                                                if(err) console.log(err);
+                                                
+                                            });
+                                        }
+                                        res.redirect('/barangay/projects');
+                                });
+                            
+                            
+                });
             });
         });
     });

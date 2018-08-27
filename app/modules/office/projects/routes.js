@@ -50,11 +50,6 @@ router.get('/ongoingproject/:int_projectID/viewproj',(req, res) => {
     JOIN tbl_beneficiary bf ON prbf.int_beneficiaryID=bf.int_beneficiaryID
     WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
-    var queryString4 =`SELECT * FROM tbl_projectlocation pl
-    JOIN tbl_projectproposal pr ON pr.int_projectID=pl.int_projectID
-    JOIN tbl_releaselocation rl ON pl.int_locationID=rl.int_locationID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
-
     var queryString5 =`SELECT * FROM tbl_projectcategory pc
     JOIN tbl_projectproposal pr 
     ON pr.int_projectID=pc.int_projectID
@@ -62,6 +57,9 @@ router.get('/ongoingproject/:int_projectID/viewproj',(req, res) => {
     ON cat.int_categoryID=pc.int_categoryID
     WHERE pr.int_projectID = "${req.params.int_projectID}"`
     
+    var queryString7 =`SELECT * FROM tbl_problemstatement ps
+    JOIN tbl_project pr ON pr.int_projectID=ps.int_projectID
+    WHERE ps.int_projectID = "${req.params.int_projectID}"`
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -81,9 +79,6 @@ router.get('/ongoingproject/:int_projectID/viewproj',(req, res) => {
             db.query(queryString3, (err, results3, fields) => {
                 console.log(results3);
                 if (err) console.log(err);
-                db.query(queryString4, (err, results4, fields) => {
-                    console.log(results4);
-                    if (err) console.log(err);
                     db.query(queryString5, (err, results5, fields) => {
                         console.log(results5);
                         if (err) console.log(err);
@@ -95,21 +90,23 @@ router.get('/ongoingproject/:int_projectID/viewproj',(req, res) => {
                         
                         db.query(queryString6, (err, results6, fields) => {
                             console.log(results6);
+                            db.query(queryString7, (err, results7, fields) => {
+                                console.log(results7);
 
                             res.render('office/projects/views/viewproj', {
                                 tbl_projectproposal:results, 
                                 tbl_projectrequirement:results2, 
                                 tbl_projectbeneficiary:results3, 
-                                tbl_releaselocation:results4,
                                 tbl_projectcategory:results5,
-                                applications:results6});
+                                applications:results6,
+                                tbl_problemstatement:results7});
+                            });
                         });
-
+                    
+                });
+            });
+        });
     });
-});
-});
-});
-});
 });
 
 router.post('/ongoingproject/:int_projectID/viewproj/accept',(req, res) => {

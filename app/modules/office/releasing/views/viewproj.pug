@@ -134,21 +134,33 @@ block content
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">Duration of Application:</th>
-                                <td></td>
+                                <th scope="row">Project Start: </th>
+                                <td>
+                                value=project.date_projectStart
+                                </td>
                             </tr>
                             <tr>
-                                <th scope="row">Releasing Date:</th>
+                                <th scope="row">Project End: </th>
                                 <td>
-                                value=project.datetime_releasingEnd
+                                value=project.date_projectEnd
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Release Date: </th>
+                                <td>
+                                value=project.date_releaseDate
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Project Closing: </th>
+                                <td>
+                                value=project.date_closeDate
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Releasing Location:</th>
                                 <td>
-                                each rel in tbl_releaselocation
-                                    value=rel.varchar_locationName
-                                    <br/>
+                               
                                 </td>
                             </tr>
                             <tr>
