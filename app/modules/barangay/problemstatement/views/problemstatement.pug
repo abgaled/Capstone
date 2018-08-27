@@ -44,7 +44,7 @@ block content
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-body">
-                <form class="form-horizontal form-label-left" method="POST" action='' name="addproblem" novalidate>
+                <form class="form-horizontal form-label-left" method="POST" action='' id="formaddproblem" name="addproblem" novalidate>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title" id="myModalLabel"><span class="section">Add New Statement of Problem</span></h4>
              
@@ -52,14 +52,14 @@ block content
                         <label class="control-label col-md-2" for="problemtitle">Statement Title:
                         </label>
                         <div class="col-md-9">
-                          <input id="problemtitle" class="form-control" name="problem_title" placeholder="Enter title here ..." required="required" type="text">
+                          <input id="problemtitle" class="form-control" name="problem_title" id="problem_title" placeholder="Enter title here ..." required type="text">
                         </div>
                 </div>
                 <div class="item form-group">
                         <label class="control-label col-md-2 " for="problem_category">Problem Category:</label>
                         <div class="col-md-6">
                         <select name="problem_category" style=" padding:0.50em;" required>
-                            <option value="0" selected>Choose..</option>
+                            <option disabled="disabled" selected="selected">Choose..</option>
                                 each category in tbl_projectcategory
                                     option(value=`${category.int_categoryID}`)= `${category.varchar_categoryName}`
                         </select>
@@ -68,13 +68,13 @@ block content
                 <div class="item form-group">
                         <label for="problem_description" class=" control-label col-md-2">Description:</label>
                         <div class="col-md-9">
-                            <textarea name="problem_description" id="problem_description" rows="3" placeholder="Please fill project description ..." class="col-sm-11 form-control"></textarea>
+                            <textarea name="problem_description" id="problem_description" rows="3" placeholder="Please fill project description ..." class="col-sm-11 form-control" required></textarea>
                         </div>
                 </div>
                 <br>
                 <div class="modal-footer">    
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Cancel</button>
-                <button type="submit" id="modalbutton" class="btn btn-primary"  style="background-color#21BA45;color:whitesmoke;border:none;float:right;">Send</button>
+                <button type="submit" id="submit-problem" class="btn btn-primary"  style="background-color#21BA45;color:whitesmoke;border:none;float:right;">Send</button>
                 <div style="float:left;" >Date Created:<b class="text-muted" id="problem_created"> </b></div>
                 <input type="hidden" id="problem_createdValue" name="problem_createdValue" > 
                 </form></div>
@@ -156,6 +156,7 @@ block content
 
     
     <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+    
     script.
 
         //- SCRIPT GET INT_STATEMENTID (VIEW MODAL)
@@ -206,5 +207,34 @@ block content
                 }
                 }); 
 
-                
+                //- SWEET ALERT CONFIRM SUBMIT
+                $('#submit-problem').on('click',function (e) {
+                    var form = $(this).parents('form');
+                    e.preventDefault(); //prevent submit
+                    
+                        swal({
+                        title: 'Are you sure?',
+                        text: "You will submit this statement of problem.",
+                        type: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, submit it!'
+                        }).then((result) => {
+                        if (result.value) {
+                            $('#formaddproblem').submit();
+                            swal(
+                            'Success!',
+                            'Statement of Problem has been Submitted!',
+                            'success'
+                            )
+                        }
+                        })
+                });
+                //- END OF SWEET ALERT
+
+               
+
             });
+
+            

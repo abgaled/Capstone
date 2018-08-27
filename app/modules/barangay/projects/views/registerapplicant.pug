@@ -41,6 +41,14 @@ block content
                                             </span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="#summary">
+                                            <span class="step_no">3</span>
+                                            <span class="step_descr"> Step 3<br />
+                                                <small>Summary of Application</small>
+                                            </span>
+                                        </a>
+                                    </li>
                                 </ul>
 
                                 <div class="tab" id="basicinfotab">
@@ -49,53 +57,53 @@ block content
                                     <div class="form-row">
                                         <div class="form-group col-md-4 col-sm-12">
                                             <label for="ap-fname" class="form-control-label"><strong>First</strong> Name</label>
-                                                <input type="text" id="ap-fname" name="apply_fname" placeholder="Applicant's First name ..." class="names col-sm-11 form-control ">
+                                                <input type="text" id="ap-fname" onchange="getfname()" name="apply_fname" placeholder="Applicant's First name ..." class="names col-sm-11 form-control ">
                                         </div>
                                         <div class="form-group col-md-4 col-sm-12">
                                             <label for="ap-lname" class="form-control-label"><strong>Last</strong> Name</label>
-                                                <input type="text" id="ap-lname" name="apply_lname" placeholder="Applicant's Last name ..." class="names col-sm-11 form-control ">
+                                                <input type="text" id="ap-lname" onchange="getlname()" name="apply_lname" placeholder="Applicant's Last name ..." class="names col-sm-11 form-control ">
                                         </div>
                                         <div class="form-group col-md-4 col-sm-12">
                                             <label for="ap-mname" class="form-control-label"><strong>Middle</strong> Name</label>
-                                                <input type="text" id="ap-mname" name="apply_mname" placeholder="Applicant's Middle name ..." class="middle col-sm-11 form-control ">
+                                                <input type="text" id="ap-mname" onchange="getmname()" name="apply_mname" placeholder="Applicant's Middle name ..." class="middle col-sm-11 form-control ">
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-4 col-sm-12">
                                             <label for="ap-birthdate" class="form-control-label"><strong>Birthdate</strong></label>
-                                                <input type="date" id="ap-birthdate" name="apply_birthdate" placeholder="Birthdate" class="col-sm-11 form-control ">
+                                                <input type="date" id="ap-birthdate" onchange="getbirthdate()" name="apply_birthdate" placeholder="Birthdate" class="col-sm-11 form-control ">
                                         </div>
                                         <div class="form-group col-md-3 col-sm-12">
                                             <label for="ap-number" class="form-control-label"><strong>Contact Number</strong></label>
-                                                <input type="text" id="ap-number" name="apply_contact" data-inputmask="'mask' : '(+63) 999-999-9999'" class="col-sm-11 form-control ">
+                                                <input type="text" id="ap-number" onchange="getcontact()" name="apply_contact" data-inputmask="'mask' : '(+63) 999-999-9999'" class="col-sm-11 form-control ">
                                         </div>
                                         <div class="form-group col-md-5 col-sm-12">
                                             <label for="ap-email" class="form-control-label"><strong>Email Address</strong></label>
-                                                <input type="email" id="ap-email" name="apply_emailaddress" placeholder="(ex: abc@gmail.com)" class="col-sm-11 form-control ">
+                                                <input type="email" id="ap-email" onchange="getemail()" name="apply_emailaddress" placeholder="(ex: abc@gmail.com)" class="col-sm-11 form-control ">
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-4 col-sm-12">
                                             <label for="ap-gender" class="control-label"><strong>Gender</strong></label>
-                                            <div class="form-check form-check-inline" id="ap-gender">
+                                            <div class="form-check form-check-inline" id="ap-gender" >
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" value="Male" name="apply_gender" id="inlineRadio1"> Male
+                                                    <input class="form-check-input" type="radio" onchange="getgender1()" value="Male" name="apply_gender" id="ap-gender1"> Male
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" value="Female" name="apply_gender" id="inlineRadio2"> Female
+                                                    <input class="form-check-input" type="radio" onchange="getgender2()" value="Female" name="apply_gender" id="ap-gender2"> Female
                                                 </label>
                                             </div>
                                         </div>
                                         
                                         <div class="form-group col-md-4 col-sm-12">
                                             <label for="ap-yrres" class="form-control-label"><strong>Year of Residency</strong></label>
-                                                <input type="text" id="ap-yrres" name="apply_yrres" placeholder="(ex. 20xx, 2010)" class="col-sm-11 form-control ">
+                                                <input type="text" id="ap-yrres" onchange="getyrres()" name="apply_yrres" placeholder="(ex. 20xx, 2010)" class="col-sm-11 form-control ">
                                         </div>
                                         <div class="form-group col-md-4 col-sm-12">
                                             <label for="ap-civilstat" class="form-control-label"><strong>Civil Status</strong></label>
-                                            <select class="form-control" id="ap-civilstat" name="apply_civilstat">
+                                            <select class="form-control" id="ap-civilstat" name="apply_civilstat" onchange="getcivilstat()">
                                                 <option value="Single">Single</option>
                                                 <option value="Married">Married</option>
                                                 <option value="Widowed">Widowed</option>
@@ -129,6 +137,91 @@ block content
                                     </div>
                                 </div> 
                                 //- END OF APPLICANT'S REQUIREMENT/S 
+
+                                //- SUMMARY OF APPLICATION
+                                <div class="tab" id="summary">
+                                    <hr/>
+                                            <form class="form-horizontal form-label-left">
+                                                <div class="x_panel">
+                                                    <div class="x_title">
+                                                        <h2>Summary of Application <small></small></h2>
+                                                        <div class="clearfix"></div>
+                                                        <small>These are the information about the applicant you want to register.</small>
+                                                    </div>
+                                                    <div class="x_content">
+                                                        <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                            <th>Basic Information</th>
+                                                            <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">Last Name:</th>
+                                                            <td>
+                                                                <div id="result-lname"><div>
+                                                            </td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">First Name:</th>
+                                                            <td><div id="result-fname"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Middle Name:</th>
+                                                            <td><div id="result-mname"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Birthdate:</th>
+                                                            <td><div id="result-birthdate"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Contact Number:</th>
+                                                            <td><div id="result-contact"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Email Address:</th>
+                                                            <td><div id="result-email"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Gender:</th>
+                                                            <td><div id="result-gender"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Year of Residency:</th>
+                                                            <td><div id="result-yrres"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Civil Status:</th>
+                                                            <td><div id="result-civilstat"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row"></th>
+                                                            <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr >
+                                                            <th>Requirements</th>
+                                                            <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">Requirements passed:</th>
+                                                            <td id="result-projRequirement"></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row"></th>
+                                                            <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                </div> 
+                                //- END OF SUMMARY OF APPLICATION
 
                             </div>
                             <!-- End SmartWizard Content -->
@@ -342,3 +435,94 @@ block content
         })(jQuery);
 
         //- END OF SCRIPT FOR LABEL
+
+        //- SCRIPT FOR SUMMARY OF APPLICATION
+        function getlname() {
+            var lname = document.getElementById("ap-lname").value;
+            console.log(lname);
+
+            if(lname!=0){
+                document.getElementById("result-lname").innerHTML = lname;
+            }
+        }
+
+        function getfname() {
+            var fname = document.getElementById("ap-fname").value;
+            console.log(fname);
+
+            if(fname!=0){
+                document.getElementById("result-fname").innerHTML = fname;
+            }
+        }
+
+        function getmname() {
+            var mname = document.getElementById("ap-mname").value;
+            console.log(mname);
+
+            if(mname!=0){
+                document.getElementById("result-mname").innerHTML = mname;
+            }
+        }
+
+        function getbirthdate() {
+            var birthdate = document.getElementById("ap-birthdate").value;
+            console.log(birthdate);
+
+            if(birthdate!=0){
+                document.getElementById("result-birthdate").innerHTML = birthdate;
+            }
+        }
+
+        function getcontact() {
+            var contact = document.getElementById("ap-number").value;
+            console.log(contact);
+
+            if(contact!=0){
+                document.getElementById("result-contact").innerHTML = contact;
+            }
+        }
+
+        function getemail() {
+            var email = document.getElementById("ap-email").value;
+            console.log(email);
+
+            if(email!=0){
+                document.getElementById("result-email").innerHTML = email;
+            }
+        }
+
+        function getgender1() {
+            var gender = document.getElementById("ap-gender1").value;
+            console.log(gender);
+
+            if(gender!=0){
+                document.getElementById("result-gender").innerHTML = gender;
+            }
+        }
+
+        function getgender2() {
+            var gender = document.getElementById("ap-gender2").value;
+            console.log(gender);
+
+            if(gender!=0){
+                document.getElementById("result-gender").innerHTML = gender;
+            }
+        }
+
+        function getyrres() {
+            var yrres = document.getElementById("ap-yrres").value;
+            console.log(yrres);
+
+            if(yrres!=0){
+                document.getElementById("result-yrres").innerHTML = yrres;
+            }
+        }
+
+        function getcivilstat() {
+            var civilstat = document.getElementById("ap-civilstat").value;
+            console.log(civilstat);
+
+            if(civilstat!=0){
+                document.getElementById("result-civilstat").innerHTML = civilstat;
+            }
+        }

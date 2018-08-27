@@ -231,29 +231,6 @@ router.get('/:int_projectID/apply',(req,res) => {
         
             var countrow = notifications.length;
 
-            var queryString4 = `SELECT FT.int_formTypeID
-                FROM tbl_project P JOIN tbl_projectform PF
-                ON P.int_projectID=PF.int_projectID
-                JOIN tbl_formtype FT ON PF.int_formTypeID=FT.int_formTypeID
-                WHERE P.int_projectID= ${req.params.int_projectID}`
-
-            db.query(queryString4,(err, results4) => {
-            console.log("================RESULTS4")
-            console.log(results4);
-
-            var int_formTypeID =results4[0];
-            int_formTypeIDD =results4;
-
-
-            for(var i = 0; i < int_formTypeIDD.length; i++){
-                console.log(int_formTypeIDD[i]);
-            }
-            console.log('============================')
-            console.log(int_formTypeIDD);
-            console.log("======RESULTS FOR LOOP FORM TYPE ID======")
-            var int_formTypeIDDD = int_formTypeIDD;
-            console.log('RESULTS IDDD')
-            console.log(int_formTypeIDDD);
 
             var requirementQuery = `SELECT *
                 FROM tbl_requirement R JOIN tbl_projectrequirement PR
@@ -267,12 +244,10 @@ router.get('/:int_projectID/apply',(req,res) => {
                     res.render('barangay/projects/views/registerapplicant',{
                         tbl_project:results1,
                         int_categoryID:int_categoryID,
-                        int_formTypeID:int_formTypeIDDD, 
                         requirements:requirementResult,
                         notifications:notifications,
                         numbernotif:countrow});
                 });
-            });
         });
     });
     });
@@ -373,7 +348,7 @@ router.post('/:int_projectID/apply',(req,res) => {
                                             
                                         });
                                     }
-                                    res.redirect('/barangay/home');
+                                    res.redirect('/barangay/projects');
                             });
                         
                         
@@ -384,7 +359,7 @@ router.post('/:int_projectID/apply',(req,res) => {
 
 
 
-router.get('/registeredapplicants',(req, res) => {
+router.get('/:int_projectID/registeredapplicants',(req, res) => {
     console.log('=================================');
     console.log('BARANGAY: PROJECTS-REGISTERED APPLICANTS');
     console.log('=================================');
@@ -392,7 +367,7 @@ router.get('/registeredapplicants',(req, res) => {
     var queryString1 = `SELECT * FROM tbl_project p 
     JOIN tbl_projectproposal pp 
     ON p.int_projectID=pp.int_projectID
-    WHERE p.enum_projectStatus = "Ongoing"`
+    WHERE p.int_projectID = ${req.params.int_projectID}`
 
     db.query(queryString1,(err, results1) => {
 
@@ -402,13 +377,15 @@ router.get('/registeredapplicants',(req, res) => {
             date_results[i].date_projectEnd = moment(date_results[i].date_projectEnd).format('MM-DD-YYYY');
         }
 
-        var queryString2 = `SELECT * FROM tbl_notification 
+        var getResults1 = results1[0];
+
+        var notificationQuery = `SELECT * FROM tbl_notification 
         JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
         WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
         AND enum_notifStatus = "New"
         ORDER BY tbl_notification.int_notifID DESC`
 
-        db.query(queryString2,(err, notifications) => {
+        db.query(notificationQuery,(err, notifications) => {
             if (err) console.log(err);
             console.log('=================================');
             console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
@@ -417,12 +394,58 @@ router.get('/registeredapplicants',(req, res) => {
         
             var countrow = notifications.length;
 
+            var applicantsQuery = `SELECT * FROM tbl_application app 
+            JOIN tbl_personalinformation pi
+            ON app.int_applicationID=pi.int_applicationID
+            WHERE app.int_projectID = ${req.params.int_projectID}`
+
+            db.query(applicantsQuery,(err, applicants) => {
+                if (err) console.log(err);
+                console.log('=================================');
+                console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS');
+                console.log('=================================');
+
         
-            res.render('barangay/projects/views/beneficiaries',{
-                tbl_project:results1,
-                notifications:notifications,
-                numbernotif:countrow});
+                res.render('barangay/projects/views/applicationlist',{
+                    tbl_project:getResults1,
+                    tbl_applicants:applicants,
+                    notifications:notifications,
+                    numbernotif:countrow});
+            });
         });
+    });
+});
+
+// AJAX GET DETAILS VIEW DETAILS PROJECT - VIEW APPLICANT DETAILS
+router.post('/:int_projectID/registeredapplicants/ajaxapplicantdetails',(req,res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROJECT VIEW DETAILS-VIEW APPLICATION-AJAX GET DETAILS (POST)');
+    console.log('=================================');
+    console.log(`${req.body.ajApplicationID}`);
+
+    var queryString = `SELECT * FROM tbl_personalinformation pi
+    JOIN tbl_application ap 
+    ON pi.int_applicationID=ap.int_applicationID 
+    WHERE pi.int_applicationID=${req.body.ajApplicationID}`
+
+
+    db.query(queryString,(err, results, fields) => {
+        if (err) console.log(err);
+
+        console.log(results);
+
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
+        }
+
+        var resultss = results[0];
+
+        console.log("===================RESULTSS")
+        console.log(resultss)
+
+        return res.send({tbl_application:resultss});
     });
 });
 

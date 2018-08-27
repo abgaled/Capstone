@@ -11,244 +11,243 @@ block content
                             <div class="clearfix"></div>
                         </div>
                         <form method="POST" action="/office/proposals" class="form-horizontal form-label-left">
-                        <div class="x_content">
-                            <div id="wizard" class="form_wizard wizard_horizontal">
-                                <ul class="wizard_steps">
-                                    <li>
-                                        <a href="#step-1">
-                                        <span class="step_no">1</span>
-                                        <span class="step_descr">Problem List<br/>
-                                        <small>Approved problems of barangay</small>
-                                        </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#step-2">
-                                        <span class="step_no">2</span>
-                                        <span class="step_descr">Basic<br/>Proposal Information<br/>
-                                        <small>Basic information regarding the project.</small>
-                                        </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#step-3">
-                                        <span class="step_no">3</span>
-                                        <span class="step_descr">Beneficiary Details<br/>
-                                        <small>What details do we need about the beneficiary?</small>
-                                        </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#step-4">
-                                        <span class="step_no">4</span>
-                                        <span class="step_descr">Requirements<br/>
-                                        <small>What requirements are needed to <br/>be passed in this project?</small>
-                                        </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#step-5">
-                                        <span class="step_no">5</span>
-                                        <span class="step_descr">Timeline<br/>
-                                        <small>Important dates in the project.</small>
-                                        </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#step-6">
-                                        <span class="step_no">6</span>
-                                        <span class="step_descr">Budget<br/>
-                                        <small>How much should be in this project?</small>
-                                        </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#step-7">
-                                        <span class="step_no">7</span>
-                                        <span class="step_descr">Summary<br/>
-                                        <small>Project proposal overview.</small>   
-                                        </span>
-                                        </a>
-                                    </li>
-                                </ul>
+                            <div class="x_content">
+                                <div id="wizard" class="form_wizard wizard_horizontal">
+                                    <ul class="wizard_steps">
+                                        <li>
+                                            <a href="#step-1">
+                                            <span class="step_no">1</span>
+                                            <span class="step_descr">Problem List<br/>
+                                            <small>Approved problems of barangay</small>
+                                            </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#step-2">
+                                            <span class="step_no">2</span>
+                                            <span class="step_descr">Basic<br/>Proposal Information<br/>
+                                            <small>Basic information regarding the project.</small>
+                                            </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#step-3">
+                                            <span class="step_no">3</span>
+                                            <span class="step_descr">Beneficiary Details<br/>
+                                            <small>What details do we need about the beneficiary?</small>
+                                            </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#step-4">
+                                            <span class="step_no">4</span>
+                                            <span class="step_descr">Requirements<br/>
+                                            <small>What requirements are needed to <br/>be passed in this project?</small>
+                                            </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#step-5">
+                                            <span class="step_no">5</span>
+                                            <span class="step_descr">Timeline<br/>
+                                            <small>Important dates in the project.</small>
+                                            </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#step-6">
+                                            <span class="step_no">6</span>
+                                            <span class="step_descr">Budget<br/>
+                                            <small>How much should be in this project?</small>
+                                            </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#step-7">
+                                            <span class="step_no">7</span>
+                                            <span class="step_descr">Summary<br/>
+                                            <small>Project proposal overview.</small>   
+                                            </span>
+                                            </a>
+                                        </li>
+                                    </ul>
 
-                                    <div id="step-1">
-                                        <form class="form-horizontal form-label-left">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped jambo_table bulk_action">
-                                                    <thead>
-                                                    <tr class="headings">
-                                                        <th>
-                                                        <input type="checkbox" id="check-all" class="flat">
-                                                        </th>
-                                                        <th class="column-title">Problem Name </th>
-                                                        <th class="column-title">Statement</th>
-                                                        <th class="column-title">Categories</th>
-                                                        </th>
-                                                        <th class="bulk-actions" colspan="7">
-                                                        <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                    each statement in tbl_problemstatement
-                                                        <tr class="even pointer">
-                                                            <td class="a-center ">
-                                                            input(type="checkbox" id="ap-statementid" name="statementID" value=`${statement.int_statementID}` )
-                                                            </td>
-                                                            <td class=" ">
-                                                            value= " " + statement.varchar_statementTitle
-                                                            </td>
-                                                            <td class=" ">
-                                                            value=statement.text_statementContent
-                                                            </td>
-                                                            <td class=" ">
-                                                            value=statement.varchar_categoryName
-                                                            </td>
-                                                            </td>
+                                        <div id="step-1">
+                                            <form class="form-horizontal form-label-left">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped jambo_table bulk_action">
+                                                        <thead>
+                                                        <tr class="headings">
+                                                            <th>
+                                                            <input type="checkbox" id="check-all" class="flat">
+                                                            </th>
+                                                            <th class="column-title">Problem Name </th>
+                                                            <th class="column-title">Statement</th>
+                                                            <th class="column-title">Categories</th>
+                                                            </th>
+                                                            <th class="bulk-actions" colspan="7">
+                                                            <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                                            </th>
                                                         </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </form>
-                                    </div>
+                                                        </thead>
 
-                                    <div id="step-2">
-                                        <form class="form-horizontal form-label-left">
+                                                        <tbody>
+                                                        each statement in tbl_problemstatement
+                                                            <tr class="even pointer">
+                                                                <td class="a-center ">
+                                                                    input(type="checkbox" id="ap-statementid" name="statementID" value=`${statement.int_statementID}` )
+                                                                    input(type="text" name="trialLang" value="hekhekhekhek" hidden)
+                                                                </td>
+                                                                <td class=" ">
+                                                                    value= " " + statement.varchar_statementTitle
+                                                                </td>
+                                                                <td class=" ">
+                                                                    value=statement.text_statementContent
+                                                                </td>
+                                                                <td class=" ">
+                                                                    value=statement.varchar_categoryName
+                                                                </td>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div id="step-2">
+                                            //- <form class="form-horizontal form-label-left">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectname">Project Name <span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" id="projectname" required="required"placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12" name="projectname">
+                                                    <input type="text" name="projectname" onchange="getName()" id="ap-projectname" required="required" placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" multiple="multiple" name="projectcategory">
-                                                    <option>Choose option</option>
-                                                    each category in tbl_category
-                                                        option(value=`${category.int_categoryID}`)=category.varchar_categoryName
-                                                </select>
+                                                    <select class="select2_multiple form-control" onchange="" multiple="multiple" name="projectcategory" id="ap-projectcategory">
+                                                        <option>Choose option</option>
+                                                            each category in tbl_category
+                                                                option(value=`${category.int_categoryID}` )=category.varchar_categoryName
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectrationale">Project Rationale</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="projectrationale" name="projectrationale"></textarea>
+                                                    <textarea onchange="getRationale()" class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="ap-projectrationale" name="projectrationale"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectobjectives">Project Objective</label>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectobjective">Project Objective</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project objective ..." id="projectobjectives" name="projectobjectives"></textarea>
+                                                    <textarea onchange="getObjective()" class="resizable_textarea form-control" placeholder="Please fill project objective ..." id="ap-projectobjective" name="projectobjective"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectdescription">Project Description</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea class="resizable_textarea form-control" placeholder="Please fill project description ..." id="projectdescription" name="projectdescription"></textarea>
+                                                    <textarea onchange="getDescription()" class="resizable_textarea form-control" placeholder="Please fill project description ..." id="ap-projectdescription" name="projectdescription"></textarea>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
-                                    
-                                    <div id="step-3">
-                                        <form class="form-horizontal form-label-left">
+                                            //- </form>
+                                        </div>
+                                        
+                                        <div id="step-3">
+                                            //- <form class="form-horizontal form-label-left">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Target Beneficiary</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" name="apbeneficiary" multiple="multiple">
+                                                <select class="select2_multiple form-control" onchange="getBeneficiary()" id="ap-projectbeneficiary" name="projectbeneficiary" multiple="multiple">
                                                     <option>Choose option</option>
                                                     each beneficiary in tbl_beneficiary
-                                                        option(value=`beneficiary.int_beneficiaryID`)=beneficiary.varchar_beneficiaryName
+                                                        option(value=`${beneficiary.int_beneficiaryID}`)=beneficiary.varchar_beneficiaryName
                                                 </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Alloted Slot <span class="required">*</span>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslots">Alloted Slot <span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" id="allotedslot" required="required"placeholder="Number of beneficiary ..."onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
+                                                    <input type="number" onchange="getSlot()" id="ap-allotedslots" name="allotedslots" required="required" placeholder="Number of beneficiary ..." onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
+                                            //- </form>
+                                        </div>
 
-                                    <div id="step-4">
-                                        <form class="form-horizontal form-label-left">
+                                        <div id="step-4">
+                                            //- <form class="form-horizontal form-label-left">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select requirements</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" multiple="multiple" name="aprequirement">
+                                                <select class="select2_multiple form-control" id="ap-projectrequirement" multiple="multiple" name="projectrequirement">
                                                     <option>Choose option</option>
                                                     each requirement in tbl_requirement
-                                                        <option>
-                                                        value=requirement.varchar_requirementName
-                                                        </option>
+                                                        option(value=`${requirement.int_requirementID}`)=requirement.varchar_requirementName
                                                 </select>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
+                                            //- </form>
+                                        </div>
 
-                                    <div id="step-5">
-                                        <form class="form-horizontal form-label-left">
+                                        <div id="step-5">
+                                            //- <form class="form-horizontal form-label-left">
+                                                //- <div class="form-group">
+                                                //-     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Start Date<span class="required">*</span>
+                                                //-     </label>
+                                                //-     <div class="col-md-6 col-sm-6 col-xs-12">
+                                                //-         <input type="number" id="startDate" required="required" placeholder="number of days after approval ..." class="form-control col-md-7 col-xs-12">
+                                                //-     </div>
+                                                //- </div>
                                             <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Start Date<span class="required">*</span>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="applicationDays"> Days of application<span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" id="startDate" required="required" placeholder="number of days after approval ..." class="form-control col-md-7 col-xs-12">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days of application<span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" id="applicationDays" required="required" placeholder="Duration of beneficiary application..." class="form-control col-md-7 col-xs-12">
+                                                    <input type="number" onchange="getAppDays()" id="ap-applicationDays" name="applicationDays" required="required" placeholder="Duration of beneficiary application..." class="form-control col-md-7 col-xs-12">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">No. of Days of Releasing<span class="required">*</span>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="releasingday">Days of Releasing<span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" id="releasingday" required="required" onchange="unhide()" placeholder="number of days of releasing..." class="form-control col-md-7 col-xs-12">
+                                                    <input type="number" onchange="getReleaseDays()" id="ap-releasingday" name="releasingday" required="required" onchange="unhide()" placeholder="number of days of releasing..." class="form-control col-md-7 col-xs-12">
                                                 </div>
-                                            </div>
-                                            <div class="form-group" hidden id="daychange">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days Between Release Dates<span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" id="betweenDays" required="required" placeholder="Number of days skip..." class="form-control col-md-7 col-xs-12">
                                                 </div>
-                                            </div>
+                                                //- <div class="form-group" hidden id="daychange">
+                                                //-     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days Between Release Dates<span class="required">*</span>
+                                                //-     </label>
+                                                //-     <div class="col-md-6 col-sm-6 col-xs-12">
+                                                //-         <input type="number" id="betweenDays" required="required" placeholder="Number of days skip..." class="form-control col-md-7 col-xs-12">
+                                                //-     </div>
+                                                //- </div>
                                             <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Date of releasing<span class="required">*</span>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="releasedate"> Date of releasing<span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" id="releasedate" required="required" placeholder="days after closing..." class="form-control col-md-7 col-xs-12">
+                                                    <input type="number" onchange="getReleaseDate()" id="ap-releasedate" name="releasedate" required="required" placeholder="Number days after closing..." class="form-control col-md-7 col-xs-12">
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" multiple="multiple">
-                                                    <option>Choose option</option>
-                                                    <option>Mandaluyong City</option>
-                                                    each location in tbl_barangay
-                                                        <option>
-                                                        value=location.varchar_barangayName
-                                                        </option>
-                                                </select>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                                                //- <div class="form-group">
+                                                //-     <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
+                                                //-     <div class="col-md-6 col-sm-6 col-xs-12">
+                                                //-     <select class="select2_multiple form-control" multiple="multiple">
+                                                //-         <option>Choose option</option>
+                                                //-         <option>Mandaluyong City</option>
+                                                //-         each location in tbl_barangay
+                                                //-             <option>
+                                                //-             value=location.varchar_barangayName
+                                                //-             </option>
+                                                //-     </select>
+                                                //-     </div>
+                                                //- </div>
+                                            //- </form>
+                                        </div>
 
-                                    <div id="step-6">
-                                        <form class="form-horizontal form-label-left">
+                                        <div id="step-6">
+                                            //- <form class="form-horizontal form-label-left">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estimatedbudget">Estimated Budget <span class="required">*</span>
                                                 </label>
@@ -263,153 +262,149 @@ block content
                                                     <input type="text" id="individualbudget" readonly="readonly" placeholder="0" class="form-control col-md-7 col-xs-12">
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
+                                            //- </form>
+                                        </div>
 
-                                    <div id="step-7" onload="">
-                                        <form class="form-horizontal form-label-left">
-                                            <div class="x_panel">
-                                                <div class="x_title">
-                                                    <h2>Proposal Summary <small></small></h2>
-                                                    <div class="clearfix"></div>
+                                        <div id="step-7">
+                                            <form class="form-horizontal form-label-left">
+                                                <div class="x_panel">
+                                                    <div class="x_title">
+                                                        <h2>Proposal Summary <small></small></h2>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="x_content">
+                                                        <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                            <th>Problem</th>
+                                                            <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">Problem to be solved:</th>
+                                                            <td><div id="result-projStatement"><div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row"></th>
+                                                            <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr>
+                                                            <th>Basic Information</th>
+                                                            <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">Project Title:</th>
+                                                            <td>
+                                                                <div id="result-projName"><div>
+                                                            </td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Category:</th>
+                                                            <td><div id="result-projCategory"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Project Rationale:</th>
+                                                            <td><div id="result-projRationale"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Project Description:</th>
+                                                            <td><div id="result-projDescription"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Project Objective:</th>
+                                                            <td><div id="result-projObjective"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row"></th>
+                                                            <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr >
+                                                            <th>Beneficiary</th>
+                                                            <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">Target Beneficiary:</th>
+                                                            <td id="result-projBeneficiary"></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Alloted Slot:</th>
+                                                            <td id="result-projSlot"></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row"></th>
+                                                            <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr >
+                                                            <th>Requirements</th>
+                                                            <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">Requirements to be passed:</th>
+                                                            <td id="result-projRequirement"></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row"></th>
+                                                            <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr >
+                                                            <th>Timeline</th>
+                                                            <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">Duration of Application:</th>
+                                                            <td><div id="result-projApp"><div></td>
+                                                            <tr>
+                                                            <th scope="row">Duration of Releasing</th>
+                                                            <td><div id="result-projRelease"><div></td>
+                                                            </tr><tr>
+                                                            <th scope="row">Days After Closing</th>
+                                                            <td><div id="result-projClose"><div></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr >
+                                                            <th>Budget</th>
+                                                            <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">Estimated Budget:</th>
+                                                            <td id="result-projEstimated"></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">Individual Budget:</th>
+                                                            <td id="result-projIndividual"></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row"></th>
+                                                            <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                                <div class="x_content">
-                                                    <table class="table table-hover">
-                                                    <thead>
-                                                        <tr >
-                                                        <th>Problem</th>
-                                                        <th>   </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                        <th scope="row">Problem to be solved:</th>
-                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row"></th>
-                                                        <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <thead>
-                                                        <tr>
-                                                        <th>Basic Information</th>
-                                                        <th>   </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                        <th scope="row">Project Title:</th>
-                                                        <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row">Category:</th>
-                                                        <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row">Project Rationale:</th>
-                                                        <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row">Project Description:</th>
-                                                        <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row">Project Objective:</th>
-                                                        <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row"></th>
-                                                        <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <thead>
-                                                        <tr >
-                                                        <th>Beneficiary</th>
-                                                        <th>   </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                        <th scope="row">Target Beneficiary:</th>
-                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row">Alloted Slot:</th>
-                                                        <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row"></th>
-                                                        <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <thead>
-                                                        <tr >
-                                                        <th>Requirements</th>
-                                                        <th>   </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                        <th scope="row">Requirements to be passed:</th>
-                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row"></th>
-                                                        <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <thead>
-                                                        <tr >
-                                                        <th>Timeline</th>
-                                                        <th>   </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                        <th scope="row">Duration of Application:</th>
-                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row">Releasing Date:</th>
-                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row">Releasing Location:</th>
-                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row"></th>
-                                                        <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <thead>
-                                                        <tr >
-                                                        <th>Budget</th>
-                                                        <th>   </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                        <th scope="row">Estimated Budget:</th>
-                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row">Individual Budget:</th>
-                                                        <td>afssssssssssssssssssssssssssssssssssssssssssssssss</td>
-                                                        </tr>
-                                                        <tr>
-                                                        <th scope="row"></th>
-                                                        <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </form>
-                                </div>
-                            </div>      
-                        </div>
+                                            </form>
+                                    </div>
+                                </div>      
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -420,20 +415,117 @@ block content
 
             
             script.
-                    
+                
+
+                function getName() {
+                    var name = document.getElementById("ap-projectname").value;
+                    console.log(name);
+
+                    if(name!=0){
+                        document.getElementById("result-projName").innerHTML = name;
+                    }
+                }
+
+                function getRationale() {
+                    var rationale = document.getElementById("ap-projectrationale").value;
+                    console.log(rationale);
+
+                    if(rationale!=0){
+                        document.getElementById("result-projRationale").innerHTML = rationale;
+                    }
+                }
+
+                function getObjective() {
+                    var objective = document.getElementById("ap-projectobjective").value;
+                    console.log(objective);
+
+                    if(objective!=0){
+                        document.getElementById("result-projObjective").innerHTML = objective;
+                    }
+                }
+
+                function getDescription() {
+                    var description = document.getElementById("ap-projectdescription").value;
+                    console.log(description);
+
+                    if(description!=0){
+                        document.getElementById("result-projDescription").innerHTML = description;
+                    }
+                }
+
+                function getSlot() {
+                    var slot = document.getElementById("ap-allotedslots").value;
+                    console.log(slot);
+
+                    if(slot!=0){
+                        document.getElementById("result-projSlot").innerHTML = slot;
+                    }
+                }
+
+                function getAppDays() {
+                    var applicationDays = document.getElementById("ap-applicationDays").value;
+                    console.log(applicationDays);
+
+                    if(applicationDays!=0){
+                        document.getElementById("result-projApp").innerHTML = applicationDays;
+                    }
+                }
+
+                function getReleaseDays() {
+                    var releasingday = document.getElementById("ap-releasingday").value;
+                    console.log(releasingday);
+
+                    if(releasingday!=0){
+                        document.getElementById("result-projRelease").innerHTML = releasingday;
+                    }
+                }
+
+                function getReleaseDate() {
+                    var releasedate = document.getElementById("ap-releasedate").value;
+                    console.log(releasedate);
+
+                    if(releasedate!=0){
+                        document.getElementById("result-projClose").innerHTML = releasedate;
+                    }
+                }
+
+                function getBeneficiary() {
+                    var beneficiary = document.getElementById("ap-projectbeneficiary").value;
+                    console.log(beneficiary);
+
+                    if(beneficiary!=0){
+                        document.getElementById("result-projBeneficiary").innerHTML = beneficiary;
+                    }
+                }
+
+                //- function getObjective() {
+                //-     var objective = document.getElementById("ap-projectobjective").value;
+                //-     console.log(objective);
+
+                //-     if(objective!=0){
+                //-         document.getElementById("result-projObjective").innerHTML = objective;
+                //-     }
+                //- }
+
                 function autobudget() {
-                    var x = document.getElementById("allotedslot").value;
+                    var x = document.getElementById("allotedslots").value;
                     var y = document.getElementById("estimatedbudget").value;
                     var z = y/x;
+                    
                     if(x!=0)
                     {
                         if(x>y)
                         document.getElementById("individualbudget").value = 0;
-                        else
-                        document.getElementById("individualbudget").value = z;}
+                        else{
+                            document.getElementById("individualbudget").value = z;
+                        }
+                    }
                     
                     else
-                    document.getElementById("individualbudget").value = 0;
+                        document.getElementById("individualbudget").value = 0;
+
+                    document.getElementById("result-projEstimated").innerHTML = y;
+                    document.getElementById("result-projIndividual").innerHTML = z;
                 }
                 
                 function unhide() {

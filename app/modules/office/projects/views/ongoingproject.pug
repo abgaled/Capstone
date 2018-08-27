@@ -43,7 +43,7 @@ block content
                                                             if project.enum_projectStatus == "Approved"
                                                                 a(href=`/office/projects/ongoingproject/${project.int_projectID}/startproj` id="startproj" class="btn btn-success btn-s btn-block"): span Start Project
                                                             if project.enum_projectStatus == "Finished"
-                                                                button.btn.btn-dark.btn-s.btn-block(type='submit') Liquidate
+                                                                a(href=`/office/projects/ongoingproject/${project.int_projectID}/liquidation` id="liquidation" class="btn btn-dark btn-s btn-block"): span Liquidate
                                                             if project.enum_projectStatus == "Ongoing"
                                                                 a(href=`/office/projects/ongoingproject/${project.int_projectID}/viewapp` id="viewapp" class="btn btn-info btn-s btn-block"): span View Beneficiaries
                                                             if project.enum_projectStatus == "New"

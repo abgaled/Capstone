@@ -3,7 +3,10 @@ var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 
-
+// KULANG: 
+// - CityID post
+// - Yung mga dropdown sa pagdidisplay
+// [AS OF 12:09PM - 25/08/2018]
 
 router.get('/',(req, res) => {
     console.log('=================================');
@@ -88,118 +91,171 @@ router.post('/',(req, res) => {
     console.log('OFFICE: PROPOSALS POST');
     console.log('=================================');
 
-    // UPDATE TABLE PROBLEM STATEMENT 
-    var statements = req.body.statementID;
-    console.log("==============REQUIREMENT=============");
-    console.log(req.body.statementID)
+    console.log("===========================");
+    console.log("wews");
+    console.log(req.body.trialLang);
+    console.log("===========================");
+    console.log("PROJECT DETAILS:")
+    console.log(req.body.projectname);
+    console.log(req.body.projectrationale);
+    console.log(req.body.projectdescription);
+    console.log(req.body.projectobjective);
+    console.log("PROJECT SLOTS:")
+    console.log(req.body.allotedslots);
+    console.log("PROJECT DATES:")
+    console.log(req.body.applicationDays);
+    console.log(req.body.releasingday);
+    console.log(req.body.releasedate);
+    console.log("PROJECT BUDGET:")
+    console.log(req.body.estimatedbudget);
+    console.log("PROJECT CATEGORY:")
+    console.log(req.body.projectcategory);
+    console.log("PROJECT BENEFICIARY:")
+    console.log(req.body.projectbeneficiary);
+    console.log("PROJECT REQUIREMENT:")
+    console.log(req.body.projectrequirement);
+    console.log("PROBLEM STATEMENT:")
+    console.log(req.body.statementID);
+   
+    var insertprojProposal = `INSERT INTO \`tbl_projectproposal\` 
+    (
+        \`varchar_projectName\`,
+        \`varchar_projectRationale\`,
+        \`text_projectDescription\`,
+        \`text_projectObjective\`,
+        \`int_allotedSlot\`,
+        \`int_applicationDuration\`,
+        \`int_releasingDuration\`,
+        \`int_beforeReleasingDuration\`,
+        \`decimal_estimatedBudget\`,
+        \`date_createdDate\`,
+        \`enum_proposalStatus\`
+    )
+                
+    VALUES
+    (
+        "${req.body.projectname}",
+        "${req.body.projectrationale}",
+        "${req.body.projectdescription}",
+        "${req.body.projectobjective}",
+        "${req.body.allotedslots}",
+        "${req.body.applicationDays}",
+        "${req.body.releasingday}",
+        "${req.body.releasedate}",
+        "${req.body.estimatedbudget}",
+        CURDATE(),
+        "Pending"
+    )`;
 
-        for(i = 0 ; i < statements.length ; i++)
-        {
-            var updateProbStatus =  `UPDATE tbl_problemstatement SET
-            enum_problemStatus = "Proposed"
-            WHERE tbl_problemstatement.int_statementID = ${req.body.statementID}`;
+    db.query(insertprojProposal, (err, results, fields) => {        
+        if (err) throw err;    
+        console.log("==============INSERT PROJECT PROPOSAL CREDENTIALS SUCCESS====================");
             
-        }
-
-        db.query(updateProbStatus, (err, results, fields) => {        
-            if (err) throw err;    
-            console.log(results);
-
-            var insertprojProposal = `INSERT INTO \`tbl_projectproposal\` (
         
-                \`varchar_projectName\`,
-                \`varchar_projectRationale\`,
-                \`text_projectDescription\`,
-                \`text_projectObjective\`,
-                \`int_allotedSlot\`,
-                \`int_dayDuration\`,
-                \`decimal_estimatedBudget\`,
-                \`date_createdDate\`,
-                \`enum_proposalStatus\`)
-                        
-                VALUES(
-                "${req.body.projectname}",
-                "${req.body.projectrationale}",
-                "${req.body.projectdescription}",
-                "${req.body.projectobjectives}",
-                "${req.body.allotedslot}",
-                "${req.body.allotedslot}",
-                "${req.body.estimatedbudget}",
-                CURDATE(),
-                "Accepted");`;
+        var getProposalID =`SELECT * FROM tbl_projectproposal ORDER BY int_projectID DESC LIMIT 0,1`
 
-            db.query(insertprojProposal, (err, results, fields) => {        
-                if (err) throw err;    
-                console.log(results);
-            
-        
-            var getProposalID =`SELECT * FROM tbl_projectproposal ORDER BY int_projectID DESC LIMIT 0,1`
+        db.query(getProposalID, (err, proposalID, fields) => {        
+            if (err) throw err;
 
-            db.query(getProposalID, (err, proposalID, fields) => {        
-                if (err) throw err;
+            var toproject = proposalID[0];
 
-                var toproject = proposalID[0];
+            // UPDATE TABLE PROBLEM STATEMENT 
 
-                var inserttblProject = `INSERT INTO \`tbl_project\` (
+            var statements = req.body.statementID;
+            console.log("==============REQUIREMENT=============");
+            console.log(req.body.statementID)
+
+            for(i = 0 ; i < statements.length ; i++)
+            {
+                var updateProbStatus =  `UPDATE tbl_problemstatement SET
+                enum_problemStatus = "Proposed"
+                WHERE tbl_problemstatement.int_statementID = ${req.body.statementID}`;
+
+                 db.query(updateProbStatus, (err, results, fields) => {        
+                    if (err) throw err;    
+                    console.log("==============INSERT PROBLEM STATEMENT SUCCESS====================");
+                 });
+            }
+
+
+            // INSERT PROJECT BENEFICIARIES
+
+            console.log(req.body.projectbeneficiary);
+
+            var bene = req.body.projectbeneficiary;
+
+            for( i = 0 ; i < bene.length ; i++ ) {
+                var insertBene = `INSERT INTO \`tbl_projectbeneficiary\`
+                (
                     \`int_projectID\`,
-                    \`date_startDate\`,
-                    \`date_endDate\`,
-                    \`date_releaseDate\`,
-                    \`enum_projectState\`)
+                    \`int_beneficiaryID\`
+                )
+
+                VALUES
+                (
+                    "${toproject.int_projectID}",
+                    "${bene[i]}"
+                )`;
+
+                    db.query(insertBene, (err, insertResult, fields) => {        
+                    if (err) throw err;
+                    console.log("==============INSERT PROJECT BENEFICIARIES SUCCESS====================");
+                    });
+                }
+            
+
+            // INSERT PROJECT REQUIREMENT
+
+            console.log(req.body.projectrequirement);
+
+            var req = req.body.projectrequirement;
+
+            for( i = 0 ; i < req.length ; i++ ) {
+                var inserReq = `INSERT INTO \`tbl_projectrequirement\`
+                (
+                    \`int_requirementID\`,
+                    \`int_projectID\`
+                )
+                    
+                VALUES
+                (
+                    "${req[i]}",
+                    "${toproject.int_projectID}"
+                )`;
+
+                db.query(inserReq, (err, inserResult, fields) => {        
+                    if (err) throw err;
+                    console.log("==============INSERT PROJECT REQUIREMENT SUCCESS====================");
+                });
+            }
+                
+
+            //  INSERT PROJECT CATEGORY
+
+            console.log(req.body.projectcategory);
+
+            var categ = req.body.projectcategory;
+
+            for( i = 0 ; i < categ.length ; i++){
+                var insertTimeline = `INSERT INTO \`tbl_projectcategory\`
+                (
+                    \`int_categoryID\`,
+                    \`int_projectID\`
+                )
                     
                     VALUES(
-                    "${toproject.int_projectID}",
-                    "${req.body.startdate}",
-                    "${req.body.enddate}",
-                    "${req.body.releasedate}",
-                    "Active");`;
+                    "${categ[i]}",
+                    "${toproject.int_projectID}"
+                );`;
 
-                    db.query(inserttblProject, (err, tblproject, fields) => {        
-                        if (err) throw err;
+                db.query(insertTimeline, (err, tblprojectrequirement, fields) => {        
+                    if (err) throw err;
+                    console.log("==============INSERT PROJECT CATEGORY SUCCESS====================");
+                });
+            }
 
-                        console.log(tbl_project);
-
-                        var inserttblProject = `INSERT INTO \`tbl_projectbeneficiary\` (
-                            \`int_projectID\`,
-                            \`int_beneficiaryID\`)
-                            
-                            VALUES(
-                            "${toproject.int_projectID}",
-                            "${req.body.apbeneficiary}");`;
-
-                            db.query(inserttblProject, (err, tbl_projectbeneficiary, fields) => {        
-                                if (err) throw err;
-
-                                var inserttblRequirements = `INSERT INTO \`tbl_projectrequirement\` (
-                                    \`int_requirementID\`,
-                                    \`int_projectID\`)
-                                    
-                                    VALUES(
-                                    "${req.body.aprequirement}",
-                                    "${toproject.int_projectID}");`;
-
-                                db.query(inserttblRequirements, (err, tblprojectrequirement, fields) => {        
-                                    if (err) throw err;
-
-                                    var insertTimeline = `INSERT INTO \`tbl_projectrequirement\` (
-                                        \`int_requirementID\`,
-                                        \`int_projectID\`)
-                                        
-                                        VALUES(
-                                        "${req.body.aprequirement}",
-                                        "${toproject.int_projectID}");`;
-
-                                    db.query(insertTimeline, (err, tblprojectrequirement, fields) => {        
-                                        if (err) throw err;
-                        
-                                        res.redirect('/office/proposals');
-                                    });
-                                })
-                            });
-                    });
+            res.redirect('/office/proposals');  
         });
-    });
-
     });
 });
 

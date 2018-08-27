@@ -32,6 +32,7 @@
     "nodemailer": "^4.6.4",
     "pug": "^2.0.3",
     "serve-static": "^1.13.2",
+    "sweetalert": "^2.1.0",
     "winston": "^2.4.1"
   }
 }

@@ -447,5 +447,35 @@ router.post('/finishedproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,
     });
 });
 
+router.get('/ongoingproject/:int_projectID/liquidation',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS');
+    console.log('=================================');
 
+    var queryString1 =`SELECT * FROM tbl_expense ex
+    JOIN tbl_project proj ON ex.int_projectID = proj.int_projectID
+    WHERE ex.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString2 =`SELECT * FROM tbl_project proj
+    JOIN tbl_projectproposal pr ON proj.int_projectID = pr.int_projectID
+    WHERE proj.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString3 =`SELECT SUM(decimal_estimatedAmount) AS "total_expense" 
+    FROM tbl_expense
+    WHERE int_projectID = "${req.params.int_projectID}"`
+
+        db.query(queryString1, (err, results1, fields) => {
+            db.query(queryString2, (err, results2, fields) => { 
+                db.query(queryString3, (err, results3, fields) => {
+                
+    
+            res.render('office/projects/views/liquidation',{
+                tbl_expenses:results1,
+                tbl_project:results2,
+                total:results3
+                });
+            });
+        });
+    });
+});
 module.exports = router;

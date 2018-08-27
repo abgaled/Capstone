@@ -1,0 +1,90 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title" >
+                        <h1 class="text-center">Project - Liquidation</h1>
+                        each proj in tbl_project
+                            <h4 class="text-center">
+                                value="(" + proj.varchar_projectName + ")"
+                            </h4>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped" id="datatable" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Expenses Description</th>
+                                                        <th>Estimated Expense Cost</th>
+                                                        <th>Actual Expense Cost</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <form>
+                                                    each exp in tbl_expenses
+                                                        <tr class="tr-shadow">
+                                                            <td>
+                                                                value=exp.int_expenseID
+                                                            </td>
+                                                            <td>
+                                                                value=exp.text_expenseContent
+                                                            </td>
+                                                            <td>
+                                                                value=exp.decimal_estimatedAmount
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" id="releasingday" required="required" placeholder="" class="form-control col-md-7 col-xs-12">
+                                                            </td>
+                                                        </tr>
+                                                    </form>    
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th>Total Estimatation: Php 
+                                                        each tot in total
+                                                            value=tot.total_expense 
+                                                        </th>
+                                                        <th>Total Expense:</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th>
+                                                        </th>
+                                                        <th></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th>
+                                                        </th>
+                                                        <th>Budget Acquired: Php 
+                                                        each proj2 in tbl_project
+                                                            value=proj2.decimal_actualBudget
+                                                            <br/> - Total Expenses: Php
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th>
+                                                        </th>
+                                                        <th>Remaining Budget: Php 
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+        <!-- END STATISTIC-->
