@@ -1,0 +1,26 @@
+extends ../../navbar/views/navbar.pug
+
+block content
+  <link rel="stylesheet" type="text/css" href="/loader/style_loader.css">
+
+  <div id="loading"></div>
+    <form method="POST" action="deleteaward" id="form_deleteaward">
+      each award in tbl_award
+            
+        input(type="hidden" value=`${award.int_awardID}` name="int_awardID" id="int_awardID")
+                       
+    </form>
+
+
+
+
+  script.
+    
+    window.onload=function() {
+      jQuery(document).ready(function() {
+      jQuery('#loading').fadeOut(3500);
+      });
+
+      document.getElementById("form_deleteaward").submit();
+    }
+

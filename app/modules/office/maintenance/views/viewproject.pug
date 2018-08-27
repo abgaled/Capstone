@@ -1,0 +1,55 @@
+extends ../../navbar/views/navbar.pug
+
+block content
+        <!-- page content -->
+        <div class="right_col" role="main">
+        each project in tbl_projectproposal
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h3>
+                  value=project.varchar_projectName
+                  <h3>
+                  a(href=`/admin/maintenance/projects` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle      
+                </div>
+                <h5><strong>Release Location:   </strong>
+                value=project.varchar_releaseLocation
+                <h5>
+                <h5><strong>Project Rationale:   </strong>
+                value=project.varchar_projectRationale
+                <h5>
+                <h5><strong>Project Objective:   </strong>
+                value=project.varchar_projectObjective
+                <h5>
+                <h5><strong>Project Description:   </strong>
+                value=project.text_projectDescription
+                <h5>
+                <h5><strong>Expected Output:   </strong>
+                value=project.text_expectedOutput
+                <h5>
+                <h5><strong>Alloted Slot:   </strong>
+                value=project.int_allotedSlot
+                <h5>
+                <h5><strong>Estimated Budget:   </strong>
+                value=project.decimal_estimatedBudget
+                <h5>
+                <h5><strong>Individual Budget:   </strong>
+                value=project.decimal_individualBudget
+                <h5>
+                <h5><strong>Start Date:   </strong>
+                value=project.date_startDate
+                <h5>
+                <h5><strong>End Date:   </strong>
+                value=project.date_endDate
+                <h5>
+                <h5><strong>Approved Date:   </strong>
+                value=project.date_approvedDate
+                <h5>
+                <h5><strong>Release Date:   </strong>
+                value=project.date_releaseDate
+                <h5>
+                <h5><strong>Actual Budget:   </strong>
+                value=project.decimal_actualBudget
+                <h5>
+

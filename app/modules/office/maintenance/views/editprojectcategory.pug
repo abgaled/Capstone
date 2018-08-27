@@ -1,0 +1,32 @@
+extends ../../home/views/navbar.pug
+
+
+block content
+        <div class="right_col" role="main">
+        each projcat in tbl_projectcategory
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h3>Update:<h3>
+                  a(href=`/admin/maintenance/projectcategory` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle      
+                </div>
+                  <form method="POST" action="editprojectcategory">
+                      input(type="hidden" value=`${projcat.int_categoryID}` name="int_categoryID")
+
+                      <div class="row form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectcategoryname">Project Category Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          //- <input id="requirementname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="3" name="requirementname" placeholder="" required="required" value=`${requirement.varchar_requirementName}` type="text">
+                          input(type="text" class="form-control col-md-7 col-xs-12" id="projectcategoryname" placeholder="Project CategoryName" name="projectcategoryname" value=`${projcat.varchar_categoryName}` required)
+                        
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-default float-right" id="buttoneditprofile">Submit</button>
+                  </div>
+                  </form>
+                </div>
+            </div>
+          </div>
+        </div>

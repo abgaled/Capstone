@@ -4,6 +4,7 @@ var authMiddleware = require('../auth/middlewares/auth');
 router.use(authMiddleware.hasAuthOffice);
 
 router.use('/home', require('./home/routes'));
+router.use('/maintenance', require('./maintenance/routes'));
 router.use('/problems', require('./problems/routes'));
 router.use('/proposals', require('./proposals/routes'));
 router.use('/projects', require('./projects/routes'));
