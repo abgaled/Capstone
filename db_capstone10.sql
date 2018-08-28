@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2018 at 10:56 PM
+-- Generation Time: Aug 28, 2018 at 08:17 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -332,7 +332,8 @@ INSERT INTO `tbl_projectcategory` (`int_projcategID`, `int_projectID`, `int_cate
 (10, 13, 6),
 (11, 15, 8),
 (12, 14, 10),
-(13, 14, 7);
+(13, 14, 7),
+(17, 21, 6);
 
 -- --------------------------------------------------------
 
@@ -376,7 +377,8 @@ CREATE TABLE `tbl_projectproposal` (
 INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_cityID`, `varchar_projectName`, `varchar_projectRationale`, `text_projectDescription`, `text_projectObjective`, `int_allotedSlot`, `int_applicationDuration`, `int_releasingDuration`, `int_beforeReleasingDuration`, `decimal_estimatedBudget`, `date_createdDate`, `enum_proposalStatus`) VALUES
 (13, 2, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 1000, 150, 3, 14, '1000000', '2018-08-28', 'Approved'),
 (14, 2, 'Financial Assistance for Grade 4 students of Mababang Paaralan ng Sucat', 'It will help them to restore their school supplies that they recently used.', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 1500, 150, 5, 10, '10000000', '2018-02-13', 'Approved'),
-(15, 2, 'Distribution of Supplies for Fire Victims', 'Residents will received their supplies.', 'Give the residents who were affected by the fire. Given that they pass the required requirements.', 'Giving of supplies to residents. First come first served service (first to complete the requirements will automatically gain a slot).', 1000, 200, 5, 10, '3509995234', '2018-03-15', 'Pending');
+(15, 2, 'Distribution of Supplies for Fire Victims', 'Residents will received their supplies.', 'Give the residents who were affected by the fire. Given that they pass the required requirements.', 'Giving of supplies to residents. First come first served service (first to complete the requirements will automatically gain a slot).', 1000, 200, 5, 10, '3509995234', '2018-03-15', 'Pending'),
+(21, 2, 'Full body check up', 'Dummy 1', 'Dummy 3', 'Dummy 2', 100, 20, 1, 1, '1000000', '2018-08-28', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -399,8 +401,7 @@ INSERT INTO `tbl_projectrequirement` (`int_projreqID`, `int_requirementID`, `int
 (12, 17, 13),
 (13, 30, 14),
 (14, 28, 14),
-(15, 28, 15),
-(16, 30, 15);
+(15, 28, 15);
 
 -- --------------------------------------------------------
 
@@ -699,7 +700,7 @@ ALTER TABLE `tbl_expense`
 -- AUTO_INCREMENT for table `tbl_notification`
 --
 ALTER TABLE `tbl_notification`
-  MODIFY `int_notifID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `int_notifID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
@@ -709,12 +710,12 @@ ALTER TABLE `tbl_problemstatement`
 -- AUTO_INCREMENT for table `tbl_projectbeneficiary`
 --
 ALTER TABLE `tbl_projectbeneficiary`
-  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
 ALTER TABLE `tbl_projectcategory`
-  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `tbl_projectlocation`
 --
@@ -724,12 +725,12 @@ ALTER TABLE `tbl_projectlocation`
 -- AUTO_INCREMENT for table `tbl_projectproposal`
 --
 ALTER TABLE `tbl_projectproposal`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `tbl_projectrequirement`
 --
 ALTER TABLE `tbl_projectrequirement`
-  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `tbl_proposalapproval`
 --
@@ -744,7 +745,7 @@ ALTER TABLE `tbl_requirement`
 -- AUTO_INCREMENT for table `tbl_revisioncomment`
 --
 ALTER TABLE `tbl_revisioncomment`
-  MODIFY `int_revisionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `int_revisionID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --

@@ -10,7 +10,7 @@ block content
                             <h2>Proposal Form<small></small></h2>
                             <div class="clearfix"></div>
                         </div>
-                        <form method="POST" action="/office/proposals" class="form-horizontal form-label-left">
+                        <form method="POST" action="/office/proposals" class="form-horizontal form-label-left" id="create-proposal">
                             <div class="x_content">
                                 <div id="wizard" class="form_wizard wizard_horizontal">
                                     <ul class="wizard_steps">
@@ -96,7 +96,6 @@ block content
                                                             <tr class="even pointer">
                                                                 <td class="a-center ">
                                                                     input(type="checkbox" id="ap-statementid" name="statementID" value=`${statement.int_statementID}` )
-                                                                    input(type="text" name="trialLang" value="hekhekhekhek" hidden)
                                                                 </td>
                                                                 <td class=" ">
                                                                     value= " " + statement.varchar_statementTitle
@@ -127,7 +126,7 @@ block content
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <select class="select2_multiple form-control" onchange="" multiple="multiple" name="projectcategory" id="ap-projectcategory">
+                                                    <select class="select2_multiple form-control" onchange="getCategory()" multiple="multiple" name="projectcategory" id="ap-projectcategory">
                                                         <option>Choose option</option>
                                                             each category in tbl_category
                                                                 option(value=`${category.int_categoryID}` )=category.varchar_categoryName
@@ -230,19 +229,22 @@ block content
                                                     <input type="number" onchange="getReleaseDate()" id="ap-releasedate" name="releasedate" required="required" placeholder="Number days after closing..." class="form-control col-md-7 col-xs-12">
                                                 </div>
                                             </div>
-                                                //- <div class="form-group">
-                                                //-     <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
-                                                //-     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                //-     <select class="select2_multiple form-control" multiple="multiple">
-                                                //-         <option>Choose option</option>
-                                                //-         <option>Mandaluyong City</option>
-                                                //-         each location in tbl_barangay
-                                                //-             <option>
-                                                //-             value=location.varchar_barangayName
-                                                //-             </option>
-                                                //-     </select>
-                                                //-     </div>
-                                                //- </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <select class="select2_multiple form-control" id="ap-projectlocation" multiple="multiple" name="projectlocation">
+                                                        <option>Choose option</option>
+                                                            <optgroup label="City Level" id="citylevel">
+                                                                each barangay in tbl_barangay
+                                                                    option(value=`${barangay.int_cityID}` id="cityLoc" onclick="cityLocation()")=barangay.varchar_cityName
+                                                            </optgroup>
+                                                            <optgroup label="Barangay Level" id="brgylevel">
+                                                                each location in tbl_location
+                                                                    option(value=`${location.int_barangayID}` class="brgyLoc" onclick="brgyLocation()")=location.varchar_barangayName
+                                                            </optgroup>
+                                                    </select>
+                                                    </div>
+                                                </div>
                                             //- </form>
                                         </div>
 
@@ -377,6 +379,10 @@ block content
                                                             <th scope="row">Days After Closing</th>
                                                             <td><div id="result-projClose"><div></td>
                                                             </tr>
+                                                            </tr><tr>
+                                                            <th scope="row">Project Location</th>
+                                                            <td><div id="result-projloc"><div></td>
+                                                            </tr>
                                                         </tbody>
                                                         <thead>
                                                             <tr >
@@ -490,7 +496,8 @@ block content
                 }
 
                 function getBeneficiary() {
-                    var beneficiary = document.getElementById("ap-projectbeneficiary").value;
+                    var beneficiary = document.getElementById("ap-projectbeneficiary");
+                    var beneficiaries = new Array();
                     console.log(beneficiary);
 
                     if(beneficiary!=0){
@@ -498,14 +505,48 @@ block content
                     }
                 }
 
-                //- function getObjective() {
-                //-     var objective = document.getElementById("ap-projectobjective").value;
-                //-     console.log(objective);
+                function getCategory() {
+                    var str="", i;
+                    
+                    for( i = 0 ; i < create-proposal.ap-projectcategory.options.length ; i++) {
+                        if(create-proposal.ap-projectcategory.options[i].select) {
+                            bb
+                        }
+                    }
+                }
 
-                //-     if(objective!=0){
-                //-         document.getElementById("result-projObjective").innerHTML = objective;
-                //-     }
-                //- }
+                function cityLocation() {
+                    var strContent = "City";
+                    console.log(strContent);
+
+                    var strValue = document.getElementById("ap-projectlocation").value;
+                    console.log(strValue);
+
+                    //- for(i=0 ; i<=idValue.length ; i++) {
+                    //-     strValue+ = document.getElementById("ap-projectlocation").value;
+                    //- }
+
+                    //- console.log(strValue);
+                    document.getElementById("result-projloc").innerHTML = strValue;
+
+                }
+
+                function brgyLocation() {
+                    var strContent = "Barangay";
+                    console.log(strContent);
+                    var strValue = document.getElementById("ap-projectlocation").value;
+                    console.log(strValue);
+
+                    document.getElementById("citylevel").attr('disabled', false);
+
+                    putLocation(strContent);
+                }
+
+                function putLocation(strContent) {
+                    var idValue = document.getElementById("ap-projectlocation").value;
+                    console.log(strContent);
+                    console.log(idValue);
+                }
 
                 function autobudget() {
                     var x = document.getElementById("allotedslots").value;

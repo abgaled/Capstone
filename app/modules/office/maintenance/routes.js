@@ -365,33 +365,44 @@ router.post('/barangay',(req, res) => {
     console.log('ADMIN: MAINTENANCE - 1 POST');
     console.log('=================================');
 
-    var queryString = `INSERT INTO \`tbl_barangay\` (
-        
-        \`int_cityID\`,
-        \`varchar_barangayName\`,
-        \`varchar_barangayContact\`,
-        \`enum_barangayStatus\`)
-                
-        VALUES(
-        "1",
-        "${req.body.barangayname}",
-        "${req.body.barangaycontact}",
-        "Active");`;
+    console.log(req.session.office.int_userID);
+    var queryString0 = `SELECT int_cityID FROM tbl_city WHERE int_userID= ${req.session.office.int_userID}`;
+
+    db.query(queryString0, (err, result0, fields) => {
+        if(err) console.log(err);
+        console.log(result0);
+        var cityID = result0;
+
+        console.log(cityID[0].int_cityID);
+
+        var queryString = `INSERT INTO \`tbl_barangay\` (
+            \`int_cityID\`,
+            \`varchar_barangayName\`,
+            \`varchar_barangayContact\`,
+            \`text_barangayAddress\`,
+            \`enum_barangayStatus\`)
+                    
+            VALUES(
+            ${cityID[0].int_cityID},
+            "${req.body.barangayname}",
+            "${req.body.address}",
+            "${req.body.barangaycontact}",
+            "Active");`;
 
         db.query(queryString, (err, results, fields) => {        
             if (err) throw err;    
             console.log(results);
-       
-        var queryString1 =`SELECT * FROM tbl_barangay ORDER BY int_barangayID DESC LIMIT 0,1`
+        
+            var queryString1 =`SELECT * FROM tbl_barangay ORDER BY int_barangayID DESC LIMIT 0,1`
 
-        db.query(queryString1, (err, results1, fields) => {        
-            if (err) throw err;
-            var results1 = results1;
-            console.log(results1);
-                    
+            db.query(queryString1, (err, results1, fields) => {        
+                if (err) throw err;
+                var results1 = results1;
+                console.log(results1);
+                        
                 res.redirect('/office/maintenance/barangay');
+            });
         });
-
     });
 });
 
