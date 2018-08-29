@@ -9,12 +9,11 @@ router.get('/',(req, res) => {
     console.log('OFFICE: PROBLEM STATEMENT-SUBMITTED');
     console.log('=================================');
 
-    var queryString = `SELECT * FROM tbl_problemstatement pr
-    JOIN tbl_projectcategory prcat 
-    ON pr.int_categoryID=prcat.int_categoryID 
-    JOIN tbl_category cat
-    ON pr.int_categoryID = cat.int_categoryID
-    ORDER BY pr.int_statementID DESC `
+    var queryString = `SELECT *
+        FROM tbl_problemstatement PS JOIN tbl_category C
+        ON PS.int_categoryID=C.int_categoryID
+        GROUP BY int_statementID
+        ORDER BY int_statementID DESC `
 
 
     db.query(queryString,(err, results, fields) => {

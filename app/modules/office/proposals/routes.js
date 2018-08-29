@@ -110,32 +110,41 @@ router.post('/',(req, res) => {
 
 
     console.log("PROJECT DETAILS:")
-    console.log(req.body.projectname);
-    console.log(req.body.projectrationale);
-    console.log(req.body.projectdescription);
-    console.log(req.body.projectobjective);
+    var name = req.body.projectname;
+    console.log(name);
+    var ratioanale = req.body.projectrationale;
+    console.log(ratioanale);
+    var description = req.body.projectdescription;
+    console.log();
+    var objective = req.body.projectobjective;
+    console.log(objective);
     console.log("PROJECT SLOTS:")
-    console.log(req.body.allotedslots);
+    var allotedslot = req.body.allotedslots;
+    console.log(allotedslot);
     console.log("PROJECT DATES:")
-    console.log(req.body.applicationDays);
-    console.log(req.body.releasingday);
-    console.log(req.body.releasedate);
+    var applicationdays = req.body.applicationDays;
+    console.log(applicationdays);
+    var releasingday = req.body.releasingday;
+    console.log(releasingday);
+    var releasedate = req.body.releasedate;
+    console.log(releasedate);
     console.log("PROJECT BUDGET:")
-    console.log(req.body.estimatedbudget);
+    var estimatedbudget = req.body.estimatedbudget;
+    console.log(estimatedbudget);
     console.log("PROJECT CATEGORY:")
-    console.log(req.body.projectcategory);
     var categ = req.body.projectcategory;
+    console.log(categ);
     console.log("PROJECT BENEFICIARY:")
-    console.log(req.body.projectbeneficiary);
     var bene = req.body.projectbeneficiary;
+    console.log(bene);
     console.log("PROJECT REQUIREMENT:")
-    console.log(req.body.projectrequirement);
     var require = req.body.projectrequirement;
+    console.log(require);
     console.log("PROBLEM STATEMENT:")
-    console.log(req.body.statementID);
     var statements = req.body.statementID;
+    console.log(statements);
     console.log("CITY ID:")
-    console.log(req.session.office.int_userID);
+    console.log(cityID.int_cityID);
 
     var insertprojProposal = `INSERT INTO \`tbl_projectproposal\` 
     (
@@ -189,43 +198,51 @@ router.post('/',(req, res) => {
             console.log("==============INSERT PROBLEM STATEMENT=============");
 
             console.log(statements);
+            // console.log(statements.length-1);
 
-            for(var i = 0 ; i < statements.length ; i++)
-            {
+            // for(var o = 0 ; o < (statements.length-1) ; o++)
+            // {
+            //     console.log(o);
+            //     console.log(statements[o]);
+
                 var updateProbStatus =  `UPDATE tbl_problemstatement 
-                    SET enum_problemStatus = "Proposed"
-                    WHERE int_statementID = ${statements[i]}`;
+                    SET enum_problemStatus = "Proposed",
+                    int_projectID = ${toproject.int_projectID}
+                    WHERE int_statementID = ${statements}`;
 
                  db.query(updateProbStatus, (err, results, fields) => {        
-                    if (err) throw err;    
-                    console.log("==============INSERT PROBLEM STATEMENT SUCCESS====================");
+                    if (err) throw err;
+
+                    console.log("problem statement success")
                  });
-            }
+            // }
 
 
             // INSERT PROJECT BENEFICIARIES
             console.log("==============INSERT PROJECT BENEFICIARIES====================");
 
             console.log(bene);
+            console.log(bene.length);
 
-            for(var j = 0 ; j < bene.length ; j++ ) {
+            for(var j = 0 ; j < bene.length ; j++ ) 
+            {
+                console.log(j);
                 var insertBene = `INSERT INTO \`tbl_projectbeneficiary\`
-                (
-                    \`int_projectID\`,
-                    \`int_beneficiaryID\`
-                )
+                    (
+                        \`int_projectID\`,
+                        \`int_beneficiaryID\`
+                    )
 
-                VALUES
-                (
-                    "${toproject.int_projectID}",
-                    "${bene[j]}"
-                )`;
+                    VALUES
+                    (
+                        "${toproject.int_projectID}",
+                        "${bene[j]}"
+                    )`;
 
-                    db.query(insertBene, (err, insertResult, fields) => {        
+                db.query(insertBene, (err, insertResult, fields) => {        
                     if (err) throw err;
-                    console.log("==============INSERT PROJECT BENEFICIARIES SUCCESS====================");
                     });
-                }
+            }
             
 
             // INSERT PROJECT REQUIREMENT
@@ -233,24 +250,26 @@ router.post('/',(req, res) => {
             
 
             console.log(require);
+            console.log(require.length);
 
 
-            for(var k = 0 ; k < require.length ; k++ ) {
+            for(var k = 0 ; k < require.length ; k++ ) 
+            {
+                console.log(k);
                 var inserReq = `INSERT INTO \`tbl_projectrequirement\`
-                (
-                    \`int_requirementID\`,
-                    \`int_projectID\`
-                )
+                    (
+                        \`int_requirementID\`,
+                        \`int_projectID\`
+                    )
                     
-                VALUES
-                (
-                    "${require[k]}",
-                    "${toproject.int_projectID}"
-                )`;
+                    VALUES
+                    (
+                        "${require[k]}",
+                        "${toproject.int_projectID}"
+                    )`;
 
                 db.query(inserReq, (err, inserResult, fields) => {        
                     if (err) throw err;
-                    console.log("==============INSERT PROJECT REQUIREMENT SUCCESS====================");
                 });
             }
                 
@@ -258,25 +277,26 @@ router.post('/',(req, res) => {
             //  INSERT PROJECT CATEGORY
             console.log("==============INSERT PROJECT CATEGORY====================");
             
-
             console.log(categ);
+            console.log(categ.length);
 
 
-            for(var l = 0 ; l < categ.length ; l++){
+            for(var l = 0 ; l < categ.length ; l++)
+            {
+                console.log(l);
                 var insertTimeline = `INSERT INTO \`tbl_projectcategory\`
-                (
-                    \`int_categoryID\`,
-                    \`int_projectID\`
-                )
-                    
-                    VALUES(
-                    "${categ[l]}",
-                    "${toproject.int_projectID}"
-                );`;
+                    (
+                        \`int_categoryID\`,
+                        \`int_projectID\`
+                    )
+                        
+                        VALUES(
+                        "${categ[l]}",
+                        "${toproject.int_projectID}"
+                    );`;
 
                 db.query(insertTimeline, (err, tblprojectrequirement, fields) => {        
                     if (err) throw err;
-                    console.log("==============INSERT PROJECT CATEGORY SUCCESS====================");
                 });
             }
 

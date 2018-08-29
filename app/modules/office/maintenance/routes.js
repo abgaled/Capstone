@@ -73,7 +73,6 @@ router.post('/requirements/:int_requirementID/editrequirement', (req, res) => {
     
     var queryString = `UPDATE tbl_requirement SET
     varchar_requirementName = "${req.body.requirementname}",
-    text_requirementDescription = "${req.body.requirementdescription}",
     enum_requirementStatus = "Active"
     WHERE tbl_requirement.int_requirementID = "${req.body.int_requirementID}"`;
     
@@ -180,14 +179,15 @@ router.get('/projectcategory/:int_projectCategID/editprojectcategory',(req, res)
     });
 });
 
+
 router.post('/projectcategory/:int_projectCategID/editprojectcategory', (req, res) => {
     console.log("PUMASOK SA POST REQ.PARAMS")
     
     var queryString = `UPDATE tbl_category SET
-    varchar_categoryName = "${req.body.projectcategoryname}",
-    text_categoryDescription = "${req.body.projectcategorydescription}",
-    enum_categoryStatus = "Active"
-    WHERE tbl_category.int_categoryID = "${req.body.int_categoryID}"`
+        varchar_categoryName = "${req.body.projectcategoryname}",
+        enum_categoryStatus = "Active"
+        WHERE tbl_category.int_categoryID = "${req.body.int_categoryID}"`
+
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
         console.log(results);
@@ -253,12 +253,10 @@ router.post('/targetbeneficiary',(req, res) => {
     var queryString = `INSERT INTO \`tbl_beneficiary\` (
         
         \`varchar_beneficiaryName\`,
-        \`text_beneficiaryDescription\`,
         \`enum_beneficiaryStatus\`)
                 
         VALUES(
         "${req.body.beneficiaryname}",
-        "${req.body.beneficiarydescription}",
         "Active");`;
 
         db.query(queryString, (err, results, fields) => {        
@@ -299,7 +297,6 @@ router.post('/targetbeneficiary/:int_beneficiaryID/edittargetbeneficiary', (req,
     
     var queryString = `UPDATE tbl_beneficiary SET
     varchar_beneficiaryName = "${req.body.beneficiaryname}",
-    text_beneficiaryDescription = "${req.body.beneficiarydescription}",
     enum_beneficiaryStatus = "Active"
     WHERE tbl_beneficiary.int_beneficiaryID = "${req.body.int_beneficiaryID}"`;
     
