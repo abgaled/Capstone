@@ -115,7 +115,7 @@ router.post('/',(req, res) => {
     var ratioanale = req.body.projectrationale;
     console.log(ratioanale);
     var description = req.body.projectdescription;
-    console.log();
+    console.log(description);
     var objective = req.body.projectobjective;
     console.log(objective);
     console.log("PROJECT SLOTS:")
@@ -135,14 +135,14 @@ router.post('/',(req, res) => {
     var categ = req.body.projectcategory;
     console.log(categ);
     console.log("PROJECT BENEFICIARY:")
-    var bene = req.body.projectbeneficiary;
-    console.log(bene);
+    var beneficiaries = req.body.projectbeneficiaries;
+    console.log(beneficiaries);
     console.log("PROJECT REQUIREMENT:")
     var require = req.body.projectrequirement;
     console.log(require);
     console.log("PROBLEM STATEMENT:")
-    var statements = req.body.statementID;
-    console.log(statements);
+    var statementList = req.body.statementsList;
+    console.log(statementList);
     console.log("CITY ID:")
     console.log(cityID.int_cityID);
 
@@ -197,37 +197,39 @@ router.post('/',(req, res) => {
             // UPDATE TABLE PROBLEM STATEMENT 
             console.log("==============INSERT PROBLEM STATEMENT=============");
 
-            console.log(statements);
-            // console.log(statements.length-1);
+            console.log(statementList);
+            console.log(statementList.length);
 
-            // for(var o = 0 ; o < (statements.length-1) ; o++)
-            // {
-            //     console.log(o);
-            //     console.log(statements[o]);
+            for(var o = 0 ; o < (statementList.length) ; o++)
+            {
+                console.log(o);
+                console.log(statementList[o]);
 
-                var updateProbStatus =  `UPDATE tbl_problemstatement 
+                var updateStatus =  `UPDATE tbl_problemstatement 
                     SET enum_problemStatus = "Proposed",
                     int_projectID = ${toproject.int_projectID}
-                    WHERE int_statementID = ${statements}`;
+                    WHERE int_statementID = ${statementList[o]}`;
 
-                 db.query(updateProbStatus, (err, results, fields) => {        
+                 db.query(updateStatus, (err, results) => {        
                     if (err) throw err;
 
-                    console.log("problem statement success")
-                 });
-            // }
+                    console.log(results)
+                });
+            }
 
 
             // INSERT PROJECT BENEFICIARIES
             console.log("==============INSERT PROJECT BENEFICIARIES====================");
 
-            console.log(bene);
-            console.log(bene.length);
+            console.log(beneficiaries);
+            console.log(beneficiaries.length);
 
-            for(var j = 0 ; j < bene.length ; j++ ) 
+            for(var j = 0 ; j < beneficiaries.length ; j++ ) 
             {
                 console.log(j);
-                var insertBene = `INSERT INTO \`tbl_projectbeneficiary\`
+                console.log(beneficiaries[j]);
+                
+                var insertBeneficiaries = `INSERT INTO \`tbl_projectbeneficiary\`
                     (
                         \`int_projectID\`,
                         \`int_beneficiaryID\`
@@ -236,12 +238,13 @@ router.post('/',(req, res) => {
                     VALUES
                     (
                         "${toproject.int_projectID}",
-                        "${bene[j]}"
+                        "${beneficiaries[j]}"
                     )`;
 
-                db.query(insertBene, (err, insertResult, fields) => {        
+                db.query(insertBeneficiaries, (err, insertResult) => {        
                     if (err) throw err;
-                    });
+                    console.log(insertResult);
+                });
             }
             
 

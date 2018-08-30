@@ -95,7 +95,7 @@ block content
                                                         each statement in tbl_problemstatement
                                                             <tr class="even pointer">
                                                                 <td class="a-center ">
-                                                                    input(type="checkbox" id="ap-statementid" name="statementID" value=`${statement.int_statementID}` )
+                                                                    input(type="checkbox" id="ap-statementid" name="statementsList[]" value=`${statement.int_statementID}` )
                                                                 </td>
                                                                 <td class=" ">
                                                                     value= " " + statement.varchar_statementTitle
@@ -126,7 +126,7 @@ block content
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <select class="select2_multiple form-control" onchange="getCategory()" multiple="multiple" name="projectcategory" id="ap-projectcategory">
+                                                    <select class="select2_multiple form-control" onchange="getCategory()" multiple="multiple" name="projectcategory[]" id="ap-projectcategory">
                                                         <option>Choose option</option>
                                                             each category in tbl_category
                                                                 option(value=`${category.int_categoryID}` )=category.varchar_categoryName
@@ -159,10 +159,10 @@ block content
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Target Beneficiary</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" onchange="getBeneficiary()" id="ap-projectbeneficiary" name="projectbeneficiary" multiple="multiple">
+                                                <select class="select2_multiple form-control" onchange="getBeneficiary()" id="ap-projectbeneficiary" name="projectbeneficiaries[]" multiple="multiple">
                                                     <option>Choose option</option>
                                                     each beneficiary in tbl_beneficiary
-                                                        option(value=`${beneficiary.int_beneficiaryID}`)=beneficiary.varchar_beneficiaryName
+                                                        option(value=`${beneficiary.int_beneficiaryID}`)=beneficiary.int_beneficiaryID+" - "+beneficiary.varchar_beneficiaryName
                                                 </select>
                                                 </div>
                                             </div>
@@ -181,7 +181,7 @@ block content
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select requirements</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" id="ap-projectrequirement" multiple="multiple" name="projectrequirement">
+                                                <select class="select2_multiple form-control" id="ap-projectrequirement" multiple="multiple" name="projectrequirement[]">
                                                     <option>Choose option</option>
                                                     each requirement in tbl_requirement
                                                         option(value=`${requirement.int_requirementID}`)=requirement.varchar_requirementName
@@ -232,7 +232,7 @@ block content
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <select class="select2_multiple form-control" id="ap-projectlocation" multiple="multiple" name="projectlocation">
+                                                    <select class="select2_multiple form-control" id="ap-projectlocation" multiple="multiple" name="projectlocation[]">
                                                         <option>Choose option</option>
                                                             <optgroup label="City Level" id="citylevel">
                                                                 each barangay in tbl_barangay
@@ -254,7 +254,7 @@ block content
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estimatedbudget">Estimated Budget <span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" id="estimatedbudget" name="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                                    <input type="number" maxlenght="15" id="estimatedbudget" name="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
                                                 </div>
                                             </div>
                                             <div class="form-group">

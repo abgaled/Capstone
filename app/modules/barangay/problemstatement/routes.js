@@ -4,6 +4,9 @@ var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 var moment = require('moment');
 
+var expressValidator = require("express-validator");
+
+
 router.get('/',(req,res) => {
     console.log('=================================');
     console.log('BARANGAY: PROBLEM STATEMENT-PREVIOUS');
@@ -74,41 +77,56 @@ router.post('/',(req, res) => {
     console.log(`${req.body.problem_createdValue}`);
     console.log("===============================createdValue");
 
-    var barangayQuery = `SELECT int_barangayID 
-    FROM tbl_barangay 
-    WHERE int_userID = ${req.session.barangay.int_userID}`
+    req.checkBody('problem_title', 'Statement title must 10 character long ').isLength({ min: 10});
 
-    db.query(barangayQuery, (err, results1, fields) => {        
-        if (err) throw err;
+    var errors = req.validationErrors();
+    if (errors){
+        console.log("Under 10");
+        console.log(errors);
+        return res.jsonp({ error: true })
+        
+    }
+    else{
+        console.log("Lagpas 20");
 
-    var results1Final = results1[0];
-    console.log(results1Final);
+        var barangayQuery = `SELECT int_barangayID 
+        FROM tbl_barangay 
+        WHERE int_userID = ${req.session.barangay.int_userID}`
 
-    var queryString = `INSERT INTO \`tbl_problemstatement\` 
-    (\`int_barangayID\`, 
-    \`int_categoryID\`,
-    \`varchar_statementTitle\`,
-    \`text_statementContent\`,
-    \`date_createdDate\`,
-    \`enum_problemStatus\`)
-    VALUES
-    (${results1Final.int_barangayID},
-    "${req.body.problem_category}",
-    "${req.body.problem_title}",
-    "${req.body.problem_description}",
-    "${req.body.problem_createdValue}",
-    "Submitted");`;
+        db.query(barangayQuery, (err, results1, fields) => {        
+            if (err) throw err;
 
-    console.log('=================================');
-    console.log('BARANGAY: PROBLEM STATEMENT-NEW?POST');
-    console.log('=================================');
+        var results1Final = results1[0];
+        console.log(results1Final);
 
-    db.query(queryString, (err, results2, fields) => {        
-        if (err) throw err;
-       
-        res.redirect('problemstatement');
-    });
-    });
+        var queryString = `INSERT INTO \`tbl_problemstatement\` 
+        (\`int_barangayID\`, 
+        \`int_categoryID\`,
+        \`varchar_statementTitle\`,
+        \`text_statementContent\`,
+        \`date_createdDate\`,
+        \`enum_problemStatus\`)
+        VALUES
+        (${results1Final.int_barangayID},
+        "${req.body.problem_category}",
+        "${req.body.problem_title}",
+        "${req.body.problem_description}",
+        "${req.body.problem_createdValue}",
+        "Submitted");`;
+
+        console.log('=================================');
+        console.log('BARANGAY: PROBLEM STATEMENT-NEW?POST');
+        console.log('=================================');
+
+            db.query(queryString, (err, results2, fields) => {        
+                
+                
+            
+                res.redirect('problemstatement');
+            
+            });
+        });
+    }
 });
 
 router.post('/ajaxgetdetails',(req,res) => {
