@@ -272,11 +272,44 @@ block content
                 $('.btn-revision').click(function (e) {
                     e.preventDefault()
                     var Id = $(this).val();
-                    console.log("================================Id(Class)")
+                    console.log("================================Id(Revision Id)")
                     console.log(Id);
-                    console.log("================================Id(Class)")
+                    console.log("================================Id(Revision Id)")
                     $('#modalviewrevision').modal('show');
-                }); 
+                    ajaxGet();
+
+                    function ajaxGet(){
+                    console.log("========Id");
+                    console.log(Id);
+                    console.log("========Id");
+
+                    $.ajax({
+                        type : "POST",
+                        url : window.location + "/ajaxrevisiondetails",
+                        data: { ajaxrevisionID: Id},
+                        dataType: "json",
+                        success: function(tbl_revision){
+
+                        console.log(tbl_revision)
+
+                            $.each(tbl_revision, function (index, value) {
+                                console.log(value);
+
+                                document.getElementById("aj-comment").innerHTML = value.text_commentContent   
+                                
+                                    
+                                console.log("Success: " );
+                            });
+                                                        
+                            
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });	
+                }
+                });
+                //- END REVISION
         });
 
             

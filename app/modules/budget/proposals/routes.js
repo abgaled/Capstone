@@ -304,7 +304,7 @@ router.post('/revision',(req, res) => {
 });
 
 // AJAX GET REVISION DETAILS
-router.post('/ajaxrevisiondetails',(req,res) => {
+router.post('/pending/ajaxrevisiondetails',(req,res) => {
     console.log('=================================');
     console.log('BUDGET: PROPOSALS-REVISION-GET DETAILS AJAX');
     console.log('=================================');
@@ -317,12 +317,6 @@ router.post('/ajaxrevisiondetails',(req,res) => {
 
 
         console.log(results);
-
-        // var date_results = results;
-
-        // for (var i = 0; i < date_results.length;i++){
-        //     date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
-        // }
 
         var resultss = results[0];
 
