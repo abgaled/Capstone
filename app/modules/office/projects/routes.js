@@ -19,6 +19,9 @@ router.get('/ongoingproject',(req, res) => {
     ON pr.int_projectID = projcat.int_projectID
     JOIN tbl_category cat
     ON cat.int_categoryID = projcat.int_categoryID
+    JOIN tbl_proposalapproval propapp
+    ON propapp.int_projectID = prpro.int_projectID
+    WHERE propapp.enum_propappStatus = "Received"
     GROUP BY pr.int_projectID 
     ORDER BY pr.int_projectID DESC`
     
@@ -288,7 +291,24 @@ router.post('/ongoingproject/:int_projectID/startproj', (req, res) => {
             
     db.query(queryString1, (err, results) => {        
         if (err) throw err;
-        res.redirect('/office/projects/ongoingproject');
+
+        var updateProject = `UPDATE tbl_project
+        SET date_startApplication=CURDATE(),
+        date_endApplication=DATE_ADD(CURDATE(), 
+        INTERVAL (SELECT int_applicationDuration 
+        FROM tbl_projectproposal WHERE int_projectID=${req.body.int_projectID}) DAY),
+        date_releaseDate=DATE_ADD(DATE_ADD(CURDATE(), 
+        INTERVAL (SELECT int_applicationDuration FROM tbl_projectproposal 
+        WHERE int_projectID=${req.body.int_projectID}) DAY), INTERVAL (SELECT int_beforeReleasingDuration 
+        FROM tbl_projectproposal WHERE int_projectID=${req.body.int_projectID}) DAY)
+        WHERE int_projectID=${req.body.int_projectID};`
+
+        db.query(updateProject, (err, results) => {        
+            if (err) throw err;
+    
+
+            res.redirect('/office/projects/ongoingproject');
+        });
     });
 });
 router.get('/finishedproject',(req, res) => {

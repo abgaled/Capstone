@@ -404,4 +404,75 @@ router.post('/checknumberget',(req, res) => {
     });
 });
 
+router.get('/revisePost',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROPOSALS - REVISE');
+    console.log('=================================');
+    console.log(req.body.PROJECT_idrev);
+
+    console.log('=================================');
+    console.log('OFFICE: PROPOSALS');
+    console.log('=================================');
+    
+    var queryString =`SELECT * FROM tbl_category WHERE enum_categoryStatus = 'Active'`
+    
+    var queryString2 =`SELECT * FROM tbl_beneficiary WHERE enum_beneficiaryStatus = 'Active'`
+
+    var queryString3 =`SELECT * FROM tbl_requirement WHERE enum_requirementStatus = 'Active'`
+
+    var queryString4 =`SELECT DISTINCT * FROM tbl_city WHERE int_userID=${req.session.office.int_userID}`
+    
+    var queryString5 =`SELECT * FROM tbl_problemstatement ps
+    JOIN tbl_category cat ON ps.int_categoryID = cat.int_categoryID
+    WHERE enum_problemStatus = 'Acknowledged'`
+
+    var queryString6 = `SELECT *
+        FROM tbl_barangay B JOIN tbl_city C
+        ON B.int_cityID=C.int_cityID
+        WHERE C.int_userID=${req.session.office.int_userID}`;
+
+    var queryString7 =`SELECT * FROM tbl_projectproposal projpro
+    JOIN tbl_project proj ON projpro.int_projectID = proj.int_projectID
+    WHERE projpro.int_projectID = '${req.session.office.int_userID}'`
+
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+        db.query(queryString2, (err, results2, fields) => {
+            console.log(results2);
+            if (err) console.log(err);
+            db.query(queryString3, (err, results3, fields) => {
+                console.log(results3);
+                if (err) console.log(err);
+                db.query(queryString4, (err, results4, fields) => {
+                    console.log(results4);
+                    if (err) console.log(err);
+                    db.query(queryString5, (err, results5, fields) => {
+                        console.log(results5);
+                        if (err) console.log(err);
+                        db.query(queryString6, (err, results6, fields) => {
+                            console.log(results6);
+                            if (err) console.log(err);
+                            db.query(queryString7, (err, results7, fields) => {
+                                console.log(results7);
+                                if (err) console.log(err);
+                                res.render('office/proposals/views/revise', 
+                                {
+                                    tbl_category: results,
+                                    tbl_beneficiary:results2,
+                                    tbl_requirement:results3,
+                                    tbl_barangay:results4,
+                                    tbl_problemstatement:results5,
+                                    tbl_location:results6,
+                                    tbl_projectproposal:results7
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+
 module.exports = router;

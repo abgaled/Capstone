@@ -339,25 +339,43 @@ router.post('/approval',(req, res) => {
     console.log(resultIndex);
     console.log(req.body.actual_budget);
 
+        var insertActualBudgetQuery = `INSERT INTO \`tbl_project\`
+            (
+                \`int_projectID\`, 
+                \`decimal_actualBudget\`,
+                \`enum_projectStatus\`
+            )
 
-        var updateProjStatQuery = `UPDATE tbl_projectproposal SET 
-            enum_proposalStatus = 'Approved'
-            WHERE int_projectID= ${req.body.PROJECT_id}`;
+            VALUES
+            (
+                ${req.body.PROJECT_id},
+                "${req.body.actual_budget}",
+                "Approved"
+            )`;
 
-        db.query(updateProjStatQuery, (err, updateProjStatResult, fields) => {
+
+        // var updateProjStatQuery = `UPDATE tbl_projectproposal SET 
+        //     enum_proposalStatus = 'Approved'
+        //     WHERE int_projectID= ${req.body.PROJECT_id}`;
+
+        db.query(insertActualBudgetQuery, (err, addprojResult, fields) => {
             if(err) console.log(err);
 
-            console.log("Succesfully updated the proposal status");
+            console.log("Succesfully inserted in table project");
 
-            var updateBudgetQuery = `UPDATE tbl_project
-                SET decimal_actualBudget = ${req.body.actual_budget},
-                enum_projectStatus = 'Approved'
-                WHERE int_projectID = ${req.body.PROJECT_id}`;
+            // var updateBudgetQuery = `UPDATE tbl_project
+            //     SET decimal_actualBudget = ${req.body.actual_budget},
+            //     enum_projectStatus = 'Approved'
+            //     WHERE int_projectID = ${req.body.PROJECT_id}`;
 
-            db.query(updateBudgetQuery, (err, updateBudgetResult, fields) => {
+            var updateProjStatQuery = `UPDATE tbl_projectproposal SET 
+                 enum_proposalStatus = 'Approved'
+                 WHERE int_projectID= ${req.body.PROJECT_id}`;
+
+            db.query(updateProjStatQuery, (err, updateProjectResult, fields) => {
                 if(err) console.log(err);
 
-                console.log("Succesfully updated the project actual budget");
+                console.log("Succesfully updated the project proposal approval");
 
                 res.redirect('/budget/proposals/pending');
         });

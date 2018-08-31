@@ -87,8 +87,7 @@ block content
                                 <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                         <div class="modal-content">
-                                        
-                                            <form method="POST" action="revisePost" class="form-horizontal form-label-left">
+                                            <form method="POST" action="/office/proposals/revisePost" class="form-horizontal form-label-left">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" id="mediumModalLabel">Revision
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -98,11 +97,11 @@ block content
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="input-group">
-                                                            <input type="hidden" id="PROJECT_idrev" name="PROJECT_idrev" >
+                                                            <input type="hidden" id="PROJECT_idrev" name="PROJECT_idrev" value="" >
                                                             <p>
-
+                                                            
                                                             <span class="input-group-btn">
-                                                                <button type="submit" id="but-sub" class="btn btn-success">Revise</button>
+                                                                a(href=`/office/proposals/revise` id="" class="btn btn-info pull-right"): span Revise
                                                             </span>
                                                         </div>
                                                     </div>
@@ -135,7 +134,6 @@ block content
                             console.log(Id);
                             console.log("================================Id(Class)")
                             $('#reviseModal').modal('show');
-                            document.getElementById("ch").value = Id;
                             document.getElementById("PROJECT_idrev").value = Id;
                             
                         }); 
