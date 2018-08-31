@@ -10,7 +10,7 @@ block content
                   <h3>Update:<h3>
                   a(href=`/office/maintenance/requirements` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle      
                 </div>
-                  <form method="POST" action="editrequirement">
+                  <form method="POST" action="editrequirement" id="formeditreq">
                       input(type="hidden" value=`${requirement.int_requirementID}` name="int_requirementID")
 
                       <div class="row form-group">
@@ -22,10 +22,63 @@ block content
                       
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-default float-right" id="buttoneditprofile">Submit</button>
+                      <button type="submit" class="btn btn-default float-right" id="buttoneditreq">Submit</button>
                   </div>
                   </form>
                 </div>
             </div>
           </div>
         </div>
+
+        script.
+                      $(document).ready(function () {
+                          //- SWEET ALERT CONFIRM SUBMIT
+                          $('#buttoneditreq').on('click',function (e) {
+                              var form = $(this).parents('form');
+                              e.preventDefault(); //prevent submit
+                              
+                                  swal({
+                                  title: 'Are you sure?',
+                                  text: "You will edit this project requirement.",
+                                  type: 'info',
+                                  showCancelButton: true,
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText: 'Yes, edit it!'
+                                  }).then((result) => {
+                                  if (result.value) {
+                                      $('#formeditreq').submit();
+                                  }                        
+                                  })
+                          });
+                          //- START VALIDATIONS
+                          $(function() {
+                          $("#formeditreq").validate({
+                              rules: {
+                              requirementname: {
+                                  required: true,
+                              },
+                              action: "required"
+                              },
+                              messages: {
+                              requirementname: {
+                                  required: "Please enter some data",
+                              },
+                              action: "Please provide some data"
+                              },
+                              submitHandler: function(form){
+                                  form.submit();
+                                  swal(
+                                      'Success!',
+                                      'Project Requirement has been Edited!',
+                                      'success'
+                                      )
+                              }
+                          });
+                          
+                          });
+                          //- END VALIDATIONS
+                        
+                      });
+
+                      

@@ -15,7 +15,7 @@ block content
                 <div class="card-header">
                 <div class="card-body">
                 <div class="table-responsive">
-                      <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
+                      <table class="table table-bordered" id="datatable" cellspacing="0">
                       <thead>
                         <tr>
                           <th>Target Beneficiary Name</th>
@@ -62,12 +62,12 @@ block content
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         <div class="modal-body">
-                          <form class="form-horizontal form-label-left" method="POST" action='targetbeneficiary' name="addtarget" novalidate>
+                          <form class="form-horizontal form-label-left" method="POST" action='targetbeneficiary' name="addtarget"id="formaddbeneficiary">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                           </button>
                         <h4 class="modal-title" id="myModalLabel"><span class="section">Target Beneficiary Details</span></h4>
              
-                      <div class="item form-group">
+                      <div class=" form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="beneficiaryname">Target Beneficiary Name <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-4 col-xs-12">
@@ -82,7 +82,7 @@ block content
                       //-     <input id="beneficiarydescription" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="beneficiarydescription" placeholder="" required="required" type="text">
                       //-   </div>
                       //- </div>
-                      <button type="submit" id="modalbutton" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
+                      <button type="submit" id="submitbeneficiary" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
                       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </form></div>
                         <div class="modal-footer">
@@ -92,3 +92,56 @@ block content
                         </div>
                         </div>
                     </div>
+
+                    script.
+                      $(document).ready(function () {
+                          //- SWEET ALERT CONFIRM SUBMIT
+                          $('#submitbeneficiary').on('click',function (e) {
+                              var form = $(this).parents('form');
+                              e.preventDefault(); //prevent submit
+                              
+                                  swal({
+                                  title: 'Are you sure?',
+                                  text: "You will submit this target beneficiary.",
+                                  type: 'info',
+                                  showCancelButton: true,
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText: 'Yes, submit it!'
+                                  }).then((result) => {
+                                  if (result.value) {
+                                      $('#formaddbeneficiary').submit();
+                                  }                        
+                                  })
+                          });
+                          //- START VALIDATIONS
+                          $(function() {
+                          $("#formaddbeneficiary").validate({
+                              rules: {
+                              beneficiaryname: {
+                                  required: true,
+                              },
+                              action: "required"
+                              },
+                              messages: {
+                              beneficiaryname: {
+                                  required: "Please enter some data",
+                              },
+                              action: "Please provide some data"
+                              },
+                              submitHandler: function(form){
+                                  form.submit();
+                                  swal(
+                                      'Success!',
+                                      'Target Beneficiary has been Submitted!',
+                                      'success'
+                                      )
+                              }
+                          });
+                          
+                          });
+                          //- END VALIDATIONS
+                        
+                      });
+
+                      

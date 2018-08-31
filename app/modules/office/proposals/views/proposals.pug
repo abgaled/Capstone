@@ -34,22 +34,22 @@ block content
                                                 </tfoot>
                                                 <tbody>
                                                 each project in tbl_projectproposal
-                                                    <tr>
-                                                    <td>
-                                                        value=project.varchar_projectName
-                                                        </td>
-                                                        <td>
-                                                            value=project.enum_proposalStatus
-                                                        </td>
-                                                        <td>
-                                                            a(href=`/office/proposals/proposals/${project.int_projectID}/proposaldetails` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
-                                                            if project.enum_proposalStatus == "Approved"
-                                                                button.btn.btn-success.btn-sm.btn-block(id="btn-pro-cheque" class="" value= project.int_projectID onclick="projectIDcheque()" data-toggle="modal" data-target="#chequeModal"): span.fa.fa-check Cheque Number
-                                                                button.hidden.btn.btn-success.btn-sm.btn-block(id="btn-pro-check" class="" hidden value= project.varchar_checkNumber onclick="" data-toggle="modal" data-target=".bs-example-modal-sm"): span.fa.fa-check Confirm Chequ
-                                                            if project.enum_proposalStatus == "Revision"
-                                                                button.btn.btn-warning.btn-s.btn-block(type='submit') Revise
-                                                        </td>
-                                                    </tr>
+                                                    each cheque in tbl_cheque
+                                                        <tr>
+                                                            <td>
+                                                                value=project.varchar_projectName
+                                                                </td>
+                                                                <td>
+                                                                    value=project.enum_proposalStatus
+                                                                </td>
+                                                                <td>
+                                                                    a(href=`/office/proposals/proposals/${project.int_projectID}/proposaldetails` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
+                                                                    if project.enum_proposalStatus == "Approved" && cheque.enum_propappStatus == "Sent"
+                                                                        button.btn.btn-success.btn-sm.btn-block(id="btn-cheque" class="btn-cheque" value= project.int_projectID): span.fa.fa-check  Cheque Number
+                                                                    if project.enum_proposalStatus == "Revision"
+                                                                        button.btn.btn-warning.btn-sm.btn-block(id="btn-revise" class="btn-revise" value= project.int_projectID): span.fa.fa-check  Revise
+                                                                </td>
+                                                        </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -63,7 +63,7 @@ block content
                                     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                         
-                                            <form method="POST" action="checknumberget" data-parsley-validate class="form-horizontal form-label-left">
+                                            <form method="POST" action="/office/proposals/checknumberget" data-parsley-validate class="form-horizontal form-label-left">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" id="mediumModalLabel">Cheque Number
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -73,9 +73,8 @@ block content
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="input-group">
-                                                            <input type="text" id="PROJECT_idcheq" name="PROJECT_idcheq" >
-                                                            <input type="text" id="ch" name="PROJECT_idcheq" >
-                                                            <input type="text" id="chequeNumber" onchange="check()" name="chequeNumber"class="form-control">
+                                                            <input type="hidden" id="PROJECT_idcheq" name="PROJECT_idcheq" value="">
+                                                            <input type="text" id="chequeNumber" name="chequeNumber"class="form-control">
                                                             <span class="input-group-btn">
                                                                 <button type="submit" id="but-sub" class="btn btn-success">Send</button>
                                                             </span>
@@ -85,25 +84,61 @@ block content
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                        
+                                            <form method="POST" action="revisePost" data-parsley-validate class="form-horizontal form-label-left">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="mediumModalLabel">Revision
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="input-group">
+                                                            <input type="hidden" id="PROJECT_idrev" name="PROJECT_idrev" >
+                                                            <p>
+
+                                                            <span class="input-group-btn">
+                                                                <button type="submit" id="but-sub" class="btn btn-success">Revise</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
         <!-- END STATISTIC-->
+                <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
 
                 script.
-                    function projectIDcheque() {
-                        var ID = document.getElementById("btn-pro-cheque").value;
-                        var checkNumber = document.getElementById("btn-pro-check").value;
-                        console.log(ID);
-                        document.getElementById("PROJECT_idcheq").value = ID;
-                        document.getElementById("ch").value = checkNumber;
-                        document.getElementById("but-sub").disabled = true;
-                    }
 
-                    function check() {
-                        var checknum = document.getElementById("chequeNumber").value;
-                        var check = document.getElementById("ch").value;
-                        if (checknum == check)
-                            document.getElementById("but-sub").disabled = false;
-                        else    
-                            document.getElementById("but-sub").disabled = true;
+                    $(document).ready(function () {
 
-                    }
+                        $('.btn-cheque').click(function (e) {
+                            e.preventDefault()
+                            var Id = $(this).val();
+                            console.log("================================Id(Class)")
+                            console.log(Id);
+                            console.log("================================Id(Class)")
+                            $('#chequeModal').modal('show');
+                            //- document.getElementById("ch").value = Id;
+                            document.getElementById("PROJECT_idcheq").value = Id;
+                        }); 
+
+                        $('.btn-revise').click(function (e) {
+                            e.preventDefault()
+                            var Id = $(this).val();
+                            console.log("================================Id(Class)")
+                            console.log(Id);
+                            console.log("================================Id(Class)")
+                            $('#reviseModal').modal('show');
+                            document.getElementById("ch").value = Id;
+                            document.getElementById("PROJECT_idrev").value = Id;
+                            
+                        }); 
+                    });
+
                     

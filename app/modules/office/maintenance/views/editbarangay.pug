@@ -10,7 +10,7 @@ block content
                   <h3>Update:<h3>
                   a(href=`/office/maintenance/barangay` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle      
                 </div>
-                  <form method="POST" action="editbarangay">
+                  <form method="POST" action="editbarangay" id="formeditbrgy">
                     input(type="hidden" value=`${barangay.int_barangayID}` name="int_barangayID")
 
                     <div class="row form-group">
@@ -38,3 +38,64 @@ block content
             </div>
           </div>
         </div>
+
+        script.
+                      $(document).ready(function () {
+                          //- SWEET ALERT CONFIRM SUBMIT
+                          $('#editbarangaysubmit').on('click',function (e) {
+                              var form = $(this).parents('form');
+                              e.preventDefault(); //prevent submit
+                              
+                                  swal({
+                                  title: 'Are you sure?',
+                                  text: "You will edit this barangay details.",
+                                  type: 'info',
+                                  showCancelButton: true,
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText: 'Yes, edit it!'
+                                  }).then((result) => {
+                                  if (result.value) {
+                                      $('#formeditbrgy').submit();
+                                  }                        
+                                  })
+                          });
+                          //- START VALIDATIONS
+                          $(function() {
+                          $("#formeditbrgy").validate({
+                              rules: {
+                              barangayname: {
+                                  required: true,
+                              },
+                              barangaycontact: {
+                                  required: true,
+                              },
+                              action: "required"
+                              },
+                              messages: {
+                              barangayname: {
+                                  required: "Please enter barangay name",
+                              },
+                              barangaycontact: {
+                                  required: "Please enter barangay contact",
+                              },
+                              action: "Please provide some data"
+                              },
+                              submitHandler: function(form){
+                                  form.submit();
+
+                            
+                                  swal(
+                                      'Success!',
+                                      'Barangay details has been Edited!',
+                                      'success'
+                                      )
+                              }
+                          });
+                          
+                          });
+                          //- END VALIDATIONS
+                        
+                      });
+
+                      

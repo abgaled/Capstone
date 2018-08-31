@@ -8,9 +8,8 @@ router.get('/',(req, res) => {
     console.log('OFFICE: addbrgyaccnt');
     console.log('=================================');
 
-    var queryString =`SELECT * FROM tbl_barangay br
-    JOIN tbl_user buser ON br.int_userID=buser.int_userID
-    ORDER BY br.int_barangayID DESC`
+    var queryString =`SELECT * FROM tbl_barangay 
+    ORDER BY int_barangayID DESC`
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -32,8 +31,8 @@ router.post('/',(req, res) => {
         \`enum_userType\`)
                 
         VALUES(
-        "${req.body.email}",
-        "${req.body.password}",
+        "${req.body.barangayEmail}",
+        "${req.body.barangayPassword}",
         "Barangay Staff ");`;
 
         db.query(queryString, (err, results, fields) => {        
@@ -53,21 +52,11 @@ router.post('/',(req, res) => {
             db.query(getCityID, (err, results3, fields) => {        
                 if (err) throw err;
 
-                var getcity = results3[0];                
-
-                var queryString2 = `INSERT INTO \`tbl_barangay\` (
-                    \`int_userID\`,
-                    \`int_cityID\`,
-                    \`varchar_barangayName\`,
-                    \`varchar_barangayContact\`,
-                    \`enum_barangayStatus\`)
-                    
-                    VALUES(
-                    "${tobrgy.int_userID}",
-                    "${getcity.int_cityID}",
-                    "${req.body.barangay_name}",
-                    "${req.body.contact_num}",
-                    "Active");`;
+                var getcity = results3[0];     
+                
+                var queryString2 = `UPDATE tbl_barangay SET
+                int_userID = "${tobrgy.int_userID}"
+                WHERE int_barangayID = ${req.body.brgyID}`;
 
                 db.query(queryString2, (err, results2, fields) => {        
                     if (err) throw err;

@@ -9,9 +9,9 @@ block content
               <div class="x_panel">
                 <div class="x_title">
                   <h3>Update:<h3>
-                  a(href=`/admin/maintenance/projectcategory` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle      
+                  a(href=`/office/maintenance/projectcategory` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle      
                 </div>
-                  <form method="POST" action="editprojectcategory">
+                  <form method="POST" action="editprojectcategory" id="editcategory">
                       input(type="hidden" value=`${projcat.int_categoryID}` name="int_categoryID")
 
                       <div class="row form-group">
@@ -23,10 +23,66 @@ block content
                         
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-default float-right" id="buttoneditprofile">Submit</button>
+                      <button type="submit" class="btn btn-default float-right" id="buttoneditcategory">Submit</button>
                   </div>
                   </form>
                 </div>
             </div>
           </div>
         </div>
+
+        script.
+
+                    $(document).ready(function () {
+                        //- SWEET ALERT CONFIRM SUBMIT
+                        $('#buttoneditcategory').on('click',function (e) {
+                            var form = $(this).parents('form');
+                            e.preventDefault(); //prevent submit
+                            
+                                swal({
+                                title: 'Are you sure?',
+                                text: "You will edit this project category.",
+                                type: 'info',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, submit it!'
+                                }).then((result) => {
+                                if (result.value) {
+                                    $('#editcategory').submit();
+                                }                        
+                                })
+                        });
+                        //- START VALIDATIONS
+                        $(function() {
+                        $("#editcategory").validate({
+                            rules: {
+                            projectcategoryname: {
+                                required: true,
+                               
+                            },
+                            action: "required"
+                            },
+                            messages: {
+                            projectcategoryname: {
+                                required: "Please enter some data",
+                               
+                            },
+                            action: "Please enter the category"
+                            },
+                            submitHandler: function(form){
+                                form.submit();
+                                swal(
+                                    'Success!',
+                                    'Project Category has been Updated!',
+                                    'success'
+                                    )
+                              
+                            }
+                        });
+                        
+                        });
+                        //- END VALIDATIONS
+                    });
+
+                    

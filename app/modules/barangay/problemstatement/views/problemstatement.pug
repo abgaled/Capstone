@@ -225,48 +225,18 @@ block content
                         }).then((result) => {
                         if (result.value) {
                             $('#formaddproblem').submit();
-                            //- $.ajax({
-                            //-     url:window.location,
-                            //-     method: "POST",
-                            //-     data : {
-                            //-         data : "what you want to send",
-                            //-         put : "them here"
-                            //-     },
-                            //-     cache : false,
-                            //-     success : function (data) {
-                            //-         // data is the object that you send form the server by 
-                            //-         // res.jsonp();
-                            //-         // here data = {success : true}
-                            //-         // validate it
-                            //-         if(data = true){
-                            //-             swal({
-                            //-             type: 'error',
-                            //-             title: 'Oops...',
-                            //-             text: 'Stament title and description must be 10 characters and above.',
-                                        
-                            //-             })
-                            //-             location.reload();
-                            //-         }
-
-                            //-     },
-                            //-     error : function (data) {
-                            //-         // some error handling part
-                                    
-                            //-         alert("Oops! Something went wrong.");
-                                       
-                                    
-                            //-     }
-                            //- });
-
-                        }
+                        }                        
                         })
                 });
-                //- END OF SWEET ALERT
+                //- START VALIDATIONS
                 $(function() {
-
                 $("#formaddproblem").validate({
                     rules: {
                     problem_title: {
+                        required: true,
+                        minlength: 10
+                    },
+                    problem_description:{
                         required: true,
                         minlength: 10
                     },
@@ -275,14 +245,27 @@ block content
                     messages: {
                     problem_title: {
                         required: "Please enter some data",
-                        minlength: "Your data must be at least 8 characters"
+                        minlength: "Your statement title must be at least 10 characters"
+                    },
+                    problem_description: {
+                        required: "Please enter some data",
+                        minlength: "Your statement description must be at least 10 characters"
                     },
                     action: "Please provide some data"
+                    },
+                    submitHandler: function(form){
+                        form.submit();
+                        swal(
+                            'Success!',
+                            'Statement of Problem has been Submitted!',
+                            'success'
+                            )
                     }
                 });
+                
                 });
+                //- END VALIDATIONS
                
-
             });
 
             

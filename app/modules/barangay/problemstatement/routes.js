@@ -77,16 +77,7 @@ router.post('/',(req, res) => {
     console.log(`${req.body.problem_createdValue}`);
     console.log("===============================createdValue");
 
-    req.checkBody('problem_title', 'Statement title must 10 character long ').isLength({ min: 10});
-
-    var errors = req.validationErrors();
-    if (errors){
-        console.log("Under 10");
-        console.log(errors);
-        return res.jsonp({ error: true })
-        
-    }
-    else{
+    
         console.log("Lagpas 20");
 
         var barangayQuery = `SELECT int_barangayID 
@@ -126,7 +117,7 @@ router.post('/',(req, res) => {
             
             });
         });
-    }
+    
 });
 
 router.post('/ajaxgetdetails',(req,res) => {

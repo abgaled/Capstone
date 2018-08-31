@@ -33,9 +33,20 @@ router.get('/',(req, res) => {
         db.query(queryString, (err, results, fields) => {
             console.log(results);
             if (err) console.log(err);
+
+            var proposalCheque =`SELECT * FROM tbl_projectproposal PP
+            JOIN tbl_proposalapproval PA
+            ON PP.int_projectID=PA.int_projectID`;
+
+            db.query(proposalCheque, (err, results1, fields) => {
+                console.log(results1);
+                if (err) console.log(err);
+
             
-            res.render('office/proposals/views/proposals', {
-                tbl_projectproposal: results});
+                res.render('office/proposals/views/proposals', {
+                    tbl_projectproposal: results,
+                    tbl_cheque:results1});
+            });
         });
     });
 });
@@ -370,15 +381,18 @@ router.get('/createproposals',(req, res) => {
     });
 });
 
-router.post('/',(req, res) => {
+router.post('/checknumberget',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROPOSALS-APPROVAL-CHECKNUMBER');
     console.log('=================================');
     
     console.log(req.body.chequeNumber);
+    console.log(req.body.PROJECT_idcheq);
+
     var insertCheckQuery = `UPDATE tbl_proposalapproval
     SET enum_propappStatus = "Received"
-    WHERE int_projectID = ${req.body.PROJECT_id}`;                                                                                                                                   
+    WHERE varchar_checkNumber = ${req.body.chequeNumber}`;  
+
     db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
     if(err) console.log(err);
 

@@ -5,6 +5,7 @@ var db = require('../../../lib/database')();
 var moment = require('moment');
 var int_formTypeIDD;
 var int_applicationID;
+var barangayID;
 
 // FOR NOTIFICATIONS (VIEW REGISTERED APPLICANTS)
 router.get('/view',(req,res) => {
@@ -90,6 +91,7 @@ router.post('/projectdetails',(req,res) => {
     console.log('=================================');
     console.log(`${req.body.ajProjectID}`);
 
+    
     var queryString = `SELECT * FROM tbl_projectproposal pp
     JOIN tbl_project pro ON pp.int_projectID=pro.int_projectID WHERE 
     pro.enum_projectStatus = "Ongoing" 
@@ -123,8 +125,10 @@ router.get('/:int_projectID/apply',(req,res) => {
     console.log('BARANGAY: PROJECTS-APPLICATION-FORM-GET');
     console.log('=================================');
 
+    
+
     var queryString1 = `SELECT * FROM tbl_project p JOIN tbl_projectproposal pp 
-    ON p.int_projectID=pp.int_projectID WHERE p.int_projectID = ${req.params.int_projectID}`
+        ON p.int_projectID=pp.int_projectID WHERE p.int_projectID = ${req.params.int_projectID}`
     
     db.query(queryString1,(err, results1) => {
 
@@ -135,43 +139,45 @@ router.get('/:int_projectID/apply',(req,res) => {
             WHERE P.int_projectID= ${req.params.int_projectID}`
 
         db.query(queryString2,(err, results2) => {
-        console.log("RESULTS2")
-        var int_categoryID = results2[0];
+            console.log("RESULTS2")
+            var int_categoryID = results2[0];
 
-        var notificationsQuery = `SELECT * FROM tbl_notification 
-        JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
-        WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
-        AND enum_notifStatus = "New"
-        ORDER BY tbl_notification.int_notifID DESC`
+            var notificationsQuery = `SELECT * FROM tbl_notification 
+            JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+            WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+            AND enum_notifStatus = "New"
+            ORDER BY tbl_notification.int_notifID DESC`
 
-        db.query(notificationsQuery,(err, notifications) => {
-            if (err) console.log(err);
-            console.log('=================================');
-            console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
-            console.log('=================================');
-            console.log(notifications)
+            db.query(notificationsQuery,(err, notifications) => {
+                if (err) console.log(err);
+                console.log('=================================');
+                console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+                console.log('=================================');
+                console.log(notifications)
         
-            var countrow = notifications.length;
+                var countrow = notifications.length;
 
 
-            var requirementQuery = `SELECT *
-                FROM tbl_requirement R JOIN tbl_projectrequirement PR
-                ON R.int_requirementID=PR.int_requirementID
-                WHERE PR.int_projectID= ${req.params.int_projectID}`;
+                var requirementQuery = `SELECT *
+                    FROM tbl_requirement R JOIN tbl_projectrequirement PR
+                    ON R.int_requirementID=PR.int_requirementID
+                    WHERE PR.int_projectID= ${req.params.int_projectID}`;
 
                 db.query(requirementQuery,(err, requirementResult) => {
                     console.log('============================')
                     console.log(requirementResult);
                     console.log("======REQUIREMENT SELECTED======")
+
                     res.render('barangay/projects/views/registerapplicant',{
                         tbl_project:results1,
                         int_categoryID:int_categoryID,
                         requirements:requirementResult,
                         notifications:notifications,
-                        numbernotif:countrow});
+                        numbernotif:countrow
+                    });
                 });
+            });
         });
-    });
     });
 });
 
@@ -228,61 +234,59 @@ router.post('/:int_projectID/apply',(req,res) => {
                     console.log("SELECT & JOIN: USER & OFFICE");
                     console.log(results2);
 
-                        var insertPersonalInfo = `INSERT INTO tbl_personalinformation
-                                (\`int_applicationID\`,
-                                \`varchar_firstName\`,
-                                \`varchar_middleName\`,
-                                \`varchar_lastName\`,
-                                \`date_birthDate\`,
-                                \`enum_gender\`,
-                                \`int_applicantResidency\`,
-                                \`enum_civilStatus\`,
-                                \`varchar_contactNumber\`,
-                                \`varchar_emailAddress\`) 
-                                VALUES 
-                                (${int_applicationID},
-                                "${req.body.apply_fname}",
-                                "${req.body.apply_mname}",
-                                "${req.body.apply_lname}",
-                                "${req.body.apply_birthdate}",
-                                "${req.body.apply_gender}",
-                                "${req.body.apply_yrres}",
-                                "${req.body.apply_civilstat}",
-                                "${req.body.apply_contact}",
-                                "${req.body.apply_emailaddress}")`
+                    var insertPersonalInfo = `INSERT INTO tbl_personalinformation
+                        (\`int_applicationID\`,
+                        \`varchar_firstName\`,
+                        \`varchar_middleName\`,
+                        \`varchar_lastName\`,
+                        \`date_birthDate\`,
+                        \`enum_gender\`,
+                        \`int_applicantResidency\`,
+                        \`enum_civilStatus\`,
+                        \`varchar_contactNumber\`,
+                        \`varchar_emailAddress\`) 
+                        VALUES 
+                        (${int_applicationID},
+                        "${req.body.apply_fname}",
+                        "${req.body.apply_mname}",
+                        "${req.body.apply_lname}",
+                        "${req.body.apply_birthdate}",
+                        "${req.body.apply_gender}",
+                        "${req.body.apply_yrres}",
+                        "${req.body.apply_civilstat}",
+                        "${req.body.apply_contact}",
+                        "${req.body.apply_emailaddress}")`
 
-                            db.query(insertPersonalInfo,(err, personalinfo, fields) => {
-                                if (err) console.log(err);
+                    db.query(insertPersonalInfo,(err, personalinfo, fields) => {
+                        if (err) console.log(err);
 
-                                // INSERT TABLE APPLICATION REQUIREMENT
-                                var requirements = req.body.requirementID;
-                                console.log("==============REQUIREMENT=============");
-                                console.log(requirements)
+                        // INSERT TABLE APPLICATION REQUIREMENT
+                        var requirements = req.body.requirementID;
+                        console.log("==============REQUIREMENT=============");
+                        console.log(requirements)
 
-                                    for(i = 0 ; i < requirements.length ; i++)
-                                        {
-                                        var appreqQuery = `INSERT INTO tbl_applicationrequirement
-                                            (
-                                                \`int_applicationID\`,
-                                                \`int_requirementID\`,
-                                                \`enum_appreqStatus\`
-                                            )
-                                            VALUES
-                                            (
-                                                ${int_applicationID},
-                                                ${requirements[i]},
-                                                "Passed"
-                                            )`;
-                                            
-                                            db.query(appreqQuery,(err, appreqResult, fields) => {
-                                                if(err) console.log(err);
-                                                
-                                            });
-                                        }
-                                        res.redirect('/barangay/projects');
-                                });
+                        for(i = 0 ; i < requirements.length ; i++)
+                        {
+                        var appreqQuery = `INSERT INTO tbl_applicationrequirement
+                            (
+                                \`int_applicationID\`,
+                                \`int_requirementID\`,
+                                \`enum_appreqStatus\`
+                            )
+                            VALUES
+                            (
+                                ${int_applicationID},
+                                ${requirements[i]},
+                                "Passed"
+                            )`;
                             
-                            
+                            db.query(appreqQuery,(err, appreqResult, fields) => {
+                                if(err) console.log(err);
+                                
+                            });
+                        }
+                        res.redirect('/barangay/projects');
+                    });
                 });
             });
         });
@@ -296,53 +300,65 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
     console.log('BARANGAY: PROJECTS-REGISTERED APPLICANTS');
     console.log('=================================');
 
-    var queryString1 = `SELECT * FROM tbl_project p 
-    JOIN tbl_projectproposal pp 
-    ON p.int_projectID=pp.int_projectID
-    WHERE p.int_projectID = ${req.params.int_projectID}`
+    var barangayQuery = `SELECT int_barangayID FROM tbl_barangay WHERE int_userID = ${req.session.barangay.int_userID}`;
+    
+    db.query(barangayQuery, (err, brgyID, fields) => {
+        console.log('============================')
+        console.log(brgyID[0].int_barangayID);
+        console.log("======REQUIREMENT SELECTED======")
+    
+        barangayID = brgyID[0].int_barangayID;
+        console.log(barangayID);
+    
+        var queryString1 = `SELECT * FROM tbl_project p 
+            JOIN tbl_projectproposal pp 
+            ON p.int_projectID=pp.int_projectID
+            WHERE p.int_projectID = ${req.params.int_projectID}`
 
-    db.query(queryString1,(err, results1) => {
+        db.query(queryString1,(err, results1) => {
 
-        var date_results = results1;
+            var date_results = results1;
 
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_projectEnd = moment(date_results[i].date_projectEnd).format('MM-DD-YYYY');
-        }
+            for (var i = 0; i < date_results.length;i++){
+                date_results[i].date_projectEnd = moment(date_results[i].date_projectEnd).format('MM-DD-YYYY');
+            }
 
-        var getResults1 = results1[0];
+            var getResults1 = results1[0];
 
-        var notificationQuery = `SELECT * FROM tbl_notification 
-        JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
-        WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
-        AND enum_notifStatus = "New"
-        ORDER BY tbl_notification.int_notifID DESC`
+            var notificationQuery = `SELECT * FROM tbl_notification 
+            JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+            WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+            AND enum_notifStatus = "New"
+            ORDER BY tbl_notification.int_notifID DESC`
 
-        db.query(notificationQuery,(err, notifications) => {
-            if (err) console.log(err);
-            console.log('=================================');
-            console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
-            console.log('=================================');
-            console.log(notifications)
-        
-            var countrow = notifications.length;
-
-            var applicantsQuery = `SELECT * FROM tbl_application app 
-            JOIN tbl_personalinformation pi
-            ON app.int_applicationID=pi.int_applicationID
-            WHERE app.int_projectID = ${req.params.int_projectID}`
-
-            db.query(applicantsQuery,(err, applicants) => {
+            db.query(notificationQuery,(err, notifications) => {
                 if (err) console.log(err);
                 console.log('=================================');
-                console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS');
+                console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
                 console.log('=================================');
+                console.log(notifications)
+            
+                var countrow = notifications.length;
 
-        
-                res.render('barangay/projects/views/applicationlist',{
-                    tbl_project:getResults1,
-                    tbl_applicants:applicants,
-                    notifications:notifications,
-                    numbernotif:countrow});
+                var applicantsQuery = `SELECT * FROM tbl_application app 
+                    JOIN tbl_personalinformation pi
+                    ON app.int_applicationID=pi.int_applicationID
+                    WHERE app.int_projectID = ${req.params.int_projectID}
+                    AND app.int_barangayID = ${barangayID}`
+
+                db.query(applicantsQuery,(err, applicants) => {
+                    if (err) console.log(err);
+                    console.log('=================================');
+                    console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS');
+                    console.log('=================================');
+
+            
+                    res.render('barangay/projects/views/applicationlist',{
+                        tbl_project:getResults1,
+                        tbl_applicants:applicants,
+                        notifications:notifications,
+                        numbernotif:countrow});
+                });
             });
         });
     });

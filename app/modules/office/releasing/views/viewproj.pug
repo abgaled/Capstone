@@ -7,29 +7,38 @@ block content
                 <div class="x_panel">
                 each project in tbl_projectproposal
                     <div class="x_title">
-                        <h2>Project Details<small>
-                        value=project.date_createdDate
+                        <h2>Project Details<small>Date Created: 
+                        value= "(" + project.date_createdDate + ")"
                         </small></h2>
-                        a(href=`/office/releasing/` id="viewproj" class="btn btn-dark btn-s pull-right"): span.fa.fa-arrow-circle-left  Back
+                        <a class="collapse-link"><i class=""></i></a>
+                        <small class="pull-right">Status: 
+                        value=project.enum_projectStatus
+                        </small>
                     <div class="clearfix"></div>
                 </div>
                     <div class="x_content">
                     each project in tbl_projectproposal
-                        <table class="table table-striped jambo_table">
+                        <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Problem</th>
-                                <th>   </th>
+                                <th>
+                                
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <th scope="row">Problem to be solved:</th>
-                                <td></td>
+                                <td>
+                                each statement in tbl_problemstatement
+                                    value=statement.varchar_statementTitle
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row"></th>
                                 <td>
+                                
                                 </td>
                             </tr>
                         </tbody>
@@ -136,13 +145,13 @@ block content
                             <tr>
                                 <th scope="row">Project Start: </th>
                                 <td>
-                                value=project.date_projectStart
+                                value=project.date_startApplication
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Project End: </th>
                                 <td>
-                                value=project.date_projectEnd
+                                value=project.date_endApplication
                                 </td>
                             </tr>
                             <tr>
@@ -154,13 +163,13 @@ block content
                             <tr>
                                 <th scope="row">Project Closing: </th>
                                 <td>
-                                value=project.date_closeDate
+                                value=project.date_projectClose
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Releasing Location:</th>
                                 <td>
-                               
+                                
                                 </td>
                             </tr>
                             <tr>
@@ -189,3 +198,4 @@ block content
                     </table>
                 </div>
             </div>
+            

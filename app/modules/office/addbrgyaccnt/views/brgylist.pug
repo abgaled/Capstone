@@ -6,7 +6,7 @@ block content
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h1>List of barangay<button class="btn btn-primary btn-lg pull-right" id="addrequirement" type="button" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="fa fa-plus"></span> Add</button></h1>
+                        <h1>List of Barangay</h1>
                     </div>              
                     <div class="content-wrapper">
                         <div class="container-fluid">
@@ -14,19 +14,21 @@ block content
                                 <div class="card-header">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th>Barangay Name</th>
-                                                        <th>E-mail</th>
-                                                        <th>Barangay Contact</th>
+                                                        <th>Address</th>
+                                                        <th>Contact</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tfoot>
                                                     <tr>
                                                         <th>Barangay Name</th>
-                                                        <th>E-mail</th>
-                                                        <th>Barangay Contact</th>
+                                                        <th>Address</th>
+                                                        <th>Contact</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </tfoot>
                                                 <tbody>
@@ -36,12 +38,14 @@ block content
                                                             value=brgy.varchar_barangayName
                                                         </td>
                                                         <td>
-                                                            <span class="block-email">
-                                                            value=brgy.varchar_userEmailAddress
-                                                            </span>
+                                                            value=brgy.text_barangayAddress
                                                         </td>
                                                         <td>
                                                             value=brgy.varchar_barangayContact
+                                                        </td>
+                                                        <td>
+                                                            if brgy.int_userID === null
+                                                                button.btn.btn-success.btn-sm.btn-block(id="btn-addAccount" class="btn-addAccount" value= brgy.int_barangayID): span.fa.fa-plus  Add Account
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -49,42 +53,23 @@ block content
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
+                                <div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-body">
                                                 <form class="form-horizontal form-label-left" method="POST" action='' name="" novalidate>
                                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                                     </button>
-                                                    <h4 class="modal-title" id="myModalLabel"><span class="section">Barangay details</span></h4>
-                                                    <div class="item form-group">
-                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="barangay_name">Barangay Name <span class="required">*</span>
-                                                        </label>
-                                                        <div class="col-md-4 col-sm-4 col-xs-12">
-                                                        <input id="barangay_name" class="form-control col-md-7 col-xs-12" name="barangay_name" placeholder="Enter the barangay name here ..." required="required" type="text">
-                                                        //- <input id="barangay_name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="3" name="barangay_name" placeholder="Enter the barangay name here ..." required="required" type="text">
+                                                    <h4 class="modal-title" id="mediumModalLabel">Barangay E-mail Address
+                                                    <div class="modal-body">
+                                                        <div class="input-group">
+                                                            <input type="hidden" id="brgyID" name="brgyID" >
+                                                            <input type="hidden" id="barangayPassword" name="barangayPassword"> 
+                                                            <input type="email" id="barangayEmail" name="barangayEmail"class="form-control">
+                                                            <span class="input-group-btn">
+                                                                <button type="submit" id="but-sub" class="btn btn-success">Send</button>
+                                                            </span>
                                                         </div>
-                                                    </div>
-                                                    <div class="item form-group">
-                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email Address <span class="required">*</span>
-                                                        </label>
-                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input id="email" class="form-control col-md-7 col-xs-12" name="email" placeholder="Enter e-mail address here ..." required="required" type="email">
-                                                        //- <input id="email" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="email" placeholder="Enter e-mail address here ..." required="required" type="email">
-                                                        </div>
-                                                    </div>
-                                                    <div class="item form-group">
-                                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="contact_num">Contact Number <span class="required">*</span>
-                                                        </label>
-                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                        <input id="contact_num" class="form-control col-md-12 col-xs-12" name="contact_num" placeholder="Enter Telephone/Cellphone# here ..." required="required" type="tel">
-                                                        //- <input id="contact_num" class="form-control col-md-12 col-xs-12" data-validate-length-range="8,20" name="contact_num" placeholder="Enter Telephone/Cellphone# here ..." required="required" type="tel">
-                                                        </div>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                    <input type="hidden" id="password" name="password"> 
-                                                    <button type="submit" id="submitaccnt" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -94,10 +79,29 @@ block content
                                     </div>
                                 </div>
         <!-- END STATISTIC-->
+                
+        <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+
+
         script.
+
+            $(document).ready(function () {
+
+                $('.btn-addAccount').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#addAccountModal').modal('show');
+                    document.getElementById("brgyID").value = Id;
+                }); 
+            });
+
+            
             var text = "";
             var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             for (var i = 0; i < 8; i++)
                 text += possible.charAt(Math.floor(Math.random() * possible.length)); 
             
-            document.getElementById("password").value = text;
+            document.getElementById("barangayPassword").value = text;

@@ -10,7 +10,7 @@ block content
                         <h2>Project Details<small>Date Created: 
                         value= "(" + project.date_createdDate + ")"
                         </small></h2>
-                        <a class="collapse-link"><i class="fa fa-chevron-up pull-right"></i></a>
+                        <a class="collapse-link"><i class=""></i></a>
                         <small class="pull-right">Status: 
                         value=project.enum_projectStatus
                         </small>
@@ -30,13 +30,15 @@ block content
                         <tbody>
                             <tr>
                                 <th scope="row">Problem to be solved:</th>
-                                <td></td>
+                                <td>
+                                each statement in tbl_problemstatement
+                                    value=statement.varchar_statementTitle
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row"></th>
                                 <td>
-                                each statement in tbl_problemstatement
-                                    value=varchar_statementTitle
+                                
                                 </td>
                             </tr>
                         </tbody>
@@ -103,12 +105,13 @@ block content
                             </tr>
                             <tr>
                                 <th scope="row">Alloted Slot:</th>
-                                <td></td>
+                                <td>
+                                value=project.int_allotedSlot
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row"></th>
                                 <td>
-                                value=project.int_allotedSlot
                                 </td>
                             </tr>
                         </tbody>
@@ -141,24 +144,26 @@ block content
                         <tbody>
                             <tr>
                                 <th scope="row">Project Start: </th>
-                                <td></td>
+                                <td>
+                                value=project.date_startApplication
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row">Project End: </th>
                                 <td>
-                                value=project.datetime_releasingEnd
+                                value=project.date_endApplication
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Release Date: </th>
                                 <td>
-                                value=project.datetime_releasingEnd
+                                value=project.date_releaseDate
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Project Closing: </th>
                                 <td>
-                                value=project.datetime_releasingEnd
+                                value=project.date_projectClose
                                 </td>
                             </tr>
                             <tr>
@@ -194,20 +199,20 @@ block content
                 </div>
             </div>
             each project in tbl_projectproposal
-                if project.enum_projectStatus === "Ongoing" 
                     <div class="x_panel">
                         <div class="x_title">
                             <h2>Applications</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div>
-                                input(type="checkbox" id="check-applications" name="checkApplications[]" class="icheckbox_flat-green" style="margin-left:3%;")
-                                button(type="submit" id="buttonaccept" class="btn btn-primary btn-s" name="buttonaccept" style="margin-left:2%;"): span.fa.fa-check  Accept
-                                button(type="submit" id="buttonreject" class="btn btn-danger btn-s" name="buttonreject"): span.fa.fa-close  Reject
-                            <br>
-                            <br>
-                            </div>
+                            if project.enum_projectStatus === "Ongoing" 
+                                <div>
+                                    input(type="checkbox" id="check-applications" name="checkApplications[]" class="icheckbox_flat-green" style="margin-left:3%;")
+                                    button(type="submit" id="buttonaccept" class="btn btn-primary btn-s" name="buttonaccept" style="margin-left:2%;"): span.fa.fa-check  Accept
+                                    button(type="submit" id="buttonreject" class="btn btn-danger btn-s" name="buttonreject"): span.fa.fa-close  Reject
+                                <br>
+                                <br>
+                                </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="datatable" cellspacing="0">
                                     <thead>
@@ -236,8 +241,9 @@ block content
                                         each app in applications
                                             <tr>
                                                 <td>
-                                                if app.enum_applicationStatus == "Pending" 
-                                                    input(type="checkbox" id="check-applications" name="checkApplications[]" class="icheckbox_flat-green" value=`${app.int_applicationID}` )
+                                                    if project.enum_projectStatus === "Ongoing" 
+                                                        if app.enum_applicationStatus == "Pending" 
+                                                            input(type="checkbox" id="check-applications" name="checkApplications[]" class="icheckbox_flat-green" value=`${app.int_applicationID}` )
                                                 </td>
                                                 <td>
                                                     value=app.varchar_lastName
@@ -255,14 +261,15 @@ block content
                                                     value=app.enum_applicationStatus
                                                 </td>
                                                 <td>
-                                                    button.btn.btn-success(id="btn-view-application" class="btn-view-application btn-s" value= app.int_applicationID): span.fa.fa-eye View Details
-                                                    if app.enum_applicationStatus == "Pending"
-                                                        form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewproj/accept`)
-                                                            input(value= app.int_applicationID name="int_applicationID" required, hidden)
-                                                            button(type="submit" id="buttonaccept" class="btn btn-primary btn-s" name="buttonaccept" ): span.fa.fa-check  Accept
-                                                        form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewproj/reject`)
-                                                            input(value= app.int_applicationID name="int_applicationID"  required, hidden)
-                                                            button(type="submit" id="buttonreject" class="btn btn-danger btn-s" name="buttonreject" value= app.int_applicationID): span.fa.fa-close  Reject
+                                                    button.btn.btn-success(id="btn-view-application" class="btn-view-application btn-sm btn-block" value= app.int_applicationID): span.fa.fa-eye View Details
+                                                    if project.enum_projectStatus === "Ongoing" 
+                                                        if app.enum_applicationStatus == "Pending"
+                                                            form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewproj/accept`)
+                                                                input(value= app.int_applicationID name="int_applicationID" required, hidden)
+                                                                button(type="submit" id="buttonaccept" class="btn btn-primary btn-sm btn-block" name="buttonaccept" ): span.fa.fa-check  Accept
+                                                            form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewproj/reject`)
+                                                                input(value= app.int_applicationID name="int_applicationID"  required, hidden)
+                                                                button(type="submit" id="buttonreject" class="btn btn-danger btn-sm btn-block" name="buttonreject" value= app.int_applicationID): span.fa.fa-close  Reject
                                                 </td>
                                             </tr>
                                     </tbody>
