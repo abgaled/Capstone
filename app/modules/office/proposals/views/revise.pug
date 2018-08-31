@@ -121,7 +121,7 @@ block content
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectname">Project Name <span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    input(type="text" id="ap-projectname" name="projectname" required="required" value=`${proposal.varchar_projectName}` )
+                                                    input(type="text" id="ap-projectname" name="projectname" required="required" title="Kindly put a name for this project" value=`${proposal.varchar_projectName}` )
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -130,26 +130,37 @@ block content
                                                     <select class="select2_multiple form-control" onchange="getCategory()" multiple="multiple" name="projectcategory[]" id="ap-projectcategory">
                                                         <option>Choose option</option>
                                                             each category in tbl_category
-                                                                option(value=`${category.int_categoryID}` )=category.varchar_categoryName
+                                                                each projCat in tbl_projectcategory
+                                                                    if projCat.varchar_categoryName == category.varchar_categoryName
+                                                                        option(value=`${category.int_categoryID}` selected)=category.varchar_categoryName
+                                                                    else
+                                                                        option(value=`${category.int_categoryID}` )=category.varchar_categoryName
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectrationale">Project Rationale</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea onchange="getRationale()" class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="ap-projectrationale" name="projectrationale"></textarea>
+                                                    <textarea onchange="getRationale()" class="resizable_textarea form-control" id="ap-projectrationale" name="projectrationale">
+                                                    value=proposal.varchar_projectRationale
+                                                    </textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectobjective">Project Objective</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea onchange="getObjective()" class="resizable_textarea form-control" placeholder="Please fill project objective ..." id="ap-projectobjective" name="projectobjective"></textarea>
+                                                    <textarea onchange="getObjective()" class="resizable_textarea form-control" id="ap-projectobjective" name="projectobjective">
+                                                    value=proposal.text_projectObjective
+                                                    </textarea>
+                                                    
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectdescription">Project Description</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea onchange="getDescription()" class="resizable_textarea form-control" placeholder="Please fill project description ..." id="ap-projectdescription" name="projectdescription"></textarea>
+                                                    <textarea onchange="getDescription()" class="resizable_textarea form-control" id="ap-projectdescription" name="projectdescription">
+                                                    value=proposal.text_projectDescription
+                                                    </textarea>
                                                 </div>
                                             </div>
                                             //- </form>
@@ -171,7 +182,7 @@ block content
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslots">Alloted Slot <span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" onchange="getSlot()" id="ap-allotedslots" name="allotedslots" required="required" placeholder="Number of beneficiary ..." onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
+                                                    input(type="number" onchange="getSlot()" id="ap-allotedslots" name="allotedslots" required="required" class="form-control col-md-7 col-xs-12" value=`${proposal.int_allotedSlot}` )
                                                 </div>
                                             </div>
                                             //- </form>
@@ -205,7 +216,7 @@ block content
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="applicationDays"> Days of application<span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" onchange="getAppDays()" id="ap-applicationDays" name="applicationDays" required="required" placeholder="Duration of beneficiary application..." class="form-control col-md-7 col-xs-12">
+                                                    input(type="text" onchange="getAppDays()" id="ap-applicationDays" name="applicationDays" required="required" class="form-control col-md-7 col-xs-12"  value=`${proposal.date_startApplication}` )
                                                 </div>
                                             </div>
 
@@ -213,7 +224,7 @@ block content
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="releasingday">Days of Releasing<span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" onchange="getReleaseDays()" id="ap-releasingday" name="releasingday" required="required" onchange="unhide()" placeholder="number of days of releasing..." class="form-control col-md-7 col-xs-12">
+                                                    input(type="text" onchange="getReleaseDays()" id="ap-releasingday" name="releasingday" required="required" class="form-control col-md-7 col-xs-12"  value=`${proposal.date_endApplication}` )
                                                 </div>
                                                 </div>
                                                 //- <div class="form-group" hidden id="daychange">
@@ -227,7 +238,7 @@ block content
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="releasedate"> Date of releasing<span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" onchange="getReleaseDate()" id="ap-releasedate" name="releasedate" required="required" placeholder="Number days after closing..." class="form-control col-md-7 col-xs-12">
+                                                    input(type="text" onchange="getReleaseDate()" id="ap-releasedate" name="releasedate" required="required" class="form-control col-md-7 col-xs-12"  value=`${proposal.date_releaseDate}` )
                                                 </div>
                                             </div>
                                                 <div class="form-group">
@@ -255,7 +266,7 @@ block content
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estimatedbudget">Estimated Budget <span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" maxlenght="15" id="estimatedbudget" name="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                                    input(type="number" maxlenght="15" onchange="autobudget()" id="estimatedbudget" name="estimatedbudget" required="required" class="form-control col-md-7 col-xs-12"  value=`${proposal.decimal_estimatedBudget}` )
                                                 </div>
                                             </div>
                                             <div class="form-group">

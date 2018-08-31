@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 31, 2018 at 08:20 PM
+-- Generation Time: Aug 31, 2018 at 10:48 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -50,6 +50,16 @@ CREATE TABLE `tbl_application` (
   `datetime_receivedDate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_application`
+--
+
+INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_projectID`, `enum_applicationStatus`, `datetime_receivedDate`) VALUES
+(32, 14, 31, 'Approved', NULL),
+(33, 14, 31, 'Pending', NULL),
+(34, 14, 31, 'Approved', NULL),
+(35, 10, 31, 'Pending', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -62,6 +72,16 @@ CREATE TABLE `tbl_applicationrequirement` (
   `int_requirementID` int(11) NOT NULL,
   `enum_appreqStatus` enum('Passed','Not Passed') NOT NULL DEFAULT 'Passed'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_applicationrequirement`
+--
+
+INSERT INTO `tbl_applicationrequirement` (`int_appreqID`, `int_applicationID`, `int_requirementID`, `enum_appreqStatus`) VALUES
+(24, 32, 28, 'Passed'),
+(25, 33, 28, 'Passed'),
+(26, 34, 28, 'Passed'),
+(27, 35, 28, 'Passed');
 
 -- --------------------------------------------------------
 
@@ -88,7 +108,8 @@ INSERT INTO `tbl_barangay` (`int_barangayID`, `int_userID`, `int_cityID`, `varch
 (10, 18, 2, 'Bagong Silang', '514-8312/9953354', 'cor. J. Luna Street', 'Active'),
 (11, 19, 2, 'Barangka Drive', '531-6544', '775 Barangka Drive cor. Sgt. Bumatay', 'Active'),
 (13, 20, 2, 'Hulo', '534-5056/535-2505', 'Coronado Street', 'Active'),
-(14, 21, 2, 'Malamig', '533-1319', '555 Cresta Circle Makiling Street', 'Active');
+(14, 21, 2, 'Malamig', '533-1319', '555 Cresta Circle Makiling Street', 'Active'),
+(42, NULL, 2, 'Plainview', '534-1874', '40 Malaya Street', 'Active');
 
 -- --------------------------------------------------------
 
@@ -140,7 +161,7 @@ CREATE TABLE `tbl_category` (
 
 INSERT INTO `tbl_category` (`int_categoryID`, `varchar_categoryName`, `enum_categoryStatus`) VALUES
 (6, 'Health', 'Active'),
-(7, 'Monetary', 'Inactive'),
+(7, 'Monetary', 'Active'),
 (8, 'Disaster Management', 'Active'),
 (10, 'Education', 'Active');
 
@@ -215,6 +236,16 @@ CREATE TABLE `tbl_personalinformation` (
   `varchar_emailAddress` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_personalinformation`
+--
+
+INSERT INTO `tbl_personalinformation` (`int_applicationID`, `varchar_firstName`, `varchar_middleName`, `varchar_lastName`, `date_birthDate`, `enum_gender`, `int_applicantResidency`, `enum_civilStatus`, `varchar_contactNumber`, `varchar_emailAddress`) VALUES
+(32, 'Lander Dashiell', 'Del Rosario', 'Manabat', '2007-10-10', 'Male', 2007, 'Single', '(+63) 122-262-6226', 'dash@gmail.com'),
+(33, 'Kenji', 'Del Rosario', 'Ilagan', '2006-08-25', 'Male', 2006, 'Single', '(+63) 915-662-8888', 'kenji@gmail.com'),
+(34, 'Maricar', '', 'Manabat', '2007-06-22', 'Female', 2007, 'Single', '(+63) 915-624-8222', 'maricar@gmail.com'),
+(35, 'Amy', 'Tiya', 'Cruz', '2008-07-28', 'Female', 2008, 'Single', '(+63) 916-562-2523', 'tiya@gmail.com');
+
 -- --------------------------------------------------------
 
 --
@@ -232,6 +263,16 @@ CREATE TABLE `tbl_problemstatement` (
   `enum_problemStatus` enum('Submitted','Acknowledged','Rejected','Solved','Proposed') NOT NULL DEFAULT 'Submitted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_problemstatement`
+--
+
+INSERT INTO `tbl_problemstatement` (`int_statementID`, `int_barangayID`, `int_categoryID`, `int_projectID`, `varchar_statementTitle`, `text_statementContent`, `date_createdDate`, `enum_problemStatus`) VALUES
+(42, 9, 6, 31, 'Full body check up and medicine kit giving', 'Due to recent outbreak of fever', '2018-09-01', 'Proposed'),
+(43, 14, 7, NULL, 'Request for money', 'Due to recent crisis', '2018-09-01', 'Rejected'),
+(44, 10, 10, 32, 'Request for school supplies', 'Children\'s must need in school', '2018-09-01', 'Proposed'),
+(45, 13, 8, NULL, 'Distribution of goods', 'Due to recent fire incident, supplies are given but it is insufficient.', '2018-09-01', 'Submitted');
+
 -- --------------------------------------------------------
 
 --
@@ -248,6 +289,13 @@ CREATE TABLE `tbl_project` (
   `enum_projectStatus` enum('Approved','Ongoing','Closed','Releasing','Finished','Terminated') NOT NULL DEFAULT 'Approved'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_project`
+--
+
+INSERT INTO `tbl_project` (`int_projectID`, `date_startApplication`, `date_endApplication`, `date_releaseDate`, `date_projectClose`, `decimal_actualBudget`, `enum_projectStatus`) VALUES
+(31, '2018-09-01', '2018-09-21', '2018-10-05', NULL, '1000000.00', 'Ongoing');
+
 -- --------------------------------------------------------
 
 --
@@ -260,6 +308,14 @@ CREATE TABLE `tbl_projectbeneficiary` (
   `int_beneficiaryID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_projectbeneficiary`
+--
+
+INSERT INTO `tbl_projectbeneficiary` (`int_projbeneID`, `int_projectID`, `int_beneficiaryID`) VALUES
+(21, 31, 23),
+(22, 32, 23);
+
 -- --------------------------------------------------------
 
 --
@@ -271,6 +327,14 @@ CREATE TABLE `tbl_projectcategory` (
   `int_projectID` int(11) NOT NULL,
   `int_categoryID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_projectcategory`
+--
+
+INSERT INTO `tbl_projectcategory` (`int_projcategID`, `int_projectID`, `int_categoryID`) VALUES
+(25, 31, 6),
+(26, 32, 10);
 
 -- --------------------------------------------------------
 
@@ -313,7 +377,8 @@ CREATE TABLE `tbl_projectproposal` (
 
 INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_cityID`, `varchar_projectName`, `varchar_projectRationale`, `text_projectDescription`, `text_projectObjective`, `int_allotedSlot`, `int_applicationDuration`, `int_releasingDuration`, `int_beforeReleasingDuration`, `decimal_estimatedBudget`, `date_createdDate`, `enum_proposalStatus`) VALUES
 (13, 2, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 1000, 150, 3, 14, '1000000', '2018-08-28', 'Pending'),
-(14, 2, 'Financial Assistance for Grade 4 students of Mababang Paaralan ng Sucat', 'It will help them to restore their school supplies that they recently used.', 'To help the students of Grade 4 students of Mababang Paaralan ng Sucat due to fire accident inside their building.', 'It will be given by the staffs of the municipal only. Each students will be given the same amount.', 1500, 150, 5, 10, '10000000', '2018-08-30', 'Pending');
+(31, 2, 'Full body check up and medicine kit giving', 'Nowadays residents have different kind of minor disease.', 'Full body check up for the beneficiaries of this project and medicine kit for them', 'To help the residents, and for them to be ready.', 100, 20, 1, 14, '100000', '2018-09-01', 'Approved'),
+(32, 2, 'Distribution of School Supplies', 'Determined by the last survey it is true that children in our city can\'t barely have a new school su', 'School supplies will be given equally and fairly to the beneficiaries of this project.', 'To help the children/youth.', 100, 20, 1, 14, '1000000', '2018-09-01', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -327,6 +392,14 @@ CREATE TABLE `tbl_projectrequirement` (
   `int_projectID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_projectrequirement`
+--
+
+INSERT INTO `tbl_projectrequirement` (`int_projreqID`, `int_requirementID`, `int_projectID`) VALUES
+(23, 28, 31),
+(24, 28, 32);
+
 -- --------------------------------------------------------
 
 --
@@ -338,6 +411,13 @@ CREATE TABLE `tbl_proposalapproval` (
   `varchar_checkNumber` varchar(20) DEFAULT NULL,
   `enum_propappStatus` enum('Received','Sent') NOT NULL DEFAULT 'Sent'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_proposalapproval`
+--
+
+INSERT INTO `tbl_proposalapproval` (`int_projectID`, `varchar_checkNumber`, `enum_propappStatus`) VALUES
+(31, '111222', 'Received');
 
 -- --------------------------------------------------------
 
@@ -580,17 +660,17 @@ ALTER TABLE `tbl_announcement`
 -- AUTO_INCREMENT for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `tbl_applicationrequirement`
 --
 ALTER TABLE `tbl_applicationrequirement`
-  MODIFY `int_appreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `int_appreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `tbl_barangay`
 --
 ALTER TABLE `tbl_barangay`
-  MODIFY `int_barangayID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `int_barangayID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `tbl_beneficiary`
 --
@@ -600,7 +680,7 @@ ALTER TABLE `tbl_beneficiary`
 -- AUTO_INCREMENT for table `tbl_category`
 --
 ALTER TABLE `tbl_category`
-  MODIFY `int_categoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `int_categoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `tbl_city`
 --
@@ -620,17 +700,17 @@ ALTER TABLE `tbl_notification`
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
 ALTER TABLE `tbl_problemstatement`
-  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `tbl_projectbeneficiary`
 --
 ALTER TABLE `tbl_projectbeneficiary`
-  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
 ALTER TABLE `tbl_projectcategory`
-  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `tbl_projectlocation`
 --
@@ -640,22 +720,22 @@ ALTER TABLE `tbl_projectlocation`
 -- AUTO_INCREMENT for table `tbl_projectproposal`
 --
 ALTER TABLE `tbl_projectproposal`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `tbl_projectrequirement`
 --
 ALTER TABLE `tbl_projectrequirement`
-  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `tbl_proposalapproval`
 --
 ALTER TABLE `tbl_proposalapproval`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `tbl_requirement`
 --
 ALTER TABLE `tbl_requirement`
-  MODIFY `int_requirementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `int_requirementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `tbl_revisioncomment`
 --

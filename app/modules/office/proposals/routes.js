@@ -404,9 +404,33 @@ router.post('/checknumberget',(req, res) => {
     });
 });
 
-router.get('/revisePost',(req, res) => {
+// AJAX GET REVISION DETAILS
+router.post('/ajaxrevisiondetails',(req,res) => {
     console.log('=================================');
-    console.log('OFFICE: PROPOSALS - REVISE');
+    console.log('BUDGET: PROPOSALS-REVISION-GET DETAILS AJAX');
+    console.log('=================================');
+    console.log(`${req.body.ajaxrevisionID}`);
+
+    var viewRevisionQuery = `SELECT * FROM tbl_revisioncomment WHERE int_projectID = ${req.body.ajaxrevisionID}`;
+
+    db.query(viewRevisionQuery,(err, results, fields) => {
+        if (err) console.log(err);
+
+
+        console.log(results);
+
+        var resultss = results[0];
+
+        console.log("===================RESULTSS")
+        console.log(resultss)
+
+        return res.send({tbl_revision:resultss});
+    });
+});
+
+router.post('/revise',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROPOSALS');
     console.log('=================================');
     console.log(req.body.PROJECT_idrev);
 
@@ -433,7 +457,11 @@ router.get('/revisePost',(req, res) => {
 
     var queryString7 =`SELECT * FROM tbl_projectproposal projpro
     JOIN tbl_project proj ON projpro.int_projectID = proj.int_projectID
-    WHERE projpro.int_projectID = '${req.session.office.int_userID}'`
+    WHERE projpro.int_projectID = '${req.body.PROJECT_idrev}'`
+    
+    var queryString8 =`SELECT * FROM tbl_projectcategory projcat
+    JOIN tbl_category cat ON projcat.int_categoryID = cat.int_categoryID
+    WHERE projcat.int_projectID = '${req.body.PROJECT_idrev}'`
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -456,15 +484,20 @@ router.get('/revisePost',(req, res) => {
                             db.query(queryString7, (err, results7, fields) => {
                                 console.log(results7);
                                 if (err) console.log(err);
-                                res.render('office/proposals/views/revise', 
-                                {
-                                    tbl_category: results,
-                                    tbl_beneficiary:results2,
-                                    tbl_requirement:results3,
-                                    tbl_barangay:results4,
-                                    tbl_problemstatement:results5,
-                                    tbl_location:results6,
-                                    tbl_projectproposal:results7
+                                db.query(queryString8, (err, results8, fields) => {
+                                    console.log(results8);
+                                    if (err) console.log(err);
+                                    res.render('office/proposals/views/revise', 
+                                    {
+                                        tbl_category: results,
+                                        tbl_beneficiary:results2,
+                                        tbl_requirement:results3,
+                                        tbl_barangay:results4,
+                                        tbl_problemstatement:results5,
+                                        tbl_location:results6,
+                                        tbl_projectproposal:results7,
+                                        tbl_projectcategory:results8
+                                    });
                                 });
                             });
                         });

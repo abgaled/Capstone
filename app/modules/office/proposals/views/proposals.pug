@@ -43,11 +43,14 @@ block content
                                                                     value=project.enum_proposalStatus
                                                                 </td>
                                                                 <td>
-                                                                    a(href=`/office/proposals/proposals/${project.int_projectID}/proposaldetails` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
-                                                                    if project.enum_proposalStatus == "Approved" 
-                                                                        button.btn.btn-success.btn-sm.btn-block(id="btn-cheque" class="btn-cheque" value= project.int_projectID): span.fa.fa-check  Cheque Number
-                                                                    if project.enum_proposalStatus == "Revision"
-                                                                        button.btn.btn-warning.btn-sm.btn-block(id="btn-revise" class="btn-revise" value= project.int_projectID): span.fa.fa-check  Revise
+                                                                a(href=`/office/proposals/proposals/${project.int_projectID}/proposaldetails` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
+                                                                if project.enum_proposalStatus == "Revision" 
+                                                                    button.btn.btn-warning.btn-sm.btn-block(id="btn-revise" class="btn-revise" value= project.int_projectID): span.fa.fa-check  Revise
+                                                                each prop in tbl_cheque
+                                                                    if prop.int_projectID == project.int_projectID
+                                                                        if project.enum_proposalStatus == "Approved"
+                                                                            if prop.enum_propappStatus == "Sent"
+                                                                                button.btn.btn-success.btn-sm.btn-block(id="btn-cheque" class="btn-cheque" value= project.int_projectID): span.fa.fa-check  Cheque Number
                                                                 </td>
                                                         </tr>
                                                 </tbody>
@@ -87,22 +90,26 @@ block content
                                 <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                         <div class="modal-content">
-                                            <form method="POST" action="/office/proposals/revisePost" class="form-horizontal form-label-left">
+                                            <form method="POST" action="/office/proposals/revise" class="form-horizontal form-label-left">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" id="mediumModalLabel">Revision
+                                                        <h4 class="modal-title" id="mediumModalLabel">View Revision Content
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                         </h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <div class="input-group">
-                                                            <input type="hidden" id="PROJECT_idrev" name="PROJECT_idrev" value="" >
-                                                            <p>
-                                                            
-                                                            <span class="input-group-btn">
-                                                                a(href=`/office/proposals/revise` id="" class="btn btn-info pull-right"): span Revise
-                                                            </span>
+                                                        <div class="item form-group">
+                                                            <input type="hidden" value="" id="PROJECT_idrev" name="PROJECT_idrev" >
+                                                            <label class="control-label col-md-2" for="aj-comment">Comment:
+                                                            </label>
+                                                            <div class="col-md-9" id="aj-comment">
+                                                        
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" id="but-sub" class="btn btn-info">Revise</button>
                                                         </div>
                                                     </div>
                                             </form>
@@ -137,6 +144,44 @@ block content
                             document.getElementById("PROJECT_idrev").value = Id;
                             
                         }); 
+                        $('.btn-revise').click(function (e) {
+                            e.preventDefault()
+                            var Id = $(this).val();
+                            console.log("================================Id(Revision Id)")
+                            console.log(Id);
+                            console.log("================================Id(Revision Id)")
+                            $('#reviseModal').modal('show');
+                            ajaxGet();
+
+                            function ajaxGet(){
+                            console.log("========Id");
+                            console.log(Id);
+                            console.log("========Id");
+
+                            $.ajax({
+                                type : "POST",
+                                url : window.location + "/ajaxrevisiondetails",
+                                data: { ajaxrevisionID: Id},
+                                dataType: "json",
+                                success: function(tbl_revision){
+
+                                console.log(tbl_revision)
+
+                                    $.each(tbl_revision, function (index, value) {
+                                        console.log(value);
+
+                                        document.getElementById("aj-comment").innerHTML = value.text_commentContent   
+                                        document.getElementById("PROJECT_idrev").value = Id;
+                                    });
+                                                                
+                                    
+                                },
+                                error : function(e) {
+                                    console.log("ERROR: ", e);
+                                }
+                            });	
+                        }
+                        });
                     });
 
                     
