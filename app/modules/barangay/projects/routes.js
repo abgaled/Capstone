@@ -106,8 +106,8 @@ router.post('/projectdetails',(req,res) => {
         var date_results = results;
 
         for (var i = 0; i < date_results.length;i++){
-            date_results[i].datetime_releasingStart = moment(date_results[i].datetime_releasingStart).format('MM-DD-YYYY');
-            date_results[i].datetime_releasingEnd = moment(date_results[i].datetime_releasingEnd).format('MM-DD-YYYY');
+            date_results[i].date_startApplication = moment(date_results[i].date_startApplication).format('MM-DD-YYYY');
+            date_results[i].date_endApplication = moment(date_results[i].date_endApplication).format('MM-DD-YYYY');
         }
 
         var resultss = results[0];

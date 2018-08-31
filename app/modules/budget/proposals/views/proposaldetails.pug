@@ -5,8 +5,8 @@ block content
         <div class="x_panel">
         each project in details
             <div class="x_title">
-                <h2> Proposed Details<small>
-                value=project.date_createdDate
+                <h2> Proposed Details<small>Date Created:
+                value= " "+ project.date_createdDate
                 </small></h2>
                 <small class="pull-right">
                 </small>
@@ -24,7 +24,11 @@ block content
                     <tbody>
                         <tr>
                             <th scope="row">Problem to be solved:</th>
-                            <td></td>
+                            <td>
+                                each problem in problems
+                                    value=problem.varchar_statementTitle
+                                    <br/>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row"></th>
@@ -52,7 +56,7 @@ block content
                             <td>
                             each cat in categories
                                 value=cat.varchar_categoryName
-                            <br/>
+                                <br/>
                             </td>
                         </tr>
                         <tr>
@@ -140,20 +144,19 @@ block content
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Releasing Date:</th>
+                                <th scope="row">Duration of Releasing:</th>
                                 <td>
-                                each timeline in timelines
-                                    value=timeline.date_releaseDate
+                                each budget in budgets
+                                    value=budget.int_releasingDuration
                                 </td>
                             </tr>
-                            <tr>
-                                <th scope="row">Releasing Location:</th>
-                                <td>
-                                each rel in locations
-                                    value=rel.varchar_locationName
-                                    <br/>
-                                </td>
-                            </tr>
+                            //- <tr>
+                            //-     <th scope="row">:</th>
+                            //-     <td>
+                            //-     each timeline in timelines
+                            //-         value=timeline.date_releaseDate
+                            //-     </td>
+                            //- </tr>
                             <tr>
                                 <th scope="row"></th>
                                 <td></td>

@@ -85,7 +85,8 @@ block content
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-body">
-                <form class="form-horizontal form-label-left" method="POST" action=''>
+            each info in barangay_info
+                <form class="form-horizontal form-label-left" method="POST" action='' id="formeditprof">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title" id="myModalLabel"><span class="section">Update Profile</span></h4>
              
@@ -93,14 +94,14 @@ block content
                         <label class="control-label col-md-2" for="barangayemail">Email Address:
                         </label>
                         <div class="col-md-7">
-                          <input id="barangayemail" class="form-control" name="barangay_email" placeholder="Enter new Email Address" required="required" type="email">
+                          input(id="barangayemail" class="form-control" name="barangay_email"  value=info.varchar_userEmailAddress placeholder="Enter new Email Address" required="required" type="email")
                         </div>
                 </div>
                 <div class="item form-group">
                         <label class="control-label col-md-2" for="barangaypass">Password:
                         </label>
                         <div class="col-md-7">
-                          <input id="barangaypass2" class="form-control" name="barangay_password" placeholder="Enter new Password" required="required" type="password">
+                          input(id="barangaypass2" class="form-control" name="barangay_password" value=info.varchar_userPassword placeholder="Enter new Password" required="required" type="password")
                           <input type="checkbox" onclick="showPass2()">Show Password
                         </div>
                 </div>
@@ -108,13 +109,13 @@ block content
                         <label class="control-label col-md-2" for="barangaycontact">Contact Number:
                         </label>
                         <div class="col-md-7">
-                            <input type="text" class="form-control" id="barangaycontact" name="barangay_contact" data-inputmask="'mask' : '999-9999'">
+                            input(type="text" class="form-control" id="barangaycontact" name="barangay_contact" value=info.varchar_barangayContact)
                         </div>
                 </div>
                 <br>
                 <div class="modal-footer">    
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Cancel</button>
-                <button type="submit" id="modalbutton" class="btn btn-primary"  style="background-color#21BA45;color:whitesmoke;border:none;float:right;">Send</button>
+                <button type="submit" id="submiteditprof" class="btn btn-primary"  style="background-color#21BA45;color:whitesmoke;border:none;float:right;">Send</button>
                 </form>
                 </div>
             </div>
@@ -141,3 +142,58 @@ block content
                     x.type = "password";
                 }
         }
+
+        $(document).ready(function () {
+
+                //- SWEET ALERT CONFIRM SUBMIT
+                $('#submiteditprof').on('click',function (e) {
+                    var form = $(this).parents('form');
+                    e.preventDefault(); //prevent submit
+                    
+                        swal({
+                        title: 'Are you sure?',
+                        text: "You will update your profile.",
+                        type: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, update it!'
+                        }).then((result) => {
+                        if (result.value) {
+                            $('#formeditprof').submit();
+                        }                        
+                        })
+                });
+                //- START VALIDATIONS
+                $(function() {
+                $("#formeditprof").validate({
+                    rules: {
+                    problem_title: {
+                        required: true,
+                        
+                    },
+                    action: "required"
+                    },
+                    messages: {
+                    problem_title: {
+                        required: "Please enter some data",
+                        
+                    },
+                    action: "Please provide some data"
+                    },
+                    submitHandler: function(form){
+                        form.submit();
+                        swal(
+                            'Success!',
+                            'Profile has been Updated!',
+                            'success'
+                            )
+                    }
+                });
+                
+                });
+                //- END VALIDATIONS
+               
+            });
+
+            

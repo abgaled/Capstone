@@ -375,8 +375,8 @@ router.post('/barangay',(req, res) => {
         var queryString = `INSERT INTO \`tbl_barangay\` (
             \`int_cityID\`,
             \`varchar_barangayName\`,
-            \`varchar_barangayContact\`,
             \`text_barangayAddress\`,
+            \`varchar_barangayContact\`,
             \`enum_barangayStatus\`)
                     
             VALUES(

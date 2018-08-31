@@ -37,17 +37,24 @@ block content
                                         </td>
                                         <td>
                                                 a(href=`/budget/proposals/${proposals.int_projectID}/details`): button.btn.btn-primary.btn-sm: span.fa.fa-eye  View Detail
+
                                                 if proposals.enum_proposalStatus == "Pending"
                                                     button.btn.btn-success.btn-sm(id="btn-approve" class="btn-approve" value= proposals.int_projectID): span.fa.fa-check Approve
                                                     a(href=`/budget/proposals/${proposals.int_projectID}/rejectproposal`): button.btn.btn-danger.btn-sm: span.fa.fa-ban  Reject
-                                                    button.btn.btn-warning.btn-sm(id="btn-pro-rev" class="" value= proposals.int_projectID  data-toggle="modal" data-target="#reviseModal"): span.fa.fa-undo  Revise
+                                                    button.btn.btn-warning.btn-sm(id="btn-pro-rev" class="btn-pro-rev" value= proposals.int_projectID): span.fa.fa-undo  Revise
+
                                                 if proposals.enum_proposalStatus == "Revision"
                                                     button.btn.btn-primary.btn-sm(id="btn-revision" class="btn-revision" value= proposals.int_projectID): span.fa.fa-eye View Revision
-                                                    button.btn.btn-success.btn-sm(id="btn-pro" class="" value= proposals.int_projectID  data-toggle="modal" ): span.fa.fa-check Approve
+                                                    button.btn.btn-success.btn-sm(id="btn-pro" class="btn-approve" value= proposals.int_projectID): span.fa.fa-check Approve
                                                     a(href=`/budget/proposals/${proposals.int_projectID}/rejectproposal`): button.btn.btn-danger.btn-sm: span.fa.fa-ban  Reject
-                                                if proposals.enum_proposalStatus == "Approved"
+
+                                                if proposals.enum_propappStatus == "Sent" || proposals.enum_propappStatus == "Received" 
+                                                   
+
+                                                else if proposals.enum_proposalStatus == "Approved"
                                                     button.btn.btn-success.btn-sm(id="btn-cheque" class="btn-cheque" value= proposals.int_projectID): span.fa.fa-check  Cheque Number
-                                            
+
+                                                
                                         </td>
                                     </tr>                   
                                 </tbody>
@@ -240,6 +247,17 @@ block content
                     
                 }); 
 
+                 $('.btn-pro-rev').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#reviseModal').modal('show');
+                    document.getElementById("PROJECT_idrev").value = Id;
+                    
+                }); 
+
                 $('.btn-cheque').click(function (e) {
                     e.preventDefault()
                     var Id = $(this).val();
@@ -249,6 +267,15 @@ block content
                     $('#chequeModal').modal('show');
                     document.getElementById("PROJECT_idcheque").value = Id;
                     
+                }); 
+
+                $('.btn-revision').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#modalviewrevision').modal('show');
                 }); 
         });
 

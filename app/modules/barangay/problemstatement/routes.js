@@ -4,7 +4,6 @@ var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 var moment = require('moment');
 
-var expressValidator = require("express-validator");
 
 
 router.get('/',(req,res) => {

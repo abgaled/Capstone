@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
+var nodemailer = require('nodemailer');
 
 router.get('/',(req, res) => {
     console.log('=================================');
@@ -63,7 +64,53 @@ router.post('/',(req, res) => {
                     console.log(results2);
                     console.log('=================================');
                     
-                    res.redirect('/office/addbrgyaccnt');
+                    // START OF NODE MAILER
+                    nodemailer.createTestAccount((err, account) => {
+                        // create reusable transporter object using the default SMTP transport
+                        var transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            auth: {
+                                   user: 'cityprojmsoffice@gmail.com',
+                                   pass: 'cityprojmsofficeoffice'
+                            },
+                            tls: {
+                                rejectUnauthorized: false
+                            }
+                           });
+                    
+                        // setup email data with unicode symbols
+                        let mailOptions = {
+                            from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
+                            to: `${req.body.barangayEmail}`, // list of receivers
+                            subject: 'City Project Application and Beneficiary Releasing Management System - Barangay Account Details', // Subject line
+                            html: `<b>Welcome to City Project Application and Beneficiary Releasing Managament System. 
+                            <br>The following information will be your current login details.
+                            </b> <p>You can edit/update your information anytime, once you login using these account details.
+                            <hr> Email: ${req.body.barangayEmail} 
+                            <br> Password: ${req.body.barangayPassword} <hr><br> Thank You!` // html body
+                        };
+                        console.log("==================================");
+                        console.log("SENDING TO:");
+                        console.log(req.body.barangayEmail);
+                        console.log("==================================");
+                    
+                        // send mail with defined transport object
+                        transporter.sendMail(mailOptions, (error, info) => {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            console.log('Message sent: %s', info.messageId);
+                            // Preview only available when sending through an Ethereal account
+                            // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                    
+                            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+                            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                            });
+                            
+                        });
+                        // END OF NODE MAILER
+                        res.redirect('/office/addbrgyaccnt');
+                    
                 });
             });
         });

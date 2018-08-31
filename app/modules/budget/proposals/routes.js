@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
+var moment = require('moment');
 var resultIndex;
 var checknumber;
 
@@ -11,8 +12,40 @@ router.get('/pending',(req, res) => {
     console.log('BUDGET: PROPOSALS-NEW');
     console.log('=================================');
 
-    var newQuery = `SELECT * 
-        FROM tbl_projectproposal `;
+    var newQuery = `SELECT * FROM
+        (
+            SELECT PProj.*, PA.enum_propappStatus
+            FROM tbl_projectproposal PProj
+            LEFT JOIN tbl_proposalapproval PA
+            ON PProj.int_projectID=PA.int_projectID
+
+            UNION
+
+            SELECT PProj.*, PA.enum_propappStatus
+            FROM tbl_projectproposal PProj
+            RIGHT JOIN tbl_proposalapproval PA
+            ON PProj.int_projectID=PA.int_projectID
+            WHERE PA.int_projectID IS NULL
+        ) AS tbl1
+
+        JOIN
+        
+        (
+            SELECT PP.int_projectID, RC.enum_revisionStatus
+            FROM tbl_projectproposal PP
+            LEFT JOIN tbl_revisioncomment RC
+            ON PP.int_projectID=RC.int_projectID
+            
+            UNION
+
+            SELECT PP.int_projectID, RC.enum_revisionStatus
+            FROM tbl_projectproposal PP
+            RIGHT JOIN tbl_revisioncomment RC
+            ON PP.int_projectID=RC.int_projectID
+            WHERE RC.int_projectID IS NULL
+        )AS tbl2
+        
+        WHERE tbl1.int_projectID=tbl2.int_projectID`;
 
     db.query(newQuery, (err, newResult, fields) => {
 
@@ -38,13 +71,13 @@ router.post('/pending',(req, res) => {
     // int_projectID = ${req.body.PROJECT_idcheque}`;
 
     var insertCheckQuery = `INSERT INTO \`tbl_proposalapproval\` 
-    (\`int_projectID\`, 
-    \`varchar_checkNumber\`,
-    \`enum_propappStatus\`)
-    VALUES
-    (${req.body.PROJECT_idcheque},
-    "${req.body.chequeNumber}",
-    "Sent")`
+        (\`int_projectID\`, 
+        \`varchar_checkNumber\`,
+        \`enum_propappStatus\`)
+        VALUES
+        (${req.body.PROJECT_idcheque},
+        "${req.body.chequeNumber}",
+        "Sent")`
 
         db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
         if(err) console.log(err);
@@ -78,6 +111,7 @@ router.get('/approved',(req, res) => {
     });
 });
 
+
 router.get('/:int_projectID/details',(req, res) => {
     console.log('=================================');
     console.log('BUDGET: PROPOSALS-REVIEWED-DETAILS');
@@ -89,6 +123,7 @@ router.get('/:int_projectID/details',(req, res) => {
 
     res.redirect('/budget/proposals/viewdetail');
 });
+
 
 router.get('/viewdetail', (req, res) => {
     console.log('=================================');
@@ -102,6 +137,14 @@ router.get('/viewdetail', (req, res) => {
 
     db.query(selectDetailQuery, (err, projDetailResult, fields) => {
         if(err) console.log(err);
+
+        
+        var projDetailResult = projDetailResult;
+
+        for (var i = 0; i < projDetailResult.length;i++){
+            projDetailResult[i].date_createdDate = moment(projDetailResult[i].date_createdDate).format('MM-DD-YYYY');
+        }
+
         console.log('Succesfully retrieved project proposal data from the database');
 
 
@@ -143,38 +186,35 @@ router.get('/viewdetail', (req, res) => {
                         if(err) console.log(err);
                         console.log('Succesfully retrieved project budget data from the database');
                             
-                            var categoryDetailQuery = `SELECT varchar_categoryName
-                                FROM tbl_projectcategory PC JOIN tbl_category C
-                                ON PC.int_categoryID=C.int_categoryID
-                                WHERE int_projectID= ${resultIndex}`;
+                        var categoryDetailQuery = `SELECT varchar_categoryName
+                            FROM tbl_projectcategory PC JOIN tbl_category C
+                            ON PC.int_categoryID=C.int_categoryID
+                            WHERE int_projectID= ${resultIndex}`;
 
-                            db.query(categoryDetailQuery, (err, categoryDetailResult, fields) => {
+                        db.query(categoryDetailQuery, (err, categoryDetailResult, fields) => {
+                            if(err) console.log(err);
+                            console.log('Succesfully retrieved project category data from the database');
+                
+                            var problemDetailQuery = `SELECT *
+                                FROM tbl_problemstatement 
+                                WHERE int_projectID = ${resultIndex}`;
+
+                            db.query(problemDetailQuery, (err, problemDetailResult, fields) => {
                                 if(err) console.log(err);
-                                console.log('Succesfully retrieved project category data from the database');
-                                
-                                var locationDetailQuery = ` SELECT *
-                                    FROM tbl_projectproposal PP JOIN tbl_projectlocation PL
-                                    ON PP.int_projectID=PL.int_projectID
-                                    WHERE PP.int_projectID= ${resultIndex}`;
+                                console.log('Successfully retrived the project\'s problem statement to be solved');
 
-                                db.query(locationDetailQuery, (err, locationDetailResult, fields) => {
-                                    if(err) console.log(err);
-                                    console.log('Succesfully retrieved project location data from the database');
-
-
-                                    res.render('budget/proposals/views/proposaldetails', 
-                                    {
-                                        details:projDetailResult, 
-                                        beneficiaries:beneDetailResult, 
-                                        requirements:requireDetailResult, 
-                                        timelines:timelineDetailResult, 
-                                        budgets:budgetDetailResult, 
-                                        categories:categoryDetailResult, 
-                                        locations:locationDetailResult
-                                    });
+                                res.render('budget/proposals/views/proposaldetails', 
+                                {
+                                    details:projDetailResult, 
+                                    beneficiaries:beneDetailResult, 
+                                    requirements:requireDetailResult, 
+                                    timelines:timelineDetailResult, 
+                                    budgets:budgetDetailResult, 
+                                    categories:categoryDetailResult, 
+                                    problems:problemDetailResult
                                 });
                             });
-                        
+                        });
                     });
                 });
             });
@@ -227,6 +267,8 @@ router.post('/revision',(req, res) => {
     console.log('=================================');
     console.log('BUDGET: PROPOSALS-REVISION');
     console.log('=================================');
+
+    console.log(req.body.PROJECT_idrev);
 
     var insertRevisionQuery = `INSERT INTO \`tbl_revisioncomment\`
         (

@@ -79,7 +79,7 @@ block content
                             <br>
                     </div>
                     <div class="item form-group">
-                            <label class="control-label col-md-2" for="projectrelstart">Start of Releasing:
+                            <label class="control-label col-md-2" for="projectrelstart">Start of Application:
                             </label>
                             <div class="col-md-9" id="projectrelstart">
                 
@@ -87,7 +87,7 @@ block content
                             <br>
                     </div>
                     <div class="item form-group">
-                            <label class="control-label col-md-2" for="projectrelend">End of Releasing:
+                            <label class="control-label col-md-2" for="projectrelend">End of Application:
                             </label>
                             <div class="col-md-9" id="projectrelend">
                 
@@ -138,8 +138,8 @@ block content
 
                                 document.getElementById("projecttitle").innerHTML = value.varchar_projectName    
                                 document.getElementById("projectdescription").innerHTML = value.text_projectDescription
-                                document.getElementById("projectrelstart").innerHTML = value.datetime_releasingStart
-                                document.getElementById("projectrelend").innerHTML = value.datetime_releasingEnd
+                                document.getElementById("projectrelstart").innerHTML = value.date_startApplication
+                                document.getElementById("projectrelend").innerHTML = value.date_endApplication
                                     
                                 console.log("Success: " );
                             });
