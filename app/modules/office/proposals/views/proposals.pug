@@ -17,7 +17,7 @@ block content
                                 <div class="card-header">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered" id="datatable" width="95%" cellspacing="0">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th>Proposed Name</th>
@@ -34,7 +34,7 @@ block content
                                                 </tfoot>
                                                 <tbody>
                                                 each project in tbl_projectproposal
-                                                    each cheque in tbl_cheque
+                                                    
                                                         <tr>
                                                             <td>
                                                                 value=project.varchar_projectName
@@ -44,7 +44,7 @@ block content
                                                                 </td>
                                                                 <td>
                                                                     a(href=`/office/proposals/proposals/${project.int_projectID}/proposaldetails` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
-                                                                    if project.enum_proposalStatus == "Approved" && cheque.enum_propappStatus == "Sent"
+                                                                    if project.enum_proposalStatus == "Approved" 
                                                                         button.btn.btn-success.btn-sm.btn-block(id="btn-cheque" class="btn-cheque" value= project.int_projectID): span.fa.fa-check  Cheque Number
                                                                     if project.enum_proposalStatus == "Revision"
                                                                         button.btn.btn-warning.btn-sm.btn-block(id="btn-revise" class="btn-revise" value= project.int_projectID): span.fa.fa-check  Revise
