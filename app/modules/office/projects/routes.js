@@ -5,11 +5,24 @@ var db = require('../../../lib/database')();
 var moment = require('moment');
 
 
+//- SCRIPT FOR CURRENT DATE
+var n =  new Date();
+var y = n.getFullYear();
+var m = n.getMonth() + 1;
+var d = n.getDate();
+var hr = n.getHours();
+var min = n.getMinutes();
+var sec = n.getSeconds();
+var now = y +"-"+ m +"-"+ d; 
+
+var currentDate = y + "-" + m + "-" + d;
 
 router.get('/ongoingproject',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT');
     console.log('=================================');
+
+    
 
     var queryString =`SELECT *, GROUP_CONCAT(DISTINCT varchar_categoryName) varchar_categoryName 
     FROM tbl_project pr
@@ -466,8 +479,16 @@ router.post('/finishedproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,
 
 router.get('/ongoingproject/:int_projectID/liquidation',(req, res) => {
     console.log('=================================');
-    console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS');
+    console.log('OFFICE: ONGOING PROJECT - LIQUIDATION');
     console.log('=================================');
+
+    var queryString = `UPDATE tbl_project SET
+    enum_projectStatus = 'Finished'
+    WHERE tbl_project.int_projectID = "${req.body.int_projectID}"`
+
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+    });
 
     var queryString1 =`SELECT * FROM tbl_expense ex
     JOIN tbl_project proj ON ex.int_projectID = proj.int_projectID

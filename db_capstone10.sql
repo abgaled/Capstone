@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 31, 2018 at 10:48 PM
+-- Generation Time: Sep 02, 2018 at 01:07 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -55,10 +55,14 @@ CREATE TABLE `tbl_application` (
 --
 
 INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_projectID`, `enum_applicationStatus`, `datetime_receivedDate`) VALUES
-(32, 14, 31, 'Approved', NULL),
+(32, 14, 31, 'Received', '2018-09-01 00:00:00'),
 (33, 14, 31, 'Pending', NULL),
-(34, 14, 31, 'Approved', NULL),
-(35, 10, 31, 'Pending', NULL);
+(34, 14, 31, 'Received', '2018-09-01 00:00:00'),
+(35, 10, 31, 'Pending', NULL),
+(36, 9, 33, 'Pending', NULL),
+(37, 9, 35, 'Approved', NULL),
+(38, 9, 35, 'Approved', NULL),
+(39, 9, 36, 'Approved', NULL);
 
 -- --------------------------------------------------------
 
@@ -81,7 +85,12 @@ INSERT INTO `tbl_applicationrequirement` (`int_appreqID`, `int_applicationID`, `
 (24, 32, 28, 'Passed'),
 (25, 33, 28, 'Passed'),
 (26, 34, 28, 'Passed'),
-(27, 35, 28, 'Passed');
+(27, 35, 28, 'Passed'),
+(28, 36, 28, 'Passed'),
+(29, 37, 17, 'Passed'),
+(30, 38, 17, 'Passed'),
+(31, 39, 28, 'Passed'),
+(32, 39, 30, 'Passed');
 
 -- --------------------------------------------------------
 
@@ -244,7 +253,11 @@ INSERT INTO `tbl_personalinformation` (`int_applicationID`, `varchar_firstName`,
 (32, 'Lander Dashiell', 'Del Rosario', 'Manabat', '2007-10-10', 'Male', 2007, 'Single', '(+63) 122-262-6226', 'dash@gmail.com'),
 (33, 'Kenji', 'Del Rosario', 'Ilagan', '2006-08-25', 'Male', 2006, 'Single', '(+63) 915-662-8888', 'kenji@gmail.com'),
 (34, 'Maricar', '', 'Manabat', '2007-06-22', 'Female', 2007, 'Single', '(+63) 915-624-8222', 'maricar@gmail.com'),
-(35, 'Amy', 'Tiya', 'Cruz', '2008-07-28', 'Female', 2008, 'Single', '(+63) 916-562-2523', 'tiya@gmail.com');
+(35, 'Amy', 'Tiya', 'Cruz', '2008-07-28', 'Female', 2008, 'Single', '(+63) 916-562-2523', 'tiya@gmail.com'),
+(36, 'Allen', '', 'Toquer', '2008-08-10', 'Male', 2008, 'Single', '(+63) 915-326-2485', 'allen@gmail.com'),
+(37, 'Agnes', 'Agpilan', 'Bitanga', '1973-04-27', 'Female', 1980, 'Single', '(+63) 987-463-8190', 'agnesbitanga@gmail.com'),
+(38, 'Brian', 'De Guzman', 'Tolentino', '1990-11-14', 'Male', 1990, 'Married', '(+63) 909-385-7399', 'tolentinobrian@gmail.com'),
+(39, 'Michelle', '', 'Ilagan', '1999-08-16', 'Female', 1999, 'Single', '(+63) 915-278-5222', 'michellee@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -271,7 +284,10 @@ INSERT INTO `tbl_problemstatement` (`int_statementID`, `int_barangayID`, `int_ca
 (42, 9, 6, 31, 'Full body check up and medicine kit giving', 'Due to recent outbreak of fever', '2018-09-01', 'Proposed'),
 (43, 14, 7, NULL, 'Request for money', 'Due to recent crisis', '2018-09-01', 'Rejected'),
 (44, 10, 10, 32, 'Request for school supplies', 'Children\'s must need in school', '2018-09-01', 'Proposed'),
-(45, 13, 8, NULL, 'Distribution of goods', 'Due to recent fire incident, supplies are given but it is insufficient.', '2018-09-01', 'Submitted');
+(45, 13, 8, NULL, 'Distribution of goods', 'Due to recent fire incident, supplies are given but it is insufficient.', '2018-09-01', 'Submitted'),
+(46, 9, 10, 33, 'Orientation to Family Planning', 'Due to the last survey, it seems that residents are not aware about family planning.', '2018-09-01', 'Proposed'),
+(47, 9, 6, 35, 'Food Supply', 'Many residents don\'t eat', '2018-09-01', 'Proposed'),
+(48, 9, 6, 36, 'Medical Check Up', 'Due to recent events in the barangay we observe that most of our residents are getting sick', '2018-09-01', 'Proposed');
 
 -- --------------------------------------------------------
 
@@ -286,7 +302,7 @@ CREATE TABLE `tbl_project` (
   `date_releaseDate` date DEFAULT NULL,
   `date_projectClose` date DEFAULT NULL,
   `decimal_actualBudget` decimal(15,2) NOT NULL,
-  `enum_projectStatus` enum('Approved','Ongoing','Closed','Releasing','Finished','Terminated') NOT NULL DEFAULT 'Approved'
+  `enum_projectStatus` enum('Approved','Ongoing','Closed','Releasing','Finished','Terminated','ClosedRel') NOT NULL DEFAULT 'Approved'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -294,7 +310,10 @@ CREATE TABLE `tbl_project` (
 --
 
 INSERT INTO `tbl_project` (`int_projectID`, `date_startApplication`, `date_endApplication`, `date_releaseDate`, `date_projectClose`, `decimal_actualBudget`, `enum_projectStatus`) VALUES
-(31, '2018-09-01', '2018-09-21', '2018-10-05', NULL, '1000000.00', 'Ongoing');
+(31, '2018-09-01', '2018-09-21', '2018-10-05', NULL, '1000000.00', 'ClosedRel'),
+(33, '2018-09-01', '2018-09-21', '2018-10-05', NULL, '1000000.00', 'Ongoing'),
+(35, '2018-09-01', '2018-10-21', '2018-10-31', NULL, '1000000.00', 'Ongoing'),
+(36, '2018-09-01', '2018-09-21', '2018-10-05', NULL, '1000000.00', 'Ongoing');
 
 -- --------------------------------------------------------
 
@@ -314,7 +333,10 @@ CREATE TABLE `tbl_projectbeneficiary` (
 
 INSERT INTO `tbl_projectbeneficiary` (`int_projbeneID`, `int_projectID`, `int_beneficiaryID`) VALUES
 (21, 31, 23),
-(22, 32, 23);
+(22, 32, 23),
+(23, 33, 23),
+(24, 35, 23),
+(25, 36, 23);
 
 -- --------------------------------------------------------
 
@@ -334,7 +356,10 @@ CREATE TABLE `tbl_projectcategory` (
 
 INSERT INTO `tbl_projectcategory` (`int_projcategID`, `int_projectID`, `int_categoryID`) VALUES
 (25, 31, 6),
-(26, 32, 10);
+(26, 32, 10),
+(27, 33, 10),
+(28, 35, 6),
+(29, 36, 6);
 
 -- --------------------------------------------------------
 
@@ -378,7 +403,11 @@ CREATE TABLE `tbl_projectproposal` (
 INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_cityID`, `varchar_projectName`, `varchar_projectRationale`, `text_projectDescription`, `text_projectObjective`, `int_allotedSlot`, `int_applicationDuration`, `int_releasingDuration`, `int_beforeReleasingDuration`, `decimal_estimatedBudget`, `date_createdDate`, `enum_proposalStatus`) VALUES
 (13, 2, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 1000, 150, 3, 14, '1000000', '2018-08-28', 'Pending'),
 (31, 2, 'Full body check up and medicine kit giving', 'Nowadays residents have different kind of minor disease.', 'Full body check up for the beneficiaries of this project and medicine kit for them', 'To help the residents, and for them to be ready.', 100, 20, 1, 14, '100000', '2018-09-01', 'Approved'),
-(32, 2, 'Distribution of School Supplies', 'Determined by the last survey it is true that children in our city can\'t barely have a new school su', 'School supplies will be given equally and fairly to the beneficiaries of this project.', 'To help the children/youth.', 100, 20, 1, 14, '1000000', '2018-09-01', 'Pending');
+(32, 2, 'Distribution of School Supplies', 'Determined by the last survey it is true that children in our city can\'t barely have a new school su', 'School supplies will be given equally and fairly to the beneficiaries of this project.', 'To help the children/youth.', 100, 20, 1, 14, '1000000', '2018-09-01', 'Pending'),
+(33, 2, 'Seminar about family planning and freebies giving', 'Due to the last survey, it seems that residents are not aware about family planning.', 'Each beneficiary will be given an equal service for this.', 'To help the residents know about family planning.', 100, 20, 1, 14, '1000000', '2018-09-01', 'Approved'),
+(34, 2, 'Feeding Program', 'We observed that the children from orphanages are facing a financial crisis.', 'This project intends to help the poor children on orphanages that are currently facing a financial problems and this is one of the solution that we think to solve the problem.', 'The goal of this project is to provide a temporary food supplies to the orphanage in our barnagay', 1500, 50, 5, 10, '150000', '2018-09-01', 'Pending'),
+(35, 2, 'Food Supplies Gicing', 'The orphanage of our barangay are currently facing financial problems', 'This project intends to help the children on orphanage', 'Aims to give temporary supplies for the orphanage', 1500, 50, 5, 10, '150000', '2018-09-01', 'Approved'),
+(36, 2, 'Medical check up', 'Due to our observation in the our community about health.', 'Check up for the residents', 'To help the residents ', 100, 20, 1, 14, '1000000', '2018-09-01', 'Approved');
 
 -- --------------------------------------------------------
 
@@ -398,7 +427,11 @@ CREATE TABLE `tbl_projectrequirement` (
 
 INSERT INTO `tbl_projectrequirement` (`int_projreqID`, `int_requirementID`, `int_projectID`) VALUES
 (23, 28, 31),
-(24, 28, 32);
+(24, 28, 32),
+(25, 28, 33),
+(26, 17, 35),
+(27, 28, 36),
+(28, 30, 36);
 
 -- --------------------------------------------------------
 
@@ -417,7 +450,10 @@ CREATE TABLE `tbl_proposalapproval` (
 --
 
 INSERT INTO `tbl_proposalapproval` (`int_projectID`, `varchar_checkNumber`, `enum_propappStatus`) VALUES
-(31, '111222', 'Received');
+(31, '111222', 'Received'),
+(33, '369258', 'Received'),
+(35, '123456', 'Received'),
+(36, '442563', 'Received');
 
 -- --------------------------------------------------------
 
@@ -660,12 +696,12 @@ ALTER TABLE `tbl_announcement`
 -- AUTO_INCREMENT for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `tbl_applicationrequirement`
 --
 ALTER TABLE `tbl_applicationrequirement`
-  MODIFY `int_appreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `int_appreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `tbl_barangay`
 --
@@ -675,12 +711,12 @@ ALTER TABLE `tbl_barangay`
 -- AUTO_INCREMENT for table `tbl_beneficiary`
 --
 ALTER TABLE `tbl_beneficiary`
-  MODIFY `int_beneficiaryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `int_beneficiaryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `tbl_category`
 --
 ALTER TABLE `tbl_category`
-  MODIFY `int_categoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `int_categoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `tbl_city`
 --
@@ -700,17 +736,17 @@ ALTER TABLE `tbl_notification`
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
 ALTER TABLE `tbl_problemstatement`
-  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `tbl_projectbeneficiary`
 --
 ALTER TABLE `tbl_projectbeneficiary`
-  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
 ALTER TABLE `tbl_projectcategory`
-  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `tbl_projectlocation`
 --
@@ -720,32 +756,32 @@ ALTER TABLE `tbl_projectlocation`
 -- AUTO_INCREMENT for table `tbl_projectproposal`
 --
 ALTER TABLE `tbl_projectproposal`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `tbl_projectrequirement`
 --
 ALTER TABLE `tbl_projectrequirement`
-  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `tbl_proposalapproval`
 --
 ALTER TABLE `tbl_proposalapproval`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `tbl_requirement`
 --
 ALTER TABLE `tbl_requirement`
-  MODIFY `int_requirementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `int_requirementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `tbl_revisioncomment`
 --
 ALTER TABLE `tbl_revisioncomment`
-  MODIFY `int_revisionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `int_revisionID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `int_userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `int_userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- Constraints for dumped tables
 --

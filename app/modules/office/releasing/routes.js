@@ -12,9 +12,9 @@ var d = n.getDate();
 var hr = n.getHours();
 var min = n.getMinutes();
 var sec = n.getSeconds();
-var now = y +"-"+ m +"-"+ d + " "+ hr +":"+ min +":"+ sec 
+var now = y +"-"+ m +"-"+ d; 
 
-var currentDate = y + "-" + m + "-" + d
+var currentDate = y + "-" + m + "-" + d;
 
 router.get('/',(req, res) => {
     console.log('=================================');
@@ -22,11 +22,41 @@ router.get('/',(req, res) => {
     console.log('=================================');
     
     console.log(now);
+    
+    var queryStringSelectUpdate = `SELECT * FROM tbl_project
+    WHERE enum_projectStatus = 'Closed'`;
+
+    // db.query(queryStringSelectUpdate, (err, resultsproj, fields) => {
+    //     console.log(resultsproj);
+    //     if (err) console.log(err);
+    
+    //         var proj = resultsproj;
+
+    //         for (var i = 0; i < proj.length;i++){
+                
+    //             proj[i].date_releaseDate=moment(proj[i].date_releaseDate).format('YYYY MM DD');
+    //             console.log(proj[i].date_releaseDate);
+    //             if (proj[i].date_releaseDate = now)
+    //                 {
+    //                     var queryStringUpdateUpdate = `UPDATE tbl_project SET
+    //                     enum_projectStatus = "Releasing"
+    //                     WHERE tbl_project.int_projectID = "${proj[i].int_projectID}"`;
+
+    //                     db.query(queryStringUpdateUpdate, (err, resultsUPDATE, fields) => {
+    //                         console.log(resultsUPDATE);
+    //                         if (err) console.log(err);
+    //                     });
+    //                 }
+    //         }
+    
+    //     });
+
     var queryString =`SELECT * FROM tbl_project pr
     JOIN tbl_projectproposal prpro 
     ON pr.int_projectID=prpro.int_projectID
     WHERE pr.enum_projectStatus = 'Releasing'
     ORDER BY pr.date_releaseDate DESC`
+    
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -35,12 +65,14 @@ router.get('/',(req, res) => {
         var date_results = results;
 
         for (var i = 0; i < date_results.length;i++){
-            date_results[i].datetime_releaseDate = moment(date_results[i].datetime_releasingStart).format('MM-DD-YYYY');
+            date_results[i].datetime_releaseDate = moment(date_results[i].datetime_releaseDate).format('MM-DD-YYYY');
+            console.log(date_results[i].datetime_releaseDate);
         }
 
         res.render('office/releasing/views/releasing',{tbl_project:results});
     });
 });
+
 
 
 router.get('/:int_projectID/viewproj',(req, res) => {
@@ -120,6 +152,42 @@ router.get('/:int_projectID/viewproj',(req, res) => {
     });
 });
 
+router.get('/:int_projectID/finproj', (req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: releasing finproj get');
+    console.log('=================================');
+    
+    var queryString =`SELECT * FROM tbl_project
+    WHERE enum_projectStatus = 'Releasing' 
+    AND tbl_project.int_projectID=${req.params.int_projectID}`
+    resultIndex = `${req.params.int_projectID}`;
+
+    console.log(resultIndex);
+    console.log('${req.params.int_projectID}');
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+    
+        res.render(`office/releasing/views/finproj`,{tbl_project:results});
+    });
+});
+
+router.post('/:int_projectID/finproj', (req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: releasing finproj POST');
+    console.log('=================================');
+    resultIndex = `${req.body.int_projectID}`;
+
+    console.log(resultIndex);
+    var queryString1 = `UPDATE tbl_project SET
+    enum_projectStatus = 'ClosedRel'
+    WHERE tbl_project.int_projectID = ${req.body.int_projectID}`
+            
+    db.query(queryString1, (err, results) => {        
+        if (err) throw err;
+        res.redirect('/office/releasing');
+    });
+});
 
 router.get('/:int_projectID/viewben',(req, res) => {
     console.log('=================================');
@@ -212,7 +280,7 @@ router.post('/:int_projectID/viewben/ajaxapplicantdetails',(req,res) => {
     JOIN tbl_application ap 
     ON pi.int_applicationID=ap.int_applicationID 
     WHERE pi.int_applicationID=${req.body.ajApplicationID}
-    AND ap.enum_applicationStatus = "Pending"`
+    AND ap.enum_applicationStatus = "Approved"`
 
 
     db.query(queryString,(err, results, fields) => {
