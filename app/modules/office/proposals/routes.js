@@ -4,10 +4,6 @@ var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 var cityID;
 
-// KULANG: 
-// - CityID post
-// - Yung mga dropdown sa pagdidisplay
-// [AS OF 12:09PM - 25/08/2018]
 
 router.get('/',(req, res) => {
     console.log('=================================');
@@ -94,18 +90,14 @@ router.get('/proposals/:int_projectID/proposaldetails',(req, res) => {
                 db.query(queryString4, (err, results4, fields) => {
                     console.log(results4);
                     if (err) console.log(err);
-                    // db.query(queryString5, (err, results5, fields) => {
-                    //     console.log(results5);
-                    //     if (err) console.log(err);
-
+                    
                     res.render('office/proposals/views/proposaldetails', 
                     {
                         tbl_projectproposal:results, 
                         tbl_projectrequirement:results2, 
-                        tbl_projectbeneficiary:results3,
-                        // tbl_releaselocation:results5,
+                        tbl_projectbeneficiary:results3,                        
                         tbl_projectcategory:results4
-                    // });
+                    
                     }); 
                 });
             });

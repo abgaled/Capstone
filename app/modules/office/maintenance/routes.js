@@ -17,7 +17,7 @@ router.get('/requirements',(req, res) => {
         console.log(results);
         if (err) console.log(err);
         // console.log(results);
-        res.render('office/maintenance/views/maintenance2', {tbl_requirement: results});
+        res.render('office/maintenance/views/maintain-requirement', {tbl_requirement: results});
         console.log(results);
     });
 });
@@ -128,7 +128,7 @@ router.get('/projectcategory',(req, res) => {
         console.log(results);
         if (err) console.log(err);
         // console.log(results);
-        res.render('office/maintenance/views/maintenance3', {tbl_category: results});
+        res.render('office/maintenance/views/maintain-category', {tbl_category: results});
         console.log(results);
     });
 });
@@ -240,7 +240,7 @@ router.get('/targetbeneficiary',(req, res) => {
         console.log(results);
         if (err) console.log(err);
         // console.log(results);
-        res.render('office/maintenance/views/maintenance5', {tbl_beneficiary: results});
+        res.render('office/maintenance/views/maintain-beneficiary', {tbl_beneficiary: results});
         console.log(results);
     });
 });
@@ -352,7 +352,7 @@ router.get('/barangay',(req, res) => {
         console.log(results);
         if (err) console.log(err);
         // console.log(results);
-        res.render('office/maintenance/views/maintenance', {tbl_barangay: results});
+        res.render('office/maintenance/views/maintain-barangay', {tbl_barangay: results});
         console.log(results);
     });
 });
@@ -420,7 +420,6 @@ router.get('/barangay/:int_barangayID/editbarangay',(req, res) => {
 });
 
 router.post('/barangay/:int_barangayID/editbarangay', (req, res) => {
-    console.log("PUMASOK SA POST REQ.PARAMS")
     
     var queryString = `UPDATE tbl_barangay SET
     varchar_barangayName = "${req.body.barangayname}",

@@ -189,7 +189,7 @@ router.get('/view',(req,res) => {
         db.query(queryString2,(err, viewspecific) => {
             var view = viewspecific[0];
 
-            res.render('barangay/problemstatement/views/specificproblemstatement',{
+            res.render('barangay/problemstatement/views/notif-problemstatement',{
                 view:view,
                 notifications:notifications,
                 numbernotif:countrow});

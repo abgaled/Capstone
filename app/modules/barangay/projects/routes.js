@@ -34,7 +34,7 @@ router.get('/view',(req,res) => {
         db.query(queryString2,(err, viewspecific) => {
             var view = viewspecific[0];
 
-            res.render('barangay/projects/views/specificapplication',{
+            res.render('barangay/projects/views/notif-application',{
                 view:view,
                 notifications:notifications,
                 numbernotif:countrow});

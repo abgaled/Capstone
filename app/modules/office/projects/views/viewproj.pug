@@ -264,10 +264,10 @@ block content
                                                     button.btn.btn-success(id="btn-view-application" class="btn-view-application btn-sm btn-block" value= app.int_applicationID): span.fa.fa-eye View Details
                                                     if project.enum_projectStatus === "Ongoing" 
                                                         if app.enum_applicationStatus == "Pending"
-                                                            form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewproj/accept`)
+                                                            form(method="POST" action=`/office/projects/${app.int_projectID}/viewproj/accept`)
                                                                 input(value= app.int_applicationID name="int_applicationID" required, hidden)
                                                                 button(type="submit" id="buttonaccept" class="btn btn-primary btn-sm btn-block" name="buttonaccept" ): span.fa.fa-check  Accept
-                                                            form(method="POST" action=`/office/projects/ongoingproject/${app.int_projectID}/viewproj/reject`)
+                                                            form(method="POST" action=`/office/projects/${app.int_projectID}/viewproj/reject`)
                                                                 input(value= app.int_applicationID name="int_applicationID"  required, hidden)
                                                                 button(type="submit" id="buttonreject" class="btn btn-danger btn-sm btn-block" name="buttonreject" value= app.int_applicationID): span.fa.fa-close  Reject
                                                 </td>

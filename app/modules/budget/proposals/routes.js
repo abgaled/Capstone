@@ -65,11 +65,7 @@ router.post('/pending',(req, res) => {
     console.log(req.body.chequeNumber);
     console.log(req.body.PROJECT_idcheque)
 
-    // var insertCheckQuery = `UPDATE tbl_proposalapproval
-    // SET varchar_checkNumber = "${req.body.chequeNumber}",
-    // enum_propappStatus = "Sent",
-    // int_projectID = ${req.body.PROJECT_idcheque}`;
-
+    
     var insertCheckQuery = `INSERT INTO \`tbl_proposalapproval\` 
         (\`int_projectID\`, 
         \`varchar_checkNumber\`,
@@ -393,31 +389,6 @@ router.post('/checkinsertid',(req, res) => {
 
     console.log(resultIndex);
 });
-
-
-
-// router.post('/checknumberget', (req,res) => {
-//     console.log('=================================');
-//     console.log('BUDGET: PROPOSALS-APPROVAL-CHECKNUMBER');
-//     console.log('=================================');
-    
-//     console.log(req.body.chequeNumber);
-//     var insertCheckQuery = `UPDATE tbl_proposalapproval
-//     SET varchar_checkNumber = "${req.body.chequeNumber}"
-//     WHERE int_projectID = ${req.body.PROJECT_idcheq}`;
-//     db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
-//     if(err) console.log(err);
-
-//     console.log("Succesfully inserted the check number");
-//     console.log(insertCheckResult);
-
-    
-//         res.redirect('/budget/proposals/pending');
-//     });
-// });
-
-
-
 
 
 module.exports = router;

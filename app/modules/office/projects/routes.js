@@ -17,7 +17,7 @@ var now = y +"-"+ m +"-"+ d;
 
 var currentDate = y + "-" + m + "-" + d;
 
-router.get('/ongoingproject',(req, res) => {
+router.get('/',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT');
     console.log('=================================');
@@ -42,12 +42,12 @@ router.get('/ongoingproject',(req, res) => {
         console.log(results);
         if (err) console.log(err);
 
-        res.render('office/projects/views/ongoingproject',{tbl_project:results});
+        res.render('office/projects/views/projects',{tbl_project:results});
 
 });
 });
 
-router.get('/ongoingproject/:int_projectID/viewproj',(req, res) => {
+router.get('/:int_projectID/viewproj',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT - VIEW DETAILS');
     console.log('=================================');
@@ -125,7 +125,7 @@ router.get('/ongoingproject/:int_projectID/viewproj',(req, res) => {
     });
 });
 
-router.post('/ongoingproject/:int_projectID/viewproj/accept',(req, res) => {
+router.post('/:int_projectID/viewproj/accept',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS -ACCEPT APPLICATION');
     console.log('=================================');
@@ -137,11 +137,11 @@ router.post('/ongoingproject/:int_projectID/viewproj/accept',(req, res) => {
 
     db.query(queryString1, (err, results1, fields) => {
 
-        res.redirect(`/office/projects/ongoingproject/${req.params.int_projectID}/viewproj`);
+        res.redirect(`/office/projects/${req.params.int_projectID}/viewproj`);
     });
 });
 
-router.post('/ongoingproject/:int_projectID/viewproj/reject',(req, res) => {
+router.post('/:int_projectID/viewproj/reject',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS -REJECT APPLICATION');
     console.log('=================================');
@@ -152,7 +152,7 @@ router.post('/ongoingproject/:int_projectID/viewproj/reject',(req, res) => {
 
     db.query(queryString1, (err, results1, fields) => {
 
-        res.redirect(`/office/projects/ongoingproject/${req.params.int_projectID}/viewproj`);
+        res.redirect(`/office/projects/${req.params.int_projectID}/viewproj`);
     });
 });
 
@@ -172,13 +172,13 @@ router.post('/confirmcheck',(req, res) => {
         db.query(confirmCheck, (err, results1, fields) => {
 
                 
-            res.redirect(`/office/projects/ongoingproject`);
+            res.redirect(`/office/projects`);
             
         });
 });
 
 // AJAX GET DETAILS VIEW DETAILS PROJECT - VIEW APPLICANT DETAILS
-router.post('/ongoingproject/:int_projectID/viewproj/ajaxapplicantdetails',(req,res) => {
+router.post('/:int_projectID/viewproj/ajaxapplicantdetails',(req,res) => {
     console.log('=================================');
     console.log('OFFICE: PROJECT VIEW DETAILS-VIEW APPLICATION-AJAX GET DETAILS (POST)');
     console.log('=================================');
@@ -210,7 +210,7 @@ router.post('/ongoingproject/:int_projectID/viewproj/ajaxapplicantdetails',(req,
     });
 });
 
-router.get('/ongoingproject/:int_projectID/viewapp',(req, res) => {
+router.get('/:int_projectID/viewapp',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS');
     console.log('=================================');
@@ -244,7 +244,7 @@ router.get('/ongoingproject/:int_projectID/viewapp',(req, res) => {
 
 
 // AJAX GET DETAILS ONGOING PROJECT - VIEW APPLICANT DETAILS
-router.post('/ongoingproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,res) => {
+router.post('/:int_projectID/viewapp/ajaxapplicantdetails',(req,res) => {
     console.log('=================================');
     console.log('OFFICE: PROJECT ONGOING-VIEW APPLICATION-AJAX GET DETAILS (POST)');
     console.log('=================================');
@@ -276,7 +276,7 @@ router.post('/ongoingproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,r
     });
 });
 
-router.get('/ongoingproject/:int_projectID/startproj', (req, res) => {
+router.get('/:int_projectID/startproj', (req, res) => {
     console.log('=================================');
     console.log('OFFICE: Project - 1 Startproject GET');
     console.log('=================================');
@@ -293,7 +293,7 @@ router.get('/ongoingproject/:int_projectID/startproj', (req, res) => {
     });
 });
 
-router.post('/ongoingproject/:int_projectID/startproj', (req, res) => {
+router.post('/:int_projectID/startproj', (req, res) => {
     console.log('=================================');
     console.log('OFFICE: Project - 1 Startproject POST');
     console.log('=================================');
@@ -320,7 +320,7 @@ router.post('/ongoingproject/:int_projectID/startproj', (req, res) => {
             if (err) throw err;
     
 
-            res.redirect('/office/projects/ongoingproject');
+            res.redirect('/office/projects');
         });
     });
 });
@@ -477,7 +477,7 @@ router.post('/finishedproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,
     });
 });
 
-router.get('/ongoingproject/:int_projectID/liquidation',(req, res) => {
+router.get('/:int_projectID/liquidation',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT - LIQUIDATION');
     console.log('=================================');
@@ -516,4 +516,6 @@ router.get('/ongoingproject/:int_projectID/liquidation',(req, res) => {
         });
     });
 });
+
+
 module.exports = router;
