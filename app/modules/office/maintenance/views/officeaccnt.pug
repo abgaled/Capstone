@@ -5,8 +5,11 @@ block content
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                    <div class="x_title">
-                        <h1>List of Barangay</h1>
+                    <div class="x_title text-center">
+                        <h1 class="text-center">List of Office User
+                        <br/>
+                        button.btn.btn-success.btn-sm(id="btn-addAccount" class="btn-addAccount"): span.fa.fa-plus  Add Account
+                        </h1>
                     </div>              
                     <div class="content-wrapper">
                         <div class="container-fluid">
@@ -17,35 +20,34 @@ block content
                                             <table class="table table-bordered" id="datatable" cellspacing="0">
                                                 <thead>
                                                     <tr>
-                                                        <th>Barangay Name</th>
-                                                        <th>Address</th>
-                                                        <th>Contact</th>
+                                                        <th>Name</th>
+                                                        <th>Position</th>
+                                                        <th>Email</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Barangay Name</th>
-                                                        <th>Address</th>
-                                                        <th>Contact</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </tfoot>
                                                 <tbody>
-                                                each brgy in tbl_barangay
+                                                each user in tbl_user
                                                     <tr>
                                                         <td>
-                                                            value=brgy.varchar_barangayName
+                                                            value=user.text_userName
                                                         </td>
                                                         <td>
-                                                            value=brgy.text_barangayAddress
+                                                            value=user.varchar_userPosition
                                                         </td>
                                                         <td>
-                                                            value=brgy.varchar_barangayContact
+                                                            value=user.varchar_userEmailAddress
                                                         </td>
                                                         <td>
-                                                            if brgy.int_userID === null
-                                                                button.btn.btn-success.btn-sm.btn-block(id="btn-addAccount" class="btn-addAccount" value= brgy.int_barangayID): span.fa.fa-plus  Add Account
+                                                            if user.enum_accountStatus == "Inactive"
+                                                                form(method="POST" action="/office/maintenance/officeaccnt/activate")
+                                                                    input(value=user.int_userID name="id" required, hidden)
+                                                                    button.btn.btn-danger.btn-s(type='submit') Inactive
+                                                            if user.enum_accountStatus == "Active"
+                                                                form(method="POST" action="/office/maintenance/officeaccnt/inactive")
+                                                                    input(value=user.int_userID name="id" required, hidden)
+                                                                    button.btn.btn-success.btn-s(type='submit') Active
+                                                            
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -54,21 +56,37 @@ block content
                                     </div>
                                 </div>
                                 <div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-body">
                                                 <form class="form-horizontal form-label-left" method="POST" action='' id="formadduser">
                                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                                     </button>
-                                                    <h4 class="modal-title" id="mediumModalLabel">Barangay E-mail Address
+                                                    <h4 class="modal-title" id="mediumModalLabel">User Account Registration
                                                     <div class="modal-body">
-                                                        <div class="input-group">
-                                                            <input type="hidden" id="brgyID" name="brgyID" >
-                                                            <input type="hidden" id="barangayPassword" name="barangayPassword"> 
-                                                            <input type="email" id="barangayEmail" name="barangayEmail"class="form-control" required>
-                                                            <span class="input-group-btn">
-                                                                <button type="submit" id="but-sub" class="btn btn-success">Send</button>
-                                                            </span>
+                                                        <div class="col-md-7 col-sm-7 col-xs-12 form-group has-feedback">
+                                                            <input type="text" class="form-control has-feedback-left" name="officeName" id="officeName" placeholder="Name">
+                                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                                            <input type="text" class="form-control has-feedback-left" name="officePosition" id="officePosition" placeholder="Position">
+                                                            <span class="fa fa-arrows form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-9 col-xs-12 form-group has-feedback">
+                                                            <input type="text" class="form-control has-feedback-left" name="officeAddress" id="officeAddress" placeholder="Address">
+                                                            <span class="fa fa-home form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                                            <input type="email" class="form-control has-feedback-left" name="officeEmail" id="officeEmail" placeholder="Email Address">
+                                                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                                            <input type="number" class="form-control has-feedback-left" name="officeContact" id="officeContact" placeholder="Contact Number">
+                                                            <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div class="form-group pull-right">
+                                                            <input type="hidden" id="officePassword" name="officePassword"> 
+                                                            <button type="submit" id="but-sub" class="btn btn-success">Send</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -120,13 +138,13 @@ block content
                           $(function() {
                           $("#formadduser").validate({
                               rules: {
-                              barangayEmail: {
+                              officeEmail: {
                                   required: true,
                               },
                               action: "required"
                               },
                               messages: {
-                              barangayEmail: {
+                              officeEmail: {
                                   required: "Please enter barangay email address",
                               },
                               action: "Please provide some data"
@@ -135,7 +153,7 @@ block content
                                   form.submit();
                                   swal(
                                       'Success!',
-                                      'Barangay Email has been Submitted!',
+                                      'Budget Email has been Submitted!',
                                       'success'
                                       )
                               }
@@ -151,4 +169,4 @@ block content
             for (var i = 0; i < 8; i++)
                 text += possible.charAt(Math.floor(Math.random() * possible.length)); 
             
-            document.getElementById("barangayPassword").value = text;
+            document.getElementById("officePassword").value = text;

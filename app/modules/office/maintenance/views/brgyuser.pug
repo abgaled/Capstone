@@ -1,0 +1,180 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        each brgy in tbl_barangay
+                            <h1 class="text-center">Barangay 
+                            value=brgy.varchar_barangayName
+                            </h1>
+                            <h3 class="text-center"> (List of Barangay User)
+                                <br/>
+                                button.btn.btn-success.btn-sm(id="btn-addAccount"  value= brgy.int_barangayID class="btn-addAccount"): span.fa.fa-plus  Add Account
+                            </h3>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Position</th>
+                                                        <th>Email</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each user in tbl_barangayusers
+                                                    <tr>
+                                                        <td>
+                                                            value=user.text_userName
+                                                        </td>
+                                                        <td>
+                                                            value=user.varchar_userPosition
+                                                        </td>
+                                                        <td>
+                                                            value=user.varchar_userEmailAddress
+                                                        </td>
+                                                        <td>
+                                                            if user.enum_accountStatus == "Inactive"
+                                                                form(method="POST" action="/office/maintenance/brgyaccnt/activate")
+                                                                    input(value=user.int_userID name="id" required, hidden)
+                                                                    each brgy in tbl_barangay
+                                                                        input(value=brgy.int_barangayID name="brgyid" required, hidden)
+                                                                    button.btn.btn-danger.btn-s(type='submit') Inactive
+                                                            if user.enum_accountStatus == "Active"
+                                                                form(method="POST" action="/office/maintenance/brgyaccnt/inactive")
+                                                                    input(value=user.int_userID name="id" required, hidden)
+                                                                    each brgy in tbl_barangay
+                                                                        input(value=brgy.int_barangayID name="brgyid" required, hidden)
+                                                                    button.btn.btn-success.btn-s(type='submit') Active
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <form class="form-horizontal form-label-left" method="POST" action='' id="formadduser">
+                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                    </button>
+                                                    <h4 class="modal-title" id="mediumModalLabel">User Account Registration
+                                                    <div class="modal-body">
+                                                        <div class="col-md-7 col-sm-7 col-xs-12 form-group has-feedback">
+                                                            <input type="text" class="form-control has-feedback-left" name="barangayName" id="barangayName" placeholder="Name">
+                                                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                                            <input type="text" class="form-control has-feedback-left" name="barangayPosition" id="barangayPosition" placeholder="Position">
+                                                            <span class="fa fa-arrow form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-9 col-xs-12 form-group has-feedback">
+                                                            <input type="text" class="form-control has-feedback-left" name="barangayAddress" id="barangayAddress" placeholder="Address">
+                                                            <span class="fa fa-home form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                                            <input type="email" class="form-control has-feedback-left" name="barangayEmail" id="barangayEmail" placeholder="Email Address">
+                                                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                                            <input type="number" class="form-control has-feedback-left" name="barangayContact" id="barangayContact" placeholder="Contact Number">
+                                                            <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
+                                                        </div>
+                                                        <div class="form-group pull-right">
+                                                            <input type="hidden" id="brgyID" name="brgyID" >
+                                                            <input type="hidden" id="barangayPassword" name="barangayPassword"> 
+                                                            <button type="submit" id="but-sub" class="btn btn-success">Send</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        <!-- END STATISTIC-->
+                
+        <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+
+
+        script.
+
+            $(document).ready(function () {
+
+                $('.btn-addAccount').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#addAccountModal').modal('show');
+                    document.getElementById("brgyID").value = Id;
+                }); 
+
+                //- SWEET ALERT CONFIRM SUBMIT
+                          $('#but-sub').on('click',function (e) {
+                              var form = $(this).parents('form');
+                              e.preventDefault(); //prevent submit
+                              
+                                  swal({
+                                  title: 'Are you sure?',
+                                  text: "You will submit this barangay email address.",
+                                  type: 'info',
+                                  showCancelButton: true,
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText: 'Yes, submit it!'
+                                  }).then((result) => {
+                                  if (result.value) {
+                                      $('#formadduser').submit();
+                                  }                        
+                                  })
+                          });
+                          //- START VALIDATIONS
+                          $(function() {
+                          $("#formadduser").validate({
+                              rules: {
+                              barangayEmail: {
+                                  required: true,
+                              },
+                              action: "required"
+                              },
+                              messages: {
+                              barangayEmail: {
+                                  required: "Please enter barangay email address",
+                              },
+                              action: "Please provide some data"
+                              },
+                              submitHandler: function(form){
+                                  form.submit();
+                                  swal(
+                                      'Success!',
+                                      'Budget Email has been Submitted!',
+                                      'success'
+                                      )
+                              }
+                          });
+                          
+                          });
+                          //- END VALIDATIONS
+            });
+
+            
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            for (var i = 0; i < 8; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length)); 
+            
+            document.getElementById("barangayPassword").value = text;

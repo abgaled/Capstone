@@ -120,17 +120,66 @@ router.post('/projectdetails',(req,res) => {
 });
 
 
-router.get('/:int_projectID/apply',(req,res) => {
+router.get('/:int_projectID/applicationtype',(req,res) => {
     console.log('=================================');
-    console.log('BARANGAY: PROJECTS-APPLICATION-FORM-GET');
+    console.log('BARANGAY: PROJECTS-APPLICATION TYPE-GET');
     console.log('=================================');
 
-    
 
     var queryString1 = `SELECT * FROM tbl_project p JOIN tbl_projectproposal pp 
         ON p.int_projectID=pp.int_projectID WHERE p.int_projectID = ${req.params.int_projectID}`
     
     db.query(queryString1,(err, results1) => {
+
+        var queryString2 = `SELECT * FROM tbl_projectapplicationtype pat
+        JOIN tbl_projectproposal pp 
+        ON pat.int_projectID=pp.int_projectID
+        WHERE pat.int_projectID = ${req.params.int_projectID}`
+
+        db.query(queryString2,(err, results2) => {
+
+            console.log("RESULTS 2");
+            console.log(results2);
+
+            var notificationsQuery = `SELECT * FROM tbl_notification 
+            JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+            WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+            AND enum_notifStatus = "New"
+            ORDER BY tbl_notification.int_notifID DESC`
+
+            db.query(notificationsQuery,(err, notifications) => {
+                if (err) console.log(err);
+                console.log('=================================');
+                console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+                console.log('=================================');
+                console.log(notifications)
+        
+                var countrow = notifications.length;
+   
+                res.render('barangay/projects/views/applicationtype',{
+                    tbl_project:results1,
+                    tbl_applicationtype:results2,
+                    notifications:notifications,
+                    numbernotif:countrow
+                });
+            });
+        });  
+    });
+});
+
+router.post('/:int_projectID/applicationtype',(req,res) => {
+    console.log('=================================');
+    console.log('BARANGAY: PROJECTS-APPLICATION TYPE-POST');
+    console.log('=================================');
+    console.log(req.body.applicationtype)
+
+
+    var queryString1 = `SELECT * FROM tbl_project p JOIN tbl_projectproposal pp 
+    ON p.int_projectID=pp.int_projectID WHERE p.int_projectID = ${req.params.int_projectID}`
+
+    db.query(queryString1,(err, results1) => {
+
+        var project = results1[0];
 
         var queryString2 = `SELECT C.int_categoryID
             FROM tbl_project P JOIN tbl_projectcategory PC
@@ -168,13 +217,135 @@ router.get('/:int_projectID/apply',(req,res) => {
                     console.log(requirementResult);
                     console.log("======REQUIREMENT SELECTED======")
 
-                    res.render('barangay/projects/views/registerapplicant',{
-                        tbl_project:results1,
-                        int_categoryID:int_categoryID,
-                        requirements:requirementResult,
-                        notifications:notifications,
-                        numbernotif:countrow
-                    });
+                    
+                    if (req.body.applicationtype == "Resident"){
+            
+                        res.render('barangay/projects/views/perresident',{
+                            tbl_project:results1,
+                            int_categoryID:int_categoryID,
+                            requirements:requirementResult,
+                            notifications:notifications,
+                            numbernotif:countrow
+                        });
+                    }
+                    if (req.body.applicationtype == "Barangay"){
+            
+                        res.render('barangay/projects/views/perbarangay',{
+                            tbl_project:results1,
+                            int_categoryID:int_categoryID,
+                            requirements:requirementResult,
+                            notifications:notifications,
+                            numbernotif:countrow
+                        });
+                    }
+                    if (req.body.applicationtype == "Household"){
+            
+                        res.render('barangay/projects/views/perhousehold',{
+                            tbl_project:results1,
+                            int_categoryID:int_categoryID,
+                            requirements:requirementResult,
+                            notifications:notifications,
+                            numbernotif:countrow
+                        });
+                    }
+                });
+            });
+        });
+    });
+});
+
+router.get('/:int_projectID/apply',(req,res) => {
+    console.log('=================================');
+    console.log('BARANGAY: PROJECTS-APPLICATION-FORM-GET');
+    console.log('=================================');
+
+    
+
+    var queryString1 = `SELECT * FROM tbl_project p JOIN tbl_projectproposal pp 
+        ON p.int_projectID=pp.int_projectID WHERE p.int_projectID = ${req.params.int_projectID}`
+    
+    db.query(queryString1,(err, results1) => {
+
+        var project = results1[0];
+
+        var queryString2 = `SELECT C.int_categoryID
+            FROM tbl_project P JOIN tbl_projectcategory PC
+            ON P.int_projectID=PC.int_projectID
+            JOIN tbl_category C ON PC.int_categoryID=C.int_categoryID
+            WHERE P.int_projectID= ${req.params.int_projectID}`
+
+        db.query(queryString2,(err, results2) => {
+            console.log("RESULTS2")
+            var int_categoryID = results2[0];
+
+            var notificationsQuery = `SELECT * FROM tbl_notification 
+            JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+            WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+            AND enum_notifStatus = "New"
+            ORDER BY tbl_notification.int_notifID DESC`
+
+            db.query(notificationsQuery,(err, notifications) => {
+                if (err) console.log(err);
+                console.log('=================================');
+                console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+                console.log('=================================');
+                console.log(notifications)
+        
+                var countrow = notifications.length;
+
+
+                var requirementQuery = `SELECT *
+                    FROM tbl_requirement R JOIN tbl_projectrequirement PR
+                    ON R.int_requirementID=PR.int_requirementID
+                    WHERE PR.int_projectID= ${req.params.int_projectID}`;
+
+                db.query(requirementQuery,(err, requirementResult) => {
+                    console.log('============================')
+                    console.log(requirementResult);
+                    console.log("======REQUIREMENT SELECTED======")
+
+                    
+                    if (project.varchar_applicationType == "Resident"){
+            
+                        res.render('barangay/projects/views/perresident',{
+                            tbl_project:results1,
+                            int_categoryID:int_categoryID,
+                            requirements:requirementResult,
+                            notifications:notifications,
+                            numbernotif:countrow
+                        });
+                    }
+                    if (project.varchar_applicationType == "Barangay"){
+            
+                        res.render('barangay/projects/views/perbarangay',{
+                            tbl_project:results1,
+                            int_categoryID:int_categoryID,
+                            requirements:requirementResult,
+                            notifications:notifications,
+                            numbernotif:countrow
+                        });
+                    }
+                    if (project.varchar_applicationType == "Household"){
+            
+                        res.render('barangay/projects/views/perhousehold',{
+                            tbl_project:results1,
+                            int_categoryID:int_categoryID,
+                            requirements:requirementResult,
+                            notifications:notifications,
+                            numbernotif:countrow
+                        });
+                    }
+
+                    else{
+                        res.render('barangay/projects/views/perresident',{
+                            tbl_project:results1,
+                            int_categoryID:int_categoryID,
+                            requirements:requirementResult,
+                            notifications:notifications,
+                            numbernotif:countrow
+                        });
+                    }
+
                 });
             });
         });

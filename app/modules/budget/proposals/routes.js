@@ -14,18 +14,18 @@ router.get('/pending',(req, res) => {
 
     var newQuery = `SELECT * FROM
         (
-            SELECT PProj.*, PA.enum_propappStatus
+            SELECT PProj.*, CA.enum_checkAppStatus
             FROM tbl_projectproposal PProj
-            LEFT JOIN tbl_proposalapproval PA
-            ON PProj.int_projectID=PA.int_projectID
+            LEFT JOIN tbl_checkapproval CA
+            ON PProj.int_projectID=CA.int_projectID
 
             UNION
 
-            SELECT PProj.*, PA.enum_propappStatus
+            SELECT PProj.*, CA.enum_checkAppStatus
             FROM tbl_projectproposal PProj
-            RIGHT JOIN tbl_proposalapproval PA
-            ON PProj.int_projectID=PA.int_projectID
-            WHERE PA.int_projectID IS NULL
+            RIGHT JOIN tbl_checkapproval CA
+            ON PProj.int_projectID=CA.int_projectID
+            WHERE CA.int_projectID IS NULL
         ) AS tbl1
 
         JOIN
@@ -43,7 +43,7 @@ router.get('/pending',(req, res) => {
             RIGHT JOIN tbl_revisioncomment RC
             ON PP.int_projectID=RC.int_projectID
             WHERE RC.int_projectID IS NULL
-        )AS tbl2
+        ) AS tbl2
         
         WHERE tbl1.int_projectID=tbl2.int_projectID`;
 
@@ -333,47 +333,58 @@ router.post('/approval',(req, res) => {
 
 
     console.log(resultIndex);
-    console.log(req.body.actual_budget);
+    console.log(req.body.checkfraction);
+    console.log(req.body.checkdate);
+    console.log(req.body.checkbankinfo);
+    console.log(req.body.checkamount);
+    console.log(req.body.checkroute);
+    console.log(req.body.checkaccount);
+    console.log(req.body.checkcheck);
+    console.log(req.body.checksendername);
 
-        var insertActualBudgetQuery = `INSERT INTO \`tbl_project\`
-            (
-                \`int_projectID\`, 
-                \`decimal_actualBudget\`,
-                \`enum_projectStatus\`
-            )
+    var insertCheckQuery = `INSERT INTO \`tbl_checkapproval\`
+    (
+        \`int_projectID\`, 
+        \`date_checkDate\`,
+        \`varchar_fraction\`, 
+        \`varchar_bankInfo\`, 
+        \`int_routingNumber\`, 
+        \`int_accountNumber\`, 
+        \`int_checkNumber\`, 
+        \`varchar_senderName\`, 
+        \`decimal_amount\`,
+        \`enum_checkAppStatus\`
+    )
 
-            VALUES
-            (
-                ${req.body.PROJECT_id},
-                "${req.body.actual_budget}",
-                "Approved"
-            )`;
+    VALUES
+    (
+        ${req.body.PROJECT_id},
+        "${req.body.checkdate}",
+        ${req.body.checkfraction},
+        "${req.body.checkbankinfo}",
+        ${req.body.checkroute},
+        ${req.body.checkaccount},
+        ${req.body.checkcheck},
+        "${req.body.checksendername}",
+        ${req.body.checkamount},
+        "Pending"
+    )`;
+
+    db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
+        if(err) console.log(err);
+        console.log("Check Details succesfully inserted");
 
 
-        // var updateProjStatQuery = `UPDATE tbl_projectproposal SET 
-        //     enum_proposalStatus = 'Approved'
-        //     WHERE int_projectID= ${req.body.PROJECT_id}`;
+        var updateProjStatQuery = `UPDATE tbl_projectproposal SET 
+            enum_proposalStatus = 'Approved'
+            WHERE int_projectID= ${req.body.PROJECT_id}`;
 
-        db.query(insertActualBudgetQuery, (err, addprojResult, fields) => {
+        db.query(updateProjStatQuery, (err, updateProjectResult, fields) => {
             if(err) console.log(err);
 
-            console.log("Succesfully inserted in table project");
+            console.log("Succesfully updated the project proposal approval");
 
-            // var updateBudgetQuery = `UPDATE tbl_project
-            //     SET decimal_actualBudget = ${req.body.actual_budget},
-            //     enum_projectStatus = 'Approved'
-            //     WHERE int_projectID = ${req.body.PROJECT_id}`;
-
-            var updateProjStatQuery = `UPDATE tbl_projectproposal SET 
-                 enum_proposalStatus = 'Approved'
-                 WHERE int_projectID= ${req.body.PROJECT_id}`;
-
-            db.query(updateProjStatQuery, (err, updateProjectResult, fields) => {
-                if(err) console.log(err);
-
-                console.log("Succesfully updated the project proposal approval");
-
-                res.redirect('/budget/proposals/pending');
+            res.redirect('/budget/proposals/pending');
         });
     });
 });

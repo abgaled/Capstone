@@ -1,0 +1,58 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        each project in tbl_project
+                            <center>
+                                <h1>TYPE OF APPLICATION</h1>
+                                <h4>
+                                    value=project.varchar_projectName
+                                </h4>
+                                <small>
+                                    value="(" + project.text_projectObjective + ")"
+                                </small>
+                            </center>
+                        
+                        <div class="clearfix"></div>
+                    </div>
+                    <form id="appType" action="" method="POST" id="formapptype"class="form-horizontal form-label-left">
+                        <div class="x_content">
+                            each apptype in tbl_applicationtype
+                                input(type="radio" id="applicationtype" name="applicationtype" value=`${apptype.enum_applicationType}` required)
+                                value= " " + apptype.enum_applicationType
+                                <br>
+                        </div>
+                        <br>
+                        <button type="submit" id="btn-apptype" class="btn btn-apptype fa fa-arrow-right btn-success">&nbsp Next</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    script.
+        $(document).ready(function () {
+            //- SWEET ALERT CONFIRM SUBMIT
+            $('#btn-apptype').on('click',function (e) {
+                var form = $(this).parents('form');
+                e.preventDefault(); //prevent submit
+                              
+                swal({
+                    title: 'Are you sure?',
+                    text: "This is the type of application you chose.",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, it is!'
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#formapptype').submit();
+                    }                        
+                    })
+            });
+        });

@@ -46,11 +46,12 @@ block content
                                                                 a(href=`/office/proposals/proposals/${project.int_projectID}/proposaldetails` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
                                                                 if project.enum_proposalStatus == "Revision" 
                                                                     button.btn.btn-warning.btn-sm.btn-block(id="btn-revise" class="btn-revise" value= project.int_projectID): span.fa.fa-check  Revise
-                                                                each prop in tbl_cheque
-                                                                    if prop.int_projectID == project.int_projectID
-                                                                        if project.enum_proposalStatus == "Approved"
-                                                                            if prop.enum_propappStatus == "Sent"
-                                                                                button.btn.btn-success.btn-sm.btn-block(id="btn-cheque" class="btn-cheque" value= project.int_projectID): span.fa.fa-check  Cheque Number
+                                                                //- each prop in tbl_cheque
+                                                                //-     if prop.int_projectID == project.int_projectID
+                                                                //-         if project.enum_proposalStatus == "Approved"
+                                                                //-             if prop.enum_propappStatus == "Sent"
+                                                                    
+                                                                button.btn.btn-success.btn-sm.btn-block(id="btn-cheque" class="btn-cheque" value= project.int_projectID): span.fa.fa-check  Cheque Number
                                                                 </td>
                                                         </tr>
                                                 </tbody>

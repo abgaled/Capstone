@@ -10,7 +10,6 @@ router.use('/proposals', require('./proposals/routes'));
 router.use('/projects', require('./projects/routes'));
 router.use('/releasing', require('./releasing/routes'));
 router.use('/reports', require('./reports/routes'));
-router.use('/addbrgyaccnt', require('./addbrgyaccnt/routes'));
 router.use('/profile', require('./profile/routes'));
 
 

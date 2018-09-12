@@ -49,10 +49,7 @@ block content
                                                     a(href=`/budget/proposals/${proposals.int_projectID}/rejectproposal`): button.btn.btn-danger.btn-sm: span.fa.fa-ban  Reject
 
                                                 if proposals.enum_propappStatus == "Sent" || proposals.enum_propappStatus == "Received" 
-                                                   
-
-                                                else if proposals.enum_proposalStatus == "Approved"
-                                                    button.btn.btn-success.btn-sm(id="btn-cheque" class="btn-cheque" value= proposals.int_projectID): span.fa.fa-check  Cheque Number
+                                                
 
                                                 
                                         </td>
@@ -65,174 +62,172 @@ block content
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
-                
-                    <form method="POST" action="approval" data-parsley-validate class="form-horizontal form-label-left">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="mediumModalLabel">Approval Requirement
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </h4>
-                            </div>
-                            <div class="modal-body">
-                                //- <div class="input-group mb-3">
-                                //-     <div class="input-group-prepend">
-                                //-         <span class="input-group-text" >Approval Letter</span>
-                                //-     </div>
-                                //-     <div class="custom-file">
-                                //-         <input type="file" class="custom-file-input" name="letterfile">
-                                //-         <label class="custom-file-label" >Choose file</label>
-                                //-     </div>
-                                //- </div>
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+            
+                <form method="POST" action="approval" data-parsley-validate class="form-horizontal form-label-left">
 
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="actual-budget">Actual Budget<span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" name="actual_budget" id="actual-budget" required="required" class="form-control col-md-7 col-xs-12">
-                                            <input type="hidden" id="PROJECT_id" name="PROJECT_id" >  
-                                        </div>
-                                    </div>
-                                </div>
 
-                                //- <div class="input-group mb-3">
-                                //-     <div class="input-group-prepend">
-                                //-         <span class="input-group-text">Actual Budget</span>
-                                //-         <span class="input-group-text"> P </span>
-                                //-     </div>
-                                //-     <input type="text" class="form-control" name="actualbudget" required> 
-                                //-     <div class="input-group-append">
-                                //-         <span class="input-group-text">0.00</span>
-                                //-     </div>
-                                //- </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                //- a(href=`/budget/proposals/${detail.int_projectID}/approval`): button.btn.btn-success Confirm
-                                //- <input type="submit" value="submit" class="btn btn-success">
-                                button.btn.btn-success.btn-s(type='submit') Submit
-                            </div>
-                    </form>
-                </div>
-            </div>
-            </div>
-
-            <div class="modal fade" id="chequeModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                <div class="modal-content">
-                
-                    <form method="POST" action="pending" data-parsley-validate class="form-horizontal form-label-left">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="mediumModalLabel">Submit Cheque Number:
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </h4>
-                            </div>
-                            <div class="modal-body">
-                                //- <div class="input-group mb-3">
-                                //-     <div class="input-group-prepend">
-                                //-         <span class="input-group-text" >Approval Letter</span>
-                                //-     </div>
-                                //-     <div class="custom-file">
-                                //-         <input type="file" class="custom-file-input" name="letterfile">
-                                //-         <label class="custom-file-label" >Choose file</label>
-                                //-     </div>
-                                //- </div>
-
-                                <div class="input-group">
-                                    <input type="hidden" id="PROJECT_idcheque" name="PROJECT_idcheque" >
-                                    <input type="text" id="chequeNumber" name="chequeNumber"class="form-control">
-                                    <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-success">Send</button>
-                                    </span>
-                                </div>
-
-                                //- <div class="input-group mb-3">
-                                //-     <div class="input-group-prepend">
-                                //-         <span class="input-group-text">Actual Budget</span>
-                                //-         <span class="input-group-text"> P </span>
-                                //-     </div>
-                                //-     <input type="text" class="form-control" name="actualbudget" required> 
-                                //-     <div class="input-group-append">
-                                //-         <span class="input-group-text">0.00</span>
-                                //-     </div>
-                                //- </div>
-                            </div>
-                    </form>
-                </div>
-            </div>
-            </div>
-
-            <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                            <form method="POST" action='/budget/proposals/revision'>
-                                <div class="modal-header">
-                                    <h3 class="modal-title" id="mediumModalLabel">Revision Form
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    </h3>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row form-group">
-                                        <div class="col col-md-2">
-                                            <label for="textarea-input" class=" form-control-label">Suggestion</label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <textarea name="revision" rows="9" placeholder="Content..." class="form-control" required></textarea>
-                                            <small class="form-text text-muted">Put all of the your suggestion,remarks or comment for the revision of this project. In this way, the proposal project might be approved when the revision is done.</small>
-                                        </div>
-                                        <input type="hidden" id="PROJECT_idrev" name="PROJECT_idrev" >  
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    //- a(href=`/budget/proposals/${detail.int_projectID}/revision`): button.btn.btn-success Confirm
-                                    //- <input type="submit" value="submit" class="btn btn-success">
-                                    button.btn.btn-success.btn-s(type='submit') Submit
-                                </div>
-                            </form>
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="mediumModalLabel">Check Details
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </h4>
                     </div>
-                </div>
-            </div>
-            <!-- end modal medium -->
 
-            //- MODAL VIEW REVISION
-            <div class="modal fade bs-example-modal-lg" id="modalviewrevision" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
+
                     <div class="modal-body">
-                        
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-                            <h4 class="modal-title" id="myModalLabel"><span class="section">View Revision Content</span></h4> 
-                            <div class="item form-group">
-                                    <label class="control-label col-md-2" for="aj-comment">Comment:
-                                    </label>
-                                    <div class="col-md-9" id="aj-comment">
-                        
-                                    </div>
-                                    <br>
+                        <input type="text" id="PROJECT_id" name="PROJECT_id" hidden>
+                        <div class="form-row">
+                            //- <div class="form group col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                            //- </div>
+                            <div class="form-group col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-12"> Fraction
+                                </label>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <input type="text" name="checkfraction" class="form-control">
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                            <div class="form-group col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <label class="control-label col-lg-4 col-md-4 col-sm-4 col-xs-12"> Date
+                                </label>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <input type="date" name="checkdate" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label class="control-label" style="float:left"> Amount
+                                </label>
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+                                    <input type="text" name="checkamount" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label class="control-label" style="float:left"> Bank Information
+                                </label>
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+                                    <input type="text" name="checkbankinfo" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="control-label" style="float:left"> Routing Number
+                                </label>
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+                                    <input type="text" name="checkroute" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="control-label" style="float:left"> Account Number
+                                </label>
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+                                    <input type="text" name="checkaccount" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="control-label" style="float:left"> Check Number
+                                </label>
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+                                    <input type="text" name="checkcheck" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label class="control-label" style="float:left"> Sender Name
+                                </label>
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+                                    <input type="text" name="checksendername" class="form-control">
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        //- a(href=`/budget/proposals/${detail.int_projectID}/approval`): button.btn.btn-success Confirm
+                        //- <input type="submit" value="submit" class="btn btn-success">
+                        button.btn.btn-success.btn-s(type='submit') Submit
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                    <form method="POST" action='/budget/proposals/revision'>
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="mediumModalLabel">Revision Form
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="textarea-input" class=" form-control-label">Suggestion</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <textarea name="revision" rows="9" placeholder="Content..." class="form-control" required></textarea>
+                                    <small class="form-text text-muted">Put all of the your suggestion,remarks or comment for the revision of this project. In this way, the proposal project might be approved when the revision is done.</small>
+                                </div>
+                                <input type="hidden" id="PROJECT_idrev" name="PROJECT_idrev" >  
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            //- a(href=`/budget/proposals/${detail.int_projectID}/revision`): button.btn.btn-success Confirm
+                            //- <input type="submit" value="submit" class="btn btn-success">
+                            button.btn.btn-success.btn-s(type='submit') Submit
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+    <!-- end modal medium -->
+
+    //- MODAL VIEW REVISION
+    <div class="modal fade bs-example-modal-lg" id="modalviewrevision" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-body">
+                
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><span class="section">View Revision Content</span></h4> 
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-comment">Comment:
+                            </label>
+                            <div class="col-md-9" id="aj-comment">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
                     </div>
                 </div>
             </div>
+            </div>
+        </div>
+    </div>
 
     
     <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
 
     script.
-           //- SCRIPT GET INT_STATEMENTID (VIEW MODAL)
+        //- SCRIPT GET INT_STATEMENTID (VIEW MODAL)
 
         $(document).ready(function () {
 
@@ -255,17 +250,6 @@ block content
                     console.log("================================Id(Class)")
                     $('#reviseModal').modal('show');
                     document.getElementById("PROJECT_idrev").value = Id;
-                    
-                }); 
-
-                $('.btn-cheque').click(function (e) {
-                    e.preventDefault()
-                    var Id = $(this).val();
-                    console.log("================================Id(Class)")
-                    console.log(Id);
-                    console.log("================================Id(Class)")
-                    $('#chequeModal').modal('show');
-                    document.getElementById("PROJECT_idcheque").value = Id;
                     
                 }); 
 

@@ -1,0 +1,129 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1 class="text-center">List of Barangay</h1>
+                    </div>              
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Barangay Name</th>
+                                                        <th>Address</th>
+                                                        <th>Contact</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Barangay Name</th>
+                                                        <th>Address</th>
+                                                        <th>Contact</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                each brgy in tbl_barangay
+                                                    <tr>
+                                                        <td>
+                                                            value=brgy.varchar_barangayName
+                                                        </td>
+                                                        <td>
+                                                            value=brgy.text_barangayAddress
+                                                        </td>
+                                                        <td>
+                                                            value=brgy.varchar_barangayContact
+                                                        </td>
+                                                        <td>
+                                                            a(href=`/office/maintenance/brgyaccnt/${brgy.int_barangayID}/brgyuser` id="barangayID" name="barangayID" class="btn btn-info btn-s"): span.fa.fa-eye  View Barangay Accounts
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+        <!-- END STATISTIC-->
+                
+        <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+
+
+        script.
+
+            $(document).ready(function () {
+
+                $('.btn-addAccount').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#addAccountModal').modal('show');
+                    document.getElementById("brgyID").value = Id;
+                }); 
+
+                //- SWEET ALERT CONFIRM SUBMIT
+                          $('#but-sub').on('click',function (e) {
+                              var form = $(this).parents('form');
+                              e.preventDefault(); //prevent submit
+                              
+                                  swal({
+                                  title: 'Are you sure?',
+                                  text: "You will submit this barangay email address.",
+                                  type: 'info',
+                                  showCancelButton: true,
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText: 'Yes, submit it!'
+                                  }).then((result) => {
+                                  if (result.value) {
+                                      $('#formadduser').submit();
+                                  }                        
+                                  })
+                          });
+                          //- START VALIDATIONS
+                          $(function() {
+                          $("#formadduser").validate({
+                              rules: {
+                              barangayEmail: {
+                                  required: true,
+                              },
+                              action: "required"
+                              },
+                              messages: {
+                              barangayEmail: {
+                                  required: "Please enter barangay email address",
+                              },
+                              action: "Please provide some data"
+                              },
+                              submitHandler: function(form){
+                                  form.submit();
+                                  swal(
+                                      'Success!',
+                                      'Barangay Email has been Submitted!',
+                                      'success'
+                                      )
+                              }
+                          });
+                          
+                          });
+                          //- END VALIDATIONS
+            });
+
+            
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            for (var i = 0; i < 8; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length)); 
+            
+            document.getElementById("barangayPassword").value = text;

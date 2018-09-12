@@ -11,9 +11,11 @@ router.get('/',(req,res) => {
     console.log('BARANGAY: PROBLEM STATEMENT-PREVIOUS');
     console.log('=================================');
 
-    var barangayQuery = `SELECT int_barangayID 
-    FROM tbl_barangay 
-    WHERE int_userID = ${req.session.barangay.int_userID}`
+    var barangayQuery = `SELECT * 
+    FROM tbl_barangay br
+    JOIN tbl_barangayuser bru
+    ON br.int_barangayID = bru.int_barangayID
+    WHERE bru.int_userID = ${req.session.barangay.int_userID}`
 
     db.query(barangayQuery, (err, barangay, fields) => {        
         if (err) throw err;
@@ -76,12 +78,11 @@ router.post('/',(req, res) => {
     console.log(`${req.body.problem_createdValue}`);
     console.log("===============================createdValue");
 
-    
-        console.log("Lagpas 20");
-
-        var barangayQuery = `SELECT int_barangayID 
-        FROM tbl_barangay 
-        WHERE int_userID = ${req.session.barangay.int_userID}`
+        var barangayQuery = `SELECT br.int_barangayID 
+        FROM tbl_barangay br
+        JOIN tbl_barangayuser bru
+        ON br.int_barangayID = bru.int_barangayID
+        WHERE bru.int_userID = ${req.session.barangay.int_userID}`
 
         db.query(barangayQuery, (err, results1, fields) => {        
             if (err) throw err;
@@ -119,46 +120,49 @@ router.post('/',(req, res) => {
     
 });
 
+// VIEW PROBLEM STATEMENT
 router.post('/ajaxgetdetails',(req,res) => {
     console.log('=================================');
     console.log('BARANGAY: PROBLEM STATEMENT-PREVIOUS-AJAX GET DETAILS (POST)');
     console.log('=================================');
     console.log(`${req.body.ajStatementID}`);
 
-    var barangayQuery = `SELECT int_barangayID 
-    FROM tbl_barangay 
-    WHERE int_userID = ${req.session.barangay.int_userID}`
+    var barangayQuery = `SELECT br.int_barangayID 
+    FROM tbl_barangay br
+    JOIN tbl_barangayuser bru
+    ON br.int_barangayID = bru.int_barangayID
+    WHERE bru.int_userID = ${req.session.barangay.int_userID}`
 
-    db.query(barangayQuery, (err, barangay, fields) => {        
-        if (err) throw err;
+        db.query(barangayQuery, (err, barangay, fields) => {        
+            if (err) throw err;
 
-        var barangayFinal = barangay[0];
+            var barangayFinal = barangay[0];
 
-        var queryString = `SELECT * FROM tbl_problemstatement pr
-        JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID WHERE 
-        pr.int_barangayID=${barangayFinal.int_barangayID} 
-        AND pr.int_statementID = ${req.body.ajStatementID}`
+            var queryString = `SELECT * FROM tbl_problemstatement pr
+            JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID WHERE 
+            pr.int_barangayID=${barangayFinal.int_barangayID} 
+            AND pr.int_statementID = ${req.body.ajStatementID}`
 
 
-        db.query(queryString,(err, results, fields) => {
-            if (err) console.log(err);
+            db.query(queryString,(err, results, fields) => {
+                if (err) console.log(err);
 
-            console.log(results);
+                console.log(results);
 
-            var date_results = results;
+                var date_results = results;
 
-            for (var i = 0; i < date_results.length;i++){
-                date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
-            }
+                for (var i = 0; i < date_results.length;i++){
+                    date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
+                }
 
-            var resultss = results[0];
+                var resultss = results[0];
 
-            console.log("===================RESULTSS")
-            console.log(resultss)
+                console.log("===================RESULTSS")
+                console.log(resultss)
 
-            return res.send({tbl_problemstatement1:resultss});
+                return res.send({tbl_problemstatement1:resultss});
+            });
         });
-    });
 });
 
 
