@@ -10,6 +10,7 @@ block content
                             <h2>Proposal Form<small></small></h2>
                             <div class="clearfix"></div>
                         </div>
+
                         <form method="POST" action="/office/proposals" class="form-horizontal form-label-left" id="create-proposal">
                             <div class="x_content">
                                 <div id="wizard" class="form_wizard wizard_horizontal">
@@ -72,11 +73,11 @@ block content
                                         </li>
                                     </ul>
 
-                                        <div id="step-1">
-                                            <form class="form-horizontal form-label-left">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped jambo_table bulk_action">
-                                                        <thead>
+                                    <div id="step-1">
+                                        <form class="form-horizontal form-label-left">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped jambo_table bulk_action">
+                                                    <thead>
                                                         <tr class="headings">
                                                             <th>
                                                             //- <input type="checkbox" id="check-all" class="flat">
@@ -89,325 +90,369 @@ block content
                                                             <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
                                                             </th>
                                                         </tr>
-                                                        </thead>
+                                                    </thead>
 
-                                                        <tbody>
+                                                    <tbody id="problemstatement">
                                                         each statement in tbl_problemstatement
                                                             <tr class="even pointer">
                                                                 <td class="a-center ">
-                                                                    input(type="checkbox" id="ap-statementid" name="statementsList[]" value=`${statement.int_statementID}` )
+                                                                    input(type="checkbox" onchange="getStatement()" id="ap-statementid" class="ap-statementclass" name="statementsList[]" value=`${statement.int_statementID}` )
                                                                 </td>
-                                                                <td class=" ">
-                                                                    value= " " + statement.varchar_statementTitle
+                                                                td(class="  statementName")
+                                                                    value= " " + statement.varchar_statementTitle+"   "
                                                                 </td>
                                                                 <td class=" ">
                                                                     value=statement.text_statementContent
                                                                 </td>
-                                                                <td class=" ">
+                                                                <td class="  statementCategory">
                                                                     value=statement.varchar_categoryName
                                                                 </td>
                                                                 </td>
                                                             </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div id="step-2">
+                                        //- <form class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectname">Project Name <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" name="projectname" onchange="getName()" id="ap-projectname" required="required" placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12" required title="Kindly put a name for this project">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12" id="ap-projectcateg">
+                                                //- <select class="select2_multiple form-control" onchange="getCategory()" multiple="multiple" name="projectcategory[]" id="ap-projectcategory">
+                                                //-     each category in tbl_category
+                                                //-         option(value=`${category.int_categoryID}` )=category.varchar_categoryName+"   "
+                                                //- </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectrationale">Project Rationale</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <textarea onchange="getRationale()" class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="ap-projectrationale" name="projectrationale"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectobjective">Project Objective</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <textarea onchange="getObjective()" class="resizable_textarea form-control" placeholder="Please fill project objective ..." id="ap-projectobjective" name="projectobjective"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectdescription">Project Description</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <textarea onchange="getDescription()" class="resizable_textarea form-control" placeholder="Please fill project description ..." id="ap-projectdescription" name="projectdescription"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Implementing Agency</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <select class="select2_multiple form-control" onchange="getAgency()" multiple="multiple" name="projectagency[]" id="ap-projectagency">
+                                                    each agency in tbl_agency
+                                                        option(value=`${agency.int_agencyID}` )=agency.varchar_agencyName+"   "
+                                                </select>
+                                            </div>
+                                        </div>
+                                        //- </form>
+                                    </div>
+                                    
+                                    <div id="step-3">
+                                        //- <form class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Target Beneficiary</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="select2_multiple form-control" onchange="getBeneficiary()" id="ap-projectbeneficiary" name="projectbeneficiaries[]" multiple="multiple">
+                                                each beneficiary in tbl_beneficiary
+                                                    option(value=`${beneficiary.int_beneficiaryID}`)=beneficiary.varchar_beneficiaryName+"   "
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslots">Alloted Slot <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" onchange="getSlot()" id="ap-allotedslots" name="allotedslots" required="required" placeholder="Number of beneficiary ..." onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        //- <div class="x_panel">
+                                        //-     <div id="form-group fieldGroup">
+                                        //-         <div class="input-group">
+                                        //-             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="itembenefit">Benefit Name <span class="required">*</span>
+                                        //-             </label>
+                                        //-             <div class="col-md-6 col-sm-6 col-xs-12">
+                                        //-                 <input type="number" onchange="" id="ap-benefitname" name="allotedslots" required="required" placeholder="Number of beneficiary ..." onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
+                                        //-             </div>
+                                        //-             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="quantitybenefit">Benefit Quantity <span class="required">*</span>
+                                        //-             </label>
+                                        //-             <div class="col-md-6 col-sm-6 col-xs-12">
+                                        //-                 <input type="number" onchange="" id="ap-benefitquantity" name="allotedslots" required="required" placeholder="Number of beneficiary ..." onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
+                                        //-             </div>
+                                        //-         </div>
+                                        //-     </div>
+                                        //- </div>
+                                        //- </form>
+                                    </div>
+
+                                    <div id="step-4">
+                                        //- <form class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select requirements</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="select2_multiple form-control" onchange="getRequirement()" id="ap-projectrequirement" multiple="multiple" name="projectrequirement[]">
+                                                each requirement in tbl_requirement
+                                                    option(value=`${requirement.int_requirementID}`)=requirement.varchar_requirementName+"   "
+                                            </select>
+                                            </div>
+                                        </div>
+                                        //- </form>
+                                    </div>
+
+                                    <div id="step-5">
+                                        //- <form class="form-horizontal form-label-left">
+                                            //- <div class="form-group">
+                                            //-     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Start Date<span class="required">*</span>
+                                            //-     </label>
+                                            //-     <div class="col-md-6 col-sm-6 col-xs-12">
+                                            //-         <input type="number" id="startDate" required="required" placeholder="number of days after approval ..." class="form-control col-md-7 col-xs-12">
+                                            //-     </div>
+                                            //- </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="applicationDays"> Days of application<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" onchange="getAppDays()" id="ap-applicationDays" name="applicationDays" required="required" placeholder="Duration of beneficiary application..." class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="releasingday">Days of Releasing<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" onchange="getReleaseDays()" id="ap-releasingday" name="releasingday" required="required" onchange="unhide()" placeholder="number of days of releasing..." class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                            </div>
+                                            //- <div class="form-group" hidden id="daychange">
+                                            //-     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days Between Release Dates<span class="required">*</span>
+                                            //-     </label>
+                                            //-     <div class="col-md-6 col-sm-6 col-xs-12">
+                                            //-         <input type="number" id="betweenDays" required="required" placeholder="Number of days skip..." class="form-control col-md-7 col-xs-12">
+                                            //-     </div>
+                                            //- </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="releasedate"> Date of releasing<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" onchange="getReleaseDate()" id="ap-releasedate" name="releasedate" required="required" placeholder="Number days after closing application..." class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <select class="select2_multiple form-control" id="ap-projectlocation" multiple="multiple" name="projectlocation[]" onchange="getLocation()">
+                                                    each location in tbl_location
+                                                        option(value=`${location.int_barangayID}`)=location.varchar_barangayName+"   "
+                                                </select>
+                                                </div>
+                                            </div>
+                                        //- </form>
+                                    </div>
+
+                                    <div id="step-6">
+                                        //- <form class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estimatedbudget">Estimated Budget <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" maxlenght="15" id="estimatedbudget" name="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="individualbudget">Individual Budget <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" id="individualbudget" readonly="readonly" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        //- </form>
+                                    </div>
+
+                                    <div id="step-7">
+                                        <form class="form-horizontal form-label-left">
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <h2>Proposal Summary <small></small></h2>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                    <table class="table table-striped jambo_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Problem</th>
+                                                                <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">Problem to be solved:</th>
+                                                                <td>
+                                                                    <div id="result-projStatement"><div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row"></th>
+                                                                <td>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <th>Basic Information</th>
+                                                            <th>   </th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row" style="width:20%">Project Title:</th>
+                                                                <td>
+                                                                    <div id="result-projName"><div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Category:</th>
+                                                                <td>
+                                                                    <div id="result-projCategory"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Project Rationale:</th>
+                                                                <td>
+                                                                    <div id="result-projRationale"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Project Description:</th>
+                                                                <td>
+                                                                    <div id="result-projDescription"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Project Objective:</th>
+                                                                <td>
+                                                                    <div id="result-projObjective"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Implementing Agency:</th>
+                                                                <td>
+                                                                    <div id="result-projAgency"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row"></th>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr >
+                                                                <th>Beneficiary</th>
+                                                                <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">Target Beneficiary:</th>
+                                                                <td id="result-projBeneficiary"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Alloted Slot:</th>
+                                                                <td id="result-projSlot"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Benefits And Quantity:</th>
+                                                                <td id="result-projBenefit"></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row"></th>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr >
+                                                                <th>Requirements</th>
+                                                                <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">Requirements to be passed:</th>
+                                                                <td id="result-projRequirement"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row"></th>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr >
+                                                                <th>Timeline</th>
+                                                                <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">Duration of Application:</th>
+                                                                <td>
+                                                                    <div id="result-projApp"><div>
+                                                                </td>
+                                                            <tr>
+                                                                <th scope="row">Duration of Releasing</th>
+                                                                <td>
+                                                                    <div id="result-projRelease"><div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Days After Closing</th>
+                                                                <td>
+                                                                    <div id="result-projClose"><div>
+                                                                </td>
+                                                            </tr>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Project Location</th>
+                                                                <td>
+                                                                    <div id="result-projloc"><div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <thead>
+                                                            <tr >
+                                                                <th>Budget</th>
+                                                                <th>   </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">Estimated Budget:</th>
+                                                                <td id="result-projEstimated"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Individual Budget:</th>
+                                                                <td id="result-projIndividual"></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row"></th>
+                                                            <td></td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                            </form>
-                                        </div>
-
-                                        <div id="step-2">
-                                            //- <form class="form-horizontal form-label-left">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectname">Project Name <span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" name="projectname" onchange="getName()" id="ap-projectname" required="required" placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12" required title="Kindly put a name for this project">
-                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <select class="select2_multiple form-control" onchange="getCategory()" multiple="multiple" name="projectcategory[]" id="ap-projectcategory">
-                                                        <option>Choose option</option>
-                                                            each category in tbl_category
-                                                                option(value=`${category.int_categoryID}` )=category.varchar_categoryName
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectrationale">Project Rationale</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea onchange="getRationale()" class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="ap-projectrationale" name="projectrationale"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectobjective">Project Objective</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea onchange="getObjective()" class="resizable_textarea form-control" placeholder="Please fill project objective ..." id="ap-projectobjective" name="projectobjective"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectdescription">Project Description</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <textarea onchange="getDescription()" class="resizable_textarea form-control" placeholder="Please fill project description ..." id="ap-projectdescription" name="projectdescription"></textarea>
-                                                </div>
-                                            </div>
-                                            //- </form>
-                                        </div>
-                                        
-                                        <div id="step-3">
-                                            //- <form class="form-horizontal form-label-left">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Target Beneficiary</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" onchange="getBeneficiary()" id="ap-projectbeneficiary" name="projectbeneficiaries[]" multiple="multiple">
-                                                    <option>Choose option</option>
-                                                    each beneficiary in tbl_beneficiary
-                                                        option(value=`${beneficiary.int_beneficiaryID}`)=beneficiary.int_beneficiaryID+" - "+beneficiary.varchar_beneficiaryName
-                                                </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslots">Alloted Slot <span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" onchange="getSlot()" id="ap-allotedslots" name="allotedslots" required="required" placeholder="Number of beneficiary ..." onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
-                                                </div>
-                                            </div>
-                                            //- </form>
-                                        </div>
-
-                                        <div id="step-4">
-                                            //- <form class="form-horizontal form-label-left">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select requirements</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" id="ap-projectrequirement" multiple="multiple" name="projectrequirement[]">
-                                                    <option>Choose option</option>
-                                                    each requirement in tbl_requirement
-                                                        option(value=`${requirement.int_requirementID}`)=requirement.varchar_requirementName
-                                                </select>
-                                                </div>
-                                            </div>
-                                            //- </form>
-                                        </div>
-
-                                        <div id="step-5">
-                                            //- <form class="form-horizontal form-label-left">
-                                                //- <div class="form-group">
-                                                //-     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Start Date<span class="required">*</span>
-                                                //-     </label>
-                                                //-     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                //-         <input type="number" id="startDate" required="required" placeholder="number of days after approval ..." class="form-control col-md-7 col-xs-12">
-                                                //-     </div>
-                                                //- </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="applicationDays"> Days of application<span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" onchange="getAppDays()" id="ap-applicationDays" name="applicationDays" required="required" placeholder="Duration of beneficiary application..." class="form-control col-md-7 col-xs-12">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="releasingday">Days of Releasing<span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" onchange="getReleaseDays()" id="ap-releasingday" name="releasingday" required="required" onchange="unhide()" placeholder="number of days of releasing..." class="form-control col-md-7 col-xs-12">
-                                                </div>
-                                                </div>
-                                                //- <div class="form-group" hidden id="daychange">
-                                                //-     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days Between Release Dates<span class="required">*</span>
-                                                //-     </label>
-                                                //-     <div class="col-md-6 col-sm-6 col-xs-12">
-                                                //-         <input type="number" id="betweenDays" required="required" placeholder="Number of days skip..." class="form-control col-md-7 col-xs-12">
-                                                //-     </div>
-                                                //- </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="releasedate"> Date of releasing<span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" onchange="getReleaseDate()" id="ap-releasedate" name="releasedate" required="required" placeholder="Number days after closing application..." class="form-control col-md-7 col-xs-12">
-                                                </div>
-                                            </div>
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
-                                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <select class="select2_multiple form-control" id="ap-projectlocation" multiple="multiple" name="projectlocation[]">
-                                                        <option>Choose option</option>
-                                                            <optgroup label="City Level" id="citylevel">
-                                                                each barangay in tbl_barangay
-                                                                    option(value=`${barangay.int_cityID}` id="cityLoc" onclick="cityLocation()")=barangay.varchar_cityName
-                                                            </optgroup>
-                                                            <optgroup label="Barangay Level" id="brgylevel">
-                                                                each location in tbl_location
-                                                                    option(value=`${location.int_barangayID}` class="brgyLoc" onclick="brgyLocation()")=location.varchar_barangayName
-                                                            </optgroup>
-                                                    </select>
-                                                    </div>
-                                                </div>
-                                            //- </form>
-                                        </div>
-
-                                        <div id="step-6">
-                                            //- <form class="form-horizontal form-label-left">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estimatedbudget">Estimated Budget <span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" maxlenght="15" id="estimatedbudget" name="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="individualbudget">Individual Budget <span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" id="individualbudget" readonly="readonly" placeholder="0" class="form-control col-md-7 col-xs-12">
-                                                </div>
-                                            </div>
-                                            //- </form>
-                                        </div>
-
-                                        <div id="step-7">
-                                            <form class="form-horizontal form-label-left">
-                                                <div class="x_panel">
-                                                    <div class="x_title">
-                                                        <h2>Proposal Summary <small></small></h2>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                    <div class="x_content">
-                                                        <table class="table table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                            <th>Problem</th>
-                                                            <th>   </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                            <th scope="row">Problem to be solved:</th>
-                                                            <td><div id="result-projStatement"><div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row"></th>
-                                                            <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <thead>
-                                                            <tr>
-                                                            <th>Basic Information</th>
-                                                            <th>   </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                            <th scope="row">Project Title:</th>
-                                                            <td>
-                                                                <div id="result-projName"><div>
-                                                            </td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Category:</th>
-                                                            <td><div id="result-projCategory"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Project Rationale:</th>
-                                                            <td><div id="result-projRationale"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Project Description:</th>
-                                                            <td><div id="result-projDescription"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Project Objective:</th>
-                                                            <td><div id="result-projObjective"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row"></th>
-                                                            <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <thead>
-                                                            <tr >
-                                                            <th>Beneficiary</th>
-                                                            <th>   </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                            <th scope="row">Target Beneficiary:</th>
-                                                            <td id="result-projBeneficiary"></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Alloted Slot:</th>
-                                                            <td id="result-projSlot"></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row"></th>
-                                                            <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <thead>
-                                                            <tr >
-                                                            <th>Requirements</th>
-                                                            <th>   </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                            <th scope="row">Requirements to be passed:</th>
-                                                            <td id="result-projRequirement"></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row"></th>
-                                                            <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <thead>
-                                                            <tr >
-                                                            <th>Timeline</th>
-                                                            <th>   </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                            <th scope="row">Duration of Application:</th>
-                                                            <td><div id="result-projApp"><div></td>
-                                                            <tr>
-                                                            <th scope="row">Duration of Releasing</th>
-                                                            <td><div id="result-projRelease"><div></td>
-                                                            </tr><tr>
-                                                            <th scope="row">Days After Closing</th>
-                                                            <td><div id="result-projClose"><div></td>
-                                                            </tr>
-                                                            </tr><tr>
-                                                            <th scope="row">Project Location</th>
-                                                            <td><div id="result-projloc"><div></td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <thead>
-                                                            <tr >
-                                                            <th>Budget</th>
-                                                            <th>   </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                            <th scope="row">Estimated Budget:</th>
-                                                            <td id="result-projEstimated"></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Individual Budget:</th>
-                                                            <td id="result-projIndividual"></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row"></th>
-                                                            <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                        </form>
                                     </div>
                                 </div>      
                             </div>
@@ -420,162 +465,237 @@ block content
 
 
             
-            script.
+    script.
+        
+        
+        function getName() {
+            var name = document.getElementById("ap-projectname").value;
+            console.log(name);
+
+            document.getElementById("result-projName").innerHTML = name;
+        }
+
+        
+        function getRationale() {
+            var rationale = document.getElementById("ap-projectrationale").value;
+            console.log(rationale);
+
+            if(rationale!=0){
+                document.getElementById("result-projRationale").innerHTML = rationale;
+            }
+        }
+
+        
+        function getObjective() {
+            var objective = document.getElementById("ap-projectobjective").value;
+            console.log(objective);
+
+            if(objective!=0){
+                document.getElementById("result-projObjective").innerHTML = objective;
+            }
+        }
+
+        
+        function getDescription() {
+            var description = document.getElementById("ap-projectdescription").value;
+            console.log(description);
+
+            if(description!=0){
+                document.getElementById("result-projDescription").innerHTML = description;
+            }
+        }
+
+        
+        function getSlot() {
+            var slot = document.getElementById("ap-allotedslots").value;
+            console.log(slot);
+
+            if(slot!=0){
+                document.getElementById("result-projSlot").innerHTML = slot;
+            }
+        }
+
+    
+        function getAppDays() {
+            var applicationDays = document.getElementById("ap-applicationDays").value;
+            console.log(applicationDays);
+
+            if(applicationDays!=0){
+                document.getElementById("result-projApp").innerHTML = applicationDays;
+            }
+        }
+
+        function getReleaseDays() {
+            var releasingday = document.getElementById("ap-releasingday").value;
+            console.log(releasingday);
+
+            if(releasingday!=0){
+                document.getElementById("result-projRelease").innerHTML = releasingday;
+            }
+        }
+
+        function getReleaseDate() {
+            var releasedate = document.getElementById("ap-releasedate").value;
+            console.log(releasedate);
+
+            if(releasedate!=0){
+                document.getElementById("result-projClose").innerHTML = releasedate;
+            }
+        }
+
+        function getBeneficiary() {
+            var beneficiary = $("#ap-projectbeneficiary").children(":selected");
+            var beneficiaries = beneficiary.text().split("   ");
+            var beneList = "";
+
+            for(var a = 0 ; a < (beneficiaries.length-1) ; a++) {
+                console.log(beneficiaries[a]);
+                beneList += beneficiaries[a]+"<br>";
+            }
+
+            console.log(beneList);
+
+            if(beneficiary!=0){
+                document.getElementById("result-projBeneficiary").innerHTML = beneList;
+            }
+        }
+
+        function getAgency() {
+            var agency = $("#ap-projectagency").children(":selected");
+            var agencies = agency.text().split("   ");
+            var agenList = "";
+
+            for(var a = 0 ; a < (agencies.length-1) ; a++) {
+                console.log(agencies[a]);
+                agenList += agencies[a]+"<br>";
+            }
+
+            console.log(agenList);
+
+            if(agency!=0){
+                document.getElementById("result-projAgency").innerHTML = agenList;
+            }
+        }
+
+        function getCategory() {
+            var category = $("#ap-projectcategory").children(":selected");
+            var categories = category.text().split("   ");
+            var categList = "";
+
+            for(var a = 0 ; a < (categories.length-1) ; a++) {
+                console.log(categories[a]);
+                categList += categories[a]+"<br>";
+            }
+
+            console.log(categList);
+
+            if(category!=0){
+                document.getElementById("result-projCategory").innerHTML = categList;
+            }
+        }
+
+        function getRequirement() {
+            var requirement = $("#ap-projectrequirement").children(":selected");
+            var requirements = requirement.text().split("   ");
+            var requireList = "";
+
+            for(var a = 0 ; a < (requirements.length-1) ; a++) {
+                console.log(requirements[a]);
+                requireList += requirements[a]+"<br>";
+            }
+
+            console.log(requireList);
+
+            if(requirement!=0){
+                document.getElementById("result-projRequirement").innerHTML = requireList;
+            }
+        }
+
+        function getLocation() {
+            var location = $("#ap-projectlocation").children(":selected");
+            var locations = location.text().split("   ");
+            var locList = "";
+
+            for(var a = 0 ; a < (locations.length-1) ; a++) {
+                console.log(locations[a]);
+                locList += locations[a]+"<br>";
+            }
+
+            console.log(locList);
+
+            if(location!=0){
+                document.getElementById("result-projloc").innerHTML = locList;
+            }
+        }
+
+        function getStatement() {
+            var statement_id = [];
+            var statement_name = [];
+            var statement_name_selected = "";
+            var statement_indeces = [];
+            var statement_category = [];
+            var statement_category_selected = "";
+            
+            $(".ap-statementclass:checked").each(function() {
+                statement_id.push($(this).val());
+                statement_indeces.push($("input").index($(this)));
+            });
+
+            $(".statementName").each(function() {
+                statement_name.push($(this).html());
+            });
+
+            $(".statementCategory").each(function() {
+                statement_category.push($(this).html());
+            });
+
+            for(var i = 0 ; i < statement_indeces.length ; i++ ){
+                var counter = statement_indeces[i];
+                statement_name_selected += statement_name[counter]+"<br>";
+                statement_category_selected += statement_category[counter]+"<br>";
                 
 
-                function getName() {
-                    var name = document.getElementById("ap-projectname").value;
-                    console.log(name);
+            }
 
-                    if(name!=0){
-                        document.getElementById("result-projName").innerHTML = name;
-                    }
+
+            console.log(statement_id);
+            console.log(statement_indeces);
+            console.log(statement_name_selected);
+            console.log(statement_category_selected);
+
+            document.getElementById("result-projStatement").innerHTML = statement_name_selected;
+            document.getElementById("ap-projectcateg").innerHTML = statement_category_selected;
+            document.getElementById("result-projCategory").innerHTML = statement_category_selected;
+        }
+
+        function autobudget() {
+            var x = document.getElementById("ap-allotedslots").value;
+            var y = document.getElementById("estimatedbudget").value;
+            var z = y/x;
+            
+            if(x!=0)
+            {
+                if(x>y)
+                document.getElementById("individualbudget").value = 0;
+                else{
+                    document.getElementById("individualbudget").value = z;
                 }
+            }
+            
+            else
+                document.getElementById("individualbudget").value = 0;
 
-                function getRationale() {
-                    var rationale = document.getElementById("ap-projectrationale").value;
-                    console.log(rationale);
-
-                    if(rationale!=0){
-                        document.getElementById("result-projRationale").innerHTML = rationale;
-                    }
-                }
-
-                function getObjective() {
-                    var objective = document.getElementById("ap-projectobjective").value;
-                    console.log(objective);
-
-                    if(objective!=0){
-                        document.getElementById("result-projObjective").innerHTML = objective;
-                    }
-                }
-
-                function getDescription() {
-                    var description = document.getElementById("ap-projectdescription").value;
-                    console.log(description);
-
-                    if(description!=0){
-                        document.getElementById("result-projDescription").innerHTML = description;
-                    }
-                }
-
-                function getSlot() {
-                    var slot = document.getElementById("ap-allotedslots").value;
-                    console.log(slot);
-
-                    if(slot!=0){
-                        document.getElementById("result-projSlot").innerHTML = slot;
-                    }
-                }
-
-                function getAppDays() {
-                    var applicationDays = document.getElementById("ap-applicationDays").value;
-                    console.log(applicationDays);
-
-                    if(applicationDays!=0){
-                        document.getElementById("result-projApp").innerHTML = applicationDays;
-                    }
-                }
-
-                function getReleaseDays() {
-                    var releasingday = document.getElementById("ap-releasingday").value;
-                    console.log(releasingday);
-
-                    if(releasingday!=0){
-                        document.getElementById("result-projRelease").innerHTML = releasingday;
-                    }
-                }
-
-                function getReleaseDate() {
-                    var releasedate = document.getElementById("ap-releasedate").value;
-                    console.log(releasedate);
-
-                    if(releasedate!=0){
-                        document.getElementById("result-projClose").innerHTML = releasedate;
-                    }
-                }
-
-                function getBeneficiary() {
-                    var beneficiary = document.getElementById("ap-projectbeneficiary");
-                    var beneficiaries = new Array();
-                    console.log(beneficiary);
-
-                    if(beneficiary!=0){
-                        document.getElementById("result-projBeneficiary").innerHTML = beneficiary;
-                    }
-                }
-
-                function getCategory() {
-                    var str="", i;
-                    
-                    for( i = 0 ; i < create-proposal.ap-projectcategory.options.length ; i++) {
-                        if(create-proposal.ap-projectcategory.options[i].select) {
-                            bb
-                        }
-                    }
-                }
-
-                function cityLocation() {
-                    var strContent = "City";
-                    console.log(strContent);
-
-                    var strValue = document.getElementById("ap-projectlocation").value;
-                    console.log(strValue);
-
-                    //- for(i=0 ; i<=idValue.length ; i++) {
-                    //-     strValue+ = document.getElementById("ap-projectlocation").value;
-                    //- }
-
-                    //- console.log(strValue);
-                    document.getElementById("result-projloc").innerHTML = strValue;
-
-                }
-
-                function brgyLocation() {
-                    var strContent = "Barangay";
-                    console.log(strContent);
-                    var strValue = document.getElementById("ap-projectlocation").value;
-                    console.log(strValue);
-
-                    document.getElementById("citylevel").attr('disabled', false);
-
-                    putLocation(strContent);
-                }
-
-                function putLocation(strContent) {
-                    var idValue = document.getElementById("ap-projectlocation").value;
-                    console.log(strContent);
-                    console.log(idValue);
-                }
-
-                function autobudget() {
-                    var x = document.getElementById("allotedslots").value;
-                    var y = document.getElementById("estimatedbudget").value;
-                    var z = y/x;
-                    
-                    if(x!=0)
-                    {
-                        if(x>y)
-                        document.getElementById("individualbudget").value = 0;
-                        else{
-                            document.getElementById("individualbudget").value = z;
-                        }
-                    }
-                    
-                    else
-                        document.getElementById("individualbudget").value = 0;
-
-                    document.getElementById("result-projEstimated").innerHTML = y;
-                    document.getElementById("result-projIndividual").innerHTML = z;
-                }
-                
-                function unhide() {
-                    var x = document.getElementById("daychange");
-                    var y = document.getElementById("releasingday").value;
-                    document.getElementById("applicationduration");
-                    if (y >= "2") {
-                        x.style.display = "block";
-                    } else {
-                        x.style.display = "none";
-                    }
-                }
+            document.getElementById("result-projEstimated").innerHTML = y;
+            document.getElementById("result-projIndividual").innerHTML = z;
+        }
+        
+        function unhide() {
+            var x = document.getElementById("daychange");
+            var y = document.getElementById("releasingday").value;
+            document.getElementById("applicationduration");
+            if (y >= "2") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }

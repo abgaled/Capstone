@@ -19,8 +19,10 @@ block content
                         
                         <div class="clearfix"></div>
                     </div>
-                    <form id="appType" action="" method="POST" id="formapptype"class="form-horizontal form-label-left">
+                    <form action="" method="POST" id="formapptype"class="form-horizontal form-label-left">
                         <div class="x_content">
+                            <label for="applicationtype" generated="true" class="error"></label>
+                            <br>
                             each apptype in tbl_applicationtype
                                 input(type="radio" id="applicationtype" name="applicationtype" value=`${apptype.enum_applicationType}` required)
                                 value= " " + apptype.enum_applicationType
@@ -55,4 +57,31 @@ block content
                     }                        
                     })
             });
+            //- START VALIDATIONS
+                $(function() {
+                $("#formapptype").validate({
+                    rules: {
+                    applicationtype: {
+                        required: true,
+                    },
+                    action: "required"
+                    },
+                    messages: {
+                    applicationtype: {
+                        required: "Please select an option.",
+                    },
+                    action: "Please select an option."
+                    },
+                    submitHandler: function(form){
+                        form.submit();
+                        swal(
+                            'Success!',
+                            'This type of application has been chosen!',
+                            'success'
+                            )
+                    }
+                });
+                
+                });
+                //- END VALIDATIONS
         });

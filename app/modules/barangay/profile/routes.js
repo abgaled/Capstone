@@ -9,8 +9,12 @@ router.get('/',(req, res) => {
     console.log('=================================');
 
     var queryString = `SELECT * FROM tbl_user 
-    JOIN tbl_barangay ON tbl_user.int_userID=tbl_barangay.int_userID 
-    JOIN tbl_city ON tbl_barangay.int_cityID=tbl_city.int_cityID
+    JOIN tbl_barangayuser 
+    ON tbl_user.int_userID=tbl_barangayuser.int_userID 
+    JOIN tbl_barangay
+    ON tbl_barangayuser.int_barangayID=tbl_barangay.int_barangayID
+    JOIN tbl_city 
+    ON tbl_barangay.int_cityID=tbl_city.int_cityID
     WHERE tbl_user.int_userID=${req.session.barangay.int_userID}`
 
     db.query(queryString,(err, results1) => {
@@ -62,9 +66,12 @@ router.post('/', (req, res) => {
         console.log('=================================');
 
 
-        var queryString2 = `UPDATE tbl_barangay SET
-        varchar_barangayContact = "${req.body.barangay_contact}"
-        WHERE tbl_barangay.int_userID = ${req.session.barangay.int_userID}`;
+        var queryString2 = `UPDATE tbl_barangay 
+        JOIN tbl_barangayuser
+        ON tbl_barangay.int_barangayID=tbl_barangayuser.int_barangayID
+        SET
+        tbl_barangay.varchar_barangayContact = "${req.body.barangay_contact}"
+        WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`;
 
         db.query(queryString2, (err, results2, fields) => {        
         console.log('=================================');

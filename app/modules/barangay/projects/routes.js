@@ -356,14 +356,18 @@ router.get('/:int_projectID/apply',(req,res) => {
 //                                  APPLICATION
 // ===============================================================================
 
-router.post('/:int_projectID/apply',(req,res) => {
+
+// POST - APPLICATION (RESIDENT)
+router.post('/:int_projectID/apply/resident',(req,res) => {
     console.log('=================================');
-    console.log('BARANGAY: PROJECTS-APPLICATION-FORM-POST');
+    console.log('BARANGAY: PROJECTS-APPLICATION-FORM(RESIDENT)-POST');
     console.log('=================================');
 
-    var barangayQuery = `SELECT int_barangayID 
+    var barangayQuery = `SELECT tbl_barangay.int_barangayID 
     FROM tbl_barangay 
-    WHERE int_userID = ${req.session.barangay.int_userID}`
+    JOIN tbl_barangayuser
+    ON tbl_barangay.int_barangayID = tbl_barangayuser.int_barangayID
+    WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`
 
     db.query(barangayQuery, (err, barangay, fields) => {        
         if (err) throw err;
@@ -376,10 +380,12 @@ router.post('/:int_projectID/apply',(req,res) => {
         var queryString1 = `INSERT INTO tbl_application 
         (\`int_barangayID\`,
         \`int_projectID\`,
+        \`enum_applicationType\`,
         \`enum_applicationStatus\`) 
         VALUES 
         (${barangayFinal.int_barangayID},
         ${req.params.int_projectID},
+        "Resident",
         "Pending")`
     
 
@@ -395,15 +401,15 @@ router.post('/:int_projectID/apply',(req,res) => {
 
                 int_applicationID = queryselect2[0].int_applicationID;
 
-                var queryString2 = `SELECT * FROM tbl_barangay JOIN tbl_user
-                    ON tbl_user.int_userID = tbl_barangay.int_userID 
-                    JOIN tbl_city ON tbl_barangay.int_cityID = tbl_city.int_cityID
-                    WHERE tbl_user.int_userID = ${req.session.barangay.int_userID}`
+                // var queryString2 = `SELECT * FROM tbl_barangay JOIN tbl_user
+                //     ON tbl_user.int_userID = tbl_barangay.int_userID 
+                //     JOIN tbl_city ON tbl_barangay.int_cityID = tbl_city.int_cityID
+                //     WHERE tbl_user.int_userID = ${req.session.barangay.int_userID}`
 
-                db.query(queryString2,(err, results2, fields) => {
-                    if (err) console.log(err);
-                    console.log("SELECT & JOIN: USER & OFFICE");
-                    console.log(results2);
+                // db.query(queryString2,(err, results2, fields) => {
+                //     if (err) console.log(err);
+                //     console.log("SELECT & JOIN: USER & OFFICE");
+                //     console.log(results2);
 
                     var insertPersonalInfo = `INSERT INTO tbl_personalinformation
                         (\`int_applicationID\`,
@@ -458,20 +464,86 @@ router.post('/:int_projectID/apply',(req,res) => {
                         }
                         res.redirect('/barangay/projects');
                     });
-                });
+                // });
             });
         });
     });
 });
 
+// POST - APPLICATION (BARANGAY)
+router.post('/:int_projectID/apply/barangay',(req,res) => {
+    console.log('=================================');
+    console.log('BARANGAY: PROJECTS-APPLICATION-FORM(RESIDENT)-POST');
+    console.log('=================================');
 
+    var barangayQuery = `SELECT tbl_barangay.int_barangayID 
+    FROM tbl_barangay 
+    JOIN tbl_barangayuser
+    ON tbl_barangay.int_barangayID = tbl_barangayuser.int_barangayID
+    WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`
 
+    db.query(barangayQuery, (err, barangay, fields) => {        
+        if (err) throw err;
+
+        var barangayFinal = barangay[0];
+
+        // ===============================================================================
+        //                          INSERT INTO TBL_APPLICATION
+        // ===============================================================================
+        var queryString1 = `INSERT INTO tbl_application 
+        (\`int_barangayID\`,
+        \`int_projectID\`,
+        \`enum_applicationType\`,
+        \`enum_applicationStatus\`) 
+        VALUES 
+        (${barangayFinal.int_barangayID},
+        ${req.params.int_projectID},
+        "Barangay",
+        "Pending")`
+    
+
+        db.query(queryString1,(err, results1, fields) => {
+            if (err) console.log(err);
+            console.log("INSERT: Table Application");
+
+            var queryselect1 = `SELECT * FROM tbl_application ORDER BY int_applicationID DESC LIMIT 0,1`;
+
+            db.query(queryselect1,(err, queryselect2, fields) => {
+                
+                console.log(queryselect2[0].int_applicationID);
+
+                int_applicationID = queryselect2[0].int_applicationID;
+
+                    var insertBrgyApp = `INSERT INTO tbl_barangayapplication
+                        (\`int_applicationID\`,
+                        \`int_slot\`,
+                        \`text_applicationReason\`) 
+                        VALUES 
+                        (${int_applicationID},
+                        ${req.body.apply_slots},
+                        "${req.body.apply_reason}")`
+
+                        db.query(insertBrgyApp,(err, barangayapp, fields) => {
+                            if (err) console.log(err);
+
+                            res.redirect('/barangay/projects');
+                        });
+            });
+        });
+    });
+});
+
+// BUTTON - APPLICATIONS
 router.get('/:int_projectID/registeredapplicants',(req, res) => {
     console.log('=================================');
     console.log('BARANGAY: PROJECTS-REGISTERED APPLICANTS');
     console.log('=================================');
 
-    var barangayQuery = `SELECT int_barangayID FROM tbl_barangay WHERE int_userID = ${req.session.barangay.int_userID}`;
+    var barangayQuery = `SELECT tbl_barangay.int_barangayID 
+    FROM tbl_barangay 
+    JOIN tbl_barangayuser
+    ON tbl_barangay.int_barangayID = tbl_barangayuser.int_barangayID
+    WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`;
     
     db.query(barangayQuery, (err, brgyID, fields) => {
         console.log('============================')
@@ -524,7 +596,7 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
                     console.log('=================================');
 
             
-                    res.render('barangay/projects/views/applicationlist',{
+                    res.render('barangay/projects/views/applicationlist1',{
                         tbl_project:getResults1,
                         tbl_applicants:applicants,
                         notifications:notifications,

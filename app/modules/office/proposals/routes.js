@@ -134,15 +134,18 @@ router.post('/',(req, res) => {
     console.log("PROJECT BUDGET:")
     var estimatedbudget = req.body.estimatedbudget;
     console.log(estimatedbudget);
-    console.log("PROJECT CATEGORY:")
-    var categ = req.body.projectcategory;
-    console.log(categ);
+    // console.log("PROJECT CATEGORY:")
+    // var categ = req.body.categorylist;
+    // console.log(categ);
     console.log("PROJECT BENEFICIARY:")
     var beneficiaries = req.body.projectbeneficiaries;
     console.log(beneficiaries);
     console.log("PROJECT REQUIREMENT:")
     var require = req.body.projectrequirement;
     console.log(require);
+    console.log("PROJECT IMPLEMENTING AGENCY:")
+    var agency = req.body.projectagency;
+    console.log(agency);
     console.log("PROBLEM STATEMENT:")
     var statementList = req.body.statementsList;
     console.log(statementList);
@@ -249,7 +252,37 @@ router.post('/',(req, res) => {
                     console.log(insertResult);
                 });
             }
+
+
+            // INSERT PROJECT IMPLEMENTING AGENCY
+            console.log("==============INSERT PROJECT IMPLEMENTING AGENCY ====================");
             
+            console.log(agency);
+            console.log(agency.length);
+
+            for(var m = 0 ; m < agency.length ; m++ ) 
+            {
+                console.log(m);
+                console.log(agency[m]);
+                
+                var insertAgency = `INSERT INTO \`tbl_projectagency\`
+                    (
+                        \`int_projectID\`,
+                        \`int_agencyID\`
+                    )
+
+                    VALUES
+                    (
+                        "${toproject.int_projectID}",
+                        "${agency[m]}"
+                    )`;
+
+                db.query(insertAgency, (err, insertResult) => {        
+                    if (err) throw err;
+                    console.log(insertResult);
+                });
+            }
+
 
             // INSERT PROJECT REQUIREMENT
             console.log("==============INSERT PROJECT REQUIREMENT====================");
@@ -283,29 +316,35 @@ router.post('/',(req, res) => {
             //  INSERT PROJECT CATEGORY
             console.log("==============INSERT PROJECT CATEGORY====================");
             
-            console.log(categ);
-            console.log(categ.length);
+            var statementCategoryQuery = `SELECT int_categoryID 
+                FROM tbl_problemstatement
+                WHERE int_statementID IN (${statementList})`;
 
+            db.query(statementCategoryQuery, (err, categResult, fields) => {
+                if(err) console.log(err);
 
-            for(var l = 0 ; l < categ.length ; l++)
-            {
-                console.log(l);
-                var insertTimeline = `INSERT INTO \`tbl_projectcategory\`
-                    (
-                        \`int_categoryID\`,
-                        \`int_projectID\`
-                    )
-                        
-                        VALUES(
-                        "${categ[l]}",
-                        "${toproject.int_projectID}"
-                    );`;
-
-                db.query(insertTimeline, (err, tblprojectrequirement, fields) => {        
-                    if (err) throw err;
-                });
-            }
-
+                var categ = categResult;
+                console.log(categ);
+                
+                for(var l = 0 ; l < categ.length ; l++)
+                {
+                    console.log(l);
+                    var insertTimeline = `INSERT INTO \`tbl_projectcategory\`
+                        (
+                            \`int_categoryID\`,
+                            \`int_projectID\`
+                        )
+                            
+                            VALUES(
+                            "${categ[l].int_categoryID}",
+                            "${toproject.int_projectID}"
+                        );`;
+    
+                    db.query(insertTimeline, (err, tblprojectrequirement, fields) => {        
+                        if (err) throw err;
+                    });
+                }
+            });
             res.redirect('/office/proposals');  
         });
     });
@@ -330,13 +369,15 @@ router.get('/createproposals',(req, res) => {
     var queryString4 =`SELECT DISTINCT * FROM tbl_city WHERE int_userID=${req.session.office.int_userID}`
     
     var queryString5 =`SELECT * FROM tbl_problemstatement ps
-    JOIN tbl_category cat ON ps.int_categoryID = cat.int_categoryID
-    WHERE enum_problemStatus = 'Acknowledged'`
+        JOIN tbl_category cat ON ps.int_categoryID = cat.int_categoryID
+        WHERE enum_problemStatus = 'Acknowledged'`
 
     var queryString6 = `SELECT *
         FROM tbl_barangay B JOIN tbl_city C
         ON B.int_cityID=C.int_cityID
         WHERE C.int_userID=${req.session.office.int_userID}`;
+
+    var queryString7 = `SELECT * FROM tbl_agency WHERE enum_agencyStatus='Active'`;
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -356,15 +397,20 @@ router.get('/createproposals',(req, res) => {
                         db.query(queryString6, (err, results6, fields) => {
                             console.log(results6);
                             if (err) console.log(err);
-                            res.render('office/proposals/views/createproposals', 
-                            {
-                                tbl_category: results,
-                                tbl_beneficiary:results2,
-                                tbl_requirement:results3,
-                                tbl_barangay:results4,
-                                tbl_problemstatement:results5,
-                                tbl_location:results6
-                            });
+                            db.query(queryString7, (err, results7, fields) => {
+                                console.log(results7);
+                                if (err) console.log(err);
+                                res.render('office/proposals/views/createproposals', 
+                                {
+                                    tbl_category: results,
+                                    tbl_beneficiary:results2,
+                                    tbl_requirement:results3,
+                                    tbl_barangay:results4,
+                                    tbl_problemstatement:results5,
+                                    tbl_location:results6,
+                                    tbl_agency: results7
+                                });
+                            });    
                         });
                     });
                 });
