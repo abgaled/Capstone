@@ -583,6 +583,8 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
             
                 var countrow = notifications.length;
 
+
+                // QUERY APPLICATIONS (RESIDENTS)
                 var applicantsQuery = `SELECT * FROM tbl_application app 
                     JOIN tbl_personalinformation pi
                     ON app.int_applicationID=pi.int_applicationID
@@ -592,15 +594,30 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
                 db.query(applicantsQuery,(err, applicants) => {
                     if (err) console.log(err);
                     console.log('=================================');
-                    console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS');
+                    console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS (Resident)');
                     console.log('=================================');
 
+                    // QUERY APPLICATIONS (BARANGAY)
+                    var barangayQuery = `SELECT * FROM tbl_application app 
+                    JOIN tbl_barangayapplication bap
+                    ON app.int_applicationID = bap.int_applicationID
+                    WHERE app.int_projectID = ${req.params.int_projectID}
+                    AND app.int_barangayID = ${barangayID}`
+
+                    db.query(barangayQuery,(err, barangay) => {
+                        if (err) console.log(err);
+                        console.log('=================================');
+                        console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS (Barangay)');
+                        console.log('=================================');
+
             
-                    res.render('barangay/projects/views/applicationlist1',{
-                        tbl_project:getResults1,
-                        tbl_applicants:applicants,
-                        notifications:notifications,
-                        numbernotif:countrow});
+                        res.render('barangay/projects/views/applicationlist',{
+                            tbl_project:getResults1,
+                            tbl_applicants:applicants,
+                            tbl_barangay:barangay,
+                            notifications:notifications,
+                            numbernotif:countrow});
+                    });
                 });
             });
         });

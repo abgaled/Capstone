@@ -20,214 +20,51 @@ block content
                         
                         <div class="clearfix"></div>
                     </div>
-                    <form id="regForm" action="" method="POST" class="form-horizontal form-label-left">
                         <div class="x_content">
-                            <!-- Smart Wizard -->
-
-                            <div id="wizard" class="form_wizard wizard_horizontal">
-                                <ul class="wizard_steps">
-                                    <li>
-                                        <a href="#basicinfotab">
-                                            <span class="step_no">1</span>
-                                            <span class="step_descr"> Step 1<br />
-                                                <small>Basic Information</small>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#requirement">
-                                            <span class="step_no">2</span>
-                                            <span class="step_descr"> Step 2<br />
-                                                <small>Check Requirements</small>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#summary">
-                                            <span class="step_no">3</span>
-                                            <span class="step_descr"> Step 3<br />
-                                                <small>Summary of Application</small>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>
-
-                                <div class="tab" id="basicinfotab">
-                                    <hr/>
-                                    <h3>BASIC PERSONAL INFORMATION</h3>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label for="ap-fname" class="form-control-label"><strong>First</strong> Name</label>
-                                                <input type="text" id="ap-fname" onchange="getfname()" name="apply_fname" placeholder="Applicant's First name ..." class="names col-sm-11 form-control ">
-                                        </div>
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label for="ap-lname" class="form-control-label"><strong>Last</strong> Name</label>
-                                                <input type="text" id="ap-lname" onchange="getlname()" name="apply_lname" placeholder="Applicant's Last name ..." class="names col-sm-11 form-control ">
-                                        </div>
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label for="ap-mname" class="form-control-label"><strong>Middle</strong> Name</label>
-                                                <input type="text" id="ap-mname" onchange="getmname()" name="apply_mname" placeholder="Applicant's Middle name ..." class="middle col-sm-11 form-control ">
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label for="ap-birthdate" class="form-control-label"><strong>Birthdate</strong></label>
-                                                <input type="date" id="ap-birthdate" onchange="getbirthdate()" name="apply_birthdate" placeholder="Birthdate" class="col-sm-11 form-control ">
-                                        </div>
-                                        <div class="form-group col-md-3 col-sm-12">
-                                            <label for="ap-number" class="form-control-label"><strong>Contact Number</strong></label>
-                                                <input type="text" id="ap-number" onchange="getcontact()" name="apply_contact" data-inputmask="'mask' : '(+63) 999-999-9999'" class="col-sm-11 form-control ">
-                                        </div>
-                                        <div class="form-group col-md-5 col-sm-12">
-                                            <label for="ap-email" class="form-control-label"><strong>Email Address</strong></label>
-                                                <input type="email" id="ap-email" onchange="getemail()" name="apply_emailaddress" placeholder="(ex: abc@gmail.com)" class="col-sm-11 form-control ">
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label for="ap-gender" class="control-label"><strong>Gender</strong></label>
-                                            <div class="form-check form-check-inline" id="ap-gender" >
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" onchange="getgender1()" value="Male" name="apply_gender" id="ap-gender1"> Male
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" onchange="getgender2()" value="Female" name="apply_gender" id="ap-gender2"> Female
-                                                </label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label for="ap-yrres" class="form-control-label"><strong>Year of Residency</strong></label>
-                                                <input type="text" id="ap-yrres" onchange="getyrres()" name="apply_yrres" placeholder="(ex. 20xx, 2010)" class="col-sm-11 form-control ">
-                                        </div>
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label for="ap-civilstat" class="form-control-label"><strong>Civil Status</strong></label>
-                                            <select class="form-control" id="ap-civilstat" name="apply_civilstat" onchange="getcivilstat()">
-                                                <option value="Single">Single</option>
-                                                <option value="Married">Married</option>
-                                                <option value="Widowed">Widowed</option>
+                            <table id="tbl" class="table table-borderless table-data3" style="table-layout:auto;width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Relative's Name</th>
+                                        <th>Relationship</th>
+                                        <th>Civil Status</th>
+                                        <th>Educational Attainment</th>
+                                        <th>Occupation</th>
+                                        <th>Worker Class</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="famname" /></td>
+                                        <td><input type="text" name="famrel" /></td> 
+                                        <td>
+                                            <select name ="famcivil">
+                                                <option value = "Single">Single</option>
+                                                <option value = "Married">Married</option>
+                                                <option value = "Widowed">Widowed</option>
+                                                <option value = "Divorce/Separated">Divorce/Separated</option>
+                                                <option value = "Unknown">Unknown</option>
                                             </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                //- END OF FIRST TAB
-
-
-                                //- APPLICANT'S REQUIREMENT/S
-                                <div class="tab" id="requirement">
-                                    <hr/>
-                                    <h3>REQUIREMENTS</h3>
-                                    <small>Below are the list of the requirements that the applicant needed to comply.</small>
-
-
-                                    <div class="table-responsive m-b-40">
-                                        <tr>
-                                            <div class="form-check">
-                                                <label for="Requirements"></label>
-                                                <br>
-                                                <label for="checkbox1" class="form-check-label ">
-                                                each req in requirements
-                                                    input(type="checkbox" id="ap-requirementid" name="requirementID[]" value=`${req.int_requirementID}` )
-                                                    value= " " + req.varchar_requirementName
-                                                    <br>
-                                                </label>
-                                            </div>
-                                        </tr>                   
-                                    </div>
-                                </div> 
-                                //- END OF APPLICANT'S REQUIREMENT/S 
-
-                                //- SUMMARY OF APPLICATION
-                                <div class="tab" id="summary">
-                                    <hr/>
-                                            <form class="form-horizontal form-label-left">
-                                                <div class="x_panel">
-                                                    <div class="x_title">
-                                                        <h2>Summary of Application <small></small></h2>
-                                                        <div class="clearfix"></div>
-                                                        <small>These are the information about the applicant you want to register.</small>
-                                                    </div>
-                                                    <div class="x_content">
-                                                        <table class="table table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                            <th>Basic Information</th>
-                                                            <th>   </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                            <th scope="row">Last Name:</th>
-                                                            <td>
-                                                                <div id="result-lname"><div>
-                                                            </td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">First Name:</th>
-                                                            <td><div id="result-fname"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Middle Name:</th>
-                                                            <td><div id="result-mname"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Birthdate:</th>
-                                                            <td><div id="result-birthdate"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Contact Number:</th>
-                                                            <td><div id="result-contact"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Email Address:</th>
-                                                            <td><div id="result-email"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Gender:</th>
-                                                            <td><div id="result-gender"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Year of Residency:</th>
-                                                            <td><div id="result-yrres"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">Civil Status:</th>
-                                                            <td><div id="result-civilstat"></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row"></th>
-                                                            <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <thead>
-                                                            <tr >
-                                                            <th>Requirements</th>
-                                                            <th>   </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                            <th scope="row">Requirements passed:</th>
-                                                            <td id="result-projRequirement"></td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row"></th>
-                                                            <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                </div> 
-                                //- END OF SUMMARY OF APPLICATION
-
-                            </div>
-                            <!-- End SmartWizard Content -->
+                                        </td>  
+                                        <td><input type="text" name="fameduc" /></td>  
+                                        <td><input type="text" name="famoccu" /></td>  
+                                        <td>
+                                            <select name ="famclass">
+                                                <option value = "Works for private household">Works for private household</option>
+                                                <option value = "Works for private establishment">Works for private establishment</option>
+                                                <option value = "Works for government agency/corporation">Works for government agency/corporation</option>
+                                                <option value = "Self-employed without any employee">Self-employed without any employee</option>
+                                                <option value = "Employer in own family-operated farm/business">Employer in own family-operated farm/business</option>
+                                                <option value = "Works with pay on own family-operated farm/business">Works with pay on own family-operated farm/business</option>
+                                                <option value = "Works withoyt pay on own family-operated farm/business">Works withoyt pay on own family-operated farm/business</option>
+                                                <option value = "Unemployed">Unemployed</option>
+                                            </select>
+                                        </td>  
+                                        <td><input type="submit" value="Add another" onclick="addField(this);" /></td>          
+                                        <td><input type="submit" value="Remove" onclick="deleteField(this);" /></td>          
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -235,321 +72,12 @@ block content
 
     //- SCRIPT FOR TABS
     script.
-        var currentTab = 0; // Current tab is set to be the first tab (0)
-        showTab(currentTab); // Display the current tab
-
-        function showTab(n) {
-        // This function will display the specified tab of the form ...
-        var x = document.getElementsByClassName("tab");
-        x[n].style.display = "block";
-        // ... and fix the Previous/Next buttons:
-        if (n == 0) {
-            document.getElementById("prevBtn").style.display = "none";
-        } else {
-            document.getElementById("prevBtn").style.display = "inline";
-        }
-        if (n == (x.length - 1)) {
-            document.getElementById("nextBtn").innerHTML = "Submit";
-        } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
-        }
-        // ... and run a function that displays the correct step indicator:
-        fixStepIndicator(n)
-        }
-
-        function nextPrev(n) {
-        // This function will figure out which tab to display
-        var x = document.getElementsByClassName("tab");
-        // Exit the function if any field in the current tab is invalid:
-        if (n == 1 && !validateForm()) return false;
-        // Hide the current tab:
-        x[currentTab].style.display = "none";
-        // Increase or decrease the current tab by 1:
-        currentTab = currentTab + n;
-        // if you have reached the end of the form... :
-        if (currentTab >= x.length) {
-            //...the form gets submitted:
-            document.getElementById("regForm").submit();
-            return false;
-        }
-        // Otherwise, display the correct tab:
-        showTab(currentTab);
-        }
-
-        function validateForm() {
-        // This function deals with validation of the form fields
-        var x, names,middle, a, b, valid = true;
-        x = document.getElementsByClassName("tab");
-        
-        //- VALIDATE APPLICATION NAMES(FIRST, LAST)
-        var noespchar = `[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]`;
-        names = x[currentTab].getElementsByClassName("names");
-        middle = x[currentTab].getElementsByClassName("middle");
-        //- END VALIDATE APPLICATION NAMES
-        
-        // A loop that checks every input field in the current tab:
-
-        //- NAMES(FIRST AND LAST)
-        for (a = 0; a < names.length; a++) {
-            // If a field is empty...
-            if (names[a].value == "" || names[a].value == noespchar ||  names[a].value == " ") {
-            console.log("INVALID NAMES(FIRST AND LAST)")
-            // add an "invalid" class to the field:
-            names[a].className += "invalid";
-            // and set the current valid status to false:
-            valid = false;
+        function addField(n)
+            {
+            var tr = n.parentNode.parentNode.cloneNode(true);
+            document.getElementById('tbl').appendChild(tr);
             }
-        }
-        //- END OF NAMES(FIRST AND LAST)
-        //- NAME(MIDDLE NAME)
-        for (b = 0; b < middle.length; b++) {
-            // If a field is empty...
-            if (middle[b].value == noespchar ||  middle[b].value == " ") {
-            console.log("INVALID NAME(MIDDLE)")
-            // add an "invalid" class to the field:
-            middle[b].className += "invalid";
-            // and set the current valid status to false:
-            valid = false;
-            }
-        }
-        //- END OF NAMES(MIDDLENAME)
-
-
-        // If the valid status is true, mark the step as finished and valid:
-        if (valid) {
-            document.getElementsByClassName("step")[currentTab].className += " finish";
-        }
-        return valid; // return the valid status
-        }
-
-        function fixStepIndicator(n) {
-        // This function removes the "active" class of all steps...
-        var i, x = document.getElementsByClassName("step");
-        for (i = 0; i < x.length; i++) {
-            x[i].className = x[i].className.replace(" active", "");
-        }
-        //... and adds the "active" class to the current step:
-        x[n].className += " active";
-        }
-
-
-        (function ($) {
-            var next = 1;
-            $(".add-more").click(function(e){
-                e.preventDefault();
-                var addto = "#field" + next;
-                var addRemove = "#field" + (next);
-                next = next + 1;
-                var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
-                var newInput = $(newIn);
-                var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
-                var removeButton = $(removeBtn);
-                $(addto).after(newInput);
-                $(addRemove).after(removeButton);
-                $("#field" + next).attr('data-source',$(addto).attr('data-source'));
-                $("#count").val(next);  
-                
-                    $('.remove-me').click(function(e){
-                        e.preventDefault();
-                        var fieldNum = this.id.charAt(this.id.length-1);
-                        var fieldID = "#field" + fieldNum;
-                        $(this).remove();
-                        $(fieldID).remove();
-                    });
-            });            
-        });
-        //- SCRIPT FOR LABEL
-        (function ($) {
-            $.fn.floatLabels = function (options) {
-
-                // Settings
-                var self = this;
-                var settings = $.extend({}, options);
-
-
-                // Event Handlers
-                function registerEventHandlers() {
-                    self.on('input keyup change', 'input, textarea', function () {
-                        actions.swapLabels(this);
-                    });
-                }
-
-
-                // Actions
-                var actions = {
-                    initialize: function() {
-                        self.each(function () {
-                            var $this = $(this);
-                            var $label = $this.children('label');
-                            var $field = $this.find('input,textarea').first();
-
-                            if ($this.children().first().is('label')) {
-                                $this.children().first().remove();
-                                $this.append($label);
-                            }
-
-                            var placeholderText = ($field.attr('placeholder') && $field.attr('placeholder') != $label.text()) ? $field.attr('placeholder') : $label.text();
-
-                            $label.data('placeholder-text', placeholderText);
-                            $label.data('original-text', $label.text());
-
-                            if ($field.val() == '') {
-                                $field.addClass('empty')
-                            }
-                        });
-                    },
-                    swapLabels: function (field) {
-                        var $field = $(field);
-                        var $label = $(field).siblings('label').first();
-                        var isEmpty = Boolean($field.val());
-
-                        if (isEmpty) {
-                            $field.removeClass('empty');
-                            $label.text($label.data('original-text'));
-                        }
-                        else {
-                            $field.addClass('empty');
-                            $label.text($label.data('placeholder-text'));
-                        }
-                    }
-                }
-
-
-                // Initialization
-                function init() {
-                    registerEventHandlers();
-
-                    actions.initialize();
-                    self.each(function () {
-                        actions.swapLabels($(this).find('input,textarea').first());
-                    });
-                }
-                init();
-
-
-                return this;
-            };
-
-            $(function () {
-                $('.float-label-control').floatLabels();
-            });
-        })(jQuery);
-
-        //- END OF SCRIPT FOR LABEL
-
-        //- SWEET ALERT CONFIRM SUBMIT
-                $('#regForm').on('submit',function (e) {
-                    var form = $(this).parents('form');
-                    e.preventDefault(); //prevent submit
-                    
-                        swal({
-                        title: 'Are you sure?',
-                        text: "You will submit this application.",
-                        type: 'info',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, submit it!'
-                        }).then((result) => {
-                        if (result.value) {
-                            $('##regForm').submit();
-                            swal(
-                            'Success!',
-                            'Statement of Problem has been Submitted!',
-                            'success'
-                            )
-                        }
-                        })
-                });
-        //- END OF SWEET ALERT
-
-        //- SCRIPT FOR SUMMARY OF APPLICATION
-        function getlname() {
-            var lname = document.getElementById("ap-lname").value;
-            console.log(lname);
-
-            if(lname!=0){
-                document.getElementById("result-lname").innerHTML = lname;
-            }
-        }
-
-        function getfname() {
-            var fname = document.getElementById("ap-fname").value;
-            console.log(fname);
-
-            if(fname!=0){
-                document.getElementById("result-fname").innerHTML = fname;
-            }
-        }
-
-        function getmname() {
-            var mname = document.getElementById("ap-mname").value;
-            console.log(mname);
-
-            if(mname!=0){
-                document.getElementById("result-mname").innerHTML = mname;
-            }
-        }
-
-        function getbirthdate() {
-            var birthdate = document.getElementById("ap-birthdate").value;
-            console.log(birthdate);
-
-            if(birthdate!=0){
-                document.getElementById("result-birthdate").innerHTML = birthdate;
-            }
-        }
-
-        function getcontact() {
-            var contact = document.getElementById("ap-number").value;
-            console.log(contact);
-
-            if(contact!=0){
-                document.getElementById("result-contact").innerHTML = contact;
-            }
-        }
-
-        function getemail() {
-            var email = document.getElementById("ap-email").value;
-            console.log(email);
-
-            if(email!=0){
-                document.getElementById("result-email").innerHTML = email;
-            }
-        }
-
-        function getgender1() {
-            var gender = document.getElementById("ap-gender1").value;
-            console.log(gender);
-
-            if(gender!=0){
-                document.getElementById("result-gender").innerHTML = gender;
-            }
-        }
-
-        function getgender2() {
-            var gender = document.getElementById("ap-gender2").value;
-            console.log(gender);
-
-            if(gender!=0){
-                document.getElementById("result-gender").innerHTML = gender;
-            }
-        }
-
-        function getyrres() {
-            var yrres = document.getElementById("ap-yrres").value;
-            console.log(yrres);
-
-            if(yrres!=0){
-                document.getElementById("result-yrres").innerHTML = yrres;
-            }
-        }
-
-        function getcivilstat() {
-            var civilstat = document.getElementById("ap-civilstat").value;
-            console.log(civilstat);
-
-            if(civilstat!=0){
-                document.getElementById("result-civilstat").innerHTML = civilstat;
-            }
+        function deleteField(src) {
+            var row = src.parentNode.parentNode;
+            row.parentNode.removeChild(row);
         }

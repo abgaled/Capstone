@@ -23,14 +23,6 @@ block content
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Project Name</th>
-                                                        <th>Releasing Date</th>
-                                                        <th>Status</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </tfoot>
                                                 <tbody>
                                                 each project in tbl_project
                                                     <tr>
@@ -38,15 +30,26 @@ block content
                                                             value=project.varchar_projectName
                                                         </td>
                                                         <td>
-                                                            value=project.date_releaseDate
+                                                            value=project.date_startReleaseDate
                                                         </td>
                                                         <td>
-                                                            value=project.enum_projectStatus
+                                                            if project.enum_projectStatus == 'Closed'
+                                                                <p>Upcoming Release</p>
+                                                            else
+                                                                value=project.enum_projectStatus
                                                         </td>
                                                         <td>
-                                                            a(href=`/office/releasing/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
+                                                            a(href=`/office/releasing/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-info btn-s btn-block"): span.fa.fa-eye View Details
                                                             //a(href=`/office/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-primary btn-xs btn-block"): span Beneficiaries
-                                                            a(href=`/office/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-success btn-xs btn-block"): span Start Releasing
+                                                            if project.enum_projectStatus == 'Closed'
+                                                                button.btn.btn-success.btn-s.btn-block(id="btn-startProj"  value= project.int_projectID class="btn-startProj"): span.fa.fa-open Open Releasing
+                                                                
+                                                                <form hidden id="formprojectOPEN" method="POST" action='' name="formprojectOPEN">
+                                                                    <input id="int_projectID" name="int_projectID">
+                                                                </form>
+                                                            if project.enum_projectStatus == 'Releasing'
+                                                                a(href=`/office/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-primary btn-s btn-block"): span.fa.fa-eye View Beneficiary Releasing
+                                                                a(href=`/office/releasing/${project.int_projectID}/finproj` id="finproj" class="btn btn-danger btn-s btn-block"): span.fa Finish Project
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -54,5 +57,163 @@ block content
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal fade" id="startprojectModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <form class="form-horizontal form-label-left" method="POST" action='/office/releasing/openlatereleasing' id="formstartreason">
+                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                    </button>
+                                                    <h4 class="modal-title" id="mediumModalLabel">Reason of early/late project start
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                                <label class="col-md-5" for="problemcreated">Scheduled Date to Start Releasing:
+                                                                </label>
+                                                                <div class="col-md-7" id="aj-projectDate">
+                                                    
+                                                                </div>
+                                                                <br>
+                                                        </div>
+                                                        <div class="col-md-1 col-sm-1 col-xs-12">
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                                            <textarea class="resizable_textarea form-control" id="projectReason" name="projectReason" placeholder=""></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="hidden" id="projectID" name="projectID" >
+                                                            <input type="hidden" id="current_date" name="current_date" >
+                                                            
+                                                            <button type="submit" id="but-sub" class="btn btn-success">Send</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="" id="aj-current_date">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
         <!-- END STATISTIC-->
-            
+            <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+
+
+            script.
+                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                n =  new Date();
+                y = n.getFullYear();
+                m = n.getMonth() + 1;
+                d = n.getDate();
+                mon = months[n.getMonth()];
+                currentdate = m + "-" + d + "-" + y;
+                currdate =  mon + " " + d + ", " + y;
+
+                $(document).ready(function () {
+                    $('.btn-startProj').click(function (e) {
+                        e.preventDefault()
+                        var Id = $(this).val();
+                        document.getElementById("projectID").value = Id; 
+                        console.log("================================Id(Class)")
+                        console.log(Id);
+                        console.log("================================Id(Class)")
+                        ajaxGetproj();
+                        
+                        function ajaxGetproj(){
+                        console.log("========Id");
+                        console.log(Id);
+                        console.log("========Id");
+
+                        $.ajax({
+                            type : "POST",
+                            url : window.location + "/ajaxgetprojectdetails",
+                            data: { ajProjectID: Id},
+                            dataType: "json",
+                            success: function(tbl_project1){
+
+                            console.log(tbl_project1)
+
+                                $.each(tbl_project1, function (index, value) {
+                                    console.log(value);
+                                    if(value.enum_projectStatus == "Closed"){
+                                        if(value.date_startReleaseDate != currentdate){
+                                            $('#startprojectModal').modal('show');
+                                            document.getElementById("aj-projectDate").innerHTML = value.date_startReleaseDate
+                                            document.getElementById("aj-current_date").innerHTML = currdate
+                                            document.getElementById("current_date").innerHTML = currdate
+                                        }
+                                        else
+                                        {
+                                            swal({
+                                            title: 'Are you sure?',
+                                            text: "You will start the releasing of this project.",
+                                            type: 'info',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Yes, Start Releasing!'
+                                            }).then((result) => {
+                                            if (result.value) {
+                                                $('#formprojectOPEN').submit();
+                                            }                        
+                                            })
+                                        }
+                                    }
+                                    console.log("Success: " );
+                                });                                     
+                                
+                            },
+                            error : function(e) {
+                                console.log("ERROR: ", e);
+                            }
+                        });	
+                    }
+                    });     
+                    //- SWEET ALERT CONFIRM SUBMIT
+                            $('#but-sub').on('click',function (e) {
+                                var form = $(this).parents('form');
+                                e.preventDefault(); //prevent submit
+                                
+                                    swal({
+                                    title: 'Are you sure?',
+                                    text: "You sure to open releasing of project?.",
+                                    type: 'info',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, Open it!'
+                                    }).then((result) => {
+                                    if (result.value) {
+                                        $('#formstartreason').submit();
+                                    }                        
+                                    })
+                            });
+                            //- START VALIDATIONS
+                            $(function() {
+                            $("#formadduser").validate({
+                                rules: {
+                                barangayEmail: {
+                                    required: true,
+                                },
+                                action: "required"
+                                },
+                                messages: {
+                                barangayEmail: {
+                                    required: "Please enter barangay email address",
+                                },
+                                action: "Please provide some data"
+                                },
+                                submitHandler: function(form){
+                                    form.submit();
+                                    swal(
+                                        'Success!',
+                                        'Barangay Email has been Submitted!',
+                                        'success'
+                                        )
+                                }
+                            });
+                            
+                            });
+                            //- END VALIDATIONS
+                });

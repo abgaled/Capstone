@@ -18,7 +18,7 @@ block content
                 </div>
                     <div class="x_content">
                     each project in tbl_projectproposal
-                        <table class="table table-hover">
+                        <table class="table table-hover jambo_table">
                         <thead>
                             <tr>
                                 <th>Problem</th>
@@ -157,7 +157,7 @@ block content
                             <tr>
                                 <th scope="row">Release Date: </th>
                                 <td>
-                                value=project.date_releaseDate
+                                value=project.date_startReleaseDate
                                 </td>
                             </tr>
                             <tr>
@@ -187,7 +187,7 @@ block content
                             <tr>
                                 <th scope="row">Actual Budget:</th>
                                 <td>PHP 
-                                    value=project.decimal_actualBudget
+                                    value=project.decimal_amount
                                 </td>
                             </tr>
                             <tr>

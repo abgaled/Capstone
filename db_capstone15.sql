@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2018 at 12:58 PM
+-- Generation Time: Sep 18, 2018 at 08:31 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_capstone13`
+-- Database: `db_capstone15`
 --
 
 -- --------------------------------------------------------
@@ -86,12 +86,10 @@ INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_proje
 (34, 14, 31, 'Resident', 'Received', '2018-09-01 00:00:00'),
 (35, 10, 31, 'Resident', 'Pending', NULL),
 (36, 9, 33, 'Resident', 'Pending', NULL),
-(37, 9, 35, 'Resident', 'Approved', NULL),
-(38, 9, 35, 'Resident', 'Approved', NULL),
-(39, 9, 36, 'Resident', 'Approved', NULL),
 (40, 9, 33, 'Resident', 'Pending', NULL),
 (41, 9, 33, 'Resident', 'Pending', NULL),
-(43, 9, 36, 'Barangay', 'Pending', NULL);
+(43, 9, 36, 'Barangay', 'Pending', NULL),
+(44, 9, 33, 'Resident', 'Pending', NULL);
 
 -- --------------------------------------------------------
 
@@ -117,12 +115,9 @@ INSERT INTO `tbl_applicationrequirement` (`int_appreqID`, `int_applicationID`, `
 (26, 34, 28, '', 'Passed'),
 (27, 35, 28, '', 'Passed'),
 (28, 36, 28, '', 'Passed'),
-(29, 37, 17, '', 'Passed'),
-(30, 38, 17, '', 'Passed'),
-(31, 39, 28, '', 'Passed'),
-(32, 39, 30, '', 'Passed'),
 (33, 40, 28, '', 'Passed'),
-(34, 41, 28, '', 'Passed');
+(34, 41, 28, '', 'Passed'),
+(35, 44, 28, '', 'Passed');
 
 -- --------------------------------------------------------
 
@@ -400,11 +395,9 @@ INSERT INTO `tbl_personalinformation` (`int_applicationID`, `varchar_firstName`,
 (34, 'Maricar', '', 'Manabat', '2007-06-22', 'Female', 2007, 'Single', '(+63) 915-624-8222', 'maricar@gmail.com'),
 (35, 'Amy', 'Tiya', 'Cruz', '2008-07-28', 'Female', 2008, 'Single', '(+63) 916-562-2523', 'tiya@gmail.com'),
 (36, 'Allen', '', 'Toquer', '2008-08-10', 'Male', 2008, 'Single', '(+63) 915-326-2485', 'allen@gmail.com'),
-(37, 'Agnes', 'Agpilan', 'Bitanga', '1973-04-27', 'Female', 1980, 'Single', '(+63) 987-463-8190', 'agnesbitanga@gmail.com'),
-(38, 'Brian', 'De Guzman', 'Tolentino', '1990-11-14', 'Male', 1990, 'Married', '(+63) 909-385-7399', 'tolentinobrian@gmail.com'),
-(39, 'Michelle', '', 'Ilagan', '1999-08-16', 'Female', 1999, 'Single', '(+63) 915-278-5222', 'michellee@gmail.com'),
 (40, 'Allen', '', 'Tuq', '1995-02-10', 'Male', 1995, 'Single', '(+63) 965-516-1566', 'tuq@gmail.com'),
-(41, 'Alfred', 'Wow', 'Men', '1995-02-10', 'Male', 1995, 'Single', '(+63) 595-612-5615', 'al@gmail.com');
+(41, 'Alfred', 'Wow', 'Men', '1995-02-10', 'Male', 1995, 'Single', '(+63) 595-612-5615', 'al@gmail.com'),
+(44, 'Marlon', 'Napiza', 'Del Rosario', '1969-05-16', 'Male', 1969, 'Single', '(+63) 916-548-4949', 'mar@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -436,7 +429,8 @@ INSERT INTO `tbl_problemstatement` (`int_statementID`, `int_barangayID`, `int_ca
 (47, 9, 6, 35, 'Food Supply', 'Many residents don\'t eat', '2018-09-01', 'Proposed'),
 (48, 9, 6, 36, 'Medical Check Up', 'Due to recent events in the barangay we observe that most of our residents are getting sick', '2018-09-01', 'Proposed'),
 (49, 9, 10, NULL, 'eyyyyyyyyyyyyyyyyyyy', 'eyyyyyyyyyy', '2018-09-12', 'Acknowledged'),
-(50, 14, 8, NULL, 'eyyyyyyyyy', 'xxwxwxwxwxw', '2018-09-12', 'Submitted');
+(50, 14, 8, NULL, 'eyyyyyyyyy', 'xxwxwxwxwxw', '2018-09-12', 'Submitted'),
+(51, 9, 6, NULL, 'hak hakhak', 'hakhakhakhak', '2018-09-17', 'Submitted');
 
 -- --------------------------------------------------------
 
@@ -495,7 +489,6 @@ CREATE TABLE `tbl_projectapplicationtype` (
 INSERT INTO `tbl_projectapplicationtype` (`int_proapptypeID`, `int_projectID`, `enum_applicationType`) VALUES
 (1, 35, 'Household'),
 (2, 36, 'Barangay'),
-(3, 36, 'Resident'),
 (4, 33, 'Resident'),
 (5, 33, 'Household');
 
@@ -573,10 +566,12 @@ CREATE TABLE `tbl_projectproposal` (
   `text_projectDescription` text NOT NULL,
   `text_projectObjective` text NOT NULL,
   `int_allotedSlot` int(11) NOT NULL,
-  `int_applicationDuration` int(11) NOT NULL,
-  `int_releasingDuration` int(11) NOT NULL,
-  `int_beforeReleasingDuration` int(11) NOT NULL,
   `decimal_estimatedBudget` decimal(10,0) NOT NULL,
+  `date_targetStartApp` date NOT NULL,
+  `date_targetEndApp` date NOT NULL,
+  `date_targetStartRelease` date NOT NULL,
+  `date_targetEndRelease` date NOT NULL,
+  `date_targetClosing` date NOT NULL,
   `date_createdDate` date NOT NULL,
   `enum_proposalStatus` enum('Pending','Approved','Rejected','Revision') NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -585,14 +580,27 @@ CREATE TABLE `tbl_projectproposal` (
 -- Dumping data for table `tbl_projectproposal`
 --
 
-INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_cityID`, `varchar_projectName`, `varchar_projectRationale`, `text_projectDescription`, `text_projectObjective`, `int_allotedSlot`, `int_applicationDuration`, `int_releasingDuration`, `int_beforeReleasingDuration`, `decimal_estimatedBudget`, `date_createdDate`, `enum_proposalStatus`) VALUES
-(13, 2, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 1000, 150, 3, 14, '1000000', '2018-08-28', 'Pending'),
-(31, 2, 'Full body check up and medicine kit giving', 'Nowadays residents have different kind of minor disease.', 'Full body check up for the beneficiaries of this project and medicine kit for them', 'To help the residents, and for them to be ready.', 100, 20, 1, 14, '100000', '2018-09-01', 'Approved'),
-(32, 2, 'Distribution of School Supplies', 'Determined by the last survey it is true that children in our city can\'t barely have a new school su', 'School supplies will be given equally and fairly to the beneficiaries of this project.', 'To help the children/youth.', 100, 20, 1, 14, '1000000', '2018-09-01', 'Pending'),
-(33, 2, 'Seminar about family planning and freebies giving', 'Due to the last survey, it seems that residents are not aware about family planning.', 'Each beneficiary will be given an equal service for this.', 'To help the residents know about family planning.', 100, 20, 1, 14, '1000000', '2018-09-01', 'Approved'),
-(34, 2, 'Feeding Program', 'We observed that the children from orphanages are facing a financial crisis.', 'This project intends to help the poor children on orphanages that are currently facing a financial problems and this is one of the solution that we think to solve the problem.', 'The goal of this project is to provide a temporary food supplies to the orphanage in our barnagay', 1500, 50, 5, 10, '150000', '2018-09-01', 'Approved'),
-(35, 2, 'Food Supplies Gicing', 'The orphanage of our barangay are currently facing financial problems', 'This project intends to help the children on orphanage', 'Aims to give temporary supplies for the orphanage', 1500, 50, 5, 10, '150000', '2018-09-01', 'Approved'),
-(36, 2, 'Medical check up', 'Due to our observation in the our community about health.', 'Check up for the residents', 'To help the residents ', 100, 20, 1, 14, '1000000', '2018-09-01', 'Approved');
+INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_cityID`, `varchar_projectName`, `varchar_projectRationale`, `text_projectDescription`, `text_projectObjective`, `int_allotedSlot`, `decimal_estimatedBudget`, `date_targetStartApp`, `date_targetEndApp`, `date_targetStartRelease`, `date_targetEndRelease`, `date_targetClosing`, `date_createdDate`, `enum_proposalStatus`) VALUES
+(13, 2, 'Medicine Giving', 'Residents who really need these medicines will acquire it.', 'To help the residents who have a major or minor health issues.', 'Distribution of medicines for the residents. Limited supplies only.', 0, '1000000', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '2018-08-28', 'Pending'),
+(31, 2, 'Full body check up and medicine kit giving', 'Nowadays residents have different kind of minor disease.', 'Full body check up for the beneficiaries of this project and medicine kit for them', 'To help the residents, and for them to be ready.', 0, '100000', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '2018-09-01', 'Approved'),
+(32, 2, 'Distribution of School Supplies', 'Determined by the last survey it is true that children in our city can\'t barely have a new school su', 'School supplies will be given equally and fairly to the beneficiaries of this project.', 'To help the children/youth.', 0, '1000000', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '2018-09-01', 'Pending'),
+(33, 2, 'Seminar about family planning and freebies giving', 'Due to the last survey, it seems that residents are not aware about family planning.', 'Each beneficiary will be given an equal service for this.', 'To help the residents know about family planning.', 0, '1000000', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '2018-09-01', 'Approved'),
+(34, 2, 'Feeding Program', 'We observed that the children from orphanages are facing a financial crisis.', 'This project intends to help the poor children on orphanages that are currently facing a financial problems and this is one of the solution that we think to solve the problem.', 'The goal of this project is to provide a temporary food supplies to the orphanage in our barnagay', 0, '150000', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '2018-09-01', 'Approved'),
+(35, 2, 'Food Supplies Gicing', 'The orphanage of our barangay are currently facing financial problems', 'This project intends to help the children on orphanage', 'Aims to give temporary supplies for the orphanage', 0, '150000', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '2018-09-01', 'Approved'),
+(36, 2, 'Medical check up', 'Due to our observation in the our community about health.', 'Check up for the residents', 'To help the residents ', 0, '1000000', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '2018-09-01', 'Approved');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_projectreason`
+--
+
+CREATE TABLE `tbl_projectreason` (
+  `int_projectReasonID` int(11) NOT NULL,
+  `int_projectID` int(11) NOT NULL,
+  `text_projectReason` text NOT NULL,
+  `date_projectDateStarted` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -886,6 +894,12 @@ ALTER TABLE `tbl_projectproposal`
   ADD KEY `propcity|ID_idx` (`int_cityID`);
 
 --
+-- Indexes for table `tbl_projectreason`
+--
+ALTER TABLE `tbl_projectreason`
+  ADD PRIMARY KEY (`int_projectReasonID`);
+
+--
 -- Indexes for table `tbl_projectrequirement`
 --
 ALTER TABLE `tbl_projectrequirement`
@@ -936,12 +950,12 @@ ALTER TABLE `tbl_applicantbenefit`
 -- AUTO_INCREMENT for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT for table `tbl_applicationrequirement`
 --
 ALTER TABLE `tbl_applicationrequirement`
-  MODIFY `int_appreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `int_appreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `tbl_barangay`
 --
@@ -991,7 +1005,7 @@ ALTER TABLE `tbl_notification`
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
 ALTER TABLE `tbl_problemstatement`
-  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 --
 -- AUTO_INCREMENT for table `tbl_projectagency`
 --
