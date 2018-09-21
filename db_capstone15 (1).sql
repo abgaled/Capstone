@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 18, 2018 at 08:31 PM
+-- Generation Time: Sep 21, 2018 at 01:38 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -332,7 +332,7 @@ CREATE TABLE `tbl_financialcontribution` (
   `int_financialconID` int(11) NOT NULL,
   `int_applicationID` int(11) NOT NULL,
   `text_finconPurpose` text NOT NULL,
-  `varchar_relationship` int(11) NOT NULL,
+  `varchar_relationship` varchar(11) NOT NULL,
   `enum_frequency` enum('Monthly','Quarterly','Semi Annual','Annual','Irregular') NOT NULL,
   `decimal_annualContribution` decimal(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
