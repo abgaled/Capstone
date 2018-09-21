@@ -11,9 +11,11 @@ block content
                         value= "(" + project.date_createdDate + ")"
                         </small></h2>
                         <a class="collapse-link"><i class=""></i></a>
-                        <small class="pull-right">Status: 
-                        value=project.enum_projectStatus
-                        </small>
+                        a(href=`/office/releasing` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle  
+                        <form id="formcloseproj" name="formcloseproj" method="POST" action='/office/releasing/finproj'>
+                            <input hidden id="projID" name="projID">
+                            button.btn.btn-danger.btn-s.mb-1(id="finproj" class="finproj-res pull-right" value= project.int_projectID): span.fa Close Releasing
+                        </form>
                     <div class="clearfix"></div>
                 </div>
                     <div class="x_content">
@@ -143,27 +145,27 @@ block content
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">Project Start: </th>
+                                <th scope="row">Application Start: </th>
                                 <td>
                                 value=project.date_startApplication
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Project End: </th>
+                                <th scope="row">Application Closing: </th>
                                 <td>
                                 value=project.date_endApplication
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Release Date: </th>
+                                <th scope="row">Release Start: </th>
                                 <td>
                                 value=project.date_startReleaseDate
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Project Closing: </th>
+                                <th scope="row">Release Closing: </th>
                                 <td>
-                                value=project.date_projectClose
+                                value=project.date_endReleaseDate
                                 </td>
                             </tr>
                             <tr>
@@ -198,4 +200,30 @@ block content
                     </table>
                 </div>
             </div>
-            
+            <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+
+
+            script.
+                $(document).ready(function () {projID
+                    $('#finproj').on('click',function (e) {
+                        var Id = $(this).val();
+                        document.getElementById("projID").value = Id
+
+                        var form = $(this).parents('form');
+                        e.preventDefault(); //prevent submit
+                                    
+                            swal({
+                            title: 'Are you sure?',
+                            text: "You sure to close releasing of project?.",
+                            type: 'info',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, Open it!'
+                            }).then((result) => {
+                            if (result.value) {
+                                $('#formcloseproj').submit();
+                            }                        
+                            })
+                    });
+                });

@@ -473,7 +473,7 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
 // POST - APPLICATION (BARANGAY)
 router.post('/:int_projectID/apply/barangay',(req,res) => {
     console.log('=================================');
-    console.log('BARANGAY: PROJECTS-APPLICATION-FORM(RESIDENT)-POST');
+    console.log('BARANGAY: PROJECTS-APPLICATION-FORM(BARANGAY)-POST');
     console.log('=================================');
 
     var barangayQuery = `SELECT tbl_barangay.int_barangayID 
@@ -532,6 +532,19 @@ router.post('/:int_projectID/apply/barangay',(req,res) => {
         });
     });
 });
+
+// POST - APPLICATION (BARANGAY)
+router.post('/:int_projectID/apply/household',(req,res) => {
+    console.log('=================================');
+    console.log('BARANGAY: PROJECTS-APPLICATION-FORM(HOUSEHOLD)-POST');
+    console.log('=================================');
+
+            
+});
+
+// ================================================================
+//  END OF APPLICATIONS (RESIDENT, BARANGAY, HOUSEHOLD)
+// ================================================================
 
 // BUTTON - APPLICATIONS
 router.get('/:int_projectID/registeredapplicants',(req, res) => {

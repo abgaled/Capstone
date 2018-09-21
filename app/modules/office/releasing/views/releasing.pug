@@ -45,11 +45,10 @@ block content
                                                                 button.btn.btn-success.btn-s.btn-block(id="btn-startProj"  value= project.int_projectID class="btn-startProj"): span.fa.fa-open Open Releasing
                                                                 
                                                                 <form hidden id="formprojectOPEN" method="POST" action='' name="formprojectOPEN">
-                                                                    <input id="int_projectID" name="int_projectID">
+                                                                    <input id="int_projectID" name="int_projectID" >
                                                                 </form>
                                                             if project.enum_projectStatus == 'Releasing'
                                                                 a(href=`/office/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-primary btn-s btn-block"): span.fa.fa-eye View Beneficiary Releasing
-                                                                a(href=`/office/releasing/${project.int_projectID}/finproj` id="finproj" class="btn btn-danger btn-s btn-block"): span.fa Finish Project
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -64,15 +63,17 @@ block content
                                                 <form class="form-horizontal form-label-left" method="POST" action='/office/releasing/openlatereleasing' id="formstartreason">
                                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                                     </button>
-                                                    <h4 class="modal-title" id="mediumModalLabel">Reason of early/late project start
+                                                    <h4 class="modal-title" id="mediumModalLabel">Scheduled Date to Start Releasing:
+                                                        <div class="" id="aj-projectDate">
+                                                    
+                                                        </div>
+                                                    </h4>
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                                <label class="col-md-5" for="problemcreated">Scheduled Date to Start Releasing:
-                                                                </label>
-                                                                <div class="col-md-7" id="aj-projectDate">
-                                                    
+                                                                <div class="col-md-1 col-sm-1 col-xs-12">
                                                                 </div>
-                                                                <br>
+                                                                <label class="col-md-5" for="problemcreated">Reason of early/late project start
+                                                                </label>
                                                         </div>
                                                         <div class="col-md-1 col-sm-1 col-xs-12">
                                                         </div>
@@ -114,7 +115,7 @@ block content
                     $('.btn-startProj').click(function (e) {
                         e.preventDefault()
                         var Id = $(this).val();
-                        document.getElementById("projectID").value = Id; 
+                        document.getElementById("projectID").value = Id
                         console.log("================================Id(Class)")
                         console.log(Id);
                         console.log("================================Id(Class)")
@@ -190,30 +191,6 @@ block content
                                     })
                             });
                             //- START VALIDATIONS
-                            $(function() {
-                            $("#formadduser").validate({
-                                rules: {
-                                barangayEmail: {
-                                    required: true,
-                                },
-                                action: "required"
-                                },
-                                messages: {
-                                barangayEmail: {
-                                    required: "Please enter barangay email address",
-                                },
-                                action: "Please provide some data"
-                                },
-                                submitHandler: function(form){
-                                    form.submit();
-                                    swal(
-                                        'Success!',
-                                        'Barangay Email has been Submitted!',
-                                        'success'
-                                        )
-                                }
-                            });
                             
-                            });
                             //- END VALIDATIONS
                 });
