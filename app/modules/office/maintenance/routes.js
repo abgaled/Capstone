@@ -650,6 +650,10 @@ router.post('/brgyaccnt/activate', (req, res) => {
     console.log('ADMIN: MAINTENANCE - 1 Status Active POST');
     console.log('=================================');
 
+    resultIndex = `${req.body.brgyid}`;
+    console.log(resultIndex);
+    console.log('=================================');
+
     db.query("UPDATE tbl_user SET enum_accountStatus = 'Active' WHERE int_userID = ?",[req.body.id], (err, results, fields) =>{
         if(err)
             console.log(err);
@@ -657,11 +661,12 @@ router.post('/brgyaccnt/activate', (req, res) => {
             
             console.log(results);
             var queryString3 =`SELECT * FROM tbl_barangayuser brgyus
+            JOIN tbl_user us ON brgyus.int_userID = us.int_userID
             JOIN tbl_barangay brgy ON brgyus.int_barangayID = brgy.int_barangayID
-            WHERE brgyus.int_barangayID = "${req.body.brgyid}"`;
+            WHERE brgyus.int_barangayID = "${resultIndex}"`;
                         
             var queryString4 =`SELECT * FROM tbl_barangay 
-            WHERE int_barangayID = "${req.body.brgyid}"`;
+            WHERE int_barangayID = "${resultIndex}"`;
                         
             db.query(queryString3, (err, results3, fields) => {
             console.log(results3);
@@ -671,7 +676,7 @@ router.post('/brgyaccnt/activate', (req, res) => {
                 console.log(results4);
                 if (err) console.log(err);
                 
-                    res.render('office/maintenance/views/brgyuser', {tbl_barangayusers: results3,tbl_barangay: results4});
+                res.render('office/maintenance/views/brgyuser', {tbl_barangayusers: results3,tbl_barangay: results4});
                 });
             });
         }
@@ -684,16 +689,21 @@ router.post('/brgyaccnt/inactive', (req, res) => {
     console.log('ADMIN: MAINTENANCE - 6 Status Inactive POST');
     console.log('=================================');
 
+    resultIndex = `${req.body.brgyid}`;
+    console.log(resultIndex);
+    console.log('=================================');
     db.query("UPDATE tbl_user SET enum_accountStatus = 'Inactive' WHERE int_userID = ?",[req.body.id], (err, results, fields) =>{
         if(err)
             console.log(err);
         else{
+            console.log(results);
             var queryString3 =`SELECT * FROM tbl_barangayuser brgyus
+            JOIN tbl_user us ON brgyus.int_userID = us.int_userID
             JOIN tbl_barangay brgy ON brgyus.int_barangayID = brgy.int_barangayID
-            WHERE brgyus.int_barangayID = "${req.body.brgyid}"`;
+            WHERE brgyus.int_barangayID = "${resultIndex}"`;
                         
             var queryString4 =`SELECT * FROM tbl_barangay 
-            WHERE int_barangayID = "${req.body.brgyid}"`;
+            WHERE int_barangayID = "${resultIndex}"`;
                         
             db.query(queryString3, (err, results3, fields) => {
             console.log(results3);
@@ -703,7 +713,7 @@ router.post('/brgyaccnt/inactive', (req, res) => {
                 console.log(results4);
                 if (err) console.log(err);
                 
-                    res.render('office/maintenance/views/brgyuser', {tbl_barangayusers: results3,tbl_barangay: results4});
+                res.render('office/maintenance/views/brgyuser', {tbl_barangayusers: results3,tbl_barangay: results4});
                 });
             });
         }
@@ -745,13 +755,13 @@ router.post('/budgetaccnt',(req, res) => {
         \`enum_accountStatus\`)
                 
         VALUES(
-        "${req.body.barangayName}",
-        "${req.body.barangayEmail}",
-        "${req.body.barangayAddress}",
-        "${req.body.barangayContact}",
-        "${req.body.barangayPassword}",
-        "${req.body.barangayPosition}",
-        "Barangay Staff ",
+        "${req.body.budgetName}",
+        "${req.body.budgetEmail}",
+        "${req.body.budgetAddress}",
+        "${req.body.budgetContact}",
+        "${req.body.budgetPassword}",
+        "${req.body.budgetPosition}",
+        "Budget Office Staff ",
         "Active ");`;
 
         db.query(queryString, (err, results, fields) => {        
@@ -889,13 +899,13 @@ router.post('/officeaccnt',(req, res) => {
         \`enum_accountStatus\`)
                 
         VALUES(
-        "${req.body.barangayName}",
-        "${req.body.barangayEmail}",
-        "${req.body.barangayAddress}",
-        "${req.body.barangayContact}",
-        "${req.body.barangayPassword}",
-        "${req.body.barangayPosition}",
-        "Barangay Staff ",
+        "${req.body.officeName}",
+        "${req.body.officeEmail}",
+        "${req.body.officeAddress}",
+        "${req.body.officeContact}",
+        "${req.body.officePassword}",
+        "${req.body.officePosition}",
+        "Office Staff ",
         "Active ");`;
 
         db.query(queryString, (err, results, fields) => {        
