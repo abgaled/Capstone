@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
+var moment = require('moment');
 var cityID;
 
 
@@ -31,8 +32,8 @@ router.get('/',(req, res) => {
             if (err) console.log(err);
 
             var proposalCheque =`SELECT * FROM tbl_projectproposal PP
-            JOIN tbl_proposalapproval PA
-            ON PP.int_projectID=PA.int_projectID`;
+            JOIN tbl_checkapproval CA
+            ON PP.int_projectID=CA.int_projectID`;
 
             db.query(proposalCheque, (err, results1, fields) => {
                 console.log(results1);
@@ -54,33 +55,54 @@ router.get('/proposals/:int_projectID/proposaldetails',(req, res) => {
     console.log(req.params.int_projectID);
 
     var queryString =`SELECT * FROM tbl_projectproposal pr
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+        WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     var queryString2 =`SELECT * 
-    FROM tbl_projectrequirement prcat
-    JOIN tbl_projectproposal pr ON pr.int_projectID=prcat.int_projectID
-    JOIN tbl_requirement rq ON rq.int_requirementID=prcat.int_requirementID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+        FROM tbl_projectrequirement prcat
+        JOIN tbl_projectproposal pr ON pr.int_projectID=prcat.int_projectID
+        JOIN tbl_requirement rq ON rq.int_requirementID=prcat.int_requirementID
+        WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     var queryString3 =`SELECT * FROM tbl_projectbeneficiary prbf
-    JOIN tbl_projectproposal pr ON pr.int_projectID=prbf.int_projectID
-    JOIN tbl_beneficiary bf ON prbf.int_beneficiaryID=bf.int_beneficiaryID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+        JOIN tbl_projectproposal pr ON pr.int_projectID=prbf.int_projectID
+        JOIN tbl_beneficiary bf ON prbf.int_beneficiaryID=bf.int_beneficiaryID
+        WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     var queryString5 =`SELECT * FROM tbl_projectlocation pl
-    JOIN tbl_projectproposal pr ON pr.int_projectID=pl.int_projectID
-    JOIN tbl_releaselocation rl ON pl.int_locationID=rl.int_locationID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+        JOIN tbl_projectproposal pr ON pr.int_projectID=pl.int_projectID
+        JOIN tbl_barangay b ON pl.int_locationID=b.int_barangayID
+        WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     var queryString4 =`SELECT * FROM tbl_projectcategory pc
-    JOIN tbl_projectproposal pr ON pr.int_projectID=pc.int_projectID
-    JOIN tbl_category cat ON cat.int_categoryID=pc.int_categoryID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+        JOIN tbl_projectproposal pr ON pr.int_projectID=pc.int_projectID
+        JOIN tbl_category cat ON cat.int_categoryID=pc.int_categoryID
+        WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString6 = `SELECT * 
+        FROM tbl_projectapplicationtype 
+        WHERE int_projectID = "${req.params.int_projectID}"`;
     
+    var queryString7 = `SELECT * 
+        FROM tbl_projectagency PA JOIN tbl_agency A
+        ON PA.int_agencyID=A.int_agencyID
+        WHERE int_projectID = "${req.params.int_projectID}"`;
+
+    var queryString8 = `SELECT * 
+        FROM tbl_problemstatement 
+        WHERE int_projectID = "${req.params.int_projectID}"`;
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
+
+        for (var i = 0; i < results.length;i++){
+            results[i].date_targetStartApp = moment(results[i].date_targetStartApp).format('MMMM DD[,] YYYY');
+            results[i].date_targetEndApp = moment(results[i].date_targetEndApp).format('MMMM DD[,] YYYY');
+            results[i].date_targetStartRelease = moment(results[i].date_targetStartRelease).format('MMMM DD[,] YYYY');
+            results[i].date_targetEndRelease = moment(results[i].date_targetEndRelease).format('MMMM DD[,] YYYY');
+            results[i].date_targetClosing = moment(results[i].date_targetClosing).format('MMMM DD[,] YYYY');
+        }
+
         db.query(queryString2, (err, results2, fields) => {
             console.log(results2);
             if (err) console.log(err);
@@ -90,15 +112,33 @@ router.get('/proposals/:int_projectID/proposaldetails',(req, res) => {
                 db.query(queryString4, (err, results4, fields) => {
                     console.log(results4);
                     if (err) console.log(err);
-                    
-                    res.render('office/proposals/views/proposaldetails', 
-                    {
-                        tbl_projectproposal:results, 
-                        tbl_projectrequirement:results2, 
-                        tbl_projectbeneficiary:results3,                        
-                        tbl_projectcategory:results4
-                    
-                    }); 
+                    db.query(queryString5, (err, results5, fields) => {
+                        console.log(results5);
+                        if (err) console.log(err);
+                        db.query(queryString6, (err, results6, fields) => {
+                            console.log(results6);
+                            if (err) console.log(err);
+                            db.query(queryString7, (err, results7, fields) => {
+                                console.log(results7);
+                                if (err) console.log(err);
+                                db.query(queryString8, (err, results8, fields) => {
+                                    console.log(results8);
+                                    if (err) console.log(err);
+                                    res.render('office/proposals/views/proposaldetails', 
+                                    {
+                                        tbl_projectproposal: results, 
+                                        tbl_projectrequirement: results2, 
+                                        tbl_projectbeneficiary: results3,                        
+                                        tbl_projectcategory: results4,
+                                        tbl_projectlocation: results5,
+                                        tbl_projectapplicationtype: results6,
+                                        tbl_projectagency: results7,
+                                        tbl_problemstatement: results8
+                                    }); 
+                                }); 
+                            }); 
+                        }); 
+                    });
                 });
             });
         });
@@ -112,7 +152,7 @@ router.post('/',(req, res) => {
     console.log('=================================');
 
 
-    console.log("PROJECT DETAILS:")
+    console.log("PROJECT DETAILS:");
     var name = req.body.projectname;
     console.log(name);
     var ratioanale = req.body.projectrationale;
@@ -121,26 +161,46 @@ router.post('/',(req, res) => {
     console.log(description);
     var objective = req.body.projectobjective;
     console.log(objective);
-    console.log("PROJECT SLOTS:")
+    var appType = req.body.applicationType;
+    console.log(appType);
+    console.log("PROJECT BENEFIT:");
+    var beneName = req.body.benefitname;
+    console.log(beneName);
+    var beneQuantity = req.body.benefitquantity;
+    console.log(beneQuantity);
+    console.log("PROJECT EXPENSE:");
+    var expName = req.body.expenseName;
+    var expQuantity = req.body.expenseQuantity;
+    var expUPrice = req.body.expenseUnitPrice;
+    var expAmount = req.body.expenseAmount;
+    console.log(expName);
+    console.log(expQuantity);
+    console.log(expUPrice);
+    console.log(expAmount);
+    console.log("PROJECT SLOTS:");
     var allotedslot = req.body.allotedslots;
     console.log(allotedslot);
     console.log("PROJECT DATES:")
-    var applicationdays = req.body.applicationDays;
-    console.log(applicationdays);
-    var releasingday = req.body.releasingday;
-    console.log(releasingday);
-    var releasedate = req.body.releasedate;
-    console.log(releasedate);
+    var startApp = req.body.startApp;
+    console.log(startApp);
+    var endApp = req.body.endApp;
+    console.log(endApp);
+    var startRel = req.body.startRel;
+    console.log(startRel);
+    var endRel = req.body.endRel;
+    console.log(endRel);
+    var closeProj = req.body.closeProj;
+    console.log(closeProj);
     console.log("PROJECT BUDGET:")
     var estimatedbudget = req.body.estimatedbudget;
     console.log(estimatedbudget);
-    // console.log("PROJECT CATEGORY:")
-    // var categ = req.body.categorylist;
-    // console.log(categ);
-    console.log("PROJECT BENEFICIARY:")
+    console.log("PROJECT CATEGORY:")
+    var categ = req.body.projectlist;
+    console.log(categ);
+    console.log("PROJECT BENEFICIARY:");
     var beneficiaries = req.body.projectbeneficiaries;
     console.log(beneficiaries);
-    console.log("PROJECT REQUIREMENT:")
+    console.log("PROJECT REQUIREMENT:");
     var require = req.body.projectrequirement;
     console.log(require);
     console.log("PROJECT IMPLEMENTING AGENCY:")
@@ -149,6 +209,9 @@ router.post('/',(req, res) => {
     console.log("PROBLEM STATEMENT:")
     var statementList = req.body.statementsList;
     console.log(statementList);
+    console.log("PROBLEM LOCATION:")
+    var locationList = req.body.projectlocation;
+    console.log(locationList);
     console.log("CITY ID:")
     console.log(cityID.int_cityID);
 
@@ -160,9 +223,11 @@ router.post('/',(req, res) => {
         \`text_projectDescription\`,
         \`text_projectObjective\`,
         \`int_allotedSlot\`,
-        \`int_applicationDuration\`,
-        \`int_releasingDuration\`,
-        \`int_beforeReleasingDuration\`,
+        \`date_targetStartApp\`,
+        \`date_targetEndApp\`,
+        \`date_targetStartRelease\`,
+        \`date_targetEndRelease\`,
+        \`date_targetClosing\`,
         \`decimal_estimatedBudget\`,
         \`date_createdDate\`,
         \`enum_proposalStatus\`
@@ -176,9 +241,11 @@ router.post('/',(req, res) => {
         "${req.body.projectdescription}",
         "${req.body.projectobjective}",
         "${req.body.allotedslots}",
-        "${req.body.applicationDays}",
-        "${req.body.releasingday}",
-        "${req.body.releasedate}",
+        "${req.body.startApp}",
+        "${req.body.endApp}",
+        "${req.body.startRel}",
+        "${req.body.endRel}",
+        "${req.body.closeProj}",
         "${req.body.estimatedbudget}",
         CURDATE(),
         "Pending"
@@ -238,13 +305,15 @@ router.post('/',(req, res) => {
                 var insertBeneficiaries = `INSERT INTO \`tbl_projectbeneficiary\`
                     (
                         \`int_projectID\`,
-                        \`int_beneficiaryID\`
+                        \`int_beneficiaryID\`,
+                        \`enum_beneficiaryLink\`
                     )
 
                     VALUES
                     (
                         "${toproject.int_projectID}",
-                        "${beneficiaries[j]}"
+                        "${beneficiaries[j]}",
+                        "Project Proposal"
                     )`;
 
                 db.query(insertBeneficiaries, (err, insertResult) => {        
@@ -345,6 +414,134 @@ router.post('/',(req, res) => {
                     });
                 }
             });
+
+            // INSERT APPLICATION TYPE
+            console.log("==============INSERT APPLICATION TYPE====================");
+            
+
+            console.log(appType);
+            console.log(appType.length);
+
+
+            for(var n = 0 ; n < appType.length ; n++ ) 
+            {
+                console.log(n);
+                var insertAppType = `INSERT INTO \`tbl_projectapplicationtype\`
+                    (
+                        \`enum_applicationType\`,
+                        \`int_projectID\`
+                    )
+                    
+                    VALUES
+                    (
+                        "${appType[n]}",
+                        "${toproject.int_projectID}"
+                    )`;
+
+                db.query(insertAppType, (err, inserResult, fields) => {        
+                    if (err) throw err;
+                });
+            }
+
+            // INSERT PROJECT BENEFIT
+            console.log("==============INSERT PROJECT BENEFIT====================");
+            
+
+            console.log(beneName);
+            console.log(beneName.length);
+
+
+            for(var p = 0 ; p < (beneName.length-1) ; p++ ) 
+            {
+                console.log(p);
+                var insertBenefits = `INSERT INTO \`tbl_applicantbenefit\`
+                    (
+                        \`text_benefitName\`,
+                        \`int_benefitQuantity\`,
+                        \`int_projectID\`
+                    )
+                    
+                    VALUES
+                    (
+                        "${beneName[p]}",
+                        "${beneQuantity[p]}",
+                        "${toproject.int_projectID}"
+                    )`;
+
+                db.query(insertBenefits, (err, inserResult, fields) => {        
+                    if (err) throw err;
+                });
+            }
+
+            // INSERT PROJECT ESTIMATED EXPENSES
+            console.log("==============INSERT PROJECT ESTIMATED EXPENSES====================");
+            
+
+            console.log(expName);
+            console.log(expName.length);
+
+
+            for(var q = 0 ; q < (expName.length-1) ; q++ ) 
+            {
+                if( expName[q] === '' && expQuantity[q] == '' && expUPrice[q] == '' && expAmount[q] == '' ){
+                    console.log("continue lang");
+                }
+
+                else {
+                    var insertExpense = `INSERT INTO \`tbl_expense\`
+                        (
+                            \`text_expenseDescription\`,
+                            \`int_quantity\`,
+                            \`decimal_unitPrice\`,
+                            \`decimal_estimatedAmount\`,
+                            \`int_projectID\`
+                        )
+                        
+                        VALUES
+                        (
+                            "${expName[q]}",
+                            "${expQuantity[q]}",
+                            "${expUPrice[q]}",
+                            "${expAmount[q]}",
+                            "${toproject.int_projectID}"
+                        )`;
+                        
+                        db.query(insertExpense, (err, inserResult, fields) => {        
+                            if (err) throw err;
+                        });
+                }
+            }
+
+            // INSERT PROJECT LOCATION
+            console.log("==============INSERT PROJECT LOCATION====================");
+
+            console.log(locationList);
+            console.log(locationList.length);
+
+            for(var r = 0 ; r < locationList.length ; r++ ) 
+            {
+                console.log(r);
+                console.log(locationList[r]);
+                
+                var insertLocation = `INSERT INTO \`tbl_projectlocation\`
+                    (
+                        \`int_projectID\`,
+                        \`enum_locationTarget\`,
+                        \`int_locationID\`
+                    )
+
+                    VALUES
+                    (
+                        "${toproject.int_projectID}",
+                        "Barangay",
+                        "${locationList[r]}"
+                    )`;
+
+                db.query(insertLocation, (err, insertResult) => {        
+                    if (err) throw err;
+                    console.log(insertResult);
+                });
+            }
             res.redirect('/office/proposals');  
         });
     });
@@ -419,28 +616,101 @@ router.get('/createproposals',(req, res) => {
     });
 });
 
-router.post('/checknumberget',(req, res) => {
-    console.log('=================================');
-    console.log('OFFICE: PROPOSALS-APPROVAL-CHECKNUMBER');
-    console.log('=================================');
+// router.post('/checknumberget',(req, res) => {
+//     console.log('=================================');
+//     console.log('OFFICE: PROPOSALS-APPROVAL-CHECKNUMBER');
+//     console.log('=================================');
     
-    console.log(req.body.chequeNumber);
-    console.log(req.body.PROJECT_idcheq);
+//     console.log(req.body.chequeNumber);
+//     console.log(req.body.PROJECT_idcheq);
 
-    var insertCheckQuery = `UPDATE tbl_proposalapproval
-    SET enum_propappStatus = "Received"
-    WHERE varchar_checkNumber = ${req.body.chequeNumber}`;  
+//     var insertCheckQuery = `UPDATE tbl_proposalapproval
+//     SET enum_propappStatus = "Received"
+//     WHERE varchar_checkNumber = ${req.body.chequeNumber}`;  
 
-    db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
-    if(err) console.log(err);
+//     db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
+//     if(err) console.log(err);
 
-    console.log("Succesfully inserted the check number");
-    console.log(insertCheckResult);
+//     console.log("Succesfully inserted the check number");
+//     console.log(insertCheckResult);
 
     
-        res.redirect('/office/proposals/');
+//         res.redirect('/office/proposals/');
+//     });
+// });
+
+
+router.post('/ajaxchequevaldetails',(req,res) => {
+    console.log('=================================');
+    console.log('OFFICE PROPOSALS-REVISION-GET DETAILS AJAX');
+    console.log('=================================');
+    console.log(`${req.body.ajaxprojectID}`);
+
+    var viewRevisionQuery = `SELECT * FROM tbl_projectproposal PP
+    JOIN tbl_checkApproval PA
+    ON PP.int_projectID=PA.int_projectID 
+    WHERE PA.int_projectID = ${req.body.ajaxprojectID}`;
+
+    db.query(viewRevisionQuery,(err, results, fields) => {
+        if (err) console.log(err);
+
+
+        console.log(results);
+
+        var resultss = results[0];
+
+        console.log("===================RESULTSS")
+        console.log(resultss)
+
+        return res.send({tbl_chequeresultss:results});
     });
 });
+
+router.post('/getchecknumber',(req,res) => {
+    console.log('=======­====================­======');
+    console.log('OFFICE:­ PROPOSALS-APPROVAL-C­HECKNUMBER');
+    console.log('=======­====================­======');
+    
+    console.log(req.body.checkNumber);
+    console.log(req.body.ajaxprojectID);
+    
+    var insertCheckQuery = `UPDATE tbl_checkapproval
+    SET enum_checkAppStatus = "Claimed"
+    WHERE int_projectID = "${req.body.ajaxprojectID}"`; 
+    
+    
+    db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
+        if(err) console.log(err);
+        
+        
+        console.log("Succesf­ully inserted the check number");
+        console.log(insertCheckResult);
+        
+        var selectCheckQuery = `SELECT int_projectID from tbl_checkapproval
+        WHERE int_projectID = ${req.body.ajaxprojectID}`; 
+
+        db.query(selectCheckQuery, (err, selectCheckResult, fields) => {
+            if(err) console.log(err); 
+            
+            var resulttss = selectCheckResult;
+            var resulttss2 = resulttss[0].int_projectID;
+            console.log(resulttss[0].int_projectID);
+            
+            var insertCheckQuery2 = `INSERT INTO \`tbl_project\` 
+                (\`int_projectID\`,
+                \`enum_projectStatus\`)
+                VALUES
+                (${resulttss[0].int_projectID},
+                "Approved")`
+            
+            db.query(insertCheckQuery2, (err, insertCheckquery2, fields) => {
+                if(err) console.log(err);
+                res.redirect('/office/proposals');
+                });
+            });
+        });
+    });
+
 
 // AJAX GET REVISION DETAILS
 router.post('/ajaxrevisiondetails',(req,res) => {

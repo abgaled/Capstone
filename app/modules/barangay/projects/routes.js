@@ -533,13 +533,119 @@ router.post('/:int_projectID/apply/barangay',(req,res) => {
     });
 });
 
-// POST - APPLICATION (BARANGAY)
+// POST - APPLICATION (HOUSEHOLD)
 router.post('/:int_projectID/apply/household',(req,res) => {
     console.log('=================================');
     console.log('BARANGAY: PROJECTS-APPLICATION-FORM(HOUSEHOLD)-POST');
     console.log('=================================');
 
-            
+    console.log("==========FAM NAME ==========");
+    console.log(req.body.famname);
+    console.log("==========FAM REL ==========");
+    console.log(req.body.famrel);
+    console.log("==========FAM CIVIL ==========");
+    console.log(req.body.famcivil);
+    console.log("==========FAM EDUC ==========");
+    console.log(req.body.fameduc);
+    console.log("==========FAM OCCU ==========");
+    console.log(req.body.famoccu);
+    console.log("==========FAM CLASS ==========");
+    console.log(req.body.famclass);
+
+    console.log("==============FINANCIAL CONTRIBUTION =============");
+    console.log("==========FAM CONPURPOSE ==========");
+    console.log(req.body.famconpurpose);
+    console.log("==========FAM CONREL ==========");
+    console.log(req.body.famconrel);
+    console.log("==========FAM CONFREQUENCY ==========");
+    console.log(req.body.famconfrequency);
+    console.log("==========FAM CONANNUAL ==========");
+    console.log(req.body.famconannual);
+
+    console.log("==========FAM HOUSE ==========");
+    console.log(req.body.famhouse);
+
+
+    var barangayQuery = `SELECT tbl_barangay.int_barangayID 
+    FROM tbl_barangay 
+    JOIN tbl_barangayuser
+    ON tbl_barangay.int_barangayID = tbl_barangayuser.int_barangayID
+    WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`
+
+    db.query(barangayQuery, (err, barangay, fields) => {        
+        if (err) throw err;
+
+        var barangayFinal = barangay[0];
+
+        // ===============================================================================
+        //                          INSERT INTO TBL_APPLICATION
+        // ===============================================================================
+        var queryString1 = `INSERT INTO tbl_application 
+        (\`int_barangayID\`,
+        \`int_projectID\`,
+        \`enum_applicationType\`,
+        \`enum_applicationStatus\`) 
+        VALUES 
+        (${barangayFinal.int_barangayID},
+        ${req.params.int_projectID},
+        "Household",
+        "Pending")`
+    
+
+        db.query(queryString1,(err, results1, fields) => {
+            if (err) console.log(err);
+            console.log("INSERT: Table Application");
+
+            var queryselect1 = `SELECT * FROM tbl_application ORDER BY int_applicationID DESC LIMIT 0,1`;
+
+            db.query(queryselect1,(err, queryselect2, fields) => {
+                
+                console.log(queryselect2[0].int_applicationID);
+
+                int_applicationID = queryselect2[0].int_applicationID;
+
+                    // var insertFam = `INSERT INTO tbl_familybackground
+                    //     (\`int_applicationID\`,
+                    //     \`varchar_familyName\`,
+                    //     \`varchar_familyRelationship\`,
+                    //     \`enum_civilStatus\`,
+                    //     \`text_educationalAttainment\`,
+                    //     \`varchar_occupation\`,
+                    //     \`enum_classWorker\`) 
+                    //     VALUES 
+                    //     (${int_applicationID},
+                    //     "${req.body.famname}",
+                    //     "${req.body.famrel}",
+                    //     "${req.body.famcivil}",
+                    //     "${req.body.fameduc}",
+                    //     "${req.body.famoccu}",
+                    //     "${req.body.famclass}")`
+
+                        var insertHousehold = `INSERT INTO tbl_householdapplication
+                        (\`int_applicationID\`,
+                        \`varchar_familyName\`,
+                        \`varchar_familyRelationship\`,
+                        \`enum_civilStatus\`,
+                        \`text_educationalAttainment\`,
+                        \`varchar_occupation\`,
+                        \`enum_classWorker\`) 
+                        VALUES 
+                        (${int_applicationID},
+                        "${req.body.famname}",
+                        "${req.body.famrel}",
+                        "${req.body.famcivil}",
+                        "${req.body.fameduc}",
+                        "${req.body.famoccu}",
+                        "${req.body.famclass}")`
+
+                        // db.query(insertFam,(err, familybg, fields) => {
+                        //     if (err) console.log(err);
+
+                            res.redirect('/barangay/projects');
+                        // });
+            });
+        });
+    });          
 });
 
 // ================================================================

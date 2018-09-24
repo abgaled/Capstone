@@ -5,13 +5,21 @@ block content
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
+                each proj in tbl_project
+                    <div class="" >
+                        a(href=`/office/projects` class="btn btn-danger btn-lg pull-right fa"): span.fa.fa-times-circle  
+                        <form id="formcloseproj" name="formcloseproj" method="POST" action='/office/projects/endproj'>
+                            <input hidden id="projID" name="projID">
+                            button.btn.btn-danger.btn-s.mb-1(id="finproj" value= proj.int_projectID class="finproj pull-right" ): span.fa End Project
+                            a(href=`/office/projects` class="btn btn-success btn-lg pull-right fa"): span.fa.fa-print Print Liquidation
+                        </form>
+                    </div> 
                     <div class="x_title" >
                         <h1 class="text-center">Project - Liquidation</h1>
-                        each proj in tbl_project
                             <h4 class="text-center">
                                 value="(" + proj.varchar_projectName + ")"
                             </h4>
-                    </div>              
+                    </div>             
                     <div class="content-wrapper">
                         <div class="container-fluid">
                             <div class="card mb-4">
@@ -23,8 +31,10 @@ block content
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Expenses Description</th>
-                                                        <th>Estimated Expense Cost</th>
-                                                        <th>Actual Expense Cost</th>
+                                                        <th>Estimated Amount</th>
+                                                        <th>Actual Amount</th>
+                                                        <th>QTY</th>
+                                                        <th>Total Amount</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -35,13 +45,19 @@ block content
                                                                 value=exp.int_expenseID
                                                             </td>
                                                             <td>
-                                                                value=exp.text_expenseContent
+                                                                value=exp.text_expenseDescription
                                                             </td>
-                                                            <td>
+                                                            <td>Php 
                                                                 value=exp.decimal_estimatedAmount
                                                             </td>
+                                                            <td>Php 
+                                                                value=exp.decimal_unitPrice
+                                                            </td>
                                                             <td>
-                                                                <input type="number" id="releasingday" required="required" placeholder="" class="form-control col-md-7 col-xs-12">
+                                                                value=exp.int_quantity
+                                                            </td>
+                                                            <td>Php 
+                                                                value=exp.decimal_actualAmount
                                                             </td>
                                                         </tr>
                                                     </form>    
@@ -49,14 +65,23 @@ block content
                                                 <tfoot>
                                                     <tr>
                                                         <th></th>
-                                                        <th></th>
-                                                        <th>Total Estimatation: Php 
-                                                        each tot in total
-                                                            value=tot.total_expense 
+                                                        <th><div class="pull-right">Total Estimatation: </div></th>
+                                                        <th class="">Php 
+                                                        each tot in totalest
+                                                            value=tot.total_estimatedexpense 
                                                         </th>
-                                                        <th>Total Expense:</th>
+                                                        <th></th>
+                                                        <th><div class="pull-right">Total Amount: </div></th>
+                                                        <th>
+                                                        each tot2 in total
+                                                            <div id="total"> PHP 
+                                                                value=tot2.total_expense 
+                                                            </div>
+                                                        </th>
                                                     </tr>
                                                     <tr>
+                                                        <th><br><br></th>
+                                                        <th></th>
                                                         <th></th>
                                                         <th></th>
                                                         <th>
@@ -66,21 +91,28 @@ block content
                                                     <tr>
                                                         <th></th>
                                                         <th></th>
-                                                        <th>
+                                                        <th></th>
+                                                        <th>Budget Acquired: <br/><br/>  - Total Expenses:</th>
+                                                        <th> Php 
+                                                        each check in tbl_check
+                                                            value=check.decimal_amount 
+                                                        <br><br> Php 
+                                                        each tot2 in total
+                                                            value=tot2.total_expense 
                                                         </th>
-                                                        <th>Budget Acquired: Php 
-                                                        each proj2 in tbl_project
-                                                            value=proj2.decimal_actualBudget
-                                                            <br/> - Total Expenses: Php
-                                                        </th>
+                                                        <th></th>
+                                                        
                                                     </tr>
                                                     <tr>
                                                         <th></th>
                                                         <th></th>
-                                                        <th>
+                                                        <th></th>
+                                                        <th>Remaining Budget:</th>
+                                                        <th> Php 
+                                                        each rb in tbl_rembal
+                                                            value=rb.budgetbalance 
                                                         </th>
-                                                        <th>Remaining Budget: Php 
-                                                        </th>
+                                                        <th></th>
                                                     </tr>
                                                 </tfoot>
                                             </table>
@@ -88,3 +120,31 @@ block content
                                     </div>
                                 </div>
         <!-- END STATISTIC-->
+        <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+
+
+        script.
+
+            $(document).ready(function () {
+                $('#finproj').on('click',function (e) {
+                    e.preventDefault();
+                    var form = $(this).parents('form'); //prevent submit
+                    var Id = $(this).val();
+                    document.getElementById("projID").value = Id
+
+                                    
+                            swal({
+                            title: 'Are you sure?',
+                            text: "You sure to close application of project?.",
+                            type: 'info',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, Close it!'
+                            }).then((result) => {
+                            if (result.value) {
+                                $(form).submit();
+                            }                        
+                            })
+                    });
+            });

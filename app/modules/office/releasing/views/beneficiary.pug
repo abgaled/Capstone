@@ -588,10 +588,9 @@ block content
                             }
                     });
 
-                    $('#but-print').on('click',function (e) {
-                         var form = $(this).parents('form');
+                    $('#btn-print').on('click',function (e) {
+                        var form = $(this).parents('form');
                         e.preventDefault(); //prevent submit
-                                
                             swal({
                             title: 'Are you sure?',
                             text: "You print and receive the benefits.",
@@ -602,7 +601,17 @@ block content
                             confirmButtonText: 'Yes, print it!'
                             }).then((result) => {
                             if (result.value) {
-                                $('#formprint').submit();
+                                swal({
+                                text: "Success!",
+                                type: 'success',
+                                confirmButtonColor: '#3085d6',
+                                icon: "success",
+                                confirmButtonText: 'OK!'
+                                }).then((result) => {
+                                if (result.value) {
+                                    $(form).submit();
+                                }                        
+                                })
                             }                        
                             })
                     });

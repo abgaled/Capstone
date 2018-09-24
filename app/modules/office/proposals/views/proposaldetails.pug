@@ -49,6 +49,20 @@ block content
                                             value=project.text_projectDescription
                                             </a>
                                         </p>
+                                        <div>
+                                            <span><strong>Application Type</strong></span> : <a>
+                                            each appType in tbl_projectapplicationtype
+                                                <br/>
+                                                value=appType.enum_applicationType
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <span><strong>Implementing Agency</strong></span> : <a>
+                                            each agen in tbl_projectagency
+                                                <br/>
+                                                value=agen.varchar_agencyName
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 </li>
@@ -100,23 +114,32 @@ block content
                                     </a>
                                     </div>
                                     <div class="block_content">
-                                        <p class="excerpt"><strong>Days alloted for accepting application: </strong>
-                                            value=project.int_applicationDuration+" "+"days" 
+                                        <p class="excerpt"><strong>Target Start Date of Application: </strong>
+                                            value=project.date_targetStartApp
                                             </a>
                                         </p>
-                                        <p class="excerpt"><strong>Days alloted for releasing process: </strong>
-                                            value=project.int_releasingDuration+" "+"day/s" 
+                                        <p class="excerpt"><strong>Target End Date of Application: </strong>
+                                            value=project.date_targetEndApp
                                             </a>
                                         </p>
-                                        <p class="excerpt"><strong>Days after the end of application: </strong>
-                                            value=project.int_beforeReleasingDuration+" "+"days" 
+                                        <p class="excerpt"><strong>Target Start Date of Releasing: </strong>
+                                            value=project.date_targetStartRelease+" "+"days" 
                                             </a>
                                         </p>
-                                        //- <p class="excerpt"><strong>Releasing Location: </strong>
-                                        //- each rel in tbl_releaselocation
-                                        //-     value=rel.varchar_locationName
-                                        //-     </a>
-                                        //- </p>
+                                        <p class="excerpt"><strong>Target End Date of Releasing: </strong>
+                                            value=project.date_targetEndRelease+" "+"days" 
+                                            </a>
+                                        </p>
+                                        <p class="excerpt"><strong>Target Closing Date of the Project: </strong>
+                                            value=project.date_targetClosing+" "+"days" 
+                                            </a>
+                                        </p>
+                                        <hr/>
+                                        <p class="excerpt"><strong>Releasing Location: </strong>
+                                        each rel in tbl_projectlocation
+                                            <br/>
+                                            value=rel.varchar_barangayName
+                                        </p>
                                     </div>
                                 </div>
                                 </li>

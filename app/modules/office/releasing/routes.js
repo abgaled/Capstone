@@ -71,14 +71,13 @@ router.get('/',(req, res) => {
         var date_results = results;
 
         for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_startReleaseDate = moment(date_results[i].date_startReleaseDate).format('MMMM DD, YYYY');
-            console.log(date_results[i].date_startReleaseDate);
+            date_results[i].date_targetStartRelease = moment(date_results[i].date_targetStartRelease).format('MMMM DD, YYYY');
+            console.log(date_results[i].date_targetStartRelease);
         }
         
         res.render('office/releasing/views/releasing',{tbl_project:results});
     });
 });
-
 
 router.post('/',(req, res) => {
     console.log('=================================');
@@ -102,7 +101,7 @@ router.post('/openreleasing', (req, res) => {
     console.log('=================================');
     console.log('OFFICE: Releasing open');
     console.log('=================================');
-    resultIndex = `${req.body.int_projectID}`;
+    resultIndex = `${req.body.projectID}`;
 
     console.log(resultIndex);
     var queryString1 = `UPDATE tbl_project SET
@@ -293,7 +292,6 @@ router.get('/:int_projectID/viewben',(req, res) => {
     
     var queryString3 =`SELECT * FROM tbl_application app
     JOIN tbl_project proj ON app.int_projectID = proj.int_projectID
-    JOIN tbl_personalinformation pi ON app.int_applicationID = pi.int_applicationID
     WHERE app.int_projectID = "${req.params.int_projectID}"
     AND (app.enum_applicationStatus = 'Approved' 
     OR app.enum_applicationStatus = 'Received')
@@ -470,8 +468,8 @@ router.post('/ajaxgetprojectdetails',(req,res) => {
                 var date_results = results;
 
                 for (var i = 0; i < date_results.length;i++){
-                    date_results[i].date_startReleaseDate = moment(date_results[i].date_startReleaseDate).format('M-D-YYYY');
-                    console.log(`${date_results[i].date_startReleaseDate}`);
+                    date_results[i].date_targetStartRelease = moment(date_results[i].date_targetStartRelease).format('M-D-YYYY');
+                    console.log(`${date_results[i].date_targetStartRelease}`);
                 }
 
                 var resultss = results[0];

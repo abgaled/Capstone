@@ -12,7 +12,7 @@ router.get('/requirements',(req, res) => {
     console.log('=================================');
     console.log('ADMIN: MAINTENANCE - 5');
     console.log('=================================');
-    var queryString =`SELECT * FROM tbl_requirement`
+    var queryString =`SELECT * FROM tbl_requirement `
     
     db.query(queryString, (err, results, fields) => {
         console.log(results);
@@ -994,6 +994,114 @@ router.post('/officeaccnt/inactive', (req, res) => {
             console.log(err);
         else{
             return res.redirect('/office/maintenance/officeaccnt')
+        }
+    });
+
+});
+
+
+//============================================================
+// MAINTENANCE IMPLEMENTING AGENCY
+//============================================================
+
+router.get('/agency',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 7');
+    console.log('=================================');
+    var queryString =`SELECT * FROM tbl_agency `
+    
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+        // console.log(results);
+        res.render('office/maintenance/views/maintain-agency', {tbl_agency: results});
+        console.log(results);
+    });
+});
+
+router.post('/agency',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 7 POST');
+    console.log('=================================');
+
+    var queryString = `INSERT INTO \`tbl_agency\` (
+        
+        \`varchar_agencyName\`)
+                
+        VALUES(
+        "${req.body.agencyname}")`;
+
+        db.query(queryString, (err, results, fields) => {        
+            if (err) throw err;    
+            console.log(results);
+       
+        var queryString1 =`SELECT * FROM tbl_agency ORDER BY int_agencyID DESC LIMIT 0,1`
+
+        db.query(queryString1, (err, results1, fields) => {        
+            if (err) throw err;
+            var results1 = results1;
+            console.log(results1);
+                    
+            res.redirect('/office/maintenance/agency');
+        });
+
+    });
+});
+
+router.get('/agency/:int_agencyID/editagency',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 7');
+    console.log('=================================');
+    console.log("PUMASOK SA GET REQ.PARAMS")
+    
+    var queryString = `SELECT * FROM tbl_agency
+    WHERE tbl_agency.int_agencyID = "${req.params.int_agencyID}"`;
+    
+    db.query(queryString, (err, results, fields) => {        
+        if (err) throw err;
+        res.render(`office/maintenance/views/editimplementingagency`,{tbl_agency:results});
+    });
+});
+
+router.post('/agency/:int_agencyID/editagency', (req, res) => {
+    console.log("PUMASOK SA POST REQ.PARAMS")
+    
+    var queryString = `UPDATE tbl_agency SET
+    varchar_agencyName = "${req.body.agencyname}"
+    WHERE tbl_agency.int_agencyID = "${req.body.int_editagencyID}"`;
+    
+    db.query(queryString, (err, results, fields) => {        
+        if (err) throw err;
+        console.log(results);
+        res.redirect('/office/maintenance/agency');
+});
+});
+
+router.post('/agency/activate', (req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 7 Status Active POST');
+    console.log('=================================');
+
+    db.query("UPDATE tbl_agency SET enum_agencyStatus = 'Active' WHERE int_agencyID = ?",[req.body.id], (err, results, fields) =>{
+        if(err)
+            console.log(err);
+        else{
+            return res.redirect('/office/maintenance/agency')
+        }
+    });
+
+});
+
+router.post('/agency/inactive', (req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - 7 Status Inactive POST');
+    console.log('=================================');
+
+    db.query("UPDATE tbl_agency SET enum_agencyStatus = 'Inactive' WHERE int_agencyID = ?",[req.body.id], (err, results, fields) =>{
+        if(err)
+            console.log(err);
+        else{
+            return res.redirect('/office/maintenance/agency')
         }
     });
 

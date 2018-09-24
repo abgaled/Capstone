@@ -44,8 +44,9 @@ block content
                                                             if project.enum_projectStatus == 'Closed'
                                                                 button.btn.btn-success.btn-s.btn-block(id="btn-startProj"  value= project.int_projectID class="btn-startProj"): span.fa.fa-open Open Releasing
                                                                 
-                                                                <form hidden id="formprojectOPEN" method="POST" action='' name="formprojectOPEN">
-                                                                    <input id="int_projectID" name="int_projectID" >
+                                                                <form hidden id="formprojectOPEN" method="POST" action='/office/releasing/openreleasing' name="formprojectOPEN">
+                                                                    //- <input id="int_projectID" name="int_projectID" >
+                                                                    input(type="text" value=`${project.int_projectID}` id="int_projectID" name="int_projectID")
                                                                 </form>
                                                             if project.enum_projectStatus == 'Releasing'
                                                                 a(href=`/office/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-primary btn-s btn-block"): span.fa.fa-eye View Beneficiary Releasing
@@ -65,14 +66,13 @@ block content
                                                     </button>
                                                     <h4 class="modal-title" id="mediumModalLabel">Scheduled Date to Start Releasing:
                                                         <div class="" id="aj-projectDate">
-                                                    
                                                         </div>
                                                     </h4>
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                                 <div class="col-md-1 col-sm-1 col-xs-12">
                                                                 </div>
-                                                                <label class="col-md-5" for="problemcreated">Reason of early/late project start
+                                                                <label class="col-md-5" for="problemcreated">Reason of early/late project releasing start
                                                                 </label>
                                                         </div>
                                                         <div class="col-md-1 col-sm-1 col-xs-12">
@@ -107,9 +107,9 @@ block content
                 y = n.getFullYear();
                 m = n.getMonth() + 1;
                 d = n.getDate();
-                mon = months[n.getMonth()];
-                currentdate = m + "-" + d + "-" + y;
+                var mon = months[n.getMonth()];
                 currdate =  mon + " " + d + ", " + y;
+                currentdate =  m + "-" + d + "-" + y;
 
                 $(document).ready(function () {
                     $('.btn-startProj').click(function (e) {
@@ -138,11 +138,11 @@ block content
                                 $.each(tbl_project1, function (index, value) {
                                     console.log(value);
                                     if(value.enum_projectStatus == "Closed"){
-                                        if(value.date_startReleaseDate != currentdate){
+                                        if(value.date_targetStartRelease != currentdate){
                                             $('#startprojectModal').modal('show');
-                                            document.getElementById("aj-projectDate").innerHTML = value.date_startReleaseDate
+                                            document.getElementById("aj-projectDate").innerHTML = value.date_targetStartRelease
                                             document.getElementById("aj-current_date").innerHTML = currdate
-                                            document.getElementById("current_date").innerHTML = currdate
+                                            document.getElementById("current_date").value = currentdate
                                         }
                                         else
                                         {

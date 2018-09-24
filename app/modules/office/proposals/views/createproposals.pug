@@ -80,7 +80,6 @@ block content
                                                     <thead>
                                                         <tr class="headings">
                                                             <th>
-                                                            //- <input type="checkbox" id="check-all" class="flat">
                                                             </th>
                                                             <th class="column-title">Problem Name </th>
                                                             <th class="column-title">Statement</th>
@@ -101,7 +100,7 @@ block content
                                                                 td(class="  statementName")
                                                                     value= " " + statement.varchar_statementTitle+"   "
                                                                 </td>
-                                                                <td class=" ">
+                                                                <td class=" statementContent">
                                                                     value=statement.text_statementContent
                                                                 </td>
                                                                 <td class="  statementCategory">
@@ -116,27 +115,39 @@ block content
                                     </div>
 
                                     <div id="step-2">
-                                        //- <form class="form-horizontal form-label-left">
                                         <div class="form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectname">Project Name <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" name="projectname" onchange="getName()" id="ap-projectname" required="required" placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12" required title="Kindly put a name for this project">
+                                                <div class="input-group">
+                                                    <input type="text" name="projectname" onchange="getName()" id="ap-projectname" required="required" placeholder="Proposed project's name ..." class="form-control col-md-7 col-xs-12" required title="Kindly put a name for this project">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" id="btnTitleCheck" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul id="titleCheck" class="dropdown-menu dropdown-menu-right"  role="menu" onchange="">
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
+                                            
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Category</label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12" id="ap-projectcateg">
-                                                //- <select class="select2_multiple form-control" onchange="getCategory()" multiple="multiple" name="projectcategory[]" id="ap-projectcategory">
-                                                //-     each category in tbl_category
-                                                //-         option(value=`${category.int_categoryID}` )=category.varchar_categoryName+"   "
-                                                //- </select>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Project Category</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12" id="ap-projectcateg">                                                
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="projectrationale">Project Rationale</label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="col-md-6 col-sm-6 col-xs-12 input-group">
                                                 <textarea onchange="getRationale()" class="resizable_textarea form-control" placeholder="Please fill project rationale ..." id="ap-projectrationale" name="projectrationale"></textarea>
+                                                <div class="input-group-btn">
+                                                    <button type="button" id="btn-rationale" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <div id="contentDrop" class="dropdown-menu contentDropDown"  role="menu">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -160,11 +171,23 @@ block content
                                                 </select>
                                             </div>
                                         </div>
-                                        //- </form>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Application Type</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="checkbox">
+                                                    <input type="checkbox" name='applicationType[]' value='Resident' class="flat application-type"> Resident
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input type="checkbox" name='applicationType[]' value='Household' class="flat application-type"> Household
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input type="checkbox" name='applicationType[]' value='Barangay' class="flat application-type"> Barangay
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     
                                     <div id="step-3">
-                                        //- <form class="form-horizontal form-label-left">
                                         <div class="form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Target Beneficiary</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -178,30 +201,51 @@ block content
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslots">Alloted Slot <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" onchange="getSlot()" id="ap-allotedslots" name="allotedslots" required="required" placeholder="Number of beneficiary ..." onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
+                                                <input type="number" onchange="getSlot()" id="ap-allotedslots" name="allotedslots" required="required" placeholder="Number of beneficiary ..." onchange="autobudget()" class="form-control col-md-7 col-xs-12">
                                             </div>
                                         </div>
-                                        //- <div class="x_panel">
-                                        //-     <div id="form-group fieldGroup">
-                                        //-         <div class="input-group">
-                                        //-             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="itembenefit">Benefit Name <span class="required">*</span>
-                                        //-             </label>
-                                        //-             <div class="col-md-6 col-sm-6 col-xs-12">
-                                        //-                 <input type="number" onchange="" id="ap-benefitname" name="allotedslots" required="required" placeholder="Number of beneficiary ..." onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
-                                        //-             </div>
-                                        //-             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="quantitybenefit">Benefit Quantity <span class="required">*</span>
-                                        //-             </label>
-                                        //-             <div class="col-md-6 col-sm-6 col-xs-12">
-                                        //-                 <input type="number" onchange="" id="ap-benefitquantity" name="allotedslots" required="required" placeholder="Number of beneficiary ..." onchange="autobudget()"    class="form-control col-md-7 col-xs-12">
-                                        //-             </div>
-                                        //-         </div>
-                                        //-     </div>
-                                        //- </div>
-                                        //- </form>
+                                        <hr/>
+                                        <div class="form-group fieldGroup">
+                                            <label class='control-label'>Benefits</label>
+                                            <div class="input-group">
+                                                <div class="input-group-text">
+                                                    <input type="text" name="benefitname[]" placeholder="Benefit" class="ap-benefitname form-control col-md-7 col-xs-12">
+                                                    <input type="number" name="benefitquantity[]" placeholder="Number of Benefit" class="ap-benefitquantity form-control col-md-7 col-xs-12">
+                                                </div>
+                                                <span class="input-group-addon"> 
+                                                    <a href="javascript:void(0)" class="btn btn-success addMore"><span class="fa fa-plus" aria-hidden="true"></span> Add</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-row">
+                                            <div class="form-group fieldGroup">
+                                                <div class="input-group">
+                                                    <div class="input-group-text">
+                                                        <input type="text" name="benefitname[]" placeholder="Benefit" class="ap-benefitname form-control col-md-7 col-xs-12">
+                                                        <input type="number" name="benefitquantity[]" placeholder="Number of Benefit" class="ap-benefitquantity form-control col-md-7 col-xs-12">
+                                                    </div>
+                                                    <span class="input-group-addon"> 
+                                                        <a href="javascript:void(0)" class="btn btn-danger remove"><span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-row">
+                                            <div class="form-group fieldGroupCopy" style="display:none">
+                                                <div class="input-group">
+                                                    <div class="input-group-text">
+                                                        <input type="text" name="benefitname[]" placeholder="Benefit" class="ap-benefitname form-control col-md-7 col-xs-12">
+                                                        <input type="number" name="benefitquantity[]" placeholder="Number of Benefit" class="ap-benefitquantity form-control col-md-7 col-xs-12">
+                                                    </div>
+                                                    <span class="input-group-addon"> 
+                                                        <a href="javascript:void(0)" class="btn btn-danger remove"><span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div id="step-4">
-                                        //- <form class="form-horizontal form-label-left">
                                         <div class="form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Select requirements</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -211,73 +255,219 @@ block content
                                             </select>
                                             </div>
                                         </div>
-                                        //- </form>
                                     </div>
 
                                     <div id="step-5">
-                                        //- <form class="form-horizontal form-label-left">
-                                            //- <div class="form-group">
-                                            //-     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot">Start Date<span class="required">*</span>
-                                            //-     </label>
-                                            //-     <div class="col-md-6 col-sm-6 col-xs-12">
-                                            //-         <input type="number" id="startDate" required="required" placeholder="number of days after approval ..." class="form-control col-md-7 col-xs-12">
-                                            //-     </div>
-                                            //- </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="applicationDays"> Days of application<span class="required">*</span>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="startApp"> Start of Application<span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" onchange="getAppDays()" id="ap-applicationDays" name="applicationDays" required="required" placeholder="Duration of beneficiary application..." class="form-control col-md-7 col-xs-12">
+                                                //- <div class="daterangepicker dropdown-menu ltr single opensright show-calendar picker_1 xdisplay"><div class="calendar left single" style="display: block;"><div class="daterangepicker_input"><input class="input-mini form-control active" type="text" name="daterangepicker_start" value="" style="display: none;"><i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i><div class="calendar-time" style="display: none;"><div></div><i class="fa fa-clock-o glyphicon glyphicon-time"></i></div></div><div class="calendar-table"><table class="table-condensed"><thead><tr><th class="prev available"><i class="fa fa-chevron-left glyphicon glyphicon-chevron-left"></i></th><th colspan="5" class="month">Oct 2016</th><th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th></tr><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody><tr><td class="weekend off available" data-title="r0c0">25</td><td class="off available" data-title="r0c1">26</td><td class="off available" data-title="r0c2">27</td><td class="off available" data-title="r0c3">28</td><td class="off available" data-title="r0c4">29</td><td class="off available" data-title="r0c5">30</td><td class="weekend available" data-title="r0c6">1</td></tr><tr><td class="weekend available" data-title="r1c0">2</td><td class="available" data-title="r1c1">3</td><td class="available" data-title="r1c2">4</td><td class="available" data-title="r1c3">5</td><td class="available" data-title="r1c4">6</td><td class="available" data-title="r1c5">7</td><td class="weekend available" data-title="r1c6">8</td></tr><tr><td class="weekend available" data-title="r2c0">9</td><td class="available" data-title="r2c1">10</td><td class="available" data-title="r2c2">11</td><td class="available" data-title="r2c3">12</td><td class="available" data-title="r2c4">13</td><td class="available" data-title="r2c5">14</td><td class="weekend available" data-title="r2c6">15</td></tr><tr><td class="weekend available" data-title="r3c0">16</td><td class="available" data-title="r3c1">17</td><td class="today active start-date active end-date available" data-title="r3c2">18</td><td class="available" data-title="r3c3">19</td><td class="available" data-title="r3c4">20</td><td class="available" data-title="r3c5">21</td><td class="weekend available" data-title="r3c6">22</td></tr><tr><td class="weekend available" data-title="r4c0">23</td><td class="available" data-title="r4c1">24</td><td class="available" data-title="r4c2">25</td><td class="available" data-title="r4c3">26</td><td class="available" data-title="r4c4">27</td><td class="available" data-title="r4c5">28</td><td class="weekend available" data-title="r4c6">29</td></tr><tr><td class="weekend available" data-title="r5c0">30</td><td class="available" data-title="r5c1">31</td><td class="off available" data-title="r5c2">1</td><td class="off available" data-title="r5c3">2</td><td class="off available" data-title="r5c4">3</td><td class="off available" data-title="r5c5">4</td><td class="weekend off available" data-title="r5c6">5</td></tr></tbody></table></div></div><div class="calendar right" style="display: none;"><div class="daterangepicker_input"><input class="input-mini form-control" type="text" name="daterangepicker_end" value="" style="display: none;"><i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i><div class="calendar-time" style="display: none;"><div></div><i class="fa fa-clock-o glyphicon glyphicon-time"></i></div></div><div class="calendar-table"><table class="table-condensed"><thead><tr><th></th><th colspan="5" class="month">Nov 2016</th><th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th></tr><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody><tr><td class="weekend off available" data-title="r0c0">30</td><td class="off available" data-title="r0c1">31</td><td class="available" data-title="r0c2">1</td><td class="available" data-title="r0c3">2</td><td class="available" data-title="r0c4">3</td><td class="available" data-title="r0c5">4</td><td class="weekend available" data-title="r0c6">5</td></tr><tr><td class="weekend available" data-title="r1c0">6</td><td class="available" data-title="r1c1">7</td><td class="available" data-title="r1c2">8</td><td class="available" data-title="r1c3">9</td><td class="available" data-title="r1c4">10</td><td class="available" data-title="r1c5">11</td><td class="weekend available" data-title="r1c6">12</td></tr><tr><td class="weekend available" data-title="r2c0">13</td><td class="available" data-title="r2c1">14</td><td class="available" data-title="r2c2">15</td><td class="available" data-title="r2c3">16</td><td class="available" data-title="r2c4">17</td><td class="available" data-title="r2c5">18</td><td class="weekend available" data-title="r2c6">19</td></tr><tr><td class="weekend available" data-title="r3c0">20</td><td class="available" data-title="r3c1">21</td><td class="available" data-title="r3c2">22</td><td class="available" data-title="r3c3">23</td><td class="available" data-title="r3c4">24</td><td class="available" data-title="r3c5">25</td><td class="weekend available" data-title="r3c6">26</td></tr><tr><td class="weekend available" data-title="r4c0">27</td><td class="available" data-title="r4c1">28</td><td class="available" data-title="r4c2">29</td><td class="available" data-title="r4c3">30</td><td class="off available" data-title="r4c4">1</td><td class="off available" data-title="r4c5">2</td><td class="weekend off available" data-title="r4c6">3</td></tr><tr><td class="weekend off available" data-title="r5c0">4</td><td class="off available" data-title="r5c1">5</td><td class="off available" data-title="r5c2">6</td><td class="off available" data-title="r5c3">7</td><td class="off available" data-title="r5c4">8</td><td class="off available" data-title="r5c5">9</td><td class="weekend off available" data-title="r5c6">10</td></tr></tbody></table></div></div><div class="ranges" style="display: none;"><div class="range_inputs"><button class="applyBtn btn btn-sm btn-success" type="button">Apply</button> <button class="cancelBtn btn btn-sm btn-default" type="button">Cancel</button></div></div></div>
+                                                <fieldset>
+                                                    <div class="control-group">
+                                                        <div class="controls">
+                                                            <div class="xdisplay_inputx form-group has-feedback">
+                                                                <input type="date" id="ap-startapp" onchange="getStartApp()" class="pickDate form-control has-feedback-left" name="startApp" aria-describedby="inputSuccess2Status">
+                                                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                                <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="releasingday">Days of Releasing<span class="required">*</span>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="endApp"> End of Application<span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" onchange="getReleaseDays()" id="ap-releasingday" name="releasingday" required="required" onchange="unhide()" placeholder="number of days of releasing..." class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                            </div>
-                                            //- <div class="form-group" hidden id="daychange">
-                                            //-     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days Between Release Dates<span class="required">*</span>
-                                            //-     </label>
-                                            //-     <div class="col-md-6 col-sm-6 col-xs-12">
-                                            //-         <input type="number" id="betweenDays" required="required" placeholder="Number of days skip..." class="form-control col-md-7 col-xs-12">
-                                            //-     </div>
-                                            //- </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="releasedate"> Date of releasing<span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" onchange="getReleaseDate()" id="ap-releasedate" name="releasedate" required="required" placeholder="Number days after closing application..." class="form-control col-md-7 col-xs-12">
+                                                <div class="daterangepicker dropdown-menu ltr single opensright show-calendar picker_1 xdisplay"><div class="calendar left single" style="display: block;"><div class="daterangepicker_input"><input class="input-mini form-control active" type="text" name="daterangepicker_start" value="" style="display: none;"><i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i><div class="calendar-time" style="display: none;"><div></div><i class="fa fa-clock-o glyphicon glyphicon-time"></i></div></div><div class="calendar-table"><table class="table-condensed"><thead><tr><th class="prev available"><i class="fa fa-chevron-left glyphicon glyphicon-chevron-left"></i></th><th colspan="5" class="month">Oct 2016</th><th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th></tr><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody><tr><td class="weekend off available" data-title="r0c0">25</td><td class="off available" data-title="r0c1">26</td><td class="off available" data-title="r0c2">27</td><td class="off available" data-title="r0c3">28</td><td class="off available" data-title="r0c4">29</td><td class="off available" data-title="r0c5">30</td><td class="weekend available" data-title="r0c6">1</td></tr><tr><td class="weekend available" data-title="r1c0">2</td><td class="available" data-title="r1c1">3</td><td class="available" data-title="r1c2">4</td><td class="available" data-title="r1c3">5</td><td class="available" data-title="r1c4">6</td><td class="available" data-title="r1c5">7</td><td class="weekend available" data-title="r1c6">8</td></tr><tr><td class="weekend available" data-title="r2c0">9</td><td class="available" data-title="r2c1">10</td><td class="available" data-title="r2c2">11</td><td class="available" data-title="r2c3">12</td><td class="available" data-title="r2c4">13</td><td class="available" data-title="r2c5">14</td><td class="weekend available" data-title="r2c6">15</td></tr><tr><td class="weekend available" data-title="r3c0">16</td><td class="available" data-title="r3c1">17</td><td class="today active start-date active end-date available" data-title="r3c2">18</td><td class="available" data-title="r3c3">19</td><td class="available" data-title="r3c4">20</td><td class="available" data-title="r3c5">21</td><td class="weekend available" data-title="r3c6">22</td></tr><tr><td class="weekend available" data-title="r4c0">23</td><td class="available" data-title="r4c1">24</td><td class="available" data-title="r4c2">25</td><td class="available" data-title="r4c3">26</td><td class="available" data-title="r4c4">27</td><td class="available" data-title="r4c5">28</td><td class="weekend available" data-title="r4c6">29</td></tr><tr><td class="weekend available" data-title="r5c0">30</td><td class="available" data-title="r5c1">31</td><td class="off available" data-title="r5c2">1</td><td class="off available" data-title="r5c3">2</td><td class="off available" data-title="r5c4">3</td><td class="off available" data-title="r5c5">4</td><td class="weekend off available" data-title="r5c6">5</td></tr></tbody></table></div></div><div class="calendar right" style="display: none;"><div class="daterangepicker_input"><input class="input-mini form-control" type="text" name="daterangepicker_end" value="" style="display: none;"><i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i><div class="calendar-time" style="display: none;"><div></div><i class="fa fa-clock-o glyphicon glyphicon-time"></i></div></div><div class="calendar-table"><table class="table-condensed"><thead><tr><th></th><th colspan="5" class="month">Nov 2016</th><th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th></tr><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody><tr><td class="weekend off available" data-title="r0c0">30</td><td class="off available" data-title="r0c1">31</td><td class="available" data-title="r0c2">1</td><td class="available" data-title="r0c3">2</td><td class="available" data-title="r0c4">3</td><td class="available" data-title="r0c5">4</td><td class="weekend available" data-title="r0c6">5</td></tr><tr><td class="weekend available" data-title="r1c0">6</td><td class="available" data-title="r1c1">7</td><td class="available" data-title="r1c2">8</td><td class="available" data-title="r1c3">9</td><td class="available" data-title="r1c4">10</td><td class="available" data-title="r1c5">11</td><td class="weekend available" data-title="r1c6">12</td></tr><tr><td class="weekend available" data-title="r2c0">13</td><td class="available" data-title="r2c1">14</td><td class="available" data-title="r2c2">15</td><td class="available" data-title="r2c3">16</td><td class="available" data-title="r2c4">17</td><td class="available" data-title="r2c5">18</td><td class="weekend available" data-title="r2c6">19</td></tr><tr><td class="weekend available" data-title="r3c0">20</td><td class="available" data-title="r3c1">21</td><td class="available" data-title="r3c2">22</td><td class="available" data-title="r3c3">23</td><td class="available" data-title="r3c4">24</td><td class="available" data-title="r3c5">25</td><td class="weekend available" data-title="r3c6">26</td></tr><tr><td class="weekend available" data-title="r4c0">27</td><td class="available" data-title="r4c1">28</td><td class="available" data-title="r4c2">29</td><td class="available" data-title="r4c3">30</td><td class="off available" data-title="r4c4">1</td><td class="off available" data-title="r4c5">2</td><td class="weekend off available" data-title="r4c6">3</td></tr><tr><td class="weekend off available" data-title="r5c0">4</td><td class="off available" data-title="r5c1">5</td><td class="off available" data-title="r5c2">6</td><td class="off available" data-title="r5c3">7</td><td class="off available" data-title="r5c4">8</td><td class="off available" data-title="r5c5">9</td><td class="weekend off available" data-title="r5c6">10</td></tr></tbody></table></div></div><div class="ranges" style="display: none;"><div class="range_inputs"><button class="applyBtn btn btn-sm btn-success" type="button">Apply</button> <button class="cancelBtn btn btn-sm btn-default" type="button">Cancel</button></div></div></div>
+                                                <fieldset>
+                                                    <div class="control-group">
+                                                        <div class="controls">
+                                                            <div class="xdisplay_inputx form-group has-feedback">
+                                                                <input type="date" id="ap-endapp" onchange="getEndApp()" class="form-control has-feedback-left" name="endApp" aria-describedby="inputSuccess2Status">
+                                                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                                <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
                                             </div>
                                         </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="select2_multiple form-control" id="ap-projectlocation" multiple="multiple" name="projectlocation[]" onchange="getLocation()">
-                                                    each location in tbl_location
-                                                        option(value=`${location.int_barangayID}`)=location.varchar_barangayName+"   "
-                                                </select>
-                                                </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="startRel"> Start of Releasing<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="daterangepicker dropdown-menu ltr single opensright show-calendar picker_1 xdisplay"><div class="calendar left single" style="display: block;"><div class="daterangepicker_input"><input class="input-mini form-control active" type="text" name="daterangepicker_start" value="" style="display: none;"><i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i><div class="calendar-time" style="display: none;"><div></div><i class="fa fa-clock-o glyphicon glyphicon-time"></i></div></div><div class="calendar-table"><table class="table-condensed"><thead><tr><th class="prev available"><i class="fa fa-chevron-left glyphicon glyphicon-chevron-left"></i></th><th colspan="5" class="month">Oct 2016</th><th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th></tr><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody><tr><td class="weekend off available" data-title="r0c0">25</td><td class="off available" data-title="r0c1">26</td><td class="off available" data-title="r0c2">27</td><td class="off available" data-title="r0c3">28</td><td class="off available" data-title="r0c4">29</td><td class="off available" data-title="r0c5">30</td><td class="weekend available" data-title="r0c6">1</td></tr><tr><td class="weekend available" data-title="r1c0">2</td><td class="available" data-title="r1c1">3</td><td class="available" data-title="r1c2">4</td><td class="available" data-title="r1c3">5</td><td class="available" data-title="r1c4">6</td><td class="available" data-title="r1c5">7</td><td class="weekend available" data-title="r1c6">8</td></tr><tr><td class="weekend available" data-title="r2c0">9</td><td class="available" data-title="r2c1">10</td><td class="available" data-title="r2c2">11</td><td class="available" data-title="r2c3">12</td><td class="available" data-title="r2c4">13</td><td class="available" data-title="r2c5">14</td><td class="weekend available" data-title="r2c6">15</td></tr><tr><td class="weekend available" data-title="r3c0">16</td><td class="available" data-title="r3c1">17</td><td class="today active start-date active end-date available" data-title="r3c2">18</td><td class="available" data-title="r3c3">19</td><td class="available" data-title="r3c4">20</td><td class="available" data-title="r3c5">21</td><td class="weekend available" data-title="r3c6">22</td></tr><tr><td class="weekend available" data-title="r4c0">23</td><td class="available" data-title="r4c1">24</td><td class="available" data-title="r4c2">25</td><td class="available" data-title="r4c3">26</td><td class="available" data-title="r4c4">27</td><td class="available" data-title="r4c5">28</td><td class="weekend available" data-title="r4c6">29</td></tr><tr><td class="weekend available" data-title="r5c0">30</td><td class="available" data-title="r5c1">31</td><td class="off available" data-title="r5c2">1</td><td class="off available" data-title="r5c3">2</td><td class="off available" data-title="r5c4">3</td><td class="off available" data-title="r5c5">4</td><td class="weekend off available" data-title="r5c6">5</td></tr></tbody></table></div></div><div class="calendar right" style="display: none;"><div class="daterangepicker_input"><input class="input-mini form-control" type="text" name="daterangepicker_end" value="" style="display: none;"><i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i><div class="calendar-time" style="display: none;"><div></div><i class="fa fa-clock-o glyphicon glyphicon-time"></i></div></div><div class="calendar-table"><table class="table-condensed"><thead><tr><th></th><th colspan="5" class="month">Nov 2016</th><th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th></tr><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody><tr><td class="weekend off available" data-title="r0c0">30</td><td class="off available" data-title="r0c1">31</td><td class="available" data-title="r0c2">1</td><td class="available" data-title="r0c3">2</td><td class="available" data-title="r0c4">3</td><td class="available" data-title="r0c5">4</td><td class="weekend available" data-title="r0c6">5</td></tr><tr><td class="weekend available" data-title="r1c0">6</td><td class="available" data-title="r1c1">7</td><td class="available" data-title="r1c2">8</td><td class="available" data-title="r1c3">9</td><td class="available" data-title="r1c4">10</td><td class="available" data-title="r1c5">11</td><td class="weekend available" data-title="r1c6">12</td></tr><tr><td class="weekend available" data-title="r2c0">13</td><td class="available" data-title="r2c1">14</td><td class="available" data-title="r2c2">15</td><td class="available" data-title="r2c3">16</td><td class="available" data-title="r2c4">17</td><td class="available" data-title="r2c5">18</td><td class="weekend available" data-title="r2c6">19</td></tr><tr><td class="weekend available" data-title="r3c0">20</td><td class="available" data-title="r3c1">21</td><td class="available" data-title="r3c2">22</td><td class="available" data-title="r3c3">23</td><td class="available" data-title="r3c4">24</td><td class="available" data-title="r3c5">25</td><td class="weekend available" data-title="r3c6">26</td></tr><tr><td class="weekend available" data-title="r4c0">27</td><td class="available" data-title="r4c1">28</td><td class="available" data-title="r4c2">29</td><td class="available" data-title="r4c3">30</td><td class="off available" data-title="r4c4">1</td><td class="off available" data-title="r4c5">2</td><td class="weekend off available" data-title="r4c6">3</td></tr><tr><td class="weekend off available" data-title="r5c0">4</td><td class="off available" data-title="r5c1">5</td><td class="off available" data-title="r5c2">6</td><td class="off available" data-title="r5c3">7</td><td class="off available" data-title="r5c4">8</td><td class="off available" data-title="r5c5">9</td><td class="weekend off available" data-title="r5c6">10</td></tr></tbody></table></div></div><div class="ranges" style="display: none;"><div class="range_inputs"><button class="applyBtn btn btn-sm btn-success" type="button">Apply</button> <button class="cancelBtn btn btn-sm btn-default" type="button">Cancel</button></div></div></div>
+                                                <fieldset>
+                                                    <div class="control-group">
+                                                        <div class="controls">
+                                                            <div class="xdisplay_inputx form-group has-feedback">
+                                                                <input type="date" id="ap-startrel" onchange="getStartRel()" class="form-control has-feedback-left" name="startRel" aria-describedby="inputSuccess2Status">
+                                                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                                <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
                                             </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="endRel"> End of Releasing<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="daterangepicker dropdown-menu ltr single opensright show-calendar picker_1 xdisplay"><div class="calendar left single" style="display: block;"><div class="daterangepicker_input"><input class="input-mini form-control active" type="text" name="daterangepicker_start" value="" style="display: none;"><i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i><div class="calendar-time" style="display: none;"><div></div><i class="fa fa-clock-o glyphicon glyphicon-time"></i></div></div><div class="calendar-table"><table class="table-condensed"><thead><tr><th class="prev available"><i class="fa fa-chevron-left glyphicon glyphicon-chevron-left"></i></th><th colspan="5" class="month">Oct 2016</th><th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th></tr><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody><tr><td class="weekend off available" data-title="r0c0">25</td><td class="off available" data-title="r0c1">26</td><td class="off available" data-title="r0c2">27</td><td class="off available" data-title="r0c3">28</td><td class="off available" data-title="r0c4">29</td><td class="off available" data-title="r0c5">30</td><td class="weekend available" data-title="r0c6">1</td></tr><tr><td class="weekend available" data-title="r1c0">2</td><td class="available" data-title="r1c1">3</td><td class="available" data-title="r1c2">4</td><td class="available" data-title="r1c3">5</td><td class="available" data-title="r1c4">6</td><td class="available" data-title="r1c5">7</td><td class="weekend available" data-title="r1c6">8</td></tr><tr><td class="weekend available" data-title="r2c0">9</td><td class="available" data-title="r2c1">10</td><td class="available" data-title="r2c2">11</td><td class="available" data-title="r2c3">12</td><td class="available" data-title="r2c4">13</td><td class="available" data-title="r2c5">14</td><td class="weekend available" data-title="r2c6">15</td></tr><tr><td class="weekend available" data-title="r3c0">16</td><td class="available" data-title="r3c1">17</td><td class="today active start-date active end-date available" data-title="r3c2">18</td><td class="available" data-title="r3c3">19</td><td class="available" data-title="r3c4">20</td><td class="available" data-title="r3c5">21</td><td class="weekend available" data-title="r3c6">22</td></tr><tr><td class="weekend available" data-title="r4c0">23</td><td class="available" data-title="r4c1">24</td><td class="available" data-title="r4c2">25</td><td class="available" data-title="r4c3">26</td><td class="available" data-title="r4c4">27</td><td class="available" data-title="r4c5">28</td><td class="weekend available" data-title="r4c6">29</td></tr><tr><td class="weekend available" data-title="r5c0">30</td><td class="available" data-title="r5c1">31</td><td class="off available" data-title="r5c2">1</td><td class="off available" data-title="r5c3">2</td><td class="off available" data-title="r5c4">3</td><td class="off available" data-title="r5c5">4</td><td class="weekend off available" data-title="r5c6">5</td></tr></tbody></table></div></div><div class="calendar right" style="display: none;"><div class="daterangepicker_input"><input class="input-mini form-control" type="text" name="daterangepicker_end" value="" style="display: none;"><i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i><div class="calendar-time" style="display: none;"><div></div><i class="fa fa-clock-o glyphicon glyphicon-time"></i></div></div><div class="calendar-table"><table class="table-condensed"><thead><tr><th></th><th colspan="5" class="month">Nov 2016</th><th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th></tr><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody><tr><td class="weekend off available" data-title="r0c0">30</td><td class="off available" data-title="r0c1">31</td><td class="available" data-title="r0c2">1</td><td class="available" data-title="r0c3">2</td><td class="available" data-title="r0c4">3</td><td class="available" data-title="r0c5">4</td><td class="weekend available" data-title="r0c6">5</td></tr><tr><td class="weekend available" data-title="r1c0">6</td><td class="available" data-title="r1c1">7</td><td class="available" data-title="r1c2">8</td><td class="available" data-title="r1c3">9</td><td class="available" data-title="r1c4">10</td><td class="available" data-title="r1c5">11</td><td class="weekend available" data-title="r1c6">12</td></tr><tr><td class="weekend available" data-title="r2c0">13</td><td class="available" data-title="r2c1">14</td><td class="available" data-title="r2c2">15</td><td class="available" data-title="r2c3">16</td><td class="available" data-title="r2c4">17</td><td class="available" data-title="r2c5">18</td><td class="weekend available" data-title="r2c6">19</td></tr><tr><td class="weekend available" data-title="r3c0">20</td><td class="available" data-title="r3c1">21</td><td class="available" data-title="r3c2">22</td><td class="available" data-title="r3c3">23</td><td class="available" data-title="r3c4">24</td><td class="available" data-title="r3c5">25</td><td class="weekend available" data-title="r3c6">26</td></tr><tr><td class="weekend available" data-title="r4c0">27</td><td class="available" data-title="r4c1">28</td><td class="available" data-title="r4c2">29</td><td class="available" data-title="r4c3">30</td><td class="off available" data-title="r4c4">1</td><td class="off available" data-title="r4c5">2</td><td class="weekend off available" data-title="r4c6">3</td></tr><tr><td class="weekend off available" data-title="r5c0">4</td><td class="off available" data-title="r5c1">5</td><td class="off available" data-title="r5c2">6</td><td class="off available" data-title="r5c3">7</td><td class="off available" data-title="r5c4">8</td><td class="off available" data-title="r5c5">9</td><td class="weekend off available" data-title="r5c6">10</td></tr></tbody></table></div></div><div class="ranges" style="display: none;"><div class="range_inputs"><button class="applyBtn btn btn-sm btn-success" type="button">Apply</button> <button class="cancelBtn btn btn-sm btn-default" type="button">Cancel</button></div></div></div>
+                                                <fieldset>
+                                                    <div class="control-group">
+                                                        <div class="controls">
+                                                            <div class="xdisplay_inputx form-group has-feedback">
+                                                                <input type="date" id="ap-endrel" onchange="getEndRel()" class="datepicker form-control has-feedback-left" name="endRel" aria-describedby="inputSuccess2Status"/>
+                                                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                                <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="closeProj"> Closing of Project<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="daterangepicker dropdown-menu ltr single opensright show-calendar picker_1 xdisplay"><div class="calendar left single" style="display: block;"><div class="daterangepicker_input"><input class="input-mini form-control active" type="text" name="daterangepicker_start" value="" style="display: none;"><i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i><div class="calendar-time" style="display: none;"><div></div><i class="fa fa-clock-o glyphicon glyphicon-time"></i></div></div><div class="calendar-table"><table class="table-condensed"><thead><tr><th class="prev available"><i class="fa fa-chevron-left glyphicon glyphicon-chevron-left"></i></th><th colspan="5" class="month">Oct 2016</th><th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th></tr><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody><tr><td class="weekend off available" data-title="r0c0">25</td><td class="off available" data-title="r0c1">26</td><td class="off available" data-title="r0c2">27</td><td class="off available" data-title="r0c3">28</td><td class="off available" data-title="r0c4">29</td><td class="off available" data-title="r0c5">30</td><td class="weekend available" data-title="r0c6">1</td></tr><tr><td class="weekend available" data-title="r1c0">2</td><td class="available" data-title="r1c1">3</td><td class="available" data-title="r1c2">4</td><td class="available" data-title="r1c3">5</td><td class="available" data-title="r1c4">6</td><td class="available" data-title="r1c5">7</td><td class="weekend available" data-title="r1c6">8</td></tr><tr><td class="weekend available" data-title="r2c0">9</td><td class="available" data-title="r2c1">10</td><td class="available" data-title="r2c2">11</td><td class="available" data-title="r2c3">12</td><td class="available" data-title="r2c4">13</td><td class="available" data-title="r2c5">14</td><td class="weekend available" data-title="r2c6">15</td></tr><tr><td class="weekend available" data-title="r3c0">16</td><td class="available" data-title="r3c1">17</td><td class="today active start-date active end-date available" data-title="r3c2">18</td><td class="available" data-title="r3c3">19</td><td class="available" data-title="r3c4">20</td><td class="available" data-title="r3c5">21</td><td class="weekend available" data-title="r3c6">22</td></tr><tr><td class="weekend available" data-title="r4c0">23</td><td class="available" data-title="r4c1">24</td><td class="available" data-title="r4c2">25</td><td class="available" data-title="r4c3">26</td><td class="available" data-title="r4c4">27</td><td class="available" data-title="r4c5">28</td><td class="weekend available" data-title="r4c6">29</td></tr><tr><td class="weekend available" data-title="r5c0">30</td><td class="available" data-title="r5c1">31</td><td class="off available" data-title="r5c2">1</td><td class="off available" data-title="r5c3">2</td><td class="off available" data-title="r5c4">3</td><td class="off available" data-title="r5c5">4</td><td class="weekend off available" data-title="r5c6">5</td></tr></tbody></table></div></div><div class="calendar right" style="display: none;"><div class="daterangepicker_input"><input class="input-mini form-control" type="text" name="daterangepicker_end" value="" style="display: none;"><i class="fa fa-calendar glyphicon glyphicon-calendar" style="display: none;"></i><div class="calendar-time" style="display: none;"><div></div><i class="fa fa-clock-o glyphicon glyphicon-time"></i></div></div><div class="calendar-table"><table class="table-condensed"><thead><tr><th></th><th colspan="5" class="month">Nov 2016</th><th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th></tr><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody><tr><td class="weekend off available" data-title="r0c0">30</td><td class="off available" data-title="r0c1">31</td><td class="available" data-title="r0c2">1</td><td class="available" data-title="r0c3">2</td><td class="available" data-title="r0c4">3</td><td class="available" data-title="r0c5">4</td><td class="weekend available" data-title="r0c6">5</td></tr><tr><td class="weekend available" data-title="r1c0">6</td><td class="available" data-title="r1c1">7</td><td class="available" data-title="r1c2">8</td><td class="available" data-title="r1c3">9</td><td class="available" data-title="r1c4">10</td><td class="available" data-title="r1c5">11</td><td class="weekend available" data-title="r1c6">12</td></tr><tr><td class="weekend available" data-title="r2c0">13</td><td class="available" data-title="r2c1">14</td><td class="available" data-title="r2c2">15</td><td class="available" data-title="r2c3">16</td><td class="available" data-title="r2c4">17</td><td class="available" data-title="r2c5">18</td><td class="weekend available" data-title="r2c6">19</td></tr><tr><td class="weekend available" data-title="r3c0">20</td><td class="available" data-title="r3c1">21</td><td class="available" data-title="r3c2">22</td><td class="available" data-title="r3c3">23</td><td class="available" data-title="r3c4">24</td><td class="available" data-title="r3c5">25</td><td class="weekend available" data-title="r3c6">26</td></tr><tr><td class="weekend available" data-title="r4c0">27</td><td class="available" data-title="r4c1">28</td><td class="available" data-title="r4c2">29</td><td class="available" data-title="r4c3">30</td><td class="off available" data-title="r4c4">1</td><td class="off available" data-title="r4c5">2</td><td class="weekend off available" data-title="r4c6">3</td></tr><tr><td class="weekend off available" data-title="r5c0">4</td><td class="off available" data-title="r5c1">5</td><td class="off available" data-title="r5c2">6</td><td class="off available" data-title="r5c3">7</td><td class="off available" data-title="r5c4">8</td><td class="off available" data-title="r5c5">9</td><td class="weekend off available" data-title="r5c6">10</td></tr></tbody></table></div></div><div class="ranges" style="display: none;"><div class="range_inputs"><button class="applyBtn btn btn-sm btn-success" type="button">Apply</button> <button class="cancelBtn btn btn-sm btn-default" type="button">Cancel</button></div></div></div>
+                                                <fieldset>
+                                                    <div class="control-group">
+                                                        <div class="controls">
+                                                            <div class="xdisplay_inputx form-group has-feedback">
+                                                                <input type="date" id="ap-closeproj" onchange="getCloseProj()" class="form-control has-feedback-left" name="closeProj" aria-describedby="inputSuccess2Status">
+                                                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                                <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" hidden id="daychange">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="allotedslot"> Days Between Release Dates<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="number" id="betweenDays" required="required" placeholder="Number of days skip..." class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Release Location</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="select2_multiple form-control" id="ap-projectlocation" multiple="multiple" name="projectlocation[]" onchange="getLocation()">
+                                                each location in tbl_location
+                                                    option(value=`${location.int_barangayID}`)=location.varchar_barangayName+"   "
+                                            </select>
+                                            </div>
+                                        </div>
                                         //- </form>
                                     </div>
 
                                     <div id="step-6">
-                                        //- <form class="form-horizontal form-label-left">
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="estimatedbudget">Estimated Budget <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="number" maxlenght="15" id="estimatedbudget" name="estimatedbudget" required="required" onchange="autobudget()" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                        <div class="form-group form-vertical">
+                                            <div class="">
+                                                <label class="control-label"> Estimated Expense
+                                                </label>
+                                                <button style="pull-right" class="btn btn-info pull-right" id="addItem">Add Item</button>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="individualbudget">Individual Budget <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="individualbudget" readonly="readonly" placeholder="0" class="form-control col-md-7 col-xs-12">
+                                            <br/>
+                                            <div class="table-responsive">
+                                                <table id="datatable-fixed-header expenseTable" class="table">
+                                                    <tbody>
+                                                        <tr style="min-height:10%">
+                                                            <th width="5%"></th>
+                                                            <th width="45%">Item Description</th>
+                                                            <th width="10%">Quantity</th>
+                                                            <th width="10%">Unit Price</th>
+                                                            <th width="20%">Amount</th>
+                                                        </tr>
+                                                        <tr class="expense-row rowCounter">
+                                                            <th >1</th>
+                                                            <td><input type="text" style="width:100%" class="form-control" name="expenseName[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control quantity" name="expenseQuantity[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control unitP" name="expenseUnitPrice[]"></td>
+                                                            <td>
+                                                                <input type="text" style="width:100%" class="form-control expenseAmount" readonly>
+                                                                <input type="number" class="expenseEstimatedAmount" name="expenseAmount[]" hidden>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="expense-row rowCounter">
+                                                            <th >2</th>
+                                                            <td><input type="text" style="width:100%" class="form-control" name="expenseName[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control quantity" name="expenseQuantity[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control unitP" name="expenseUnitPrice[]"></td>
+                                                            <td>
+                                                                <input type="text" style="width:100%" class="form-control expenseAmount" readonly>
+                                                                <input type="number" class="expenseEstimatedAmount" name="expenseAmount[]" hidden>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="expense-row rowCounter">
+                                                            <th >3</th>
+                                                            <td><input type="text" style="width:100%" class="form-control" name="expenseName[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control quantity" name="expenseQuantity[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control unitP" name="expenseUnitPrice[]"></td>
+                                                            <td>
+                                                                <input type="text" style="width:100%" class="form-control expenseAmount" readonly>
+                                                                <input type="number" class="expenseEstimatedAmount" name="expenseAmount[]" hidden>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="expense-row rowCounter">
+                                                            <th >4</th>
+                                                            <td><input type="text" style="width:100%" class="form-control" name="expenseName[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control quantity" name="expenseQuantity[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control unitP" name="expenseUnitPrice[]"></td>
+                                                            <td>
+                                                                <input type="text" style="width:100%" class="form-control expenseAmount" readonly>
+                                                                <input type="number" class="expenseEstimatedAmount" name="expenseAmount[]" hidden>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="expense-row rowCounter">
+                                                            <th >5</th>
+                                                            <td><input type="text" style="width:100%" class="form-control" name="expenseName[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control quantity" name="expenseQuantity[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control unitP" name="expenseUnitPrice[]"></td>
+                                                            <td>
+                                                                <input type="text" style="width:100%" class="form-control expenseAmount" readonly>
+                                                                <input type="number" class="expenseEstimatedAmount" name="expenseAmount[]" hidden>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="expense-row rowCounter">
+                                                            <th >6</th>
+                                                            <td><input type="text" style="width:100%" class="form-control" name="expenseName[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control quantity" name="expenseQuantity[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control unitP" name="expenseUnitPrice[]"></td>
+                                                            <td>
+                                                                <input type="text" style="width:100%" class="form-control expenseAmount" readonly>
+                                                                <input type="number" class="expenseEstimatedAmount" name="expenseAmount[]" hidden>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="expense-row-copy rowCounter" style="display:none">
+                                                            <td><input type="text" style="width:100%" class="form-control" name="expenseName[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control quantity" name="expenseQuantity[]"></td>
+                                                            <td><input type="number" style="width:100%" class="form-control unitP" name="expenseUnitPrice[]"></td>
+                                                            <td>
+                                                                <input type="text" style="width:100%" class="form-control expenseAmount" readonly>
+                                                                <input type="number" class="expenseEstimatedAmount" name="expenseAmount[]" hidden>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <th ></th>
+                                                            <td colspan="3"><b style="float:right">Total Budget:</b></td>
+                                                            <td>
+                                                                <input type="text" style="width:100%" class="form-control" id="totBudget" readonly>
+                                                                <input type="number" class="expenseEstimatedAmount" id="totEstBudget" name="estimatedbudget" hidden>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                         //- </form>
@@ -353,6 +543,12 @@ block content
                                                                 </td>
                                                             </tr>
                                                             <tr>
+                                                                <th scope="row">Application Type:</th>
+                                                                <td>
+                                                                    <div id="result-projAppType"></div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
                                                             <th scope="row"></th>
                                                                 <td></td>
                                                             </tr>
@@ -372,10 +568,10 @@ block content
                                                                 <th scope="row">Alloted Slot:</th>
                                                                 <td id="result-projSlot"></td>
                                                             </tr>
-                                                            <tr>
-                                                                <th scope="row">Benefits And Quantity:</th>
-                                                                <td id="result-projBenefit"></td>
-                                                            </tr>
+                                                            //- <tr>
+                                                            //-     <th scope="row">Benefits And Quantity:</th>
+                                                            //-     <td id="result-projBenefit"></td>
+                                                            //- </tr>
                                                             <tr>
                                                             <th scope="row"></th>
                                                                 <td></td>
@@ -405,22 +601,34 @@ block content
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <th scope="row">Duration of Application:</th>
+                                                                <th scope="row">Start of Application:</th>
                                                                 <td>
-                                                                    <div id="result-projApp"><div>
-                                                                </td>
-                                                            <tr>
-                                                                <th scope="row">Duration of Releasing</th>
-                                                                <td>
-                                                                    <div id="result-projRelease"><div>
+                                                                    <div id="result-startApp"><div>
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <th scope="row">Days After Closing</th>
+                                                                <th scope="row">End of Application</th>
                                                                 <td>
-                                                                    <div id="result-projClose"><div>
+                                                                    <div id="result-endApp"><div>
                                                                 </td>
                                                             </tr>
+                                                            <tr>
+                                                                <th scope="row">Start of Releasing</th>
+                                                                <td>
+                                                                    <div id="result-startRel"><div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">End of Releasing</th>
+                                                                <td>
+                                                                    <div id="result-endRel"><div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Closing of the Project</th>
+                                                                <td>
+                                                                    <div id="result-closeProj"><div>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Project Location</th>
@@ -440,10 +648,10 @@ block content
                                                                 <th scope="row">Estimated Budget:</th>
                                                                 <td id="result-projEstimated"></td>
                                                             </tr>
-                                                            <tr>
-                                                                <th scope="row">Individual Budget:</th>
-                                                                <td id="result-projIndividual"></td>
-                                                            </tr>
+                                                            //- <tr>
+                                                            //-     <th scope="row">Estimated Expenses:</th>
+                                                            //-     <td id="result-projExpense"></td>
+                                                            //- </tr>
                                                             <tr>
                                                             <th scope="row"></th>
                                                             <td></td>
@@ -463,14 +671,170 @@ block content
         </div>
     </div>
 
+        
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+    <script src="/assets/jquery/jquery-3.3.1.jquery.min.js"></script>
 
             
     script.
         
+        $(document).ready(function(){
+            
+            var rowCounter = 6;
+            var beneNames = [];
+            var dateToday = new Date();
+            
+            //add more fields group
+            $(".addMore").click(function(){
+                var fieldHTML = '<div class="form-group fieldGroup">'+$(".fieldGroupCopy").html()+'</div>';
+                $('body').find('.fieldGroup:last').after(fieldHTML);
+            });
+            
+            //remove fields group
+            $("body").on("click",".remove",function(){ 
+                $(this).parents(".fieldGroup").remove();
+            });
+
+            $(".expenseContent").change(function() {
+                console.log("Yaaayy~");
+                var content = $(".expenseContent").html();
+
+                console.log(content);
+            });
+
+            $("#addItem").click(function(){
+                rowCounter++;
+                var fieldHTML = '<tr class="expense-row rowCounter"><th>'+rowCounter+'</th><td><input type="text" style="width:100%" class="form-control" name="expenseName[]"></td><td><input type="number" style="width:100%" class="form-control quantity" name="expenseQuantity[]"></td><td><input type="number" style="width:100%" class="form-control unitP" name="expenseUnitPrice[]"></td><td><input type="number" style="width:100%" class="form-control expenseAmount" name="expenseAmount[]" readonly></td></tr>';
+                $('body').find('.expense-row:last').after(fieldHTML);
+            });
+
+            $('#btnTitleCheck').click(function (e) {
+                e.preventDefault()
+                console.log("Titles");
+                
+                var statement_indeces = [];
+                var statement_name = [];
+                var statement_name_selected = "";
+
+                $(".ap-statementclass:checked").each(function() {
+                    statement_indeces.push($("input").index($(this)));
+                });
+
+                $(".statementName").each(function() {
+                    statement_name.push($(this).html());
+                });
+
+                for(var i = 0 ; i < statement_indeces.length ; i++ ){
+                    var counter = statement_indeces[i];
+                    statement_name_selected += "<li><a href='#' class='titleDropDown dropdown-item'>"+statement_name[counter]+"</a></li>";
+                }
+
+                document.getElementById("titleCheck").innerHTML = statement_name_selected;
+
+            }); 
+
+            $('#btn-rationale').click(function (e) {
+                e.preventDefault()
+                console.log("Rationale");
+
+                var statement_indeces = [];
+                var statement_content = [];
+                var statement_content_selected = "";
+
+                $(".ap-statementclass:checked").each(function() {
+                    statement_indeces.push($("input").index($(this)));
+                });
+
+                $(".statementContent").each(function() {
+                    statement_content.push($(this).html());
+                });
+
+                for(var i = 0 ; i < statement_indeces.length ; i++ ){
+                    var counter = statement_indeces[i];
+                    statement_content_selected += "<li><a href='#' class='dropdown-item'>"+statement_content[counter]+"</a></li>";
+                }
+
+                document.getElementById("contentDrop").innerHTML = statement_content_selected;
+
+            }); 
+
+            $("#titleCheck").on("click", "li a", function(event) {
+                event.preventDefault();
+                var clickedSubMenu = $(this);
+                $('#ap-projectname').val(clickedSubMenu.text());
+                document.getElementById("result-projName").innerHTML = clickedSubMenu.text();
+            });
+
+            $("#contentDrop").on("click", "li a", function(event) {
+                event.preventDefault();
+                var clickedSubMenu = $(this);
+                $('#ap-projectrationale').val(clickedSubMenu.text());
+                document.getElementById("result-projRationale").innerHTML = clickedSubMenu.text();
+            });
+
+            $(".unitP, .quantity").on("change", function() {
+                var quan = [];
+                var uprice = [];
+                var totAmount = 0;
+                
+                $(".quantity").each(function (){
+                    if( !$(this).val() ){
+                        //- continue;
+                    }
+                    else {
+                        quan.push($(this).val());
+                    }
+                });
+
+                $(".unitP").each(function() {
+                    if( !$(this).val() ){
+                        //- 
+                    }
+                    else {
+                        uprice.push($(this).val());}
+                });
+
+                for(var i = 0 ; i < quan.length ; i++) {
+                    console.log([i]+"- Quantity:"+quan[i]+" Unit Price:"+uprice[i]);
+
+                    totAmount += (quan[i]*uprice[i]);
+                    
+                    var n= (quan[i]*uprice[i]).toString().split(".");
+                    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    var m= totAmount.toString().split(".");
+                    m[0] = m[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                    $(".expenseEstimatedAmount").eq(i).val(quan[i]*uprice[i]);
+                    $("#totEstBudget").val(totAmount);
+
+                    $(".expenseAmount").eq(i).val(n.join("."));
+                    $("#totBudget").val(m.join("."));
+                    document.getElementById("result-projEstimated").innerHTML = m.join(".");
+                }
+                console.log("Yeeey!");
+            });
+
+            $(".application-type").on("change", function() {
+                var appType = [];
+                var proj_appType = "";
+
+                $(".application-type:checked").each(function() {
+                    appType.push($(this).val());
+                });
+                
+                for(var i = 0 ; i < appType.length ; i++ ){
+                    proj_appType += appType[i]+'<br/>';
+                }
+                
+
+                document.getElementById("result-projAppType").innerHTML = proj_appType;
+            });
+
+        });
+
         
         function getName() {
             var name = document.getElementById("ap-projectname").value;
-            console.log(name);
 
             document.getElementById("result-projName").innerHTML = name;
         }
@@ -478,7 +842,6 @@ block content
         
         function getRationale() {
             var rationale = document.getElementById("ap-projectrationale").value;
-            console.log(rationale);
 
             if(rationale!=0){
                 document.getElementById("result-projRationale").innerHTML = rationale;
@@ -488,7 +851,6 @@ block content
         
         function getObjective() {
             var objective = document.getElementById("ap-projectobjective").value;
-            console.log(objective);
 
             if(objective!=0){
                 document.getElementById("result-projObjective").innerHTML = objective;
@@ -498,7 +860,6 @@ block content
         
         function getDescription() {
             var description = document.getElementById("ap-projectdescription").value;
-            console.log(description);
 
             if(description!=0){
                 document.getElementById("result-projDescription").innerHTML = description;
@@ -508,7 +869,6 @@ block content
         
         function getSlot() {
             var slot = document.getElementById("ap-allotedslots").value;
-            console.log(slot);
 
             if(slot!=0){
                 document.getElementById("result-projSlot").innerHTML = slot;
@@ -516,30 +876,44 @@ block content
         }
 
     
-        function getAppDays() {
-            var applicationDays = document.getElementById("ap-applicationDays").value;
+        function getStartApp() {
+            var applicationDays = document.getElementById("ap-startapp").value;
             console.log(applicationDays);
 
             if(applicationDays!=0){
-                document.getElementById("result-projApp").innerHTML = applicationDays;
+                document.getElementById("result-startApp").innerHTML = applicationDays;
             }
         }
 
-        function getReleaseDays() {
-            var releasingday = document.getElementById("ap-releasingday").value;
-            console.log(releasingday);
+        function getEndApp() {
+            var applicationDays = document.getElementById("ap-endapp").value;
+
+            if(applicationDays!=0){
+                document.getElementById("result-endApp").innerHTML = applicationDays;
+            }
+        }
+
+        function getStartRel() {
+            var releasingday = document.getElementById("ap-startrel").value;
 
             if(releasingday!=0){
-                document.getElementById("result-projRelease").innerHTML = releasingday;
+                document.getElementById("result-startRel").innerHTML = releasingday;
             }
         }
 
-        function getReleaseDate() {
-            var releasedate = document.getElementById("ap-releasedate").value;
-            console.log(releasedate);
+        function getEndRel() {
+            var releasedate = document.getElementById("ap-endrel").value;
 
             if(releasedate!=0){
-                document.getElementById("result-projClose").innerHTML = releasedate;
+                document.getElementById("result-endRel").innerHTML = releasedate;
+            }
+        }
+
+        function getCloseProj() {
+            var applicationDays = document.getElementById("ap-closeproj").value;
+
+            if(applicationDays!=0){
+                document.getElementById("result-closeProj").innerHTML = applicationDays;
             }
         }
 
@@ -549,11 +923,9 @@ block content
             var beneList = "";
 
             for(var a = 0 ; a < (beneficiaries.length-1) ; a++) {
-                console.log(beneficiaries[a]);
                 beneList += beneficiaries[a]+"<br>";
             }
 
-            console.log(beneList);
 
             if(beneficiary!=0){
                 document.getElementById("result-projBeneficiary").innerHTML = beneList;
@@ -566,11 +938,9 @@ block content
             var agenList = "";
 
             for(var a = 0 ; a < (agencies.length-1) ; a++) {
-                console.log(agencies[a]);
                 agenList += agencies[a]+"<br>";
             }
 
-            console.log(agenList);
 
             if(agency!=0){
                 document.getElementById("result-projAgency").innerHTML = agenList;
@@ -583,11 +953,9 @@ block content
             var categList = "";
 
             for(var a = 0 ; a < (categories.length-1) ; a++) {
-                console.log(categories[a]);
                 categList += categories[a]+"<br>";
             }
 
-            console.log(categList);
 
             if(category!=0){
                 document.getElementById("result-projCategory").innerHTML = categList;
@@ -600,11 +968,9 @@ block content
             var requireList = "";
 
             for(var a = 0 ; a < (requirements.length-1) ; a++) {
-                console.log(requirements[a]);
                 requireList += requirements[a]+"<br>";
             }
 
-            console.log(requireList);
 
             if(requirement!=0){
                 document.getElementById("result-projRequirement").innerHTML = requireList;
@@ -617,11 +983,9 @@ block content
             var locList = "";
 
             for(var a = 0 ; a < (locations.length-1) ; a++) {
-                console.log(locations[a]);
                 locList += locations[a]+"<br>";
             }
 
-            console.log(locList);
 
             if(location!=0){
                 document.getElementById("result-projloc").innerHTML = locList;
@@ -634,7 +998,11 @@ block content
             var statement_name_selected = "";
             var statement_indeces = [];
             var statement_category = [];
-            var statement_category_selected = "";
+            var statement_category_selected = [];
+            var result = [];
+            var categ = [];
+            var categResult = [];
+            var statement_categ = "";
             
             $(".ap-statementclass:checked").each(function() {
                 statement_id.push($(this).val());
@@ -647,47 +1015,58 @@ block content
 
             $(".statementCategory").each(function() {
                 statement_category.push($(this).html());
+                categ.push($(this).text());
             });
 
             for(var i = 0 ; i < statement_indeces.length ; i++ ){
                 var counter = statement_indeces[i];
                 statement_name_selected += statement_name[counter]+"<br>";
-                statement_category_selected += statement_category[counter]+"<br>";
-                
-
+                statement_category_selected.push(statement_category[counter]);
             }
 
 
-            console.log(statement_id);
-            console.log(statement_indeces);
-            console.log(statement_name_selected);
-            console.log(statement_category_selected);
+            $.each(statement_category_selected, function(i, e) {
+                if ($.inArray(e, result) == -1){
+                    result.push(e);
+                }
+            });
+
+            $.each(categ, function(i, e) {
+                if ($.inArray(e, categResult) == -1){
+                    categResult.push(e);
+                }
+            });
+
+            for(var i = 0 ; i < result.length ; i++) {
+                console.log(categResult[i]);
+                statement_categ += result[i]+"<input type='text' value='"+categResult[i]+"' name='projectlist[]' hidden><br>";
+            }
 
             document.getElementById("result-projStatement").innerHTML = statement_name_selected;
-            document.getElementById("ap-projectcateg").innerHTML = statement_category_selected;
-            document.getElementById("result-projCategory").innerHTML = statement_category_selected;
+            document.getElementById("ap-projectcateg").innerHTML = statement_categ;
+            document.getElementById("result-projCategory").innerHTML = statement_categ;
         }
 
-        function autobudget() {
-            var x = document.getElementById("ap-allotedslots").value;
-            var y = document.getElementById("estimatedbudget").value;
-            var z = y/x;
+        //- function autobudget() {
+        //-     var x = document.getElementById("ap-allotedslots").value;
+        //-     var y = document.getElementById("estimatedbudget").value;
+        //-     var z = y/x;
             
-            if(x!=0)
-            {
-                if(x>y)
-                document.getElementById("individualbudget").value = 0;
-                else{
-                    document.getElementById("individualbudget").value = z;
-                }
-            }
+        //-     if(x!=0)
+        //-     {
+        //-         if(x>y)
+        //-         document.getElementById("individualbudget").value = 0;
+        //-         else{
+        //-             document.getElementById("individualbudget").value = z;
+        //-         }
+        //-     }
             
-            else
-                document.getElementById("individualbudget").value = 0;
+        //-     else
+        //-         document.getElementById("individualbudget").value = 0;
 
-            document.getElementById("result-projEstimated").innerHTML = y;
-            document.getElementById("result-projIndividual").innerHTML = z;
-        }
+        //-     document.getElementById("result-projEstimated").innerHTML = y;
+        //-     document.getElementById("result-projIndividual").innerHTML = z;
+        //- }
         
         function unhide() {
             var x = document.getElementById("daychange");

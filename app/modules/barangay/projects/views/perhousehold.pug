@@ -69,7 +69,7 @@ block content
                             <div class="form-row">
                                 <div class="form-group col-md-4 col-sm-12">
                                     <label for="ap-fname" class="form-control-label"><h4><strong>House Status:</strong></h4></label>
-                                    <select name ="famclass" class="form-control">
+                                    <select name ="famhouse" class="form-control">
                                         <option value = "Owned">Owned</option>
                                         <option value = "Rent">Rent</option>
                                         <option value = "Rent to own">Rent to own</option>
@@ -93,6 +93,6 @@ block content
             });
 
             $("#btnAddContributor").click(function () {
-                $("#fincontribution").append('<tbody><tr><td><input type="text" name="famconpurpose" /></td><td><input type="text" name="famconrel" /></td><td><select class="form-control"><option value="Monthly">Monthly</option><option value="Quarterly">Quarterly</option><option value="Semi Annual">Semi Annual</option><option value="Annual">Annual</option><option value="Irregular">Irregular</option></select></td><td><input type="text" name="famconannual" /></td></tr></tbody>');
+                $("#fincontribution").append('<tbody><tr><td><input type="text" name="famconpurpose" /></td><td><input type="text" name="famconrel" /></td><td><select class="form-control" name="famconfrequency"><option value="Monthly">Monthly</option><option value="Quarterly">Quarterly</option><option value="Semi Annual">Semi Annual</option><option value="Annual">Annual</option><option value="Irregular">Irregular</option></select></td><td><input type="text" name="famconannual" /></td></tr></tbody>');
             });
         });

@@ -1,0 +1,93 @@
+extends ../../home/views/navbar.pug
+
+block content
+        <div class="right_col" role="main">
+        each agency in tbl_agency
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h3>Update:<h3>
+                  a(href=`/office/maintenance/agency` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle      
+                </div>
+                  <form method="POST" action="editagency" id="formeditben">
+                    input(type="hidden" value=`${agency.int_agencyID}` name="int_editagencyID")
+
+                    <div class="row form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="beneficiaryname">Implementing Agency Name <span class="required">*</span>
+                      </label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                        //- <input id="beneficiaryname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="3" name="beneficiaryname" placeholder="" required="required" value=`${target.varchar_beneficiaryName}` type="text">
+                        input(type="text" class="form-control col-md-7 col-xs-12" id="beneficiaryname" placeholder="Beneficiary Name" name="agencyname" value=`${agency.varchar_agencyName}` required)
+                      </div>
+                    </div>
+                      
+                    //- <div class="row form-group">
+                    //-   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="beneficiarydescription">Target Beneficiary Constraint <span class="required">*</span>
+                    //-   </label>
+                    //-   <div class="col-md-8 col-sm-8 col-xs-12">
+                    //-     //- <input id="beneficiarydescription" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="beneficiarydescription" placeholder="" required="required" value=`${target.text_beneficiaryDescription}` type="text">
+                    //-     input(type="text" class="form-control col-md-7 col-xs-12" id="beneficiarydescription" placeholder="Beneficiary Description" name="beneficiarydescription" value=`${target.text_beneficiaryDescription}` required)
+                        
+                    //-   </div>
+                    //- </div>
+                    <button type="submit" class="btn btn-default float-right" id="buttoneditben">Submit</button>
+                  </div>
+                  </form>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        script.
+                      $(document).ready(function () {
+                          //- SWEET ALERT CONFIRM SUBMIT
+                          $('#buttoneditben').on('click',function (e) {
+                              var form = $(this).parents('form');
+                              e.preventDefault(); //prevent submit
+                              
+                                  swal({
+                                  title: 'Are you sure?',
+                                  text: "You will edit this agency.",
+                                  type: 'info',
+                                  showCancelButton: true,
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText: 'Yes, edit it!'
+                                  }).then((result) => {
+                                  if (result.value) {
+                                      $('#formeditben').submit();
+                                  }                        
+                                  })
+                          });
+                          //- START VALIDATIONS
+                          $(function() {
+                          $("#formeditben").validate({
+                              rules: {
+                              beneficiaryname: {
+                                  required: true,
+                              },
+                              action: "required"
+                              },
+                              messages: {
+                              beneficiaryname: {
+                                  required: "Please enter some data",
+                              },
+                              action: "Please provide some data"
+                              },
+                              submitHandler: function(form){
+                                  form.submit();
+                                  swal(
+                                      'Success!',
+                                      'Implementing agency has been Edited!',
+                                      'success'
+                                      )
+                              }
+                          });
+                          
+                          });
+                          //- END VALIDATIONS
+                        
+                      });
+
+                      

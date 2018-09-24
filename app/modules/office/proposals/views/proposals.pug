@@ -46,12 +46,13 @@ block content
                                                                 a(href=`/office/proposals/proposals/${project.int_projectID}/proposaldetails` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
                                                                 if project.enum_proposalStatus == "Revision" 
                                                                     button.btn.btn-warning.btn-sm.btn-block(id="btn-revise" class="btn-revise" value= project.int_projectID): span.fa.fa-check  Revise
-                                                                //- each prop in tbl_cheque
-                                                                //-     if prop.int_projectID == project.int_projectID
-                                                                //-         if project.enum_proposalStatus == "Approved"
-                                                                //-             if prop.enum_propappStatus == "Sent"
-                                                                    
-                                                                button.btn.btn-success.btn-sm.btn-block(id="btn-cheque" class="btn-cheque" value= project.int_projectID): span.fa.fa-check  Cheque Number
+                                                                each prop in tbl_cheque
+                                                                    if prop.int_projectID == project.int_projectID
+                                                                        if project.enum_proposalStatus == "Approved"
+                                                                            if prop.enum_checkAppStatus == "Pending"
+                                                                                button.btn.btn-success.btn-sm.btn-block(id="btn-cheque" class="btn-cheque" value= project.int_projectID): span.fa.fa-check  Cheque Number
+                                                                        else
+
                                                                 </td>
                                                         </tr>
                                                 </tbody>
@@ -67,7 +68,7 @@ block content
                                     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                         
-                                            <form method="POST" action="/office/proposals/checknumberget" data-parsley-validate class="form-horizontal form-label-left">
+                                            <form method="POST" id="formchequeconfirmation" name="formchequeconfirmation">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" id="mediumModalLabel">Cheque Number
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -80,7 +81,7 @@ block content
                                                             <input type="hidden" id="PROJECT_idcheq" name="PROJECT_idcheq" value="">
                                                             <input type="text" id="chequeNumber" name="chequeNumber"class="form-control">
                                                             <span class="input-group-btn">
-                                                                <button type="submit" id="but-sub" class="btn btn-success">Send</button>
+                                                                button.btn.btn-success(id="btn-confirm" class="btn-confirm"): span.fa.fa-check Confirm
                                                             </span>
                                                         </div>
                                                     </div>
@@ -91,7 +92,7 @@ block content
                                 <div class="modal fade" id="reviseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                         <div class="modal-content">
-                                            <form method="POST" action="/office/proposals/revise" class="form-horizontal form-label-left">
+                                            <form method="POST" id="" action="/office/proposals/revise" class="form-horizontal form-label-left">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" id="mediumModalLabel">View Revision Content
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -173,6 +174,75 @@ block content
 
                                         document.getElementById("aj-comment").innerHTML = value.text_commentContent   
                                         document.getElementById("PROJECT_idrev").value = Id;
+                                    });
+                                                                
+                                    
+                                },
+                                error : function(e) {
+                                    console.log("ERROR: ", e);
+                                }
+                            });	
+                        }
+                        });
+                        $('.btn-confirm').click(function (e) {
+                            e.preventDefault()
+                            var Id = document.getElementById("PROJECT_idcheq").value;
+                            var checkNo = document.getElementById("chequeNumber").value;
+                            console.log("================================Id(Revision Id)")
+                            console.log(Id);
+                            console.log("================================Id(Revision Id)")
+                            ajaxGet();
+
+                            function ajaxGet(){
+                            console.log("========Id");
+                            console.log(Id);
+                            console.log("========Id");
+
+                            $.ajax({
+                                type : "POST",
+                                url : window.location + "/getchecknumber",
+                                data: { ajaxprojectID: Id, checkNumber: checkNo},
+                                dataType: "json",
+                                success: function(tbl_cheque){
+
+                                console.log(tbl_cheque)
+
+                                    $.each(tbl_cheque, function (index, value) {
+                                        console.log(value);
+
+                                        var chequenum = document.getElementById("chequeNumber").value;
+                                        if(Id == value.int_projectID)
+                                        {
+                                            if(chequenum == value.int_checkNumber)
+                                            {
+                                                swal({
+                                                    text: "Success",
+                                                    type: 'success',
+                                                    confirmButtonColor: '#3085d6',
+                                                    icon: "success",
+                                                    confirmButtonText: 'OK!'
+                                                    }).then((result) => {
+                                                    if (result.value) {
+                                                        $("#formchequeconfirmation").submit();
+                                                    }                        
+                                                })
+                                            }
+                                            else
+                                            {
+                                                swal({
+                                                    text: "Incorrect cheque number!",
+                                                    type: 'error',
+                                                    confirmButtonColor: '#3085d6',
+                                                    icon: "error",
+                                                    dangerMode: true,
+                                                    confirmButtonText: 'OK!'
+                                                    }).then((result) => {
+                                                    if (result.value) {
+                                                        $().submit();
+                                                    }                        
+                                                })
+                                            }
+                                        }
                                     });
                                                                 
                                     
