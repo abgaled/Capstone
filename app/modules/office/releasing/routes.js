@@ -56,23 +56,21 @@ router.get('/',(req, res) => {
     
     //     });
     var queryString =`SELECT * FROM tbl_project pr
-    JOIN tbl_projectproposal prpro 
-    ON pr.int_projectID=prpro.int_projectID
-    WHERE (pr.enum_projectStatus = 'Releasing'
-    OR pr.enum_projectStatus = 'Closed') 
-    AND pr.date_startReleaseDate <= "${aweek}"
-    ORDER BY pr.enum_projectStatus DESC`
+        JOIN tbl_projectproposal prpro 
+        ON pr.int_projectID=prpro.int_projectID
+        WHERE (pr.enum_projectStatus = 'Releasing'
+        OR pr.enum_projectStatus = 'Closed') 
+        AND prpro.date_targetStartRelease <= "${aweek}"
+        ORDER BY pr.enum_projectStatus DESC`
     
 
     db.query(queryString, (err, results, fields) => {
         console.log(results);
         if (err) console.log(err);
 
-        var date_results = results;
-
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_targetStartRelease = moment(date_results[i].date_targetStartRelease).format('MMMM DD, YYYY');
-            console.log(date_results[i].date_targetStartRelease);
+        for (var i = 0; i < results.length;i++){
+            results[i].date_targetStartRelease = moment(results[i].date_targetStartRelease).format('MMMM DD[,] YYYY');
+            console.log(results[i].date_targetStartRelease);
         }
         
         res.render('office/releasing/views/releasing',{tbl_project:results});
@@ -153,80 +151,101 @@ router.get('/:int_projectID/viewproj',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: releasing PROJECT');
     console.log('=================================');
+
     var queryString =`SELECT * FROM tbl_projectproposal pr
-    JOIN tbl_project proj 
-    ON pr.int_projectID = proj.int_projectID
-    JOIN tbl_checkapproval chapp 
-    ON pr.int_projectID=chapp.int_projectID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+        JOIN tbl_project proj 
+        ON pr.int_projectID = proj.int_projectID
+        JOIN tbl_checkapproval chapp 
+        ON pr.int_projectID=chapp.int_projectID
+        WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     var queryString2 =`SELECT * FROM tbl_projectrequirement prcat
-    JOIN tbl_projectproposal pr 
-    ON pr.int_projectID=prcat.int_projectID
-    JOIN tbl_requirement rq 
-    ON rq.int_requirementID=prcat.int_requirementID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+        JOIN tbl_projectproposal pr 
+        ON pr.int_projectID=prcat.int_projectID
+        JOIN tbl_requirement rq 
+        ON rq.int_requirementID=prcat.int_requirementID
+        WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     var queryString3 =`SELECT * FROM tbl_projectbeneficiary prbf
-    JOIN tbl_projectproposal pr 
-    ON pr.int_projectID=prbf.int_projectID
-    JOIN tbl_beneficiary bf 
-    ON prbf.int_beneficiaryID=bf.int_beneficiaryID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+        JOIN tbl_projectproposal pr 
+        ON pr.int_projectID=prbf.int_projectID
+        JOIN tbl_beneficiary bf 
+        ON prbf.int_beneficiaryID=bf.int_beneficiaryID
+        WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     var queryString5 =`SELECT * FROM tbl_projectcategory pc
-    JOIN tbl_projectproposal pr 
-    ON pr.int_projectID=pc.int_projectID
-    JOIN tbl_category cat 
-    ON cat.int_categoryID=pc.int_categoryID
-    WHERE pr.int_projectID = "${req.params.int_projectID}"`
+        JOIN tbl_projectproposal pr 
+        ON pr.int_projectID=pc.int_projectID
+        JOIN tbl_category cat 
+        ON cat.int_categoryID=pc.int_categoryID
+        WHERE pr.int_projectID = "${req.params.int_projectID}"`
+
+
+    var queryString6 =`SELECT * FROM tbl_application ap
+        JOIN tbl_personalinformation pi 
+        ON ap.int_applicationID = pi.int_applicationID
+        WHERE ap.int_projectID = "${req.params.int_projectID}"`
     
     var queryString7 =`SELECT * FROM tbl_problemstatement ps
-    WHERE ps.int_projectID = "${req.params.int_projectID}"`
+        WHERE ps.int_projectID = "${req.params.int_projectID}"`
+
+    var queryString8 = `SELECT *
+        FROM tbl_project WHERE int_projectID= "${req.params.int_projectID}"`;
     
 
     db.query(queryString, (err, results, fields) => {
+        if (err) console.log(err);
         console.log(results);
 
-        var date_results = results;
-
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
-            date_results[i].datetime_releasingEnd = moment(date_results[i].datetime_releasingEnd).format('MM-DD-YYYY');
+        for (var i = 0; i < results.length;i++){
+            results[i].date_createdDate = moment(results[i].date_createdDate).format('MMMM DD[,] YYYY');
+            results[i].datetime_releasingEnd = moment(results[i].datetime_releasingEnd).format('MMMM DD[,] YYYY');
         }
 
 
-        if (err) console.log(err);
         db.query(queryString2, (err, results2, fields) => {
             console.log(results2);
             if (err) console.log(err);
+
             db.query(queryString3, (err, results3, fields) => {
                 console.log(results3);
                 if (err) console.log(err);
-                    db.query(queryString5, (err, results5, fields) => {
-                        console.log(results5);
+
+                db.query(queryString5, (err, results5, fields) => {
+                    console.log(results5);
+                    if (err) console.log(err);
+
+                    db.query(queryString6, (err, results6, fields) => {
                         if (err) console.log(err);
+                        console.log(results6);
 
-                        var queryString6 =`SELECT * FROM tbl_application ap
-                        JOIN tbl_personalinformation pi 
-                        ON ap.int_applicationID = pi.int_applicationID
-                        WHERE ap.int_projectID = "${req.params.int_projectID}"`
-                        
-                        db.query(queryString6, (err, results6, fields) => {
-                            console.log(results6);
-                            db.query(queryString7, (err, results7, fields) => {
-                                console.log(results7);
+                        db.query(queryString7, (err, results7, fields) => {
+                            if (err) console.log(err);
+                            console.log(results7);
 
-                            res.render('office/releasing/views/viewproj', {
-                                tbl_projectproposal:results, 
-                                tbl_projectrequirement:results2, 
-                                tbl_projectbeneficiary:results3, 
-                                tbl_projectcategory:results5,
-                                applications:results6,
-                                tbl_problemstatement:results7});
+                            db.query(queryString8, (err, results8, fields) => {
+                                if (err) console.log(err);
+                                console.log(results8);
+
+                                for (var i = 0; i < results8.length;i++){
+                                    results8[i].date_startApplication = moment(results8[i].date_startApplication).format('MMMM DD[,] YYYY');
+                                    results8[i].date_endApplication = moment(results8[i].date_endApplication).format('MMMM DD[,] YYYY');
+                                    results8[i].date_startReleaseDate = moment(results8[i].date_startReleaseDate).format('MMMM DD[,] YYYY');
+                                    // results8[i].date_endReleaseDate = moment(results8[i].date_endReleaseDate).format('MMMM DD[,] YYYY');
+                                }
+
+                                res.render('office/releasing/views/viewproj', {
+                                    tbl_projectproposal:results, 
+                                    tbl_projectrequirement:results2, 
+                                    tbl_projectbeneficiary:results3, 
+                                    tbl_projectcategory:results5,
+                                    applications:results6,
+                                    tbl_problemstatement:results7,
+                                    tbl_project:results8
+                                });
                             });
                         });
-                    
+                    });
                 });
             });
         });
@@ -274,28 +293,30 @@ router.get('/:int_projectID/viewben',(req, res) => {
         
     });
     var queryString1 =`SELECT * FROM tbl_application app
-    JOIN tbl_project proj ON app.int_projectID = proj.int_projectID
-    JOIN tbl_personalinformation pi ON app.int_applicationID = pi.int_applicationID
-    WHERE app.int_projectID = "${req.params.int_projectID}"
-    AND (app.enum_applicationStatus = 'Approved' 
-    OR app.enum_applicationStatus = 'Received')
-    AND app.enum_applicationType = 'Resident'` 
+        JOIN tbl_project proj ON app.int_projectID = proj.int_projectID
+        JOIN tbl_personalinformation pi ON app.int_applicationID = pi.int_applicationID
+        WHERE app.int_projectID = "${req.params.int_projectID}"
+        AND (app.enum_applicationStatus = 'Approved' 
+        OR app.enum_applicationStatus = 'Received')
+        AND app.enum_applicationType = 'Resident'` 
     
     var queryString2 =`SELECT * FROM tbl_application app
-    JOIN tbl_project proj ON app.int_projectID = proj.int_projectID
-    JOIN tbl_barangay brgy ON app.int_barangayID = brgy.int_barangayID
-    JOIN tbl_barangayapplication brgyapp ON app.int_applicationID = brgyapp.int_applicationID
-    WHERE app.int_projectID = "${req.params.int_projectID}"
-    AND (app.enum_applicationStatus = 'Approved' 
-    OR app.enum_applicationStatus = 'Received')
-    AND app.enum_applicationType = 'Barangay'` 
+        JOIN tbl_project proj ON app.int_projectID = proj.int_projectID
+        JOIN tbl_barangay brgy ON app.int_barangayID = brgy.int_barangayID
+        JOIN tbl_barangayapplication brgyapp ON app.int_applicationID = brgyapp.int_applicationID
+        WHERE app.int_projectID = "${req.params.int_projectID}"
+        AND (app.enum_applicationStatus = 'Approved' 
+        OR app.enum_applicationStatus = 'Received')
+        AND app.enum_applicationType = 'Barangay'` 
     
     var queryString3 =`SELECT * FROM tbl_application app
-    JOIN tbl_project proj ON app.int_projectID = proj.int_projectID
-    WHERE app.int_projectID = "${req.params.int_projectID}"
-    AND (app.enum_applicationStatus = 'Approved' 
-    OR app.enum_applicationStatus = 'Received')
-    AND app.enum_applicationType = 'Household'` 
+        JOIN tbl_project proj ON app.int_projectID = proj.int_projectID
+        JOIN tbl_householdapplication HA ON app.int_applicationID=HA.int_applicationID
+        JOIN tbl_familybackground FBG ON FBG.int_applicationID=app.int_applicationID
+        WHERE app.int_projectID = "${req.params.int_projectID}"
+        AND (app.enum_applicationStatus = 'Approved' 
+        OR app.enum_applicationStatus = 'Received')
+        AND app.enum_applicationType = 'Household'`;
 
 
     db.query(queryString1, (err, results1, fields) => {

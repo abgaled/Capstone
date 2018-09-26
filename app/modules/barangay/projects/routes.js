@@ -49,23 +49,21 @@ router.get('/',(req, res) => {
     console.log('=================================');
 
     var queryString1 = `SELECT * FROM tbl_project p 
-    JOIN tbl_projectproposal pp 
-    ON p.int_projectID=pp.int_projectID
-    WHERE p.enum_projectStatus = "Ongoing"`
+        JOIN tbl_projectproposal pp 
+        ON p.int_projectID=pp.int_projectID
+        WHERE p.enum_projectStatus = "Ongoing"`
 
     db.query(queryString1,(err, results1) => {
 
-        var date_results = results1;
-
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_projectEnd = moment(date_results[i].date_projectEnd).format('MM-DD-YYYY');
+        for (var i = 0; i < results1.length;i++){
+            results1[i].date_projectEnd = moment(results1[i].date_projectEnd).format('MMMM DD[,] YYYY');
         }
 
         var queryString2 = `SELECT * FROM tbl_notification 
-        JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
-        WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
-        AND enum_notifStatus = "New"
-        ORDER BY tbl_notification.int_notifID DESC`
+            JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+            WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+            AND enum_notifStatus = "New"
+            ORDER BY tbl_notification.int_notifID DESC`
 
         db.query(queryString2,(err, notifications) => {
             if (err) console.log(err);
@@ -93,24 +91,24 @@ router.post('/projectdetails',(req,res) => {
 
     
     var queryString = `SELECT * FROM tbl_projectproposal pp
-    JOIN tbl_project pro ON pp.int_projectID=pro.int_projectID WHERE 
-    pro.enum_projectStatus = "Ongoing" 
-    AND pp.int_projectID = ${req.body.ajProjectID}`
+        JOIN tbl_project pro ON pp.int_projectID=pro.int_projectID WHERE 
+        pro.enum_projectStatus = "Ongoing" 
+        AND pp.int_projectID = ${req.body.ajProjectID}`
 
 
     db.query(queryString,(err, results, fields) => {
         if (err) console.log(err);
 
-        console.log(results);
-
-        var date_results = results;
-
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_startApplication = moment(date_results[i].date_startApplication).format('MM-DD-YYYY');
-            date_results[i].date_endApplication = moment(date_results[i].date_endApplication).format('MM-DD-YYYY');
-        }
-
         var resultss = results[0];
+
+        // for (var i = 0; i <= resultss.length ; i++){
+        //     // resultss[i].date_startApplication = moment(resultss[i].date_startApplication).format('MMMM DD[,] YYYY[,] h[:]mm');
+        //     // resultss[i].date_endApplication = moment(resultss[i].date_endApplication).format('MMMM DD[,] YYYY[,] h[:]mm');
+        //     console.log("EEyyyy: "+i);
+        // }
+
+        resultss.date_startApplication = moment(resultss.date_startApplication).format('MMMM DD[,] YYYY');
+        resultss.date_endApplication = moment(resultss.date_endApplication).format('MMMM DD[,] YYYY');
 
         console.log("=====RESULTSS=====")
         console.log(resultss)
@@ -540,30 +538,28 @@ router.post('/:int_projectID/apply/household',(req,res) => {
     console.log('=================================');
 
     console.log("==========FAM NAME ==========");
-    console.log(req.body.famname);
-    console.log("==========FAM REL ==========");
-    console.log(req.body.famrel);
+    console.log(req.body.famfname);
+    console.log("==========FAM NAME ==========");
+    console.log(req.body.famlname);
+    console.log("==========FAM NAME ==========");
+    console.log(req.body.fammname);
     console.log("==========FAM CIVIL ==========");
     console.log(req.body.famcivil);
     console.log("==========FAM EDUC ==========");
     console.log(req.body.fameduc);
     console.log("==========FAM OCCU ==========");
     console.log(req.body.famoccu);
-    console.log("==========FAM CLASS ==========");
-    console.log(req.body.famclass);
 
     console.log("==============FINANCIAL CONTRIBUTION =============");
     console.log("==========FAM CONPURPOSE ==========");
     console.log(req.body.famconpurpose);
-    console.log("==========FAM CONREL ==========");
-    console.log(req.body.famconrel);
     console.log("==========FAM CONFREQUENCY ==========");
     console.log(req.body.famconfrequency);
     console.log("==========FAM CONANNUAL ==========");
     console.log(req.body.famconannual);
 
     console.log("==========FAM HOUSE ==========");
-    console.log(req.body.famhouse);
+    console.log(req.body.apply_famhouse);
 
 
     var barangayQuery = `SELECT tbl_barangay.int_barangayID 
@@ -604,45 +600,81 @@ router.post('/:int_projectID/apply/household',(req,res) => {
 
                 int_applicationID = queryselect2[0].int_applicationID;
 
-                    // var insertFam = `INSERT INTO tbl_familybackground
-                    //     (\`int_applicationID\`,
-                    //     \`varchar_familyName\`,
-                    //     \`varchar_familyRelationship\`,
-                    //     \`enum_civilStatus\`,
-                    //     \`text_educationalAttainment\`,
-                    //     \`varchar_occupation\`,
-                    //     \`enum_classWorker\`) 
-                    //     VALUES 
-                    //     (${int_applicationID},
-                    //     "${req.body.famname}",
-                    //     "${req.body.famrel}",
-                    //     "${req.body.famcivil}",
-                    //     "${req.body.fameduc}",
-                    //     "${req.body.famoccu}",
-                    //     "${req.body.famclass}")`
-
                         var insertHousehold = `INSERT INTO tbl_householdapplication
                         (\`int_applicationID\`,
                         \`varchar_familyName\`,
-                        \`varchar_familyRelationship\`,
-                        \`enum_civilStatus\`,
-                        \`text_educationalAttainment\`,
-                        \`varchar_occupation\`,
-                        \`enum_classWorker\`) 
+                        \`text_homeAddress\`,
+                        \`decimal_totalAnnualIncome\`, 
+                        \`enum_houseStatus\`) 
                         VALUES 
                         (${int_applicationID},
-                        "${req.body.famname}",
-                        "${req.body.famrel}",
-                        "${req.body.famcivil}",
-                        "${req.body.fameduc}",
-                        "${req.body.famoccu}",
-                        "${req.body.famclass}")`
+                        "${req.body.apply_famname}",
+                        "${req.body.apply_famaddress}",
+                        "${req.body.apply_famincome}",
+                        "${req.body.apply_famhouse}")`
 
-                        // db.query(insertFam,(err, familybg, fields) => {
-                        //     if (err) console.log(err);
+                        db.query(insertHousehold,(err, household, fields) => {
+                            if (err) console.log(err);
+
+                            var fname = req.body.famfname;
+                            var mname = req.body.fammname;
+                            var lname = req.body.famlname;
+                            var civil = req.body.famcivil;
+                            var educ = req.body.fameduc;
+                            var occu = req.body.famoccu;
+
+                            for(var i = 0 ; i < fname.length ; i++) {
+
+                                var insertFamily = `INSERT INTO tbl_familybackground
+                                (\`int_applicationID\`,
+                                \`varchar_memberFName\`,
+                                \`varchar_memberMName\`,
+                                \`varchar_memberLName\`, 
+                                \`enum_civilStatus\`,
+                                \`text_educationalAttainment\`,
+                                \`varchar_occupation\`) 
+                                VALUES 
+                                (${int_applicationID},
+                                "${fname[i]}",
+                                "${mname[i]}",
+                                "${lname[i]}",
+                                "${civil[i]}",
+                                "${educ[i]}",
+                                "${occu[i]}")`
+
+                                db.query(insertFamily,(err, family, fields) => {
+                                    if (err) console.log(err);
+                                });
+                            }
+                            
+                            var purpose = req.body.famconpurpose;
+                            var relationship = req.body.famconrel;
+                            var freq = req.body.famconfrequency;
+                            var annual = req.body.famconannual;
+
+                            for(var j = 0 ; j < purpose.length ; j++) {
+                                
+                                var insertFinCon = `INSERT INTO tbl_financialcontribution
+                                    (\`int_applicationID\`,
+                                    \`text_finconPurpose\`,
+                                    \`varchar_relationship\`,
+                                    \`enum_frequency\`, 
+                                    \`decimal_annualContribution\`) 
+                                    VALUES 
+                                    (${int_applicationID},
+                                    "${purpose[j]}",
+                                    "${relationship[j]}",
+                                    "${freq[j]}",
+                                    "${annual[j]}"
+                                )`;
+
+                                db.query(insertFinCon,(err, fincon, fields) => {
+                                    if (err) console.log(err);
+                                });
+                            }
 
                             res.redirect('/barangay/projects');
-                        // });
+                        });
             });
         });
     });          

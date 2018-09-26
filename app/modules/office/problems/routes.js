@@ -32,6 +32,7 @@ router.post('/ajaxgetdetails',(req,res) => {
 
     var queryString = `SELECT * FROM tbl_problemstatement pr
     JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID 
+    JOIN tbl_barangay bar ON pr.int_barangayID=bar.int_barangayID 
     WHERE pr.int_statementID = ${req.body.ajStatementID}`
 
 

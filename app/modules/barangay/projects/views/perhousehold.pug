@@ -22,19 +22,41 @@ block content
                     </div>
                     <form method="POST" action="apply/household">
                         <div class="x_content">
+                            <div class="form-row">
+                                    <div class="form-group col-md-4 col-sm-12">
+                                        <label for="ap-famname" class="form-control-label">Family Name:</label>
+                                            <input type="text" id="ap-famname" name="apply_famname" placeholder="Type here ..." class="names col-sm-11 form-control ">
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label for="ap-famaddress" class="form-control-label">Home Address:</label>
+                                            <input type="text" id="ap-famaddress" name="apply_famaddress" placeholder="Type here ..." class="names col-sm-11 form-control ">
+                                    </div>
+                                    <div class="form-group col-md-2 col-sm-12">
+                                    <label for="ap-fname" class="form-control-label">House Status:</label>
+                                    <select name ="apply_famhouse" class="form-control">
+                                        <option value = "Owned">Owned</option>
+                                        <option value = "Rent">Rent</option>
+                                        <option value = "Rent to own">Rent to own</option>
+                                        <option value = "Squater">Squater</option>
+                                    </select>
+                                    </div>
+                                
+                            </div>
+                            <br>
+                            <hr>
+                    
                             <div>
                                 <button id="btnAddAddress" class="btn btn-primary btn-md" type="button" style="float:right;">Add Family Member</button>
                             </div>
-                            
-                            <table id="tbl" class="table table-borderless table-data3" style="table-layout:fixed;width:100%;">
+                            <table id="tbl" class="table table-borderless table-data3" style="">
                                 <thead>
                                         <tr>
-                                            <th>Relative's Name</th>
-                                            <th>Relationship</th>
+                                            <th>First Name</th>
+                                            <th>Lastname Name</th>
+                                            <th>Middle Name</th>
                                             <th>Civil Status</th>
-                                            <th>Educational Attainment</th>
+                                            <th>Educational Attainment<br><small>(Highest)</small></th>
                                             <th>Occupation</th>
-                                            <th>Worker Class</th>
                                         </tr>
                                 </thead>
                             </table>
@@ -61,23 +83,12 @@ block content
                                     
                                 </div>
                                 <div style="float:right;">
-                                    <label style="font-weight:bold;font-size:19;">TOTAL: </label><span>&nbsp<input type="text" readonly/></span>
+                                    <label style="font-weight:bold;font-size:19;">TOTAL: </label><span>&nbsp<input type="number" name="apply_famincome" readonly/></span>
                                 </div>
                             </div>
                             <br>
                             <hr>
-                            <div class="form-row">
-                                <div class="form-group col-md-4 col-sm-12">
-                                    <label for="ap-fname" class="form-control-label"><h4><strong>House Status:</strong></h4></label>
-                                    <select name ="famhouse" class="form-control">
-                                        <option value = "Owned">Owned</option>
-                                        <option value = "Rent">Rent</option>
-                                        <option value = "Rent to own">Rent to own</option>
-                                        <option value = "Squater">Squater</option>
-                                    </select>
-                                </div>
-                                <div><button class="btn btn-success btn-lg" type="submit" style="float:right;">Register</button></div>
-                            </div>
+                            <div><button class="btn btn-success btn-lg" type="submit" style="float:right;">Register</button></div>
                         </div>
                     </form>
                 </div>
@@ -89,7 +100,7 @@ block content
     script.
         $(document).ready(function(){
             $("#btnAddAddress").click(function () {
-                $("#idcontent").append('<tbody><tr><td><input type="text" name="famname" /></td><td><input type="text" name="famrel" /></td><td><select name ="famcivil" class="form-control"><option value = "Single">Single</option><option value = "Married">Married</option><option value = "Widowed">Widowed</option><option value = "Divorce/Separated">Divorce/Separated</option><option value = "Unknown">Unknown</option></select></td> <td><input type="text" name="fameduc" /></td><td><input type="text" name="famoccu" /></td><td><select name ="famclass" class="form-control" style="width:190px;"><option value = "Works for private household">Works for private household</option><option value = "Works for private establishment">Works for private establishment</option><option value = "Works for government agency/corporation">Works for government agency/corporation</option><option value = "Self-employed without any employee">Self-employed without any employee</option><option value = "Employer in own family-operated farm/business">Employer in own family-operated farm/business</option><option value = "Works with pay on own family-operated farm/business">Works with pay on own family-operated farm/business</option><option value = "Works withoyt pay on own family-operated farm/business">Works withoyt pay on own family-operated farm/business</option><option value = "Unemployed">Unemployed</option></select></td></tr></tbody>  ');
+                $("#idcontent").append('<tbody><tr><td><input type="text" name="famfname" /></td><td><input type="text" name="famlname" /></td><td><input type="text" name="fammname" /></td><td><select name ="famcivil" class="form-control"><option value = "Single">Single</option><option value = "Married">Married</option><option value = "Widowed">Widowed</option><option value = "Divorce/Separated">Divorce/Separated</option></select></td> <td><input type="text" name="fameduc" /></td><td><input type="text" name="famoccu" /></td></tr></tbody>  ');
             });
 
             $("#btnAddContributor").click(function () {

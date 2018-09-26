@@ -35,7 +35,7 @@ router.get('/',(req,res) => {
             for (var i = 0; i < date_results.length;i++){
                 date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
             }
-            console.log(results);
+            
 
             var queryString1 = `SELECT * FROM tbl_notification 
             JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
@@ -52,7 +52,9 @@ router.get('/',(req,res) => {
         
                 var countrow = notifications.length;
 
-                var queryString2 = `SELECT * FROM tbl_category`
+                var queryString2 = `SELECT * 
+                FROM tbl_category
+                WHERE enum_categoryStatus = "Active"`
         
                 db.query(queryString2,(err, results2) => {
         
@@ -60,13 +62,27 @@ router.get('/',(req,res) => {
                     console.log('=================================');
                     console.log('BARANGAY: GET PROJECT CATEGORY');
                     console.log('=================================');
-                
+
+                    var queryString3 = `SELECT * 
+                    FROM tbl_beneficiary 
+                    WHERE enum_beneficiaryStatus = "Active"`
+    
+                    db.query(queryString3,(err, results3) => {
+            
+                        if (err) console.log(err);
+                        console.log('=================================');
+                        console.log('BARANGAY: GET PROJECT BENEFICIARY');
+                        console.log('=================================');
+                        console.log(results3);
+                        
         
-                    res.render('barangay/problemstatement/views/problemstatement',{
-                        tbl_problemstatement:results,
-                        tbl_projectcategory:results2,
-                        notifications:notifications,
-                        numbernotif:countrow});
+                        res.render('barangay/problemstatement/views/problemstatement',{
+                            tbl_problemstatement:results,
+                            tbl_projectcategory:results2,
+                            tbl_beneficiary:results3,
+                            notifications:notifications,
+                            numbernotif:countrow});
+                    });
                 });
             });
         });
@@ -96,6 +112,8 @@ router.post('/',(req, res) => {
         \`varchar_statementTitle\`,
         \`text_statementContent\`,
         \`date_createdDate\`,
+        \`varchar_residentName\`,
+        \`text_residentAddress\`,
         \`enum_problemStatus\`)
         VALUES
         (${results1Final.int_barangayID},
@@ -103,17 +121,65 @@ router.post('/',(req, res) => {
         "${req.body.problem_title}",
         "${req.body.problem_description}",
         "${req.body.problem_createdValue}",
+        "${req.body.residentName}",
+        "${req.body.residentAddress}",
         "Submitted");`;
+
+       
+
+        console.log("PROJECT BENEFICIARY:");
+        var beneficiaries = req.body.projectbeneficiaries;
+        console.log(beneficiaries);
 
         console.log('=================================');
         console.log('BARANGAY: PROBLEM STATEMENT-NEW?POST');
         console.log('=================================');
 
             db.query(queryString, (err, results2, fields) => {        
-                
-                
+
+                var queryString2 = `SELECT * FROM tbl_problemstatement ORDER BY int_statementID DESC LIMIT 0,1`;
+
+                db.query(queryString2, (err, results3, fields) => {  
+                    console.log("RESULTS 3");
+                    console.log(results3);
+                    console.log("===============results3")
+                    
+                    
+                    var statementID = results3[0];
+                    console.log(statementID.int_statementID);
+                    // console.log(results3.int_statementID);
+                    console.log("==============INSERT PROJECT BENEFICIARIES====================");
+
+                    console.log(beneficiaries);
+                    console.log(beneficiaries.length);
+
+                    for(var j = 0 ; j < beneficiaries.length ; j++ ) 
+                    {
+                        console.log(j);
+                        console.log(beneficiaries[j]);
+                        
+                        var insertBeneficiaries = `INSERT INTO \`tbl_projectbeneficiary\`
+                            (
+                                \`int_projectID\`,
+                                \`int_beneficiaryID\`,
+                                \`enum_beneficiaryLink\`
+                            )
+
+                            VALUES
+                            (
+                                "${statementID.int_statementID}",
+                                "${beneficiaries[j]}",
+                                "Problem Statement"
+                            )`;
+
+                        db.query(insertBeneficiaries, (err, insertResult) => {        
+                            if (err) throw err;
+                            console.log(insertResult);
+                        });
+                    }
             
-                res.redirect('problemstatement');
+                    res.redirect('problemstatement');
+                });
             
             });
         });
@@ -159,8 +225,19 @@ router.post('/ajaxgetdetails',(req,res) => {
 
                 console.log("===================RESULTSS")
                 console.log(resultss)
+                
+                var queryStringben = `SELECT * FROM tbl_projectbeneficiary pb
+                JOIN tbl_beneficiary bf ON pb.int_beneficiaryID=bf.int_beneficiaryID WHERE 
+                pb.enum_beneficiaryLink = "Problem Statement"
+                AND pb.int_projectID = ${req.body.ajStatementID}`
 
-                return res.send({tbl_problemstatement1:resultss});
+                db.query(queryStringben,(err, resultsben, fields) => {
+                    if (err) console.log(err);
+    
+                    console.log(resultsben);
+
+                    return res.send({tbl_problemstatement1:resultss});
+                });
             });
         });
 });

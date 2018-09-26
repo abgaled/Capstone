@@ -702,7 +702,7 @@ block content
                 console.log(content);
             });
 
-            $("#addItem").click(function(){
+            $(document).on('click', '#addItem', function(){
                 rowCounter++;
                 var fieldHTML = '<tr class="expense-row rowCounter"><th>'+rowCounter+'</th><td><input type="text" style="width:100%" class="form-control" name="expenseName[]"></td><td><input type="number" style="width:100%" class="form-control quantity" name="expenseQuantity[]"></td><td><input type="number" style="width:100%" class="form-control unitP" name="expenseUnitPrice[]"></td><td><input type="number" style="width:100%" class="form-control expenseAmount" name="expenseAmount[]" readonly></td></tr>';
                 $('body').find('.expense-row:last').after(fieldHTML);

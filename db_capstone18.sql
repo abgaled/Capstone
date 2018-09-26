@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2018 at 02:59 PM
+-- Generation Time: Sep 26, 2018 at 12:26 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_capstone17`
+-- Database: `db_capstone18`
 --
 
 -- --------------------------------------------------------
@@ -117,7 +117,20 @@ INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_proje
 (44, 9, 33, 'Resident', 'Pending', NULL),
 (45, 9, 35, 'Resident', 'Approved', NULL),
 (46, 9, 33, 'Resident', 'Pending', NULL),
-(47, 9, 40, 'Resident', 'Pending', NULL);
+(47, 9, 40, 'Resident', 'Pending', NULL),
+(48, 9, 35, 'Resident', 'Received', '2018-09-26 00:00:00'),
+(49, 11, 35, 'Resident', 'Received', '2018-09-26 00:00:00'),
+(50, 42, 35, 'Resident', 'Received', '2018-09-26 00:00:00'),
+(51, 44, 35, 'Resident', 'Approved', NULL),
+(52, 43, 35, 'Household', 'Approved', NULL),
+(53, 9, 33, 'Household', 'Pending', NULL),
+(54, 9, 33, 'Household', 'Pending', NULL),
+(55, 9, 33, 'Household', 'Pending', NULL),
+(56, 9, 33, 'Household', 'Pending', NULL),
+(57, 9, 33, 'Household', 'Pending', NULL),
+(58, 9, 33, 'Household', 'Pending', NULL),
+(59, 9, 33, 'Household', 'Pending', NULL),
+(60, 9, 33, 'Household', 'Pending', NULL);
 
 -- --------------------------------------------------------
 
@@ -248,7 +261,7 @@ INSERT INTO `tbl_beneficiary` (`int_beneficiaryID`, `varchar_beneficiaryName`, `
 (20, 'Pregnant Women', 'Gender', 'Female', 'Active'),
 (21, 'Households', NULL, NULL, 'Active'),
 (22, 'Retired worker', NULL, NULL, 'Active'),
-(23, 'Youths', NULL, NULL, 'Active'),
+(23, 'Youths', NULL, NULL, 'Inactive'),
 (24, 'Disaster Victims', NULL, NULL, 'Active');
 
 -- --------------------------------------------------------
@@ -363,13 +376,27 @@ INSERT INTO `tbl_expense` (`int_expenseID`, `int_projectID`, `text_expenseDescri
 CREATE TABLE `tbl_familybackground` (
   `int_familybgID` int(11) NOT NULL,
   `int_applicationID` int(11) NOT NULL,
-  `varchar_familyName` varchar(100) NOT NULL,
-  `varchar_familyRelationship` varchar(100) NOT NULL,
-  `enum_civilStatus` enum('Single','Married','Widowed','Divorced/Separated','Unknown') NOT NULL,
+  `varchar_memberFName` varchar(100) NOT NULL,
+  `varchar_memberMName` varchar(100) NOT NULL,
+  `varchar_memberLName` varchar(100) NOT NULL,
+  `enum_civilStatus` enum('Single','Married','Widowed','Divorced/Separated') NOT NULL,
   `text_educationalAttainment` text NOT NULL,
-  `varchar_occupation` varchar(100) NOT NULL,
-  `enum_classWorker` enum('Works for private household','Works for private establishment','Works for government agency/corporation','Self-employed without any employee','Employer in own family-operated farm/business','Works with pay on own family-operated farm/business','Works withoyt pay on own family-operated farm/business','Unemployed') NOT NULL
+  `varchar_occupation` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_familybackground`
+--
+
+INSERT INTO `tbl_familybackground` (`int_familybgID`, `int_applicationID`, `varchar_memberFName`, `varchar_memberMName`, `varchar_memberLName`, `enum_civilStatus`, `text_educationalAttainment`, `varchar_occupation`) VALUES
+(1, 52, '', '', '', 'Single', 'High School  Graduate', 'Factory Worker'),
+(3, 57, 'Abigale,Angelika,Mel', 'Punzalan,Punzalan,Punzalan', 'Del Rosario,Del Rosario,Del Rosario', '', 'Highschool,College,Highschool', 'None,HR,None'),
+(4, 59, 'Carlos', 'Villamora', 'Oriel', 'Married', 'Associate Degree', 'Carpenter'),
+(5, 59, 'Ma. Teresa ', 'Dionisio', 'Oriel', 'Married', 'Highschool', 'Housewife'),
+(6, 59, 'Gelli Ann', 'Dionisio', 'Garcia', 'Single', 'College', 'Flight Control'),
+(7, 60, 'Ma. Fatima ', 'Garcia', 'Dionisio', 'Single', 'Highschool', 'Store Owner'),
+(8, 60, 'Ma. Christina', 'Garcia', 'Dionisio', 'Single', 'Highschool', 'Store Owner'),
+(9, 60, 'Imee ', 'Garcia', 'Dionisio', 'Single', 'College', 'Factory Worker');
 
 -- --------------------------------------------------------
 
@@ -386,6 +413,14 @@ CREATE TABLE `tbl_financialcontribution` (
   `decimal_annualContribution` decimal(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_financialcontribution`
+--
+
+INSERT INTO `tbl_financialcontribution` (`int_financialconID`, `int_applicationID`, `text_finconPurpose`, `varchar_relationship`, `enum_frequency`, `decimal_annualContribution`) VALUES
+(1, 60, 'Financial', 'Sister', 'Monthly', '25000.00'),
+(2, 60, 'Financial', 'Sister', 'Monthly', '10000.00');
+
 -- --------------------------------------------------------
 
 --
@@ -394,9 +429,22 @@ CREATE TABLE `tbl_financialcontribution` (
 
 CREATE TABLE `tbl_householdapplication` (
   `int_applicationID` int(11) NOT NULL,
+  `varchar_familyName` varchar(100) NOT NULL,
+  `text_homeAddress` text NOT NULL,
   `decimal_totalAnnualIncome` decimal(15,2) NOT NULL,
   `enum_houseStatus` enum('Owned','Rent','Rent to own','Squater') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_householdapplication`
+--
+
+INSERT INTO `tbl_householdapplication` (`int_applicationID`, `varchar_familyName`, `text_homeAddress`, `decimal_totalAnnualIncome`, `enum_houseStatus`) VALUES
+(52, '', '', '129098.00', 'Owned'),
+(57, 'Del Rosario Family', '13 Additional', '0.00', 'Owned'),
+(58, 'Oriel Family', 'Blk 2 Lot 50 Riverpark, Sapang Maligaya, Plainview, Mandaluyong City', '0.00', 'Owned'),
+(59, 'Oriel Family', 'Blk 2 Lot 50 Riverpark Sapang Maligaya, Plainview, Mandaluyong City', '0.00', 'Owned'),
+(60, 'Dionisio Family', 'Nelly\'s Compound, Addition Hills, Mandaluyong City', '0.00', 'Owned');
 
 -- --------------------------------------------------------
 
@@ -448,7 +496,11 @@ INSERT INTO `tbl_personalinformation` (`int_applicationID`, `varchar_firstName`,
 (41, 'Alfred', 'Wow', 'Men', '1995-02-10', 'Male', 1995, 'Single', '(+63) 595-612-5615', 'al@gmail.com'),
 (44, 'Marlon', 'Napiza', 'Del Rosario', '1969-05-16', 'Male', 1969, 'Single', '(+63) 916-548-4949', 'mar@gmail.com'),
 (46, 'Jenhel Keeanu', 'sntos', 'Amil', '1998-09-15', 'Male', 2000, 'Single', '(+63) 916-777-3825', 'jen@yahoo.com'),
-(47, 'jenh', 'am', 'san', '2018-09-14', 'Male', 1998, 'Single', '(+63) 395-689-5653', 'jen@yahoo.com');
+(47, 'jenh', 'am', 'san', '2018-09-14', 'Male', 1998, 'Single', '(+63) 395-689-5653', 'jen@yahoo.com'),
+(48, 'Maricar', 'Dionisio', 'Oriel', '1999-04-27', 'Female', 1999, 'Single', '(+63) 947-882-8892', 'Blk 2 Lot 50 Riverpark, Sapang Maligaya, Sun Valley, Paranaque City'),
+(49, 'Carlos', 'Jacinto', 'Villamora', '1963-09-27', 'Male', 1985, 'Single', '(+63) 918-286-3587', 'Blk 2 Lot 18 Riverpark, Sapang Maligaya, Sun Valley, Paranaque City'),
+(50, 'Emilio', 'Quizon', 'Bulanadi', '1980-01-22', 'Male', 1990, 'Married', '(+63) 980-647-0987', 'Basilio St. Plain View, Mandaluyong City'),
+(51, 'Sergio', 'Garcia', 'Bilono', '1960-06-20', 'Male', 1970, 'Married', '(+63) 918-980-1987', 'Sisa St. Brgy. Cupang, Mandaluyong City');
 
 -- --------------------------------------------------------
 
@@ -464,6 +516,8 @@ CREATE TABLE `tbl_problemstatement` (
   `varchar_statementTitle` varchar(100) NOT NULL,
   `text_statementContent` text NOT NULL,
   `date_createdDate` date NOT NULL,
+  `varchar_residentName` varchar(100) NOT NULL,
+  `text_residentAddress` text NOT NULL,
   `enum_problemStatus` enum('Submitted','Acknowledged','Rejected','Solved','Proposed') NOT NULL DEFAULT 'Submitted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -471,20 +525,31 @@ CREATE TABLE `tbl_problemstatement` (
 -- Dumping data for table `tbl_problemstatement`
 --
 
-INSERT INTO `tbl_problemstatement` (`int_statementID`, `int_barangayID`, `int_categoryID`, `int_projectID`, `varchar_statementTitle`, `text_statementContent`, `date_createdDate`, `enum_problemStatus`) VALUES
-(42, 9, 6, 31, 'Full body check up and medicine kit giving', 'Due to recent outbreak of fever', '2018-09-01', 'Proposed'),
-(43, 14, 7, NULL, 'Request for money', 'Due to recent crisis', '2018-09-01', 'Rejected'),
-(44, 10, 10, 32, 'Request for school supplies', 'Children\'s must need in school', '2018-09-01', 'Proposed'),
-(45, 13, 8, 38, 'Distribution of goods', 'Due to recent fire incident, supplies are given but it is insufficient.', '2018-09-01', 'Proposed'),
-(46, 9, 10, 33, 'Orientation to Family Planning', 'Due to the last survey, it seems that residents are not aware about family planning.', '2018-09-01', 'Proposed'),
-(47, 9, 6, 35, 'Food Supply', 'Many residents don\'t eat', '2018-09-01', 'Proposed'),
-(48, 9, 6, 36, 'Medical Check Up', 'Due to recent events in the barangay we observe that most of our residents are getting sick', '2018-09-01', 'Proposed'),
-(49, 9, 10, 37, 'eyyyyyyyyyyyyyyyyyyy', 'eyyyyyyyyyy', '2018-09-12', 'Proposed'),
-(50, 14, 8, NULL, 'eyyyyyyyyy', 'xxwxwxwxwxw', '2018-09-12', 'Submitted'),
-(51, 9, 6, NULL, 'hak hakhak', 'hakhakhakhak', '2018-09-17', 'Submitted'),
-(52, 10, 6, 39, 'Monthly check up', 'We propose to have a monthly check up', '2018-09-22', 'Proposed'),
-(53, 9, 10, 40, 'Scholarship', 'Help for students', '2018-09-22', 'Proposed'),
-(54, 9, 7, NULL, 'jkhkhjkhkhkhkhj', 'hjhjjhjhjhjjjj', '2018-09-22', 'Submitted');
+INSERT INTO `tbl_problemstatement` (`int_statementID`, `int_barangayID`, `int_categoryID`, `int_projectID`, `varchar_statementTitle`, `text_statementContent`, `date_createdDate`, `varchar_residentName`, `text_residentAddress`, `enum_problemStatus`) VALUES
+(42, 9, 6, 31, 'Full body check up and medicine kit giving', 'Due to recent outbreak of fever', '2018-09-01', '', '', 'Proposed'),
+(43, 14, 7, NULL, 'Request for money', 'Due to recent crisis', '2018-09-01', '', '', 'Rejected'),
+(44, 10, 10, 32, 'Request for school supplies', 'Children\'s must need in school', '2018-09-01', '', '', 'Proposed'),
+(45, 13, 8, 38, 'Distribution of goods', 'Due to recent fire incident, supplies are given but it is insufficient.', '2018-09-01', '', '', 'Proposed'),
+(46, 9, 10, 33, 'Orientation to Family Planning', 'Due to the last survey, it seems that residents are not aware about family planning.', '2018-09-01', '', '', 'Proposed'),
+(47, 9, 6, 35, 'Food Supply', 'Many residents don\'t eat', '2018-09-01', '', '', 'Proposed'),
+(48, 9, 6, 36, 'Medical Check Up', 'Due to recent events in the barangay we observe that most of our residents are getting sick', '2018-09-01', '', '', 'Proposed'),
+(49, 9, 10, 37, 'eyyyyyyyyyyyyyyyyyyy', 'eyyyyyyyyyy', '2018-09-12', '', '', 'Proposed'),
+(50, 14, 8, NULL, 'eyyyyyyyyy', 'xxwxwxwxwxw', '2018-09-12', '', '', 'Submitted'),
+(51, 9, 6, NULL, 'hak hakhak', 'hakhakhakhak', '2018-09-17', '', '', 'Submitted'),
+(52, 10, 6, 39, 'Monthly check up', 'We propose to have a monthly check up', '2018-09-22', '', '', 'Proposed'),
+(53, 9, 10, 40, 'Scholarship', 'Help for students', '2018-09-22', '', '', 'Proposed'),
+(54, 9, 7, NULL, 'jkhkhjkhkhkhkhj', 'hjhjjhjhjhjjjj', '2018-09-22', '', '', 'Submitted'),
+(55, 9, 8, NULL, 'Gutom na ako part 2', 'Pengeng foods ako', '2018-09-26', 'Abigale Del Rosario', '13 Gutom', 'Submitted'),
+(56, 9, 6, NULL, 'Gutom na ako part3', 'GUTOOOOOOOOOOM', '2018-09-26', 'Abigale Del Rosario', '13 AH', 'Submitted'),
+(57, 9, 6, NULL, 'Gutom na ako part4', 'Sige oo ganito', '2018-09-26', 'Abigale Del Rosario', '13 Tiago ', 'Submitted'),
+(58, 9, 6, NULL, 'wag ganito eyy', 'HELLLLLLLLO', '2018-09-26', 'Abigale Del Rosario', '13 Additional', 'Submitted'),
+(59, 9, 6, NULL, 'Gutom na ako part 5', 'Gutom na si Abi', '2018-09-26', 'Abigale Del Rosario', '13 Hekhek', 'Submitted'),
+(60, 9, 6, NULL, 'eyyyyyyyyyyyyyyyy1', 'eyyyyyyyyyyyyyyyyyyyyyyyyy', '2018-09-26', 'Abigale', '13 additional', 'Submitted'),
+(61, 9, 6, NULL, 'ayyyyyyyyyyyyyy', 'anona hehe', '2018-09-26', 'danielle casa', '15 ahdjs', 'Submitted'),
+(62, 9, 6, NULL, 'hello hello', 'hello hello', '2018-09-26', 'Abbygale', '13 Buli', 'Submitted'),
+(63, 9, 8, NULL, 'Sana gumana na', 'Dapat gumana na', '2018-09-26', 'Abigale Del Rosario', '13 Additional', 'Submitted'),
+(64, 9, 6, NULL, 'Tara Tulog', 'sdfakljflkjas;lkdfjasjdflkasj dflk', '2018-09-26', 'Maricar Oriel', 'Sapang Maligaya', 'Submitted'),
+(65, 9, 6, NULL, 'Okay na raw', 'Okay na raw', '2018-09-26', 'Abigale Del Rosario', '13 Bulili', 'Submitted');
 
 -- --------------------------------------------------------
 
@@ -510,7 +575,7 @@ INSERT INTO `tbl_project` (`int_projectID`, `date_startApplication`, `date_endAp
 (31, '2018-09-01', '2018-09-21', '2018-09-22', NULL, NULL, 'Releasing'),
 (33, '2018-09-01', '2018-09-21', '2018-10-05', NULL, NULL, 'Ongoing'),
 (34, NULL, NULL, NULL, NULL, NULL, 'Approved'),
-(35, '2018-09-01', '2018-10-21', '2018-09-20', NULL, NULL, 'Releasing'),
+(35, '2018-09-01', '2018-10-21', NULL, NULL, NULL, 'Releasing'),
 (36, '2018-09-01', '2018-09-21', '2018-10-05', NULL, NULL, 'Ongoing'),
 (40, NULL, NULL, NULL, NULL, NULL, 'Ongoing');
 
@@ -595,7 +660,12 @@ INSERT INTO `tbl_projectbeneficiary` (`int_projbeneID`, `int_projectID`, `int_be
 (30, 38, 14, 'Project Proposal'),
 (31, 38, 15, 'Project Proposal'),
 (32, 39, 15, 'Project Proposal'),
-(33, 40, 15, 'Project Proposal');
+(33, 40, 15, 'Project Proposal'),
+(43, 64, 13, 'Problem Statement'),
+(44, 64, 14, 'Problem Statement'),
+(45, 64, 15, 'Problem Statement'),
+(46, 64, 16, 'Problem Statement'),
+(47, 65, 15, 'Problem Statement');
 
 -- --------------------------------------------------------
 
@@ -682,7 +752,7 @@ INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_cityID`, `varchar_proje
 (32, 2, 'Distribution of School Supplies', 'Determined by the last survey it is true that children in our city can\'t barely have a new school su', 'School supplies will be given equally and fairly to the beneficiaries of this project.', 'To help the children/youth.', 0, '1000000', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '2018-09-01', 'Pending'),
 (33, 2, 'Seminar about family planning and freebies giving', 'Due to the last survey, it seems that residents are not aware about family planning.', 'Each beneficiary will be given an equal service for this.', 'To help the residents know about family planning.', 0, '1000000', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '2018-09-01', 'Approved'),
 (34, 2, 'Feeding Program', 'We observed that the children from orphanages are facing a financial crisis.', 'This project intends to help the poor children on orphanages that are currently facing a financial problems and this is one of the solution that we think to solve the problem.', 'The goal of this project is to provide a temporary food supplies to the orphanage in our barnagay', 0, '150000', '0000-00-00', '0000-00-00', '2018-09-20', '0000-00-00', '0000-00-00', '2018-09-01', 'Approved'),
-(35, 2, 'Food Supplies Gicing', 'The orphanage of our barangay are currently facing financial problems', 'This project intends to help the children on orphanage', 'Aims to give temporary supplies for the orphanage', 0, '150000', '0000-00-00', '0000-00-00', '2018-09-25', '0000-00-00', '0000-00-00', '2018-09-01', 'Approved'),
+(35, 2, 'Food Supplies Gicing', 'The orphanage of our barangay are currently facing financial problems', 'This project intends to help the children on orphanage', 'Aims to give temporary supplies for the orphanage', 0, '150000', '0000-00-00', '0000-00-00', '2018-09-26', '0000-00-00', '0000-00-00', '2018-09-01', 'Approved'),
 (36, 2, 'Medical check up', 'Due to our observation in the our community about health.', 'Check up for the residents', 'To help the residents ', 0, '1000000', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '2018-09-01', 'Approved'),
 (37, 2, ' eyyyyyyyyyyyyyyyyyyy   ', 'eyyyyyyyyyy', 'qwerqewr', 'qwerqwer', 123, '60516', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', 'Pending'),
 (38, 2, ' Distribution of goods   ', 'Due to recent fire incident, supplies are given but it is insufficient.', 'asdfasdfsd', 'asdfasdfasdf', 123, '15129', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', 'Pending'),
@@ -984,7 +1054,6 @@ ALTER TABLE `tbl_projectapplicationtype`
 --
 ALTER TABLE `tbl_projectbeneficiary`
   ADD PRIMARY KEY (`int_projbeneID`),
-  ADD KEY `pbprojID_idx` (`int_projectID`),
   ADD KEY `pbbeneID_idx` (`int_beneficiaryID`);
 
 --
@@ -1067,7 +1136,7 @@ ALTER TABLE `tbl_applicantbenefit`
 -- AUTO_INCREMENT for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT for table `tbl_applicationrequirement`
 --
@@ -1107,12 +1176,12 @@ ALTER TABLE `tbl_expense`
 -- AUTO_INCREMENT for table `tbl_familybackground`
 --
 ALTER TABLE `tbl_familybackground`
-  MODIFY `int_familybgID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_familybgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tbl_financialcontribution`
 --
 ALTER TABLE `tbl_financialcontribution`
-  MODIFY `int_financialconID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_financialconID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_notification`
 --
@@ -1122,7 +1191,7 @@ ALTER TABLE `tbl_notification`
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
 ALTER TABLE `tbl_problemstatement`
-  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT for table `tbl_projectagency`
 --
@@ -1137,7 +1206,7 @@ ALTER TABLE `tbl_projectapplicationtype`
 -- AUTO_INCREMENT for table `tbl_projectbeneficiary`
 --
 ALTER TABLE `tbl_projectbeneficiary`
-  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
@@ -1295,8 +1364,7 @@ ALTER TABLE `tbl_project`
 -- Constraints for table `tbl_projectbeneficiary`
 --
 ALTER TABLE `tbl_projectbeneficiary`
-  ADD CONSTRAINT `pbbeneID` FOREIGN KEY (`int_beneficiaryID`) REFERENCES `tbl_beneficiary` (`int_beneficiaryID`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `pbprojID` FOREIGN KEY (`int_projectID`) REFERENCES `tbl_projectproposal` (`int_projectID`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `pbbeneID` FOREIGN KEY (`int_beneficiaryID`) REFERENCES `tbl_beneficiary` (`int_beneficiaryID`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_projectcategory`

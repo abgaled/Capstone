@@ -179,7 +179,7 @@ block content
 
             $(document).ready(function () {
 
-                $('.btn-view-application').click(function (e) {
+                $(document).on('click', '.btn-view-application', function (e) {
                     e.preventDefault()
                     var Id = $(this).val();
                     console.log("================================Id(Class)")

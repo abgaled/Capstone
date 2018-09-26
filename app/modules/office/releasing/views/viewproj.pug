@@ -144,30 +144,31 @@ block content
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">Application Start: </th>
-                                <td>
-                                value=project.date_startApplication
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Application Closing: </th>
-                                <td>
-                                value=project.date_endApplication
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Release Start: </th>
-                                <td>
-                                value=project.date_startReleaseDate
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Release Closing: </th>
-                                <td>
-                                value=project.date_endReleaseDate
-                                </td>
-                            </tr>
+                            each proj in tbl_project
+                                <tr>
+                                    <th scope="row">Application Start: </th>
+                                    <td>
+                                    value=proj.date_startApplication
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Application Closing: </th>
+                                    <td>
+                                    value=proj.date_endApplication
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Release Start: </th>
+                                    <td>
+                                    value=proj.date_startReleaseDate
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Release Closing: </th>
+                                    <td>
+                                    value=proj.date_endReleaseDate
+                                    </td>
+                                </tr>
                             <tr>
                                 <th scope="row">Releasing Location:</th>
                                 <td>

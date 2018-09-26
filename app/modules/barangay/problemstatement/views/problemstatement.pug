@@ -49,15 +49,15 @@ block content
                         <h4 class="modal-title" id="myModalLabel"><span class="section">Add New Statement of Problem</span></h4>
              
                 <div class="item form-group">
-                        <label class="control-label col-md-2" for="problemtitle">Statement Title:
+                        <label class="control-label col-md-3" for="problemtitle">Statement Title:
                         </label>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                           <input id="problemtitle" class="form-control" name="problem_title" id="problem_title" placeholder="Enter title here ..." required type="text">
                         </div>
                 </div>
                 <div class="item form-group">
-                        <label class="control-label col-md-2 " for="problem_category">Problem Category:</label>
-                        <div class="col-md-6">
+                        <label class="control-label col-md-3 " for="problem_category">Problem Category:</label>
+                        <div class="col-md-7">
                         <select name="problem_category" style=" padding:0.50em;" required>
                             <option disabled="disabled" selected="selected">Choose..</option>
                                 each category in tbl_projectcategory
@@ -66,9 +66,34 @@ block content
                         </div>
                 </div>
                 <div class="item form-group">
-                        <label for="problem_description" class=" control-label col-md-2">Description:</label>
-                        <div class="col-md-9">
+                        <label for="target_beneficiary" class=" control-label col-md-3">Target Beneficiary:</label>
+                        <div class="col-md-8">
+                            <select class="select2_multiple form-control" onchange="getBeneficiary()" id="ap-projectbeneficiary" name="projectbeneficiaries[]" multiple="multiple">
+                                each beneficiary in tbl_beneficiary
+                                    option(value=`${beneficiary.int_beneficiaryID}`)=beneficiary.varchar_beneficiaryName+"   "
+                            </select>
+                        </div>
+                </div>
+                <div class="item form-group">
+                        <label for="problem_description" class=" control-label col-md-3">Description:</label>
+                        <div class="col-md-8">
                             <textarea name="problem_description" id="problem_description" rows="3" placeholder="Please fill project description ..." class="col-sm-11 form-control" required></textarea>
+                        </div>
+                </div>
+                <br>
+                <br>
+                <div class="item form-group">
+                        <label class="control-label col-md-3" for="residentName">Name of Resident:
+                        </label>
+                        <div class="col-md-8">
+                          <input id="residentName" class="form-control" name="residentName" id="residentName" placeholder="Enter resident's name that brought up the statement ..." required type="text">
+                        </div>
+                </div>
+                <div class="item form-group">
+                        <label class="control-label col-md-3" for="residentAddress">Address of the Resident:
+                        </label>
+                        <div class="col-md-8">
+                          <input id="residentAddress" class="form-control" name="residentAddress" id="residentAddress" placeholder="Enter resident's address ..." required type="text">
                         </div>
                 </div>
                 <br>
@@ -101,50 +126,95 @@ block content
     <div class="modal fade bs-example-modal-lg" id="modalviewproblem" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-            <div class="modal-body">
+                <div class="modal-body">
                 
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="myModalLabel"><span class="section">View Statement of Problem</span></h4> 
                     <div class="item form-group">
-                            <label class="control-label col-md-2" for="problemtitle">Statement Title:
+                            <label class="control-label col-md-3 " for="problemtitle">Statement Title:
                             </label>
-                            <div class="col-md-9" id="aj-problemtitle">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-8" id="aj-problemtitle">
                 
                             </div>
                             <br>
                     </div>
                     <div class="item form-group">
-                            <label class="control-label col-md-2" for="problemstatus">Status:
+                            <label class="control-label col-md-3 " for="problemstatus">Status:
                             </label>
-                            <div class="col-md-9" id="aj-problemstatus" >
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-8" id="aj-problemstatus" >
                 
                             </div>
                             <br>
                     </div>
                     <div class="item form-group">
-                            <label class="control-label col-md-2" for="problemcontent">Statement Content:
+                            <label class="control-label col-md-3 " for="problemcontent">Statement Content:
                             </label>
-                            <div class="col-md-9" id="aj-problemcontent">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-8" id="aj-problemcontent">
                 
                             </div>
                             <br>
                     </div>
                     <div class="item form-group">
-                            <label class="control-label col-md-2" for="problemcreated">Date Created:
+                            <label class="control-label col-md-3 " for="problemcreated">Date Created:
                             </label>
-                            <div class="col-md-9" id="aj-problemcreated">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-8" id="aj-problemcreated">
                 
                             </div>
                             <br>
                     </div>
                     <div class="item form-group">
-                            <label class="control-label col-md-2" for="problemcategory">Category:
+                            <label class="control-label col-md-3 " for="problemcategory">Category:
                             </label>
-                            <div class="col-md-9" id="aj-problemcategory">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-8" id="aj-problemcategory">
                 
                             </div>
                             <br>
                     </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-3 " for="problemBeneficiary">Beneficiary:
+                            </label>
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-8" id="aj-problembeneficiary">
+                
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                    </div>
+                    
+                        <div class="item form-group">
+                                <label class="control-label col-md-3" for="resName">Resident's Name:
+                                </label>
+                                <div class="col-md-1">
+                
+                                </div>
+                                <div class="col-md-8" id="aj-resName">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-3" for="resaddress">Resident's Address:
+                                </label>
+                                <div class="col-md-1">
+                
+                                </div>
+                                <div class="col-md-8" id="aj-resaddress">
+                    
+                                </div>
+                                <br>
+                        </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
                     </div>
@@ -165,7 +235,7 @@ block content
 
             $(document).ready(function () {
 
-                $('.btn-view-problem').click(function (e) {
+                $(document).on('click', '.btn-view-problem', function (e) {
                     e.preventDefault()
                     var Id = $(this).val();
                     console.log("================================Id(Class)")
@@ -184,7 +254,7 @@ block content
                         url : window.location + "/ajaxgetdetails",
                         data: { ajStatementID: Id},
                         dataType: "json",
-                        success: function(tbl_problemstatement1){
+                         success: function(tbl_problemstatement1,tbl_beneficiary){
 
                         console.log(tbl_problemstatement1)
 
@@ -196,6 +266,15 @@ block content
                                 document.getElementById("aj-problemcontent").innerHTML = value.text_statementContent
                                 document.getElementById("aj-problemcreated").innerHTML = value.date_createdDate
                                 document.getElementById("aj-problemcategory").innerHTML = value.varchar_categoryName
+                                document.getElementById("aj-resName").innerHTML = value.varchar_residentName
+                                document.getElementById("aj-resaddress").innerHTML = value.text_residentAddress
+                                    
+                                console.log("Success: " );
+                            });
+                            $.each(tbl_beneficiary, function (index, value) {
+                                console.log(value);
+
+                                document.getElementById("aj-problemBeneficiary").innerHTML = value.varchar_beneficiaryName     
                                     
                                 console.log("Success: " );
                             });

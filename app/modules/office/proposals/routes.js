@@ -616,101 +616,28 @@ router.get('/createproposals',(req, res) => {
     });
 });
 
-// router.post('/checknumberget',(req, res) => {
-//     console.log('=================================');
-//     console.log('OFFICE: PROPOSALS-APPROVAL-CHECKNUMBER');
-//     console.log('=================================');
-    
-//     console.log(req.body.chequeNumber);
-//     console.log(req.body.PROJECT_idcheq);
-
-//     var insertCheckQuery = `UPDATE tbl_proposalapproval
-//     SET enum_propappStatus = "Received"
-//     WHERE varchar_checkNumber = ${req.body.chequeNumber}`;  
-
-//     db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
-//     if(err) console.log(err);
-
-//     console.log("Succesfully inserted the check number");
-//     console.log(insertCheckResult);
-
-    
-//         res.redirect('/office/proposals/');
-//     });
-// });
-
-
-router.post('/ajaxchequevaldetails',(req,res) => {
+router.post('/checknumberget',(req, res) => {
     console.log('=================================');
-    console.log('OFFICE PROPOSALS-REVISION-GET DETAILS AJAX');
+    console.log('OFFICE: PROPOSALS-APPROVAL-CHECKNUMBER');
     console.log('=================================');
-    console.log(`${req.body.ajaxprojectID}`);
+    
+    console.log(req.body.chequeNumber);
+    console.log(req.body.PROJECT_idcheq);
 
-    var viewRevisionQuery = `SELECT * FROM tbl_projectproposal PP
-    JOIN tbl_checkApproval PA
-    ON PP.int_projectID=PA.int_projectID 
-    WHERE PA.int_projectID = ${req.body.ajaxprojectID}`;
+    var insertCheckQuery = `UPDATE tbl_proposalapproval
+    SET enum_propappStatus = "Received"
+    WHERE varchar_checkNumber = ${req.body.chequeNumber}`;  
 
-    db.query(viewRevisionQuery,(err, results, fields) => {
-        if (err) console.log(err);
+    db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
+    if(err) console.log(err);
 
+    console.log("Succesfully inserted the check number");
+    console.log(insertCheckResult);
 
-        console.log(results);
-
-        var resultss = results[0];
-
-        console.log("===================RESULTSS")
-        console.log(resultss)
-
-        return res.send({tbl_chequeresultss:results});
+    
+        res.redirect('/office/proposals/');
     });
 });
-
-router.post('/getchecknumber',(req,res) => {
-    console.log('=======­====================­======');
-    console.log('OFFICE:­ PROPOSALS-APPROVAL-C­HECKNUMBER');
-    console.log('=======­====================­======');
-    
-    console.log(req.body.checkNumber);
-    console.log(req.body.ajaxprojectID);
-    
-    var insertCheckQuery = `UPDATE tbl_checkapproval
-    SET enum_checkAppStatus = "Claimed"
-    WHERE int_projectID = "${req.body.ajaxprojectID}"`; 
-    
-    
-    db.query(insertCheckQuery, (err, insertCheckResult, fields) => {
-        if(err) console.log(err);
-        
-        
-        console.log("Succesf­ully inserted the check number");
-        console.log(insertCheckResult);
-        
-        var selectCheckQuery = `SELECT int_projectID from tbl_checkapproval
-        WHERE int_projectID = ${req.body.ajaxprojectID}`; 
-
-        db.query(selectCheckQuery, (err, selectCheckResult, fields) => {
-            if(err) console.log(err); 
-            
-            var resulttss = selectCheckResult;
-            var resulttss2 = resulttss[0].int_projectID;
-            console.log(resulttss[0].int_projectID);
-            
-            var insertCheckQuery2 = `INSERT INTO \`tbl_project\` 
-                (\`int_projectID\`,
-                \`enum_projectStatus\`)
-                VALUES
-                (${resulttss[0].int_projectID},
-                "Approved")`
-            
-            db.query(insertCheckQuery2, (err, insertCheckquery2, fields) => {
-                if(err) console.log(err);
-                res.redirect('/office/proposals');
-                });
-            });
-        });
-    });
-
 
 // AJAX GET REVISION DETAILS
 router.post('/ajaxrevisiondetails',(req,res) => {
