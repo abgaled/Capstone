@@ -59,18 +59,16 @@ block content
                 </div>
 
                   <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-sm">
                       <div class="modal-content">
                         <div class="modal-body">
                           <form class="form-horizontal form-label-left" method="POST" action='targetbeneficiary' name="addtarget"id="formaddbeneficiary">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                           </button>
-                        <h4 class="modal-title" id="myModalLabel"><span class="section">Target Beneficiary Details</span></h4>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">Target Beneficiary Name</span></h4>
              
                       <div class=" form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="beneficiaryname">Target Beneficiary Name <span class="required">*</span>
-                        </label>
-                        <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class=" col-sm-12 col-xs-12">
                           <input id="beneficiaryname" class="form-control col-md-7 col-xs-12" name="beneficiaryname" placeholder="" required="required" type="text">
                           //- <input id="beneficiaryname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="3" name="beneficiaryname" placeholder="" required="required" type="text">
                         </div>
@@ -82,8 +80,10 @@ block content
                       //-     <input id="beneficiarydescription" class="form-control col-md-12 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="beneficiarydescription" placeholder="" required="required" type="text">
                       //-   </div>
                       //- </div>
+                      <div class="pull-right">
                       <button type="submit" id="submitbeneficiary" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
                       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                      </div>
                     </form></div>
                         <div class="modal-footer">
                           
