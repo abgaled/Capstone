@@ -11,6 +11,7 @@ router.use('/projects', require('./projects/routes'));
 router.use('/releasing', require('./releasing/routes'));
 router.use('/reports', require('./reports/routes'));
 router.use('/profile', require('./profile/routes'));
+router.use('/utility', require('./utility/routes'));
 
 
 exports.office = router;

@@ -66,20 +66,20 @@ block content
 														<table id="datatable" class="table table-borderless table-data3 display">
 															<thead>
 																<tr>
-																	<th>Name2</th>
+																	<th>Family Name</th>
 																	<th>Status</th>
 																	<th>Requirements</th>
 																	<th>Action/s</th>
 																</tr>
 															</thead>
 															<tbody>
-															//- each applicant in tbl_applicants
+															each household in tbl_household
 																<tr>
 																	<td>
-																		value=applicant.varchar_firstName+" "+applicant.varchar_middleName+" "+applicant.varchar_lastName
+																		value=household.varchar_familyName
 																	</td>
 																	<td>
-																		value=applicant.enum_applicationStatus
+																		value=household.enum_applicationStatus
 																	</td>
 																	<td>
 																		<div class="progress">
@@ -87,7 +87,7 @@ block content
 																		</div>
 																	</td>
 																	<td>
-																		button.btn.btn-success.mb-1(id="btn-view-application" class="btn-view-application" value= applicant.int_applicationID): span.fa.fa-eye View
+																		button.btn.btn-success.mb-1(id="btn-view-household" class="btn-view-household" value= household.int_applicationID): span.fa.fa-eye View
 																	</td>
 																</tr>                   
 															</tbody>
@@ -221,7 +221,74 @@ block content
 					</div>
 					</div>
 				</div>
-			</div>				 
+			</div>		
+
+			//- MODAL VIEW APPLICANT DETAIL (Resident)
+			<div class="modal fade bs-example-modal-lg" id="modalviewhousehold" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+					<div class="modal-body">   
+													<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+															<h4 class="modal-title" id="myModalLabel"><span class="section">View Application Details</span></h4> 
+															<div class="item form-group">
+																			<label class="control-label col-md-2" for="aj-familyName">Family Name:
+																			</label>
+																			<div class="col-md-9" id="aj-familyName">
+													
+																			</div>
+																			<br>
+															</div>
+															<div class="item form-group">
+																			<label class="control-label col-md-2" for="aj-homeAddress">Home Address:
+																			</label>
+																			<div class="col-md-9" id="aj-homeAddress" >
+													
+																			</div>
+																			<br>
+															</div>
+															<div class="item form-group">
+																			<label class="control-label col-md-2" for="aj-houseStatus">House Status:
+																			</label>
+																			<div class="col-md-9" id="aj-houseStatus">
+													
+																			</div>
+																			<br>
+															</div>
+															<div class="item form-group">
+																			<label class="control-label col-md-2" for="aj-annualIncome">Annual Income:
+																			</label>
+																			<div class="col-md-9" id="aj-annualIncome">
+													
+																			</div>
+																			<br>
+															</div>
+															<div class="item form-group">
+																			<label class="control-label col-md-2" for="aj-familyBackground">Family Background:
+																			</label>
+																			<div class="col-md-9" id="aj-familyBackground">
+													
+																			</div>
+																			<br>
+																			<br>
+															</div>
+															<div class="item form-group">
+																			<label class="control-label col-md-2" for="aj-financialContributor">Financial Contributor:
+																			</label>
+																			<div class="col-md-9" id="aj-financialContributor">
+													
+																			</div>
+																			<br>
+																			<br>
+																			<br>
+															</div>
+															<div class="modal-footer">
+																	<button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+															</div>
+													</div>
+					</div>
+					</div>
+				</div>
+			</div>		 
 
 			script.
 				$(document).ready(function () {
@@ -256,6 +323,42 @@ block content
 													document.getElementById("aj-civil").innerHTML = value.enum_civilStatus
 													document.getElementById("aj-contact").innerHTML = value.varchar_contactNumber
 													document.getElementById("aj-email").innerHTML = value.varchar_emailAddress
+																					
+													console.log("Success: " );
+												});                             
+											},
+											error : function(e) {
+																	console.log("ERROR: ", e);
+											}
+										});	
+									}
+					}); 
+					$('.btn-view-household').click(function (e) {
+						e.preventDefault()
+							var Id = $(this).val();
+							console.log("================================Id(Class)")
+							console.log(Id);
+							console.log("================================Id(Class)")
+								$('#modalviewhousehold').modal('show');
+									ajaxGet();
+
+									function ajaxGet(){
+									console.log("========Id");
+									console.log(Id);
+									console.log("========Id");
+
+										$.ajax({
+											type : "POST",
+											url : window.location + "/ajaxhouseholddetails",
+											data: {ajHouseholdID: Id},
+											dataType: "json",
+											success: function(tbl_householdapplication){
+
+												$.each(tbl_householdapplication, function (index, value) {
+													document.getElementById("aj-familyName").innerHTML = value.varchar_familyName    
+													document.getElementById("aj-homeAddress").innerHTML = value.text_homeAddress
+													document.getElementById("aj-houseStatus").innerHTML = value.enum_houseStatus
+													document.getElementById("aj-annualIncome").innerHTML = value.decimal_totalAnnualIncome
 																					
 													console.log("Success: " );
 												});                             

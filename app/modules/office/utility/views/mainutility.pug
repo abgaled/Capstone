@@ -1,0 +1,306 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <link href="/cityadmin/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="/cityadmin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">    
+                    
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa"></i> BARANGAY <small></small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content text-center">
+                                    <div class="row">
+                                        <div class="animated flipInY col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                            <div class="tile-stats">
+                                            each count in barcount
+                                                <div class="count">
+                                                    value= count.barnum
+                                                </div>
+                                                <h3>Number of barangay</h3>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-app" id="addbarangay" type="button" data-toggle="modal" data-target="#modaladdbar"><span class="fa fa-plus"></span> Add</button><br>
+                                    </div>
+                                    <div class="row">
+                                        <div class="table-responsive m-b-40">
+                                            <table id="datatable" class="table table-borderless table-data3">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Barangay Name</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each barangay in tbl_barangay
+                                                    <tr>
+                                                        <td class="text-left">Barangay 
+                                                            value= barangay.varchar_barangayName
+                                                        </td>
+                                                        <td class="">
+                                                            button.btn.btn-info.mb-1.btn-block(id="btn_editbar" class="btn_editbar"  value= barangay.int_barangayID): span.fa.fa-wrench Edit<br>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa"></i> util 2 <small></small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content text-center">
+                                    
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa"></i> util 3 <small></small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content text-center">
+                                    
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa"></i> util 4 <small></small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content text-center">
+                                    
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    <div class="modal fade bs-example-modal-lg" id="modaladdbar" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <form class="form-horizontal form-label-left" method="POST" action='/office/utility/addbarangay' name="addbarangay" id="formaddbrgy">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                          </button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">Barangay Details</span></h4>
+             
+                      <div class=" form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="barangayname"> Barangay Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input id="barangayname" class="form-control col-md-7 col-xs-12"  name="barangayname" placeholder="Barangay Name" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class=" form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="address"> Address <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input id="address" class="form-control col-md-12 col-xs-12" name="address" placeholder="Input Barangay address here..." required="required" type="text">
+                        </div>
+                      </div>
+                      <div class=" form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="barangaycontact"> Barangay Contact <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input id="barangaycontact" class="form-control col-md-12 col-xs-12" name="barangaycontact" placeholder="Barangay Contact" required="required" type="number">
+                        </div>
+                      </div>
+                      </div>
+                        <div class="modal-footer">
+                          <button type="submit" id="submitbarangay" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div></form>
+
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade bs-example-modal-lg" id="modalviewedit" name="modalviewedit" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <form class="form-horizontal form-label-left" method="POST" action='/office/utility/editbarangay' name="editbarangay" id="formeditbrgy">
+                                    <div class="modal-body">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                        </button>
+                                        <h4 class="modal-title" id="myModalLabel"><span class="section">Edit Barangay Details</span></h4>
+                            
+                                        <div class=" form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="e_barangayname"> Barangay Name <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <input id="e_barangayname" class="form-control col-md-7 col-xs-12"  name="e_barangayname" required="required" type="text">
+                                            </div>
+                                        </div>
+                                        <div class=" form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="e_address"> Address <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input id="e_address" class="form-control col-md-12 col-xs-12" name="e_address" required="required" type="text">
+                                            </div>
+                                        </div>
+                                        <div class=" form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="e_barangaycontact"> Barangay Contact <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input id="e_barangaycontact" class="form-control col-md-12 col-xs-12" name="e_barangaycontact" required="required" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" name="barangayID" id="barangayID">
+                                        <button type="submit" id="submiteditbarangay" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+    
+                    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+                    <script src="/asset_validation/dist/jquery.validate.min.js"></script>
+
+                    script.
+                        $(document).ready(function () {
+                          //- SWEET ALERT CONFIRM SUBMIT
+                            $('#submitbarangay').on('click',function (e) {
+                                var form = $(this).parents('form');
+                                e.preventDefault(); //prevent submit
+                                
+                                    swal({
+                                    title: 'Are you sure?',
+                                    text: "You will submit this barangay details.",
+                                    type: 'info',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, submit it!'
+                                    }).then((result) => {
+                                    if (result.value) {
+                                        $('#formaddbrgy').submit();
+                                    }                        
+                                    })
+                            });
+                            
+                            $('.btn_editbar').click(function (e) {
+                                var form = $(this).parents('form');
+                                e.preventDefault(); //prevent submit
+                                var Id = $(this).val();
+                                document.getElementById("barangayID").value = Id  
+                                console.log("================================Id(Class)")
+                                console.log(Id);
+                                console.log("================================Id(Class)")
+                                ajaxGet();
+
+                                function ajaxGet(){
+                                console.log("========Id");
+                                console.log(Id);
+                                console.log("========Id");
+
+                                $.ajax({
+                                    type : "POST",
+                                    url : window.location + "/ajaxgetdetails",
+                                    data: { ajBarangayID: Id},
+                                    dataType: "json",
+                                    success: function(tbl_barangay){
+
+                                    console.log(tbl_barangay)
+
+                                        $.each(tbl_barangay, function (index, value) {
+                                            console.log(value);
+                                            $('#modalviewedit').modal('show');
+                                            $("#e_barangayname").val(value.varchar_barangayName);
+                                            $("#e_address").val(value.text_barangayAddress);
+                                            $("#e_barangaycontact").val(value.varchar_barangayContact);
+                                                
+                                            console.log("Success: " );
+                                        });
+                                                                    
+                                        
+                                        },
+                                        error : function(e) {
+                                            console.log("ERROR: ", e);
+                                        }
+                                    });	
+                                }
+                            });
+                            
+                            $('#submiteditbarangay').on('click',function (e) {
+                                var form = $(this).parents('form');
+                                e.preventDefault(); //prevent submit
+                                
+                                    swal({
+                                    title: 'Are you sure?',
+                                    text: "You will change this barangay details.",
+                                    type: 'info',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, submit it!'
+                                    }).then((result) => {
+                                    if (result.value) {
+                                        $('#formeditbrgy').submit();
+                                    }                        
+                                    })
+                            });
+                            //- START VALIDATIONS
+                            $(function() {
+                            $("#formaddbrgy").validate({
+                                rules: {
+                                barangayname: {
+                                    required: true,
+                                },
+                                address: {
+                                    required: true,
+                                },
+                                barangaycontact: {
+                                    required: true,
+                                },
+                                action: "required"
+                                },
+                                messages: {
+                                barangayname: {
+                                    required: "Please enter barangay name",
+                                },
+                                address: {
+                                    required: "Please enter barangay address",
+                                },
+                                barangaycontact: {
+                                    required: "Please enter barangay contact",
+                                },
+                                action: "Please provide some data"
+                                },
+                                submitHandler: function(form){
+                                    form.submit();
+                                    swal(
+                                        'Success!',
+                                        'Barangay details has been Submitted!',
+                                        'success'
+                                        )
+                                }
+                            });
+                            
+                            });
+                          //- END VALIDATIONS
+                        
+                      });

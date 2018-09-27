@@ -80,42 +80,28 @@ block content
                                         <table id="datatable" class="table table-borderless table-data3">
                                             <thead>
                                                 <tr>
-                                                    <th>Beneficiary's Name</th>
-                                                    <th>Gender</th>
-                                                    <th>Civil Status</th>
-                                                    <th>Contact Number</th>
+                                                    <th>Family Name</th>
                                                     <th>Status</th>
-                                                    <th>Actions</th>
+                                                    <th>Action/s</th>
                                                 </tr>
                                             </thead>
-                                            <tbody> 
-                                            each applicant3 in tbl_application3
-                                                <tr>    
+                                            <tbody>
+                                            each household in tbl_application3
+                                                <tr>
                                                     <td>
-                                                        value=applicant3.varchar_firstName+" "+applicant3.varchar_middleName+" "+applicant3.varchar_lastName
+                                                        value=household.varchar_familyName
                                                     </td>
                                                     <td>
-                                                        value=applicant3.enum_gender
+                                                        value=household.enum_applicationStatus
                                                     </td>
                                                     <td>
-                                                        value=applicant3.enum_civilStatus
+                                                        button.btn.btn-info.mb-1(id="btn-view-household" class="btn-view-household" value= household.int_applicationID): span.fa.fa-eye View
+                                                        if household.enum_applicationStatus == 'Approved'
+                                                            button.btn.btn-success.btn-s.mb-1(id="btn-receive-house" class="btn-receive-house" value= household.int_applicationID): span.fa.fa-check Received
                                                     </td>
-                                                    <td>
-                                                        value=applicant3.varchar_contactNumber
-                                                    </td>
-                                                    <td>
-                                                        value=applicant3.enum_applicationStatus
-                                                    </td>
-                                                    <td>
-                                                        //- a(href=`/office/releasing/beneficiary/${app2.int_applicationID}/viewAppDet` id="viewAppDet" class="btn btn-primary btn-xs btn-block"): span Application Details
-                                                        if applicant3.enum_applicationType == 'Household'
-                                                            button.btn.btn-info.mb-1(id="btn-view" class="btn-view btn-block" value= applicant3.int_applicationID): span.fa.fa-eye Beneficiary Details
-                                                            if applicant3.enum_applicationStatus == 'Approved'
-                                                                button.btn.btn-success.mb-1(id="btn-receive" class="btn-receive btn-block" value= applicant3.int_applicationID): span.fa.fa-check Received
-                                                                //- a(href=`/office/Releasing/viewben/${applicant3.int_applicationID}/receiveben` id="receiveben" class="btn btn-success btn-sm btn-block"): span.fa.fa-check  Received
-                                                    </td>
-                                                </tr>        
+                                                </tr>
                                             </tbody>
+                                                    
                                         </table>
                                     </div>
                                         //- <!-- END DATA TABLE-->
@@ -397,7 +383,170 @@ block content
                     </div>
                 </div>
             </div>
-            
+            <div class="modal fade bs-example-modal-lg" id="modalhouseappreceipt" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                            <div class="modal-body">   
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                                <h4 class="modal-title" id="myModalLabel"><span class="section">Resident's Receipt</span></h4> 
+                                <div class="item form-group">
+                                    <div class="">
+                                    </div>
+                                    <label class="control-label col-sm-12 col-md-12 text-center" id="aj-officeName">City Project Application and Beneficiary Releasing Management System
+                                    </label>
+                                </div>
+                                <div class="item form-group">
+                                    <div class="">
+                                    </div>
+                                    <label class="control-label col-sm-12 col-md-12 text-center" id="aj-officeName">Office of the Congresswomen Alexandria Gonzales
+                                    </label>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-sm-12 col-md-12 text-center" id="aj-cityName">Mandaluyong City
+                                    </label>
+                                    <br>
+                                </div>
+                                <div class="item form-group">
+                                    <div class="col-sm-1 col-md-2">
+                                    </div>
+                                    <label class="control-label col-sm-12 col-md-12 text-center" id="aj-project">315 Maysilo Cir, 1550 Metro Manila
+                                    </label>
+                                    <br>
+                                    <br>
+                                </div>
+                                <div class="item form-group">
+                                    <div class="col-sm-1 col-md-2">
+                                    </div>
+                                    <label class="control-label col-sm-12 col-md-12 text-center" id="aj-project">=======================================================================
+                                    </label>
+                                    <br>
+                                    <br>
+                                </div>
+                                <div class="item form-group">
+                                    <div class="col-sm-3 col-md-3">
+                                    </div>
+                                    <label class="control-label col-sm-2 col-md-2" for="aH-projectTitle">Project Title:
+                                    </label>
+                                    <div class="col-md-7" id="aH-projectTitle" >
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="item form-group ">
+                                    <div class="col-sm-3 col-md-3">
+                                    </div>
+                                    <label class="control-label col-sm-2 col-md-2" for="aH-projectTitle">Date:
+                                    </label>
+                                    <div class="col-md-7" id="aH-date" >
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="item form-group">
+                                    <div class="col-sm-1 col-md-2">
+                                    </div>
+                                    <label class="control-label col-sm-12 col-md-12 text-center" id="aH-project">=======================================================================
+                                    </label>
+                                    <br>
+                                </div>
+                                <div class="item form-group ">
+                                    <div class="col-sm-3 col-md-3">
+                                    </div>
+                                    <label class="control-label col-sm-2 col-md-2" for="aH-recepientName">Family Name:
+                                    </label>
+                                    <div class="col-md-7" id="aH-recepientName" >
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="item form-group ">
+                                    <div class="col-sm-3 col-md-3">
+                                    </div>
+                                    <label class="control-label col-sm-2 col-md-2" for="aH-address">Address:
+                                    </label>
+                                    <div class="col-md-7" id="aH-address" >
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="item form-group ">
+                                    <div class="col-sm-3 col-md-3">
+                                    </div>
+                                    <label class="control-label col-sm-2 col-md-2" for="aH-houseStatus">House Status:
+                                    </label>
+                                    <div class="col-md-7" id="aH-houseStatus" >
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="item form-group ">
+                                    <div class="col-sm-3 col-md-3">
+                                    </div>
+                                    <label class="control-label col-sm-2 col-md-2" for="aH-annual">Total Annual Income:
+                                    </label>
+                                    <div class="col-md-7" id="aH-annual" >
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="item form-group">
+                                    <div class="col-sm-1 col-md-2">
+                                    </div>
+                                    <label class="control-label col-sm-12 col-md-12 text-center" id="aj-project">-----------------------------------------------------------------------------------------------------------------------------
+                                    </label>
+                                    <br>
+                                </div>
+                                <div class="item form-group">
+                                    <div class="col-sm-2 col-md-2">
+                                    </div>
+                                    <label class="control-label col-sm-3 col-md-3 text-center " id="aH-project">QUANTITY
+                                    </label>
+                                    <div class="col-sm-1 col-md-1">
+                                    </div>
+                                    <label class="control-label col-sm-4 col-md-4 " id="aH-project">BENEFIT
+                                    </label>
+                                    <br>
+                                </div>
+                                <div class="item form-group">
+                                    <div class="col-sm-1 col-md-2">
+                                    </div>
+                                    <label class="control-label col-sm-12 col-md-12 text-center" id="aj-project">-----------------------------------------------------------------------------------------------------------------------------
+                                    </label>
+                                    <br>
+                                </div>
+                                each appben2 in tbl_applicantbenefit
+                                    <div class="item form-group ">
+                                        <div class="col-sm-3 col-md-3">
+                                        </div>
+                                        <div class="col-sm-1 col-md-1 text-left" id="aH-recquantity" >
+                                            value= appben2.int_benefitQuantity
+                                        </div>
+                                        <div class="col-sm-2 col-md-2">
+                                        </div>
+                                        <div class="col-sm-4 col-md-4" id="aH-recbenefits" >
+                                            value= appben2.text_benefitName
+                                        </div>
+                                        <br>
+                                    </div>
+                                <div class="item form-group">
+                                    <div class="col-sm-1 col-md-2">
+                                    </div>
+                                    <label class="control-label col-sm-12 col-md-12 text-center" id="aj-project">-----------------------------------------------------------------------------------------------------------------------------
+                                    </label>
+                                    <br>
+                                </div>
+                                <div class="item form-group">
+                                    <div class="col-sm-1 col-md-2">
+                                    </div>
+                                    <label class="control-label col-sm-12 col-md-12 text-center" id="aH-project">Proof of benefit received
+                                    </label>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <form class="form-horizontal form-label-left" method="POST" action='/office/releasing/printbenefithouse' id="formprint">
+                                    button.btn.btn-dark.mb-1.btn-block(id="btn-hprint" class="btn-hprint btn-block" ): span.fa.fa-print Print Receipt
+                                    <input type="text" id="ah_appID" name="ah_appID">
+                                </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
             <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
             
             script.
@@ -453,6 +602,7 @@ block content
                                 });	
                             }
                     }); 
+                    
                     
                     //- button resident view details
                     $('.btn-view').click(function (e) {
@@ -544,13 +694,13 @@ block content
                     });
 
                     //- button receive household
-                    $('.btn-receive').click(function (e) {
+                    $('.btn-receive-house').click(function (e) {
                         e.preventDefault()
                         var Id = $(this).val();
                         console.log("================================Id(Class)")
                         console.log(Id);
                         console.log("================================Id(Class)")
-                            $('#modalreceivereceipt').modal('show');
+                            $('#modalhouseappreceipt').modal('show');
                             ajaxGet();
                             
                             function ajaxGet(){
@@ -559,23 +709,20 @@ block content
                                 console.log("========Id");
                                 $.ajax({
                                     type : "POST",
-                                    url : window.location + "/ajaxreceiptapplicantdetails",
-                                    data: {ajApplicationID: Id},
+                                    url : window.location + "/ajaxreceipthousedetails",
+                                    data: {ajHouseID: Id},
                                     dataType: "json",
-                                    success: function(tbl_application){
+                                    success: function(tbl_household){
                                         
-                                        $.each(tbl_application, function (index, value) {
+                                        $.each(tbl_household, function (index, value) {
                                             if(value.int_applicationID == Id){
-                                                document.getElementById("aj-projectTitle").innerHTML = value.varchar_projectName    
-                                                document.getElementById("aj-date").innerHTML = currdate
-                                                document.getElementById("aj-recepientName").innerHTML = value.varchar_lastName + ", "+ value.varchar_firstName +" " + value.varchar_middleName
-                                                document.getElementById("aj-recgender").innerHTML = value.enum_gender
-                                                document.getElementById("aj-recbirhtdate").innerHTML = value.date_birthDate
-                                                document.getElementById("aj-year").innerHTML = value.int_applicantResidency
-                                                document.getElementById("aj-civil").innerHTML = value.enum_civilStatus
-                                                document.getElementById("aj-contact").innerHTML = value.varchar_contactNumber
-                                                document.getElementById("aj-recemail").innerHTML = value.varchar_emailAddress
-                                                document.getElementById("aj_appID").value = value.int_applicationID   
+                                                document.getElementById("aH-projectTitle").innerHTML = value.varchar_projectName    
+                                                document.getElementById("aH-date").innerHTML = currdate
+                                                document.getElementById("aH-recepientName").innerHTML = value.varchar_familyName
+                                                document.getElementById("aH-address").innerHTML = value.text_homeAddress
+                                                document.getElementById("aH-houseStatus").innerHTML = value.enum_houseStatus
+                                                document.getElementById("aH-annual").innerHTML = value.decimal_totalAnnualIncome
+                                                document.getElementById("ah_appID").value = value.int_applicationID   
                                                 console.log("Success: " );
                                                 
                                             }
@@ -589,6 +736,33 @@ block content
                     });
 
                     $('#btn-print').on('click',function (e) {
+                        var form = $(this).parents('form');
+                        e.preventDefault(); //prevent submit
+                            swal({
+                            title: 'Are you sure?',
+                            text: "You print and receive the benefits.",
+                            type: 'info',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, print it!'
+                            }).then((result) => {
+                            if (result.value) {
+                                swal({
+                                text: "Success!",
+                                type: 'success',
+                                confirmButtonColor: '#3085d6',
+                                icon: "success",
+                                confirmButtonText: 'OK!'
+                                }).then((result) => {
+                                if (result.value) {
+                                    $(form).submit();
+                                }                        
+                                })
+                            }                        
+                            })
+                    });
+                    $('#btn-hprint').on('click',function (e) {
                         var form = $(this).parents('form');
                         e.preventDefault(); //prevent submit
                             swal({

@@ -748,26 +748,40 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
                     console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS (Resident)');
                     console.log('=================================');
 
-                    // QUERY APPLICATIONS (BARANGAY)
-                    var barangayQuery = `SELECT * FROM tbl_application app 
-                    JOIN tbl_barangayapplication bap
-                    ON app.int_applicationID = bap.int_applicationID
+                    var houseQuery = `SELECT * FROM tbl_application app 
+                    JOIN tbl_householdapplication pi
+                    ON app.int_applicationID=pi.int_applicationID
                     WHERE app.int_projectID = ${req.params.int_projectID}
                     AND app.int_barangayID = ${barangayID}`
 
-                    db.query(barangayQuery,(err, barangay) => {
+                    db.query(houseQuery,(err, household) => {
                         if (err) console.log(err);
                         console.log('=================================');
-                        console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS (Barangay)');
+                        console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS (Household)');
                         console.log('=================================');
 
-            
-                        res.render('barangay/projects/views/applicationlist',{
-                            tbl_project:getResults1,
-                            tbl_applicants:applicants,
-                            tbl_barangay:barangay,
-                            notifications:notifications,
-                            numbernotif:countrow});
+                        // QUERY APPLICATIONS (BARANGAY)
+                        var barangayQuery = `SELECT * FROM tbl_application app 
+                        JOIN tbl_barangayapplication bap
+                        ON app.int_applicationID = bap.int_applicationID
+                        WHERE app.int_projectID = ${req.params.int_projectID}
+                        AND app.int_barangayID = ${barangayID}`
+
+                        db.query(barangayQuery,(err, barangay) => {
+                            if (err) console.log(err);
+                            console.log('=================================');
+                            console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS (Barangay)');
+                            console.log('=================================');
+
+                
+                            res.render('barangay/projects/views/applicationlist',{
+                                tbl_project:getResults1,
+                                tbl_applicants:applicants,
+                                tbl_barangay:barangay,
+                                tbl_household:household,
+                                notifications:notifications,
+                                numbernotif:countrow});
+                        });
                     });
                 });
             });
@@ -805,6 +819,38 @@ router.post('/:int_projectID/registeredapplicants/ajaxapplicantdetails',(req,res
         console.log(resultss)
 
         return res.send({tbl_application:resultss});
+    });
+});
+
+router.post('/:int_projectID/registeredapplicants/ajaxhouseholddetails',(req,res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROJECT VIEW DETAILS-VIEW APPLICATION-AJAX GET DETAILS (POST)');
+    console.log('=================================');
+    console.log(`${req.body.ajHouseholdID}`);
+
+    var queryString = `SELECT * FROM tbl_householdapplication pi
+    JOIN tbl_application ap 
+    ON pi.int_applicationID=ap.int_applicationID 
+    WHERE pi.int_applicationID=${req.body.ajHouseholdID}`
+
+
+    db.query(queryString,(err, results, fields) => {
+        if (err) console.log(err);
+
+        console.log(results);
+
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
+        }
+
+        var resultss = results[0];
+
+        console.log("===================RESULTSS")
+        console.log(resultss)
+
+        return res.send({tbl_householdapplication:resultss});
     });
 });
 

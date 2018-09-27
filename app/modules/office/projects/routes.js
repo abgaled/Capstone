@@ -180,13 +180,13 @@ router.get('/:int_projectID/viewproj',(req, res) => {
                         OR app.enum_applicationStatus = 'Approved')
                         AND app.enum_applicationType = 'Barangay'` 
                         
-                        var queryAPPHOUSE =`SELECT * FROM tbl_application app
-                        JOIN tbl_project proj ON app.int_projectID = proj.int_projectID
-                        JOIN tbl_personalinformation pi ON app.int_applicationID = pi.int_applicationID
-                        WHERE app.int_projectID = "${req.params.int_projectID}"
+                        var queryAPPHOUSE =`SELECT * FROM tbl_application app 
+                        JOIN tbl_householdapplication pi
+                        ON app.int_applicationID=pi.int_applicationID
+                        WHERE app.int_projectID = ${req.params.int_projectID}
                         AND (app.enum_applicationStatus = 'Pending' 
                         OR app.enum_applicationStatus = 'Approved')
-                        AND app.enum_applicationType = 'Household'` 
+                        AND app.enum_applicationType = 'Household'`
                         
                         db.query(queryString7, (err, results7, fields) => {
                             console.log(results7);
@@ -406,6 +406,38 @@ router.post('/:int_projectID/viewproj/ajaxapplicantdetails',(req,res) => {
 //         });
 //     });
 // });
+
+router.post('/:int_projectID/viewproj/ajaxhouseholddetails',(req,res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROJECT VIEW DETAILS-VIEW APPLICATION-AJAX GET DETAILS (POST)');
+    console.log('=================================');
+    console.log(`${req.body.ajHouseholdID}`);
+
+    var queryString = `SELECT * FROM tbl_householdapplication pi
+    JOIN tbl_application ap 
+    ON pi.int_applicationID=ap.int_applicationID 
+    WHERE pi.int_applicationID=${req.body.ajHouseholdID}`
+
+
+    db.query(queryString,(err, results, fields) => {
+        if (err) console.log(err);
+
+        console.log(results);
+
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
+        }
+
+        var resultss = results[0];
+
+        console.log("===================RESULTSS")
+        console.log(resultss)
+
+        return res.send({tbl_householdapplication:resultss});
+    });
+});
 
 router.get('/:int_projectID/viewapp',(req, res) => {
     console.log('=================================');

@@ -307,57 +307,45 @@ block content
                                                 <table id="datatable" class="table table-borderless table-data3">
                                                     <thead>
                                                         <tr>
-                                                            <th>Applicant's Name</th>
-                                                            <th>Gender</th>
-                                                            <th>Civil Status</th>
-                                                            <th>Contact Number</th>
+                                                            <th>Family Name</th>
                                                             <th>Status</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody> 
-                                                    each applicant3 in tbl_apphou
-                                                        <tr>    
+                                                    <tbody>
+                                                    each household in tbl_apphou
+                                                        <tr>
                                                             <td>
-                                                                value=applicant3.varchar_firstName+" "+applicant3.varchar_middleName+" "+applicant3.varchar_lastName
+                                                            value=household.varchar_familyName
                                                             </td>
                                                             <td>
-                                                                value=applicant3.enum_gender
+                                                            value=household.enum_applicationStatus
                                                             </td>
                                                             <td>
-                                                                value=applicant3.enum_civilStatus
-                                                            </td>
-                                                            <td>
-                                                                value=applicant3.varchar_contactNumber
-                                                            </td>
-                                                            <td>
-                                                                value=applicant3.enum_applicationStatus
-                                                            </td>
-                                                            <td>
-                                                                button.btn.btn-info(id="btn-view-application" class="btn-view-application btn-sm btn-block" value= applicant3.int_applicationID): span.fa.fa-eye View Details
-                                                                each slot in slotcount
-                                                                    if project.int_projectID == slot.projID
-                                                                        //- if project.int_allotedSlot == (project.int_allotedSlot + slot.slotcount)
-                                                                        if slot.slotCount == 0
-                                                                            if applicant3.enum_applicationStatus == "Pending"
-                                                                                <p class="text-center">Fully alloted</p>
-                                                                        else
-                                                                            if project.enum_projectStatus === "Ongoing" 
-                                                                                if applicant3.enum_applicationStatus == "Pending"
-                                                                                    form(id="formacceptapp" method="POST" action=`/office/projects/${applicant3.int_projectID}/viewproj/accept`)
-                                                                                        input(value= applicant3.int_applicationID name="int_applicationID" required, hidden)
-                                                                                        button.btn.btn-success.btn-s.btn-block(id="buttonaccept"  value= applicant3.int_applicationID class="buttonaccept"): span.fa.fa-check Accept
-                                                                                        
-                                                                                    form(id="formrejectapp" method="POST" action=`/office/projects/${applicant3.int_projectID}/viewproj/reject`)
-                                                                                        input(value= applicant3.int_applicationID name="int_applicationID"  required, hidden)
-                                                                                        button.btn.btn-danger.btn-s.btn-block(id="buttonreject"  value= applicant3.int_applicationID class="buttonreject"): span.fa.fa-close Reject
+                                                                        button.btn.btn-info(id="btn-view-household" class="btn-view-household btn-sm btn-block" value= household.int_applicationID): span.fa.fa-eye View Details
+                                                                        each slot in slotcount
+                                                                            if project.int_projectID == slot.projID
+                                                                                //- if project.int_allotedSlot == (project.int_allotedSlot + slot.slotcount)
+                                                                                if slot.slotCount == 0
+                                                                                    if household.enum_applicationStatus == "Pending"
+                                                                                        <p class="text-center">Fully alloted</p>
+                                                                                else
+                                                                                    if project.enum_projectStatus === "Ongoing" 
+                                                                                        if household.enum_applicationStatus == "Pending"
+                                                                                            form(id="formacceptapp" method="POST" action=`/office/projects/${household.int_projectID}/viewproj/accept`)
+                                                                                                input(value= household.int_applicationID name="int_applicationID" required, hidden)
+                                                                                                button.btn.btn-success.btn-s.btn-block(id="buttonaccept"  value= household.int_applicationID class="buttonaccept"): span.fa.fa-check Accept
+                                                                                                
+                                                                                            form(id="formrejectapp" method="POST" action=`/office/projects/${household.int_projectID}/viewproj/reject`)
+                                                                                                input(value= household.int_applicationID name="int_applicationID"  required, hidden)
+                                                                                                button.btn.btn-danger.btn-s.btn-block(id="buttonreject"  value= household.int_applicationID class="buttonreject"): span.fa.fa-close Reject
+                                                            </td> 
                                                                 //- a(href=`/office/releasing/beneficiary/${app2.int_applicationID}/viewAppDet` id="viewAppDet" class="btn btn-primary btn-xs btn-block"): span Application Details
                                                                 //- if applicant3.enum_applicationType == 'Household'
                                                                 //-     button.btn.btn-info.mb-1(id="btn-view" class="btn-view btn-block" value= applicant3.int_applicationID): span.fa.fa-eye Beneficiary Details
                                                                 //-     if applicant3.enum_applicationStatus == 'Approved'
                                                                 //-         button.btn.btn-success.mb-1(id="btn-receive" class="btn-receive btn-block" value= applicant3.int_applicationID): span.fa.fa-check Received
                                                                         //- a(href=`/office/Releasing/viewben/${applicant3.int_applicationID}/receiveben` id="receiveben" class="btn btn-success btn-sm btn-block"): span.fa.fa-check  Received
-                                                            </td>
                                                         </tr>        
                                                     </tbody>
                                                 </table>
@@ -512,7 +500,73 @@ block content
                 </div>
             </div>
         </div>
-        
+
+        <div class="modal fade bs-example-modal-lg" id="modalviewhousehold" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                <div class="modal-body">
+                    
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">View Application Details</span></h4> 
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-familyName">Family Name:
+                                </label>
+                                <div class="col-md-9" id="aj-familyName">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-homeAddress">Home Address:
+                                </label>
+                                <div class="col-md-9" id="aj-homeAddress" >
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-houseStatus">House Status:
+                                </label>
+                                <div class="col-md-9" id="aj-houseStatus">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-annualIncome">Annual Income:
+                                </label>
+                                <div class="col-md-9" id="aj-annualIncome">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-familyBackground">Family Background:
+                                </label>
+                                <div class="col-md-9" id="aj-familyBackground">
+                    
+                                </div>
+                                <br>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-financialContributor">Financial Contributor:
+                                </label>
+                                <div class="col-md-9" id="aj-financialContributor">
+                    
+                                </div>
+                                <br>
+                                <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    
         <div class="modal fade" id="modalbrgyapplication" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -574,6 +628,8 @@ block content
                         data: {ajApplicationID: Id},
                         dataType: "json",
                         success: function(tbl_application){
+                            
+                            console.log(tbl_application)
 
                             $.each(tbl_application, function (index, value) {
 
@@ -596,6 +652,45 @@ block content
                     });	
                 }
                 }); 
+                
+                $('.btn-view-household').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#modalviewhousehold').modal('show');
+                    ajaxGet();
+
+                    function ajaxGet(){
+                        console.log("========Id");
+                        console.log(Id);
+                        console.log("========Id");
+                        
+                        $.ajax({
+                            type : "POST",
+                            url : window.location + "/ajaxhouseholddetails",
+                            data: {ajHouseholdID: Id},
+                            dataType: "json",
+                            success: function(tbl_householdapplication){
+                            
+                            console.log(tbl_householdapplication)
+
+                                $.each(tbl_householdapplication, function (index, value) {
+                                    document.getElementById("aj-familyName").innerHTML = value.varchar_familyName    
+                                    document.getElementById("aj-homeAddress").innerHTML = value.text_homeAddress
+                                    document.getElementById("aj-houseStatus").innerHTML = value.enum_houseStatus
+                                    document.getElementById("aj-annualIncome").innerHTML = value.decimal_totalAnnualIncome
+                                    console.log("Success: " );
+                                });       
+                            },
+                            error : function(e) {
+                                console.log("ERROR: ", e);
+                            }
+                        });	
+                    }
+                }); 
+
                 $('.buttonaccept').click(function (e) {
                     e.preventDefault()
                     var form = $(this).parents('form');
