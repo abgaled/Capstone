@@ -149,27 +149,66 @@ block content
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">Application Start: </th>
+                                <th scope="row">Target Start of Application: </th>
                                 <td>
-                                value=project.date_startApplication
+                                    value=project.date_targetStartApp
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Application Closing: </th>
+                                <th scope="row">Actual Start of Application: </th>
+                                <td>
+                                    if project.date_startApplication == 'Invalid Date'
+                                        value='--------------'
+                                    else 
+                                        value=project.date_startApplication
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Target Closing of Application: </th>
+                                <td>
+                                value=project.date_targetEndApp
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Actual Closing of Application: </th>
                                 <td>
                                 value=project.date_endApplication
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Release Start: </th>
+                                <th scope="row">Target Start of Releasing: </th>
+                                <td>
+                                value=project.date_targetStartRelease
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Actual Start of Releasing: </th>
                                 <td>
                                 value=project.date_startReleaseDate
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Release Closing: </th>
+                                <th scope="row">Target End of Releasing: </th>
+                                <td>
+                                value=project.date_targetEndRelease
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Actual End of Releasing: </th>
                                 <td>
                                 value=project.date_endReleaseDate
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Target Closing of Project: </th>
+                                <td>
+                                value=project.date_targetClosing
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Actual Closing of Project: </th>
+                                <td>
+                                value=project.date_projectClose
                                 </td>
                             </tr>
                             <tr>

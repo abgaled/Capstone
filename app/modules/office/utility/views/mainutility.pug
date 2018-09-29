@@ -3,12 +3,13 @@ extends ../../home/views/navbar.pug
 block content
     <link href="/cityadmin/vendors/nprogress/nprogress.css" rel="stylesheet">
     <link href="/cityadmin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <link href="/cityadmin/build/css/custom.min.css" rel="stylesheet">
     <div class="right_col" role="main">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">    
-                    
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    //- BARANGAY
+                    <div class="col-md-5 col-sm-5 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2><i class="fa"></i> BARANGAY <small></small></h2>
@@ -54,47 +55,46 @@ block content
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    
+                    <div class="col-md-7 col-sm-7 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2><i class="fa"></i> util 2 <small></small></h2>
+                                <h2><i class="fa"></i> City Information <small></small></h2>
                                 <div class="clearfix"></div>
                             </div>
-                            <div class="x_content text-center">
-                                    
+                            <div class="x_content">
+                            each city in tbl_city
+                                <p>City Name: 
+                                    value= city.varchar_cityName
+                                </p><br>
+                                <p>Office Name:
+                                    value= city.varchar_officeName
+                                </p><br>
+                                <p>Office Address:
+                                    value= city.text_cityAddress
+                                </p>
                             </div>
+                            <button class="btn btn-block btn-sm btn-primary" id="editCity" type="button" data-toggle="modal" data-target="#modalEditCity"><span class="fa fa-pencil"></span> Edit City Information</button><br>
                         </div>
                     </div>
                     
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="x_panel">
-                            <div class="x_title">
-                                <h2><i class="fa"></i> util 3 <small></small></h2>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content text-center">
+                    //- <div class="col-md-7 col-sm-7 col-xs-12">
+                    //-     <div class="x_panel">
+                    //-         <div class="x_title">
+                    //-             <h2><i class="fa"></i> util 4 <small></small></h2>
+                    //-             <div class="clearfix"></div>
+                    //-         </div>
+                    //-         <div class="x_content text-center">
                                     
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="x_panel">
-                            <div class="x_title">
-                                <h2><i class="fa"></i> util 4 <small></small></h2>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content text-center">
-                                    
-                            </div>
-                        </div>
-                    </div>
+                    //-         </div>
+                    //-     </div>
+                    //- </div>
                     
                 </div>
             </div>
         </div>
     </div>
-
+                    //- MODAL FOR ADDITIONAL BARANGAY
                     <div class="modal fade bs-example-modal-lg" id="modaladdbar" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
@@ -135,6 +135,47 @@ block content
                         </div>
                     </div>
 
+                    //- MODAL FOR EDIT CITY INFORMATION
+                    <div class="modal fade bs-example-modal-lg" id="modalEditCity" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form class="form-horizontal form-label-left" method="POST" action='/office/utility/editcity' name="formeditcity" id="formeditcity">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                        </button>
+                                        <h4 class="modal-title" id="myModalLabel"><span class="section">Edit City Information</span></h4>
+                                        each city in tbl_city
+                                            <div class=" form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cityName"> City Name <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                                    input(type="text" id="cityName" name="cityName"  class="form-control col-md-7 col-xs-12"  required="required" title="Kindly put a name for this project" value=`${city.varchar_cityName}` )
+                                                </div>
+                                            </div>
+                                            <div class=" form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="officeName"> Office Name<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                                input(type="text" id="officeName" name="officeName"  class="form-control col-md-7 col-xs-12"  required="required" title="Kindly put a name for this project" value=`${city.varchar_officeName}` )
+                                                </div>
+                                            </div>
+                                            <div class=" form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="barangaycontact"> Office Address <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                                input(type="text" id="cityAddress" name="cityAddress"  class="form-control col-md-7 col-xs-12"  required="required" title="Kindly put a name for this project" value=`${city.text_cityAddress}` )
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" id="btn_editCity" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    </div> 
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    //- MODAL FOR EDIT BARANGAY
                     <div class="modal fade bs-example-modal-lg" id="modalviewedit" name="modalviewedit" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -181,6 +222,25 @@ block content
                     <script src="/asset_validation/dist/jquery.validate.min.js"></script>
 
                     script.
+                        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                        n =  new Date();
+                        y = n.getFullYear();
+                        m = n.getMonth() + 1;
+                        d = n.getDate();
+                        var yr = y + 1;
+                        var mon = months[n.getMonth()];
+                        currdate =  mon + " " + d + ", " + y;
+                        currentdate =  m + "-" + d + "-" + y;
+                        var nextyear=document.getElementById("year2").value;
+                        
+                        if(m!=12)
+                        {
+                            if((y+1)==nextyear)
+                            {
+                                document.getElementById("inputbudget").style.display = "none";
+                            }
+                        }
+                        
                         $(document).ready(function () {
                           //- SWEET ALERT CONFIRM SUBMIT
                             $('#submitbarangay').on('click',function (e) {
@@ -201,7 +261,25 @@ block content
                                     }                        
                                     })
                             });
-                            
+                            $('#btn_editCity').on('click',function (e) {
+                                var form = $(this).parents('form');
+                                e.preventDefault(); //prevent submit
+                                
+                                    swal({
+                                    title: 'Are you sure?',
+                                    text: "You will save this city information.",
+                                    type: 'info',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, submit it!'
+                                    }).then((result) => {
+                                    if (result.value) {
+                                        $('#formeditcity').submit();
+                                    }                        
+                                    })
+                            });
+                            //-BTN TO EDIT BARANGAY
                             $('.btn_editbar').click(function (e) {
                                 var form = $(this).parents('form');
                                 e.preventDefault(); //prevent submit
@@ -244,7 +322,8 @@ block content
                                     });	
                                 }
                             });
-                            
+
+                          //- SWEET ALERT CONFIRM SUBMIT
                             $('#submiteditbarangay').on('click',function (e) {
                                 var form = $(this).parents('form');
                                 e.preventDefault(); //prevent submit

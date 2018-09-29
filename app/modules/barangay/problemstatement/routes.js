@@ -227,16 +227,19 @@ router.post('/ajaxgetdetails',(req,res) => {
                 console.log(resultss)
                 
                 var queryStringben = `SELECT * FROM tbl_projectbeneficiary pb
-                JOIN tbl_beneficiary bf ON pb.int_beneficiaryID=bf.int_beneficiaryID WHERE 
-                pb.enum_beneficiaryLink = "Problem Statement"
-                AND pb.int_projectID = ${req.body.ajStatementID}`
+                    JOIN tbl_beneficiary bf ON pb.int_beneficiaryID=bf.int_beneficiaryID 
+                    WHERE pb.enum_beneficiaryLink = "Problem Statement"
+                        AND pb.int_projectID = ${req.body.ajStatementID}`
 
                 db.query(queryStringben,(err, resultsben, fields) => {
                     if (err) console.log(err);
     
                     console.log(resultsben);
 
-                    return res.send({tbl_problemstatement1:resultss});
+                    return res.send({
+                        tbl_problemstatement1:resultss,
+                        tbl_beneficiary: resultsben
+                    });
                 });
             });
         });

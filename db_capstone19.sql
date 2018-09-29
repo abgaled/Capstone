@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 26, 2018 at 12:26 PM
+-- Generation Time: Sep 29, 2018 at 01:23 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -66,6 +66,25 @@ CREATE TABLE `tbl_announcement` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_annualbudget`
+--
+
+CREATE TABLE `tbl_annualbudget` (
+  `int_budgetID` int(11) NOT NULL,
+  `decimal_annualBudget` decimal(10,0) NOT NULL,
+  `date_budgetYear` year(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_annualbudget`
+--
+
+INSERT INTO `tbl_annualbudget` (`int_budgetID`, `decimal_annualBudget`, `date_budgetYear`) VALUES
+(0, '10000000', 2019);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_applicantbenefit`
 --
 
@@ -84,7 +103,11 @@ INSERT INTO `tbl_applicantbenefit` (`int_appbeneID`, `int_projectID`, `text_bene
 (1, 37, 'Oil', 123),
 (2, 38, 'Oil', 123),
 (3, 39, 'Medicines', 20),
-(4, 40, 'allowance', 2);
+(4, 40, 'allowance', 2),
+(5, 41, 'Glass', 1),
+(6, 41, 'Medicine', 4),
+(7, 42, 'Medicines', 5),
+(8, 42, 'Face Mask', 2);
 
 -- --------------------------------------------------------
 
@@ -121,7 +144,7 @@ INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_proje
 (48, 9, 35, 'Resident', 'Received', '2018-09-26 00:00:00'),
 (49, 11, 35, 'Resident', 'Received', '2018-09-26 00:00:00'),
 (50, 42, 35, 'Resident', 'Received', '2018-09-26 00:00:00'),
-(51, 44, 35, 'Resident', 'Approved', NULL),
+(51, 44, 35, 'Resident', 'Received', '2018-09-29 00:00:00'),
 (52, 43, 35, 'Household', 'Approved', NULL),
 (53, 9, 33, 'Household', 'Pending', NULL),
 (54, 9, 33, 'Household', 'Pending', NULL),
@@ -130,7 +153,9 @@ INSERT INTO `tbl_application` (`int_applicationID`, `int_barangayID`, `int_proje
 (57, 9, 33, 'Household', 'Pending', NULL),
 (58, 9, 33, 'Household', 'Pending', NULL),
 (59, 9, 33, 'Household', 'Pending', NULL),
-(60, 9, 33, 'Household', 'Pending', NULL);
+(60, 9, 33, 'Household', 'Pending', NULL),
+(61, 9, 41, 'Resident', 'Pending', NULL),
+(62, 9, 42, 'Resident', 'Pending', NULL);
 
 -- --------------------------------------------------------
 
@@ -142,7 +167,7 @@ CREATE TABLE `tbl_applicationrequirement` (
   `int_appreqID` int(11) NOT NULL,
   `int_applicationID` int(11) NOT NULL,
   `int_requirementID` int(11) NOT NULL,
-  `text_requirementPath` text NOT NULL,
+  `text_requirementPath` text,
   `enum_appreqStatus` enum('Passed','Not Passed') NOT NULL DEFAULT 'Passed'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -160,7 +185,10 @@ INSERT INTO `tbl_applicationrequirement` (`int_appreqID`, `int_applicationID`, `
 (34, 41, 28, '', 'Passed'),
 (35, 44, 28, '', 'Passed'),
 (36, 46, 28, '', 'Passed'),
-(37, 47, 30, '', 'Passed');
+(37, 47, 30, '', 'Passed'),
+(38, 61, 30, NULL, 'Passed'),
+(39, 62, 28, NULL, 'Passed'),
+(40, 62, 30, NULL, 'Passed');
 
 -- --------------------------------------------------------
 
@@ -189,7 +217,8 @@ INSERT INTO `tbl_barangay` (`int_barangayID`, `int_cityID`, `varchar_barangayNam
 (14, 2, 'Malamig', '533-1319', '555 Cresta Circle Makiling Street', 'Active'),
 (42, 2, 'Plainview', '534-1874', '40 Malaya Street', 'Active'),
 (43, 2, 'Buli', '092-7198', '768 Manda', 'Active'),
-(44, 2, 'Cupang ', '522-6896', '62 Manda', 'Active');
+(44, 2, 'Cupang ', '522-6896', '62 Manda', 'Active'),
+(45, 2, 'Barangay Poblacion', '55263422', '236 Manda', 'Active');
 
 -- --------------------------------------------------------
 
@@ -230,7 +259,9 @@ INSERT INTO `tbl_barangayuser` (`int_brgyuserID`, `int_barangayID`, `int_userID`
 (1, 9, 16),
 (2, 9, 22),
 (3, 14, 21),
-(4, 10, 24);
+(4, 10, 24),
+(5, 45, 25),
+(6, 13, 20);
 
 -- --------------------------------------------------------
 
@@ -365,7 +396,12 @@ INSERT INTO `tbl_expense` (`int_expenseID`, `int_projectID`, `text_expenseDescri
 (5, 38, 'kjhaskljfhkljasdhf', 123, '123.00', '15129.00', NULL),
 (6, 39, 'Medicine 1', 50, '50.00', '2500.00', NULL),
 (7, 39, 'Medicine 2 ', 100, '20.00', '2000.00', NULL),
-(8, 40, 'allowance', 150, '300.00', '45000.00', NULL);
+(8, 40, 'allowance', 150, '300.00', '45000.00', NULL),
+(9, 41, 'Medicines', 2000, '50.00', '100000.00', NULL),
+(10, 41, 'Glasses', 1000, '500.00', '500000.00', NULL),
+(11, 41, 'Medical Equipment', 1000, '500.00', '500000.00', NULL),
+(12, 42, 'Face Mask', 150, '18.00', '2700.00', NULL),
+(13, 42, 'Medicine', 150, '12.00', '1800.00', NULL);
 
 -- --------------------------------------------------------
 
@@ -500,7 +536,9 @@ INSERT INTO `tbl_personalinformation` (`int_applicationID`, `varchar_firstName`,
 (48, 'Maricar', 'Dionisio', 'Oriel', '1999-04-27', 'Female', 1999, 'Single', '(+63) 947-882-8892', 'Blk 2 Lot 50 Riverpark, Sapang Maligaya, Sun Valley, Paranaque City'),
 (49, 'Carlos', 'Jacinto', 'Villamora', '1963-09-27', 'Male', 1985, 'Single', '(+63) 918-286-3587', 'Blk 2 Lot 18 Riverpark, Sapang Maligaya, Sun Valley, Paranaque City'),
 (50, 'Emilio', 'Quizon', 'Bulanadi', '1980-01-22', 'Male', 1990, 'Married', '(+63) 980-647-0987', 'Basilio St. Plain View, Mandaluyong City'),
-(51, 'Sergio', 'Garcia', 'Bilono', '1960-06-20', 'Male', 1970, 'Married', '(+63) 918-980-1987', 'Sisa St. Brgy. Cupang, Mandaluyong City');
+(51, 'Sergio', 'Garcia', 'Bilono', '1960-06-20', 'Male', 1970, 'Married', '(+63) 918-980-1987', 'Sisa St. Brgy. Cupang, Mandaluyong City'),
+(61, 'dfkjlasdhf', 'hfaslkjhfkjasd', 'hkjashdfkjahsd', '1999-02-09', 'Female', 1999, 'Single', '(+63) 489-038-0919', 'nsdfn@gmail.com'),
+(62, 'Abi', 'ro', 'Del', '1999-06-13', 'Female', 1999, 'Single', '(+63) 915-666-2933', 'bbyd@gmil.com');
 
 -- --------------------------------------------------------
 
@@ -534,22 +572,11 @@ INSERT INTO `tbl_problemstatement` (`int_statementID`, `int_barangayID`, `int_ca
 (47, 9, 6, 35, 'Food Supply', 'Many residents don\'t eat', '2018-09-01', '', '', 'Proposed'),
 (48, 9, 6, 36, 'Medical Check Up', 'Due to recent events in the barangay we observe that most of our residents are getting sick', '2018-09-01', '', '', 'Proposed'),
 (49, 9, 10, 37, 'eyyyyyyyyyyyyyyyyyyy', 'eyyyyyyyyyy', '2018-09-12', '', '', 'Proposed'),
-(50, 14, 8, NULL, 'eyyyyyyyyy', 'xxwxwxwxwxw', '2018-09-12', '', '', 'Submitted'),
-(51, 9, 6, NULL, 'hak hakhak', 'hakhakhakhak', '2018-09-17', '', '', 'Submitted'),
 (52, 10, 6, 39, 'Monthly check up', 'We propose to have a monthly check up', '2018-09-22', '', '', 'Proposed'),
 (53, 9, 10, 40, 'Scholarship', 'Help for students', '2018-09-22', '', '', 'Proposed'),
-(54, 9, 7, NULL, 'jkhkhjkhkhkhkhj', 'hjhjjhjhjhjjjj', '2018-09-22', '', '', 'Submitted'),
-(55, 9, 8, NULL, 'Gutom na ako part 2', 'Pengeng foods ako', '2018-09-26', 'Abigale Del Rosario', '13 Gutom', 'Submitted'),
-(56, 9, 6, NULL, 'Gutom na ako part3', 'GUTOOOOOOOOOOM', '2018-09-26', 'Abigale Del Rosario', '13 AH', 'Submitted'),
-(57, 9, 6, NULL, 'Gutom na ako part4', 'Sige oo ganito', '2018-09-26', 'Abigale Del Rosario', '13 Tiago ', 'Submitted'),
-(58, 9, 6, NULL, 'wag ganito eyy', 'HELLLLLLLLO', '2018-09-26', 'Abigale Del Rosario', '13 Additional', 'Submitted'),
-(59, 9, 6, NULL, 'Gutom na ako part 5', 'Gutom na si Abi', '2018-09-26', 'Abigale Del Rosario', '13 Hekhek', 'Submitted'),
-(60, 9, 6, NULL, 'eyyyyyyyyyyyyyyyy1', 'eyyyyyyyyyyyyyyyyyyyyyyyyy', '2018-09-26', 'Abigale', '13 additional', 'Submitted'),
-(61, 9, 6, NULL, 'ayyyyyyyyyyyyyy', 'anona hehe', '2018-09-26', 'danielle casa', '15 ahdjs', 'Submitted'),
-(62, 9, 6, NULL, 'hello hello', 'hello hello', '2018-09-26', 'Abbygale', '13 Buli', 'Submitted'),
 (63, 9, 8, NULL, 'Sana gumana na', 'Dapat gumana na', '2018-09-26', 'Abigale Del Rosario', '13 Additional', 'Submitted'),
-(64, 9, 6, NULL, 'Tara Tulog', 'sdfakljflkjas;lkdfjasjdflkasj dflk', '2018-09-26', 'Maricar Oriel', 'Sapang Maligaya', 'Submitted'),
-(65, 9, 6, NULL, 'Okay na raw', 'Okay na raw', '2018-09-26', 'Abigale Del Rosario', '13 Bulili', 'Submitted');
+(66, 9, 6, 41, 'Eye test plus freebies', 'Check up for the eyes', '2018-09-29', 'Gale Del Rosario', '523 Mandaluyong', 'Proposed'),
+(67, 9, 6, 42, 'Full body check up for residents', 'Check up for college students', '2018-09-29', 'Abigale Del Rosario', '13 Mandaluyong', 'Proposed');
 
 -- --------------------------------------------------------
 
@@ -575,9 +602,11 @@ INSERT INTO `tbl_project` (`int_projectID`, `date_startApplication`, `date_endAp
 (31, '2018-09-01', '2018-09-21', '2018-09-22', NULL, NULL, 'Releasing'),
 (33, '2018-09-01', '2018-09-21', '2018-10-05', NULL, NULL, 'Ongoing'),
 (34, NULL, NULL, NULL, NULL, NULL, 'Approved'),
-(35, '2018-09-01', '2018-10-21', NULL, NULL, NULL, 'Releasing'),
+(35, '2018-09-01', '2018-10-21', NULL, NULL, NULL, 'Finished'),
 (36, '2018-09-01', '2018-09-21', '2018-10-05', NULL, NULL, 'Ongoing'),
-(40, NULL, NULL, NULL, NULL, NULL, 'Ongoing');
+(40, NULL, NULL, NULL, NULL, NULL, 'Ongoing'),
+(41, NULL, NULL, NULL, NULL, NULL, 'Ongoing'),
+(42, NULL, NULL, NULL, NULL, NULL, 'Ongoing');
 
 -- --------------------------------------------------------
 
@@ -625,10 +654,11 @@ INSERT INTO `tbl_projectapplicationtype` (`int_proapptypeID`, `int_projectID`, `
 (2, 36, 'Barangay'),
 (4, 33, 'Resident'),
 (5, 33, 'Household'),
-(6, 37, 'Resident'),
 (7, 38, 'Resident'),
 (8, 39, 'Resident'),
-(9, 40, 'Resident');
+(9, 40, 'Resident'),
+(10, 41, 'Resident'),
+(11, 42, 'Resident');
 
 -- --------------------------------------------------------
 
@@ -653,9 +683,6 @@ INSERT INTO `tbl_projectbeneficiary` (`int_projbeneID`, `int_projectID`, `int_be
 (23, 33, 23, 'Project Proposal'),
 (24, 35, 23, 'Project Proposal'),
 (25, 36, 23, 'Project Proposal'),
-(26, 37, 13, 'Project Proposal'),
-(27, 37, 15, 'Project Proposal'),
-(28, 37, 14, 'Project Proposal'),
 (29, 38, 13, 'Project Proposal'),
 (30, 38, 14, 'Project Proposal'),
 (31, 38, 15, 'Project Proposal'),
@@ -665,7 +692,13 @@ INSERT INTO `tbl_projectbeneficiary` (`int_projbeneID`, `int_projectID`, `int_be
 (44, 64, 14, 'Problem Statement'),
 (45, 64, 15, 'Problem Statement'),
 (46, 64, 16, 'Problem Statement'),
-(47, 65, 15, 'Problem Statement');
+(47, 65, 15, 'Problem Statement'),
+(48, 66, 18, 'Problem Statement'),
+(49, 66, 15, 'Problem Statement'),
+(50, 41, 13, 'Project Proposal'),
+(51, 41, 14, 'Project Proposal'),
+(52, 67, 15, 'Problem Statement'),
+(53, 42, 15, 'Project Proposal');
 
 -- --------------------------------------------------------
 
@@ -689,10 +722,11 @@ INSERT INTO `tbl_projectcategory` (`int_projcategID`, `int_projectID`, `int_cate
 (27, 33, 10),
 (28, 35, 6),
 (29, 36, 6),
-(30, 37, 10),
 (31, 38, 8),
 (32, 39, 6),
-(33, 40, 10);
+(33, 40, 10),
+(34, 41, 6),
+(35, 42, 6);
 
 -- --------------------------------------------------------
 
@@ -716,7 +750,12 @@ INSERT INTO `tbl_projectlocation` (`int_proglocID`, `int_projectID`, `enum_locat
 (5, 38, 'Barangay', 9),
 (6, 38, 'Barangay', 11),
 (7, 39, 'Barangay', 44),
-(8, 40, 'Barangay', 9);
+(8, 40, 'Barangay', 9),
+(9, 41, 'Barangay', 9),
+(10, 41, 'Barangay', 10),
+(11, 41, 'Barangay', 11),
+(12, 41, 'Barangay', 13),
+(13, 42, 'Barangay', 9);
 
 -- --------------------------------------------------------
 
@@ -757,7 +796,9 @@ INSERT INTO `tbl_projectproposal` (`int_projectID`, `int_cityID`, `varchar_proje
 (37, 2, ' eyyyyyyyyyyyyyyyyyyy   ', 'eyyyyyyyyyy', 'qwerqewr', 'qwerqwer', 123, '60516', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', 'Pending'),
 (38, 2, ' Distribution of goods   ', 'Due to recent fire incident, supplies are given but it is insufficient.', 'asdfasdfsd', 'asdfasdfasdf', 123, '15129', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', '2018-09-22', 'Pending'),
 (39, 2, ' Monthly check up   ', 'We propose to have a monthly check up', 'Monthly check up', 'To help the residents', 0, '4500', '2018-09-23', '2018-09-30', '2018-10-10', '2018-10-10', '2018-10-17', '2018-09-22', 'Approved'),
-(40, 2, ' Scholarship   ', 'Help for students', 'Student help', 'Student help', 125, '45000', '2018-09-22', '2018-09-25', '2018-09-28', '2018-09-30', '2018-10-07', '2018-09-22', 'Approved');
+(40, 2, ' Scholarship   ', 'Help for students', 'Student help', 'Student help', 125, '45000', '2018-09-22', '2018-09-25', '2018-09-28', '2018-09-30', '2018-10-07', '2018-09-22', 'Approved'),
+(41, 2, ' Eye test plus freebies   ', 'Check up for the eyes', 'check up', 'To distribute eye glasses ', 1000, '1100000', '2018-10-10', '2018-10-31', '2018-11-17', '2018-11-27', '2018-12-05', '2018-09-29', 'Approved'),
+(42, 2, ' Full body check up for residents   ', 'Check up for college students', 'Full body check up ', 'To help the residents', 100, '4500', '2018-10-02', '2018-10-10', '2018-10-20', '2018-10-20', '2018-10-30', '2018-09-29', 'Approved');
 
 -- --------------------------------------------------------
 
@@ -778,7 +819,9 @@ CREATE TABLE `tbl_projectreason` (
 
 INSERT INTO `tbl_projectreason` (`int_projectReasonID`, `int_projectID`, `text_projectReason`, `date_projectDateStarted`) VALUES
 (1, 0, 'try 5', '0000-00-00'),
-(2, 35, 'try 7', '0000-00-00');
+(2, 35, 'try 7', '0000-00-00'),
+(3, 41, 'late', '0000-00-00'),
+(4, 42, 'Kase napaaga yung workloads', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -803,14 +846,14 @@ INSERT INTO `tbl_projectrequirement` (`int_projreqID`, `int_requirementID`, `int
 (26, 17, 35),
 (27, 28, 36),
 (28, 30, 36),
-(29, 17, 37),
-(30, 19, 37),
-(31, 18, 37),
 (32, 19, 38),
 (33, 17, 38),
 (34, 18, 38),
 (35, 30, 39),
-(36, 30, 40);
+(36, 30, 40),
+(37, 30, 41),
+(38, 28, 42),
+(39, 30, 42);
 
 -- --------------------------------------------------------
 
@@ -890,7 +933,10 @@ INSERT INTO `tbl_user` (`int_userID`, `varchar_userEmailAddress`, `varchar_userP
 (21, 'malamig@gmail.com', 'malamig', 'Barangay Staff', '', '', '', '', 'Active'),
 (22, 'delrosarioabigale@gmail.com', 'BOikg9ah', 'Barangay Staff', 'Abigale Del Rosario', '13 Addition Hills', '09156662933', 'Head', 'Active'),
 (23, 'undefined', 'undefined', 'Barangay Staff', 'undefined', 'undefined', 'undefined', 'undefined', 'Active'),
-(24, 'abigaledr13@gmail.com', 'jQrRMuH9', 'Barangay Staff', 'Abigale', '13 Manda', '09156662933', 'Staff', 'Active');
+(24, 'abigaledr13@gmail.com', 'jQrRMuH9', 'Barangay Staff', 'Abigale', '13 Manda', '09156662933', 'Staff', 'Active'),
+(25, 'lyka@gmail.com', 't0xdYu6N', 'Barangay Staff', 'Lyka', '23 Manda', '09152236545', 'Staff', 'Active'),
+(26, 'budg@gmail.com', 'G8MRMMJG', 'Budget Office Staff', 'Budg', '32 Manda', '6354121', 'Head', 'Active'),
+(27, 'off@gmail.com', 'fG4HDdGz', 'Office Staff', 'Off', '25 Manda', '5631235', 'Staff', 'Active');
 
 --
 -- Indexes for dumped tables
@@ -908,6 +954,12 @@ ALTER TABLE `tbl_agency`
 ALTER TABLE `tbl_announcement`
   ADD PRIMARY KEY (`int_announcementID`),
   ADD KEY `user_idx` (`int_userID`);
+
+--
+-- Indexes for table `tbl_annualbudget`
+--
+ALTER TABLE `tbl_annualbudget`
+  ADD PRIMARY KEY (`int_budgetID`);
 
 --
 -- Indexes for table `tbl_applicantbenefit`
@@ -1131,27 +1183,27 @@ ALTER TABLE `tbl_announcement`
 -- AUTO_INCREMENT for table `tbl_applicantbenefit`
 --
 ALTER TABLE `tbl_applicantbenefit`
-  MODIFY `int_appbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `int_appbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `int_applicationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT for table `tbl_applicationrequirement`
 --
 ALTER TABLE `tbl_applicationrequirement`
-  MODIFY `int_appreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `int_appreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `tbl_barangay`
 --
 ALTER TABLE `tbl_barangay`
-  MODIFY `int_barangayID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `int_barangayID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `tbl_barangayuser`
 --
 ALTER TABLE `tbl_barangayuser`
-  MODIFY `int_brgyuserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `int_brgyuserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `tbl_beneficiary`
 --
@@ -1171,7 +1223,7 @@ ALTER TABLE `tbl_city`
 -- AUTO_INCREMENT for table `tbl_expense`
 --
 ALTER TABLE `tbl_expense`
-  MODIFY `int_expenseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `int_expenseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `tbl_familybackground`
 --
@@ -1191,7 +1243,7 @@ ALTER TABLE `tbl_notification`
 -- AUTO_INCREMENT for table `tbl_problemstatement`
 --
 ALTER TABLE `tbl_problemstatement`
-  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 --
 -- AUTO_INCREMENT for table `tbl_projectagency`
 --
@@ -1201,37 +1253,37 @@ ALTER TABLE `tbl_projectagency`
 -- AUTO_INCREMENT for table `tbl_projectapplicationtype`
 --
 ALTER TABLE `tbl_projectapplicationtype`
-  MODIFY `int_proapptypeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `int_proapptypeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `tbl_projectbeneficiary`
 --
 ALTER TABLE `tbl_projectbeneficiary`
-  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
 ALTER TABLE `tbl_projectcategory`
-  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `tbl_projectlocation`
 --
 ALTER TABLE `tbl_projectlocation`
-  MODIFY `int_proglocID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `int_proglocID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `tbl_projectproposal`
 --
 ALTER TABLE `tbl_projectproposal`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `tbl_projectreason`
 --
 ALTER TABLE `tbl_projectreason`
-  MODIFY `int_projectReasonID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `int_projectReasonID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `tbl_projectrequirement`
 --
 ALTER TABLE `tbl_projectrequirement`
-  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `tbl_requirement`
 --
@@ -1246,7 +1298,7 @@ ALTER TABLE `tbl_revisioncomment`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `int_userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `int_userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- Constraints for dumped tables
 --

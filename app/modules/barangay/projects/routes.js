@@ -361,16 +361,19 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
     console.log('BARANGAY: PROJECTS-APPLICATION-FORM(RESIDENT)-POST');
     console.log('=================================');
 
+    console.log(req.session.barangay.int_userID);
+
     var barangayQuery = `SELECT tbl_barangay.int_barangayID 
-    FROM tbl_barangay 
-    JOIN tbl_barangayuser
-    ON tbl_barangay.int_barangayID = tbl_barangayuser.int_barangayID
-    WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`
+        FROM tbl_barangay 
+        JOIN tbl_barangayuser
+        ON tbl_barangay.int_barangayID = tbl_barangayuser.int_barangayID
+        WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`
 
     db.query(barangayQuery, (err, barangay, fields) => {        
         if (err) throw err;
 
         var barangayFinal = barangay[0];
+        console.log(barangayFinal);
 
         // ===============================================================================
         //                          INSERT INTO TBL_APPLICATION
@@ -442,18 +445,18 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
 
                         for(i = 0 ; i < requirements.length ; i++)
                         {
-                        var appreqQuery = `INSERT INTO tbl_applicationrequirement
-                            (
-                                \`int_applicationID\`,
-                                \`int_requirementID\`,
-                                \`enum_appreqStatus\`
-                            )
-                            VALUES
-                            (
-                                ${int_applicationID},
-                                ${requirements[i]},
-                                "Passed"
-                            )`;
+                            var appreqQuery = `INSERT INTO tbl_applicationrequirement
+                                (
+                                    \`int_applicationID\`,
+                                    \`int_requirementID\`,
+                                    \`enum_appreqStatus\`
+                                )
+                                VALUES
+                                (
+                                    ${int_applicationID},
+                                    ${requirements[i]},
+                                    "Passed"
+                                )`;
                             
                             db.query(appreqQuery,(err, appreqResult, fields) => {
                                 if(err) console.log(err);

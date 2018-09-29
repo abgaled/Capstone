@@ -254,12 +254,9 @@ block content
                         url : window.location + "/ajaxgetdetails",
                         data: { ajStatementID: Id},
                         dataType: "json",
-                         success: function(tbl_problemstatement1,tbl_beneficiary){
-
-                        console.log(tbl_problemstatement1)
+                        success: function(tbl_problemstatement1, tbl_beneficiary){
 
                             $.each(tbl_problemstatement1, function (index, value) {
-                                console.log(value);
 
                                 document.getElementById("aj-problemstatus").innerHTML = value.enum_problemStatus     
                                 document.getElementById("aj-problemtitle").innerHTML = value.varchar_statementTitle
@@ -269,17 +266,12 @@ block content
                                 document.getElementById("aj-resName").innerHTML = value.varchar_residentName
                                 document.getElementById("aj-resaddress").innerHTML = value.text_residentAddress
                                     
-                                console.log("Success: " );
-                            });
-                            $.each(tbl_beneficiary, function (index, value) {
-                                console.log(value);
+                                $.each(tbl_beneficiary, function (index1, value1) {
+                                    console.log(value1.varchar_beneficiaryName);
 
-                                document.getElementById("aj-problemBeneficiary").innerHTML = value.varchar_beneficiaryName     
-                                    
-                                console.log("Success: " );
+                                    document.getElementById("aj-problemBeneficiary").innerHTML = value1.varchar_beneficiaryName;
+                                });
                             });
-                                                        
-                            
                         },
                         error : function(e) {
                             console.log("ERROR: ", e);
@@ -293,7 +285,7 @@ block content
                     var form = $(this).parents('form');
                     e.preventDefault(); //prevent submit
                     
-                        swal({
+                    swal({
                         title: 'Are you sure?',
                         text: "You will submit this statement of problem.",
                         type: 'info',
@@ -301,11 +293,12 @@ block content
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Yes, submit it!'
-                        }).then((result) => {
+                    }).then((result) => {
                         if (result.value) {
+                            swal("Success!", "This problem statement has successfully submitted", "success");
                             $('#formaddproblem').submit();
                         }                        
-                        })
+                    })
                 });
                 //- START VALIDATIONS
                 $(function() {

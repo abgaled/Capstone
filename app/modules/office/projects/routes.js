@@ -3,6 +3,7 @@ var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 var moment = require('moment');
+var cityID;
 
 
 //- SCRIPT FOR CURRENT DATE
@@ -21,90 +22,103 @@ router.get('/',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT');
     console.log('=================================');
+    console.log(req.session.office.int_userID);
 
-    
+    var queryString4 =`SELECT DISTINCT * FROM tbl_city WHERE int_userID=${req.session.office.int_userID}`
 
-    var queryString =`SELECT *, GROUP_CONCAT(DISTINCT varchar_categoryName) varchar_categoryName 
-    FROM tbl_project pr
-    JOIN tbl_projectproposal prpro 
-    ON pr.int_projectID=prpro.int_projectID
-    JOIN tbl_projectcategory projcat
-    ON pr.int_projectID = projcat.int_projectID
-    JOIN tbl_category cat
-    ON cat.int_categoryID = projcat.int_categoryID
-    JOIN tbl_checkapproval propapp
-    ON propapp.int_projectID = prpro.int_projectID
-    WHERE propapp.enum_checkappStatus = "Claimed"
-    GROUP BY pr.int_projectID 
-    ORDER BY pr.int_projectID DESC`
-    
-    db.query(queryString, (err, results, fields) => {
-        console.log(results);
+    db.query(queryString4, (err, cityResult, fields ) => {
         if (err) console.log(err);
+        var cityid = cityResult[0];
+    
 
+        // var queryString =`SELECT *, GROUP_CONCAT(DISTINCT varchar_categoryName) varchar_categoryName 
+        //     FROM tbl_project pr
+        //     JOIN tbl_projectproposal prpro 
+        //     ON pr.int_projectID=prpro.int_projectID
+        //     JOIN tbl_projectcategory projcat
+        //     ON pr.int_projectID = projcat.int_projectID
+        //     JOIN tbl_category cat
+        //     ON cat.int_categoryID = projcat.int_categoryID
+        //     JOIN tbl_checkapproval propapp
+        //     ON propapp.int_projectID = prpro.int_projectID
+        //     WHERE propapp.enum_checkappStatus = "Claimed"
+        //     GROUP BY pr.int_projectID 
+        //     ORDER BY pr.int_projectID DESC`
 
+        var queryString = `SELECT * 
+            FROM tbl_projectproposal PR JOIN tbl_project P
+            ON PR.int_projectID=P.int_projectID
+            WHERE int_cityID=${cityid.int_cityID}
+            AND enum_proposalStatus='Approved'`;
         
-        var queryString2 =`
-        SELECT
-            int_projectID AS projID,
-            (
-                int_allotedSlot - (
-                SELECT
-                    COUNT(*)
+        db.query(queryString, (err, results, fields) => {
+            console.log(results);
+            if (err) console.log(err);
+
+
+            
+            var queryString2 =`
+            SELECT
+                int_projectID AS projID,
+                (
+                    int_allotedSlot - (
+                    SELECT
+                        COUNT(*)
+                    FROM
+                        tbl_application
+                    WHERE
+                        int_projectID = projID AND enum_applicationStatus = "Approved" AND (enum_applicationType = "Resident" OR enum_applicationType = "Household")
+                        
+                )
+                ) AS slotCount
+                
+            FROM
+                tbl_projectproposal`
+            db.query(queryString2, (err, result2, fields) => {
+                if (err) console.log(err);
+                console.log(result2);
+                var queryString3 =`
+                SELECT int_projectID AS projID,
+                    (
+                    SELECT
+                        int_slot
+                    FROM
+                        tbl_barangayapplication
+                    WHERE
+                        int_applicationID = tbl_application.int_applicationID
+                ) AS barcount
                 FROM
                     tbl_application
                 WHERE
-                    int_projectID = projID AND enum_applicationStatus = "Approved" AND (enum_applicationType = "Resident" OR enum_applicationType = "Household")
-                    
-            )
-            ) AS slotCount
-            
-        FROM
-            tbl_projectproposal`
-        db.query(queryString2, (err, result2, fields) => {
-            if (err) console.log(err);
-            console.log(result2);
-            var queryString3 =`
-            SELECT int_projectID AS projID,
-                (
-                SELECT
-                    int_slot
-                FROM
-                    tbl_barangayapplication
-                WHERE
-                    int_applicationID = tbl_application.int_applicationID
-            ) AS barcount
-            FROM
-                tbl_application
-            WHERE
-                enum_applicationType = "Barangay" AND enum_applicationStatus = "Approved"`
+                    enum_applicationType = "Barangay" AND enum_applicationStatus = "Approved"`
 
-                db.query(queryString3, (err, result3, fields) => {
-                    if (err) console.log(err);
-                    var proj = result2;
-                    var bar = result3;
-                    
-                    for (var i = 0; i < proj.length;i++){
-                        for (var j = 0; j < bar.length;j++){
-                            if(proj[i].projID==bar[j].projID)
-                            {
-                                proj[i].slotCount=proj[i].slotCount-bar[j].barcount;
+                    db.query(queryString3, (err, result3, fields) => {
+                        if (err) console.log(err);
+                        var proj = result2;
+                        var bar = result3;
+                        
+                        for (var i = 0; i < proj.length;i++){
+                            for (var j = 0; j < bar.length;j++){
+                                if(proj[i].projID==bar[j].projID)
+                                {
+                                    proj[i].slotCount=proj[i].slotCount-bar[j].barcount;
+                                }
                             }
                         }
-                    }
 
-                    console.log("pr");
-                    console.log(result2);
-                    console.log("bar");
-                    console.log(result3);
-                    console.log("proj");
-                    console.log(proj);
-           
-                    res.render('office/projects/views/projects',{tbl_project:results,slotcount:proj});
+                        console.log("pr");
+                        console.log(result2);
+                        console.log("bar");
+                        console.log(result3);
+                        console.log("proj");
+                        console.log(proj);
+            
+                        res.render('office/projects/views/projects',{tbl_project:results,slotcount:proj});
+                });
+
             });
 
         });
-
     });
 });
 
@@ -116,8 +130,6 @@ router.get('/:int_projectID/viewproj',(req, res) => {
     //-projectDetail
     var queryString =`SELECT * FROM tbl_projectproposal pr
     JOIN tbl_project proj ON pr.int_projectID = proj.int_projectID
-    JOIN tbl_checkapproval chapp 
-    ON pr.int_projectID=chapp.int_projectID
     WHERE pr.int_projectID = "${req.params.int_projectID}"`
 
     var queryString2 =`SELECT * FROM tbl_projectrequirement prcat
@@ -144,11 +156,18 @@ router.get('/:int_projectID/viewproj',(req, res) => {
     db.query(queryString, (err, results, fields) => {
         console.log(results);
 
-        var date_results = results;
-
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
-            date_results[i].datetime_releasingEnd = moment(date_results[i].datetime_releasingEnd).format('MM-DD-YYYY');
+        for (var i = 0; i < results.length;i++){
+            results[i].date_createdDate = moment(results[i].date_createdDate).format('MMMM DD[,] YYYY');
+            results[i].date_targetStartApp = moment(results[i].date_targetStartApp).format('MMMM DD[,] YYYY');
+            results[i].date_targetEndApp = moment(results[i].date_targetEndApp).format('MMMM DD[,] YYYY');
+            results[i].date_targetStartRelease = moment(results[i].date_targetStartRelease).format('MMMM DD[,] YYYY');
+            results[i].date_targetEndRelease = moment(results[i].date_targetEndRelease).format('MMMM DD[,] YYYY');
+            results[i].date_targetClosing = moment(results[i].date_targetClosing).format('MMMM DD[,] YYYY');
+            results[i].date_startApplication = moment(results[i].date_startApplication).format('MMMM DD[,] YYYY');
+            results[i].date_endApplication = moment(results[i].date_endApplication).format('MMMM DD[,] YYYY');
+            results[i].date_startReleaseDate = moment(results[i].date_startReleaseDate).format('MMMM DD[,] YYYY');
+            results[i].date_endReleaseDate = moment(results[i].date_endReleaseDate).format('MMMM DD[,] YYYY');
+            results[i].date_projectClose = moment(results[i].date_projectClose).format('MMMM DD[,] YYYY');
         }
 
         if (err) console.log(err);
@@ -917,5 +936,463 @@ router.post('/endproj', (req, res) => {
         res.redirect('/office/projects');
     });
 });
+
+// PINACOPY NI JAKE
+
+router.get('/createproject',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROPOSALS');
+    console.log('=================================');
+ 
+
+    console.log('=================================');
+    console.log('OFFICE: PROPOSALS');
+    console.log('=================================');
+    
+    var queryString =`SELECT * FROM tbl_category WHERE enum_categoryStatus = 'Active'`
+    
+    var queryString2 =`SELECT * FROM tbl_beneficiary WHERE enum_beneficiaryStatus = 'Active'`
+
+    var queryString3 =`SELECT * FROM tbl_requirement WHERE enum_requirementStatus = 'Active'`
+
+    var queryString4 =`SELECT DISTINCT * FROM tbl_city WHERE int_userID=${req.session.office.int_userID}`
+    
+    var queryString5 =`SELECT * FROM tbl_problemstatement ps
+        JOIN tbl_category cat ON ps.int_categoryID = cat.int_categoryID
+        WHERE enum_problemStatus = 'Acknowledged'`
+
+    var queryString6 = `SELECT *
+        FROM tbl_barangay B JOIN tbl_city C
+        ON B.int_cityID=C.int_cityID
+        WHERE C.int_userID=${req.session.office.int_userID}`;
+
+    var queryString7 = `SELECT * FROM tbl_agency WHERE enum_agencyStatus='Active'`;
+
+    db.query(queryString, (err, results, fields) => {
+        console.log(results);
+        if (err) console.log(err);
+        db.query(queryString2, (err, results2, fields) => {
+            console.log(results2);
+            if (err) console.log(err);
+            db.query(queryString3, (err, results3, fields) => {
+                console.log(results3);
+                if (err) console.log(err);
+                db.query(queryString4, (err, results4, fields) => {
+                    console.log(results4);
+                    cityID = results4[0];
+                    if (err) console.log(err);
+                    db.query(queryString5, (err, results5, fields) => {
+                        console.log(results5);
+                        if (err) console.log(err);
+                        db.query(queryString6, (err, results6, fields) => {
+                            console.log(results6);
+                            if (err) console.log(err);
+                            db.query(queryString7, (err, results7, fields) => {
+                                console.log(results7);
+                                if (err) console.log(err);
+                                res.render('office/projects/views/createproject', 
+                                {
+                                    tbl_category: results,
+                                    tbl_beneficiary:results2,
+                                    tbl_requirement:results3,
+                                    tbl_barangay:results4,
+                                    tbl_problemstatement:results5,
+                                    tbl_location:results6,
+                                    tbl_agency: results7
+                                });
+                            });    
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+
+router.post('/createproject',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROPOSALS POST');
+    console.log('=================================');
+
+
+    console.log("PROJECT DETAILS:");
+    var name = req.body.projectname;
+    console.log(name);
+    var ratioanale = req.body.projectrationale;
+    console.log(ratioanale);
+    var description = req.body.projectdescription;
+    console.log(description);
+    var objective = req.body.projectobjective;
+    console.log(objective);
+    var appType = req.body.applicationType;
+    console.log(appType);
+    console.log("PROJECT BENEFIT:");
+    var beneName = req.body.benefitname;
+    console.log(beneName);
+    var beneQuantity = req.body.benefitquantity;
+    console.log(beneQuantity);
+    console.log("PROJECT EXPENSE:");
+    var expName = req.body.expenseName;
+    var expQuantity = req.body.expenseQuantity;
+    var expUPrice = req.body.expenseUnitPrice;
+    var expAmount = req.body.expenseAmount;
+    console.log(expName);
+    console.log(expQuantity);
+    console.log(expUPrice);
+    console.log(expAmount);
+    console.log("PROJECT SLOTS:");
+    var allotedslot = req.body.allotedslots;
+    console.log(allotedslot);
+    console.log("PROJECT DATES:")
+    var startApp = req.body.startApp;
+    console.log(startApp);
+    var endApp = req.body.endApp;
+    console.log(endApp);
+    var startRel = req.body.startRel;
+    console.log(startRel);
+    var endRel = req.body.endRel;
+    console.log(endRel);
+    var closeProj = req.body.closeProj;
+    console.log(closeProj);
+    console.log("PROJECT BUDGET:")
+    var estimatedbudget = req.body.estimatedbudget;
+    console.log(estimatedbudget);
+    console.log("PROJECT CATEGORY:")
+    var categ = req.body.projectlist;
+    console.log(categ);
+    console.log("PROJECT BENEFICIARY:");
+    var beneficiaries = req.body.projectbeneficiaries;
+    console.log(beneficiaries);
+    console.log("PROJECT REQUIREMENT:");
+    var require = req.body.projectrequirement;
+    console.log(require);
+    console.log("PROJECT IMPLEMENTING AGENCY:")
+    var agency = req.body.projectagency;
+    console.log(agency);
+    console.log("PROBLEM STATEMENT:")
+    var statementList = req.body.statementsList;
+    console.log(statementList);
+    console.log("PROBLEM LOCATION:")
+    var locationList = req.body.projectlocation;
+    console.log(locationList);
+    console.log("CITY ID:")
+    console.log(cityID.int_cityID);
+
+    var insertprojProposal = `INSERT INTO \`tbl_projectproposal\` 
+    (
+        \`int_cityID\`,
+        \`varchar_projectName\`,
+        \`varchar_projectRationale\`,
+        \`text_projectDescription\`,
+        \`text_projectObjective\`,
+        \`int_allotedSlot\`,
+        \`date_targetStartApp\`,
+        \`date_targetEndApp\`,
+        \`date_targetStartRelease\`,
+        \`date_targetEndRelease\`,
+        \`date_targetClosing\`,
+        \`decimal_estimatedBudget\`,
+        \`date_createdDate\`,
+        \`enum_proposalStatus\`
+    )
+                
+    VALUES
+    (
+        ${cityID.int_cityID},
+        "${req.body.projectname}",
+        "${req.body.projectrationale}",
+        "${req.body.projectdescription}",
+        "${req.body.projectobjective}",
+        "${req.body.allotedslots}",
+        "${req.body.startApp}",
+        "${req.body.endApp}",
+        "${req.body.startRel}",
+        "${req.body.endRel}",
+        "${req.body.closeProj}",
+        "${req.body.estimatedbudget}",
+        CURDATE(),
+        "Approved"
+    )`;
+
+    db.query(insertprojProposal, (err, results, fields) => {        
+        if (err) throw err;    
+        console.log("==============INSERT PROJECT PROPOSAL CREDENTIALS SUCCESS====================");
+            
+        
+        var getProposalID =`SELECT * FROM tbl_projectproposal ORDER BY int_projectID DESC LIMIT 0,1`
+
+        db.query(getProposalID, (err, proposalID, fields) => {        
+            if (err) throw err;
+            console.log("==============GET PROJECT PROPOSAL ID SUCCESS====================");
+
+            var toproject = proposalID[0];
+
+            console.log("Project Proposal ID:");
+            console.log(toproject);
+
+            // UPDATE TABLE PROBLEM STATEMENT 
+            console.log("==============INSERT PROBLEM STATEMENT=============");
+
+            console.log(statementList);
+            console.log(statementList.length);
+
+            for(var o = 0 ; o < (statementList.length) ; o++)
+            {
+                console.log(o);
+                console.log(statementList[o]);
+
+                var updateStatus =  `UPDATE tbl_problemstatement 
+                    SET enum_problemStatus = "Proposed",
+                    int_projectID = ${toproject.int_projectID}
+                    WHERE int_statementID = ${statementList[o]}`;
+
+                 db.query(updateStatus, (err, results) => {        
+                    if (err) throw err;
+
+                    console.log(results)
+                });
+            }
+
+
+            // INSERT PROJECT BENEFICIARIES
+            console.log("==============INSERT PROJECT BENEFICIARIES====================");
+
+            console.log(beneficiaries);
+            console.log(beneficiaries.length);
+
+            for(var j = 0 ; j < beneficiaries.length ; j++ ) 
+            {
+                console.log(j);
+                console.log(beneficiaries[j]);
+                
+                var insertBeneficiaries = `INSERT INTO \`tbl_projectbeneficiary\`
+                    (
+                        \`int_projectID\`,
+                        \`int_beneficiaryID\`,
+                        \`enum_beneficiaryLink\`
+                    )
+
+                    VALUES
+                    (
+                        "${toproject.int_projectID}",
+                        "${beneficiaries[j]}",
+                        "Project Proposal"
+                    )`;
+
+                db.query(insertBeneficiaries, (err, insertResult) => {        
+                    if (err) throw err;
+                    console.log(insertResult);
+                });
+            }
+
+
+
+            // INSERT PROJECT REQUIREMENT
+            console.log("==============INSERT PROJECT REQUIREMENT====================");
+            
+
+            console.log(require);
+            console.log(require.length);
+
+
+            for(var k = 0 ; k < require.length ; k++ ) 
+            {
+                console.log(k);
+                var inserReq = `INSERT INTO \`tbl_projectrequirement\`
+                    (
+                        \`int_requirementID\`,
+                        \`int_projectID\`
+                    )
+                    
+                    VALUES
+                    (
+                        "${require[k]}",
+                        "${toproject.int_projectID}"
+                    )`;
+
+                db.query(inserReq, (err, inserResult, fields) => {        
+                    if (err) throw err;
+                });
+            }
+                
+
+            //  INSERT PROJECT CATEGORY
+            console.log("==============INSERT PROJECT CATEGORY====================");
+            
+            var statementCategoryQuery = `SELECT int_categoryID 
+                FROM tbl_problemstatement
+                WHERE int_statementID IN (${statementList})`;
+
+            db.query(statementCategoryQuery, (err, categResult, fields) => {
+                if(err) console.log(err);
+
+                var categ = categResult;
+                console.log(categ);
+                
+                for(var l = 0 ; l < categ.length ; l++)
+                {
+                    console.log(l);
+                    var insertTimeline = `INSERT INTO \`tbl_projectcategory\`
+                        (
+                            \`int_categoryID\`,
+                            \`int_projectID\`
+                        )
+                            
+                            VALUES(
+                            "${categ[l].int_categoryID}",
+                            "${toproject.int_projectID}"
+                        );`;
+    
+                    db.query(insertTimeline, (err, tblprojectrequirement, fields) => {        
+                        if (err) throw err;
+                    });
+                }
+            });
+
+            // INSERT APPLICATION TYPE
+            console.log("==============INSERT APPLICATION TYPE====================");
+            
+
+            console.log(appType);
+            console.log(appType.length);
+
+
+            for(var n = 0 ; n < appType.length ; n++ ) 
+            {
+                console.log(n);
+                var insertAppType = `INSERT INTO \`tbl_projectapplicationtype\`
+                    (
+                        \`enum_applicationType\`,
+                        \`int_projectID\`
+                    )
+                    
+                    VALUES
+                    (
+                        "${appType[n]}",
+                        "${toproject.int_projectID}"
+                    )`;
+
+                db.query(insertAppType, (err, inserResult, fields) => {        
+                    if (err) throw err;
+                });
+            }
+
+            // INSERT PROJECT BENEFIT
+            console.log("==============INSERT PROJECT BENEFIT====================");
+            
+
+            console.log(beneName);
+            console.log(beneName.length);
+
+
+            for(var p = 0 ; p < (beneName.length-1) ; p++ ) 
+            {
+                console.log(p);
+                var insertBenefits = `INSERT INTO \`tbl_applicantbenefit\`
+                    (
+                        \`text_benefitName\`,
+                        \`int_benefitQuantity\`,
+                        \`int_projectID\`
+                    )
+                    
+                    VALUES
+                    (
+                        "${beneName[p]}",
+                        "${beneQuantity[p]}",
+                        "${toproject.int_projectID}"
+                    )`;
+
+                db.query(insertBenefits, (err, inserResult, fields) => {        
+                    if (err) throw err;
+                });
+            }
+
+            // INSERT PROJECT ESTIMATED EXPENSES
+            console.log("==============INSERT PROJECT ESTIMATED EXPENSES====================");
+            
+
+            console.log(expName);
+            console.log(expName.length);
+
+
+            for(var q = 0 ; q < (expName.length-1) ; q++ ) 
+            {
+                if( expName[q] === '' && expQuantity[q] == '' && expUPrice[q] == '' && expAmount[q] == '' ){
+                    console.log("continue lang");
+                }
+
+                else {
+                    var insertExpense = `INSERT INTO \`tbl_expense\`
+                        (
+                            \`text_expenseDescription\`,
+                            \`int_quantity\`,
+                            \`decimal_unitPrice\`,
+                            \`decimal_estimatedAmount\`,
+                            \`int_projectID\`
+                        )
+                        
+                        VALUES
+                        (
+                            "${expName[q]}",
+                            "${expQuantity[q]}",
+                            "${expUPrice[q]}",
+                            "${expAmount[q]}",
+                            "${toproject.int_projectID}"
+                        )`;
+                        
+                        db.query(insertExpense, (err, inserResult, fields) => {        
+                            if (err) throw err;
+                        });
+                }
+            }
+
+            // INSERT PROJECT LOCATION
+            console.log("==============INSERT PROJECT LOCATION====================");
+
+            console.log(locationList);
+            console.log(locationList.length);
+
+            for(var r = 0 ; r < locationList.length ; r++ ) 
+            {
+                console.log(r);
+                console.log(locationList[r]);
+                
+                var insertLocation = `INSERT INTO \`tbl_projectlocation\`
+                    (
+                        \`int_projectID\`,
+                        \`enum_locationTarget\`,
+                        \`int_locationID\`
+                    )
+
+                    VALUES
+                    (
+                        "${toproject.int_projectID}",
+                        "Barangay",
+                        "${locationList[r]}"
+                    )`;
+
+                db.query(insertLocation, (err, insertResult) => {        
+                    if (err) throw err;
+                    console.log(insertResult);
+                });
+            }
+
+            var insertCheckQuery2 = `INSERT INTO \`tbl_project\` 
+                (\`int_projectID\`,
+                \`enum_projectStatus\`)
+                VALUES
+                (${toproject.int_projectID},
+                "Approved")`
+            
+            db.query(insertCheckQuery2, (err, insertCheckquery2, fields) => {
+                if(err) console.log(err);
+
+                res.redirect('/office/projects');  
+            });
+        });
+    });
+});
+
+
 
 module.exports = router;

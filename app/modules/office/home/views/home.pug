@@ -1,9 +1,47 @@
 extends ./navbar.pug
 
 block content
-    //- <!-- page content -->
-    <div class="right_col" role="main">
-    <div class="x_panel">
-        <h1>Office - Dashboard</h1>
-    </div>
-    </div>
+            <!-- /top navigation -->
+                
+            <!-- page content -->
+            <div class="right_col" role="main">
+                    //-each project in tbl_projCount
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-envelope"></i></div>
+                        <div class="count">1</div>
+                        <h3>New Problem Statements</h3>
+                        <p>From last week</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                        <div class="count">23
+                            //-value= project.openApplicationCount
+                        </div>
+                        <h3>Current Open Projects Application</h3>
+                        <p>As of 2018-07-22</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-paper-plane-o"></i></div>
+                        <div class="count">17</div>
+                        <h3>New Resident Applications</h3>
+                        <p>From last week</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-file"></i></div>
+                        <div class="count">26
+                        </div>
+                        <h3>Current <br>Releasing Projects</h3>
+                        <p>From last week</p>
+                        </div>
+                    </div>
+            </div>
+                
+
+            

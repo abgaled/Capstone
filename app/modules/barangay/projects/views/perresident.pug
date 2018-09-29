@@ -128,10 +128,12 @@ block content
                                                 <label for="Requirements"></label>
                                                 <br>
                                                 <label for="checkbox1" class="form-check-label ">
-                                                each req in requirements
-                                                    input(type="checkbox" id="ap-requirementid" name="requirementID[]" value=`${req.int_requirementID}` )
-                                                    value= " " + req.varchar_requirementName
-                                                    <br>
+                                                    each req in requirements
+                                                        input(type="checkbox" onchange="getRequirement()" class="ap-reqName" id="ap-requirementid" name="requirementID[]" value=`${req.int_requirementID}` )
+                                                        <text class="reqNames">
+                                                            value= " " + req.varchar_requirementName
+                                                        </text>
+                                                        <br>
                                                 </label>
                                             </div>
                                         </tr>                   
@@ -492,11 +494,15 @@ block content
         }
 
         function getbirthdate() {
-            var birthdate = document.getElementById("ap-birthdate").value;
-            console.log(birthdate);
+            var options = {year: 'numeric', month: 'long', day: 'numeric'};
+
+            var birthdate = new Date(document.getElementById("ap-birthdate").value);
+            var bday = birthdate.toLocaleDateString([], options);
+
+            console.log(bday);
 
             if(birthdate!=0){
-                document.getElementById("result-birthdate").innerHTML = birthdate;
+                document.getElementById("result-birthdate").innerHTML = bday;
             }
         }
 
@@ -552,4 +558,30 @@ block content
             if(civilstat!=0){
                 document.getElementById("result-civilstat").innerHTML = civilstat;
             }
+        }
+
+        function getRequirement() {
+            var reqIndeces = [];
+            var reqNames = [];
+            var names = "";
+            
+
+            $('.ap-reqName:checked').each(function() {
+                reqIndeces.push($("input[type=checkbox]").index($(this)));
+            });
+
+            $('.reqNames').each(function() {
+                reqNames.push($(this).text());
+            });
+
+            for(var i = 0 ; i < reqIndeces.length ; i++) {
+                var index = reqIndeces[i];
+
+                names += reqNames[index]+"<br/>"
+            }
+
+            console.log(reqNames);
+            console.log(reqIndeces);
+
+            document.getElementById("result-projRequirement").innerHTML = names;
         }

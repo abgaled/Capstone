@@ -17,38 +17,43 @@ block content
                                             <table class="table table-bordered" id="datatable" cellspacing="0">
                                                 <thead>
                                                     <tr>
-                                                    <th>Problem Name</th>
-                                                    <th>Status</th>
-                                                    <th>Actions</th>
+                                                        <th>Problem Name</th>
+                                                        <th>Barangay</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tfoot>
                                                     <tr>
-                                                    <th>Problem Name</th>
-                                                    <th>Status</th>
-                                                    <th>Actions</th>
+                                                        <th>Problem Name</th>
+                                                        <th>Barangay</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                 </tfoot>
                                                 <tbody>
-                                                each problem in tbl_problemstatement
-                                                    <tr>
-                                                    <td>
-                                                        value=problem.varchar_statementTitle
-                                                    </td>
-                                                    <td>
-                                                        value=problem.enum_problemStatus
-                                                    </td>
-                                                    <td>
-                                                        button.btn.btn-info.mb-1.btn-sm.btn-block(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID): span.fa.fa-eye View
-                                                        if problem.enum_problemStatus == "Submitted"
-                                                            form(method="POST" action=`/office/problems/${problem.int_statementID}/acknowledge`)
-                                                                input(value=problem.int_statementID name="int_statementID" required, hidden)
-                                                                button.btn.btn-success.btn-sm.btn-block(type='submit'): span.fa.fa-check Approve
-                                                            form(method="POST" action=`/office/problems/${problem.int_statementID}/rejectstatement`)
-                                                                input(value=problem.int_statementID name="int_statementID" required, hidden)
-                                                                button.btn.btn-danger.btn-sm.btn-block(type='submit'): span.fa.fa-ban Reject
-                                                    </td>
-                                                    </tr>
+                                                    each problem in tbl_problemstatement
+                                                        <tr>
+                                                            <td>
+                                                                value=problem.varchar_statementTitle
+                                                            </td>
+                                                            <td>
+                                                                value=problem.varchar_barangayName
+                                                            </td>
+                                                            <td>
+                                                                value=problem.enum_problemStatus
+                                                            </td>
+                                                            <td>
+                                                                button.btn.btn-info.mb-1.btn-sm.btn-block(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID): span.fa.fa-eye View
+                                                                if problem.enum_problemStatus == "Submitted"
+                                                                    form(method="POST" action=`/office/problems/${problem.int_statementID}/acknowledge` id='form-approve')
+                                                                        input(value=problem.int_statementID name="int_statementID" required, hidden)
+                                                                        button.btn.btn-success.btn-sm.btn-block(type='submit' id='btn-approve'): span.fa.fa-check Approve
+                                                                    form(method="POST" action=`/office/problems/${problem.int_statementID}/rejectstatement` id='form-reject')
+                                                                        input(value=problem.int_statementID name="int_statementID" required, hidden)
+                                                                        button.btn.btn-danger.btn-sm.btn-block(type='submit' id='btn-reject'): span.fa.fa-ban Reject
+                                                            </td>
+                                                        </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -184,61 +189,118 @@ block content
                                         </div>
                                     </div>
                                 </div>
-                                <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
-                                script.
 
-                                    //- SCRIPT GET INT_STATEMENTID (VIEW MODAL)
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
 
-                                        $(document).ready(function () {
+    script.
 
-                                            $(document).on('click', '.btn-view-problem', function (e) {
-                                                e.preventDefault()
-                                                var Id = $(this).val();
-                                                console.log("================================Id(Class)")
-                                                console.log(Id);
-                                                console.log("================================Id(Class)")
-                                                $('#modalviewproblem').modal('show');
-                                                ajaxGet();
+        //- SCRIPT GET INT_STATEMENTID (VIEW MODAL)
 
-                                                function ajaxGet(){
-                                                console.log("========Id");
-                                                console.log(Id);
-                                                console.log("========Id");
+        $(document).ready(function () {
 
-                                                $.ajax({
-                                                    type : "POST",
-                                                    url : window.location + "/ajaxgetdetails",
-                                                    data: { ajStatementID: Id},
-                                                    dataType: "json",
-                                                    success: function(tbl_problemstatement1){
 
-                                                    console.log(tbl_problemstatement1)
+            $('#btn-approve').on('click',function (e) {
+                var form = $(this).parents('form');
+                e.preventDefault(); //prevent submit
+                
+                swal({
+                    title: 'Are you sure?',
+                    text: "You will approve this statement of problem.",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, approve it!'
+                }).then((result) => {
+                    if (result.value) {
+                        swal("Success!", "The statement has been approved", "success");
+                        $('#form-approve').submit();
+                        
+                    }                        
+                })
+            });
 
-                                                        $.each(tbl_problemstatement1, function (index, value) {
-                                                            console.log(value);
+            $('#btn-reject').on('click',function (e) {
+                var form = $(this).parents('form');
+                e.preventDefault(); //prevent submit
+                
+                swal({
+                    title: 'Are you sure?',
+                    text: "You will reject this statement of problem.",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, reject it!'
+                }).then((result) => {
+                    if (result.value) {
+                        swal("Success!", "The statement has been rejected", "success");
+                        $('#form-reject').submit();
+                        
+                    }                        
+                })
+            });
 
-                                                            document.getElementById("aj-problemstatus").innerHTML = value.enum_problemStatus     
-                                                            document.getElementById("aj-problemtitle").innerHTML = value.varchar_statementTitle
-                                                            document.getElementById("aj-problemcontent").innerHTML = value.text_statementContent
-                                                            document.getElementById("aj-problemcreated").innerHTML = value.date_createdDate
-                                                            document.getElementById("aj-problemcategory").innerHTML = value.varchar_categoryName
-                                                            document.getElementById("aj-barangay").innerHTML = value.varchar_barangayName
-                                                            document.getElementById("aj-resName").innerHTML = value.varchar_residentName
-                                                            document.getElementById("aj-resaddress").innerHTML = value.text_residentAddress
-                                                                
-                                                            console.log("Success: " );
-                                                        });
-                                                                                    
-                                                        
-                                                    },
-                                                    error : function(e) {
-                                                        console.log("ERROR: ", e);
-                                                    }
-                                                });	
-                                            }
-                                            }); 
 
-                                            
-                                        });
+            $(document).on('click', '.btn-view-problem', function (e) {
+                e.preventDefault()
+                var Id = $(this).val();
+                console.log("================================Id(Class)")
+                console.log(Id);
+                console.log("================================Id(Class)")
+                $('#modalviewproblem').modal('show');
+                ajaxGet();
+
+                function ajaxGet(){
+                console.log("========Id");
+                console.log(Id);
+                console.log("========Id");
+
+                $.ajax({
+                    type : "POST",
+                    url : window.location + "/ajaxgetdetails",
+                    data: { ajStatementID: Id},
+                    dataType: "json",
+                    success: function(tbl_problemstatement1){
+
+                        $.each(tbl_problemstatement1, function (index, value) {
+                            var bene = "";
+                            console.log("===========problstate===========");
+                            console.log(value);
+                            console.log("===========problstate===========");
+
+                            document.getElementById("aj-problemstatus").innerHTML = value.enum_problemStatus     
+                            document.getElementById("aj-problemtitle").innerHTML = value.varchar_statementTitle
+                            document.getElementById("aj-problemcontent").innerHTML = value.text_statementContent
+                            document.getElementById("aj-problemcreated").innerHTML = value.date_createdDate
+                            document.getElementById("aj-problemcategory").innerHTML = value.varchar_categoryName
+                            document.getElementById("aj-barangay").innerHTML = value.varchar_barangayName
+                            document.getElementById("aj-resName").innerHTML = value.varchar_residentName
+                            document.getElementById("aj-resaddress").innerHTML = value.text_residentAddress
+                            
+
+                            //- $.each(tbl_beneficiary, function (index1, value1) {
+                            //-     console.log("===========bene===========");                            
+                            //-     console.log(value1);
+                            //-     console.log("===========bene===========");
+                                
+                            //-     bene += value1.varchar_beneficiaryName+"<br/>";
+                            //- });   
+
+                            //- console.log(bene);
+                            //- document.getElementById("aj-problembeneficiary").innerHTML = bene;
+                        });
+            
+                        
+                    },
+                    error : function(e) {
+                        console.log("ERROR: ", e);
+                    }
+                });	
+            }
+            }); 
+
+            
+        });
         <!-- END STATISTIC-->
             

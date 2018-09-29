@@ -9,15 +9,22 @@ router.get('/',(req, res) => {
     console.log('OFFICE: PROBLEM STATEMENT-SUBMITTED');
     console.log('=================================');
 
+    // var queryString = `SELECT *
+    //     FROM tbl_problemstatement PS JOIN tbl_category C
+    //     ON PS.int_categoryID=C.int_categoryID
+    //     JOIN tbl_barangay B ON B.int_barangayID=PS.int_barangayID
+    //     ORDER BY FIELD(PS.enum_problemStatus, 'Submitted','Acknowledged','Proposed','Rejected') ASC, PS.date_createdDate DESC`;
+
     var queryString = `SELECT *
         FROM tbl_problemstatement PS JOIN tbl_category C
         ON PS.int_categoryID=C.int_categoryID
-        GROUP BY int_statementID
-        ORDER BY int_statementID DESC `
-
+        JOIN tbl_barangay B ON B.int_barangayID=PS.int_barangayID
+        ORDER BY PS.date_createdDate DESC`;
 
     db.query(queryString,(err, results, fields) => {
-        if (err) console.log(err);       
+        if (err) console.log(err);
+        
+        console.log(results);
 
         res.render('office/problems/views/problems',{tbl_problemstatement:results});
     });
@@ -30,29 +37,40 @@ router.post('/ajaxgetdetails',(req,res) => {
     console.log('=================================');
     console.log(`${req.body.ajStatementID}`);
 
-    var queryString = `SELECT * FROM tbl_problemstatement pr
-    JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID 
-    JOIN tbl_barangay bar ON pr.int_barangayID=bar.int_barangayID 
-    WHERE pr.int_statementID = ${req.body.ajStatementID}`
+    var queryString = `SELECT *
+        FROM tbl_problemstatement pr
+        JOIN tbl_category cat ON pr.int_categoryID=cat.int_categoryID 
+        JOIN tbl_barangay bar ON pr.int_barangayID=bar.int_barangayID
+        WHERE pr.int_statementID = ${req.body.ajStatementID}`;
 
 
     db.query(queryString,(err, results, fields) => {
         if (err) console.log(err);
 
         console.log(results);
-
-        var date_results = results;
-
-        for (var i = 0; i < date_results.length;i++){
-            date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
+        
+        for (var i = 0; i < results.length;i++){
+            results[i].date_createdDate = moment(results[i].date_createdDate).format('MMMM DD[,] YYYY');
         }
 
+        var beneQuery = `SELECT B.varchar_beneficiaryName
+            FROM tbl_beneficiary B JOIN tbl_projectbeneficiary PB
+                ON B.int_beneficiaryID=PB.int_beneficiaryID
+            WHERE PB.int_projectID = ${req.body.ajStatementID} AND PB.enum_beneficiaryLink='Problem Statement'`
+        
         var resultss = results[0];
 
         console.log("===================RESULTSS")
         console.log(resultss)
 
-        return res.send({tbl_problemstatement1:resultss});
+        db.query(beneQuery,(err, results1, fields) => {
+            if (err) console.log(err);
+            console.log(results1);
+
+            return res.send({
+                tbl_problemstatement1:resultss
+            });
+        });
     });
 });
 
