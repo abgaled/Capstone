@@ -21,16 +21,6 @@ homepage.post('/', (req, res) =>{
         var user = results[0];
         
         if (user.varchar_userPassword !== req.body.user_password) return res.redirect('/login?incorrect');
-        
-        if(user.enum_userType == "Admin"){
-            delete user.varchar_userPassword;
-            req.session.admin = user;
-            console.log("Admin User:");
-            console.log('Admin: '+user.varchar_userEmailAddress);
-            
-            return res.redirect('/admin/dashboard');
-            
-        }
     
         if(user.enum_userType == "Office Staff"){
             delete user.varchar_userPassword;

@@ -19,6 +19,7 @@ block content
                                                     <tr>
                                                         <th>Problem Name</th>
                                                         <th>Barangay</th>
+                                                        <th>Date Submitted</th>
                                                         <th>Status</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -27,6 +28,7 @@ block content
                                                     <tr>
                                                         <th>Problem Name</th>
                                                         <th>Barangay</th>
+                                                        <th>Date Submitted</th>
                                                         <th>Status</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -39,6 +41,9 @@ block content
                                                             </td>
                                                             <td>
                                                                 value=problem.varchar_barangayName
+                                                            </td>
+                                                            <td>
+                                                                value=problem.date_createdDate
                                                             </td>
                                                             <td>
                                                                 value=problem.enum_problemStatus
@@ -158,7 +163,7 @@ block content
                                                     <div class="item form-group">
                                                         <div class="col-md-1">
                                                         </div>
-                                                            <label class="control-label col-md-3 " for="resName">Resident's Name:
+                                                            <label class="control-label col-md-3 " for="resName">Appealed By:       
                                                             </label>
                                                             <div class="col-md-1">
                                             
@@ -171,7 +176,7 @@ block content
                                                     <div class="item form-group">
                                                         <div class="col-md-1">
                                                         </div>
-                                                            <label class="control-label col-md-3" for="resaddress">Resident's Address:
+                                                            <label class="control-label col-md-3" for="resaddress">Address:
                                                             </label>
                                                             <div class="col-md-1">
                                             

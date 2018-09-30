@@ -19,17 +19,6 @@ exports.noAuthed = (req, res, next) => {
     return next();
 }
 
-// admin
-exports.hasAuthAdmin = (req, res, next) => {
-    if (req.session && req.session.admin && Object.keys(req.session.admin).length > 0) return next();
-    return res.redirect('/login?unauthorized');
-}
-
-exports.noAuthAdmin = (req, res, next) => {
-    if (req.session && req.session.admin && Object.keys(req.session.admin).length > 0) return res.redirect('/admin');
-    return next();
-}
-
 // office
 exports.hasAuthOffice = (req, res, next) => {
     if (req.session && req.session.office && Object.keys(req.session.office).length > 0) return next();

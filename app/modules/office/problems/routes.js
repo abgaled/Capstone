@@ -23,7 +23,11 @@ router.get('/',(req, res) => {
 
     db.query(queryString,(err, results, fields) => {
         if (err) console.log(err);
-        
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].date_createdDate = moment(date_results[i].date_createdDate).format('MM-DD-YYYY');
+        }
         console.log(results);
 
         res.render('office/problems/views/problems',{tbl_problemstatement:results});

@@ -2374,10 +2374,10 @@ a.btn-danger {
 }
 .btn.btn-app {
     position: relative;
-    padding: 15px 5px;
+    padding: 15px 15px;
     margin: 0 0 10px 10px;
     min-width: 80px;
-    height: 60px;
+    height: 160px;
     box-shadow: none;
     border-radius: 0;
     text-align: center;
