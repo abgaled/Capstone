@@ -1,0 +1,101 @@
+extends ../../home/views/navbar.pug
+
+block content
+        <div class="right_col" role="main">
+        each uom in tbl_unitofmeasure
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h3>Update:<h3>
+                    a(href=`/office/maintenance/unitofmeasure` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle      
+                </div>
+                  <form method="POST" action="edituom" id="formedituom">
+                      input(type="hidden" value=`${uom.int_uomID}` name="int_uomID")
+
+                      <div class="row form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="uomName">Unit of Measure Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          //- <input id="requirementname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="3" name="requirementname" placeholder="" required="required" value=`${requirement.varchar_requirementName}` type="text">
+                          input(type="text" class="form-control col-md-7 col-xs-12" id="uomName" placeholder="UOM Name" name="uomName" value=`${uom.varchar_uomName}` required)
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="uomAcronym">Unit of Measure Abbreviation <span class="required">*</span>
+                        </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          //- <input id="requirementname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="3" name="requirementname" placeholder="" required="required" value=`${requirement.varchar_requirementName}` type="text">
+                          input(type="text" class="form-control col-md-7 col-xs-12" id="uomAcronym" placeholder="UOM acronym" name="uomAcronym" value=`${uom.varchar_uomAcronym}` required)
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-default float-right" id="buttoneditUOM">Submit</button>
+                  </div>
+                  </form>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        script.
+            $(document).ready(function () {
+                //- SWEET ALERT CONFIRM SUBMIT
+                $('#buttoneditUOM').on('click',function (e) {
+                    var form = $(this).parents('form');
+                    e.preventDefault(); //prevent submit
+                              
+                        swal({
+                        title: 'Are you sure?',
+                        text: "You will edit this project requirement.",
+                        type: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, edit it!'
+                        }).then((result) => {
+                        if (result.value) {
+                            $('#formedituom').submit();
+                        }                        
+                        })
+                });
+                //- START VALIDATIONS
+                $(function() {
+                $("#formedituom").validate({
+                    rules: {
+                    uomName: {
+                        required: true,
+                    },
+                    action: "required"
+                    },
+                    messages: {
+                    uomName: {
+                        required: "Please enter some data",
+                    },
+                    action: "Please provide some data"
+                    },
+                    rules: {
+                    uomAcronym: {
+                        required: true,
+                    },
+                    action: "required"
+                    },
+                    messages: {
+                    uomAcronym: {
+                        required: "Please enter some data",
+                    },
+                    action: "Please provide some data"
+                    },
+                    submitHandler: function(form){
+                        form.submit();
+                        swal(
+                            'Success!',
+                            'Unit of Measurement has been Edited!',
+                            'success'
+                            )
+                    }
+                });
+                          
+                });
+                //- END VALIDATIONS
+                        
+            });

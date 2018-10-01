@@ -1,0 +1,123 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1 class="text-center">Unit of Measurement
+                        <br/>
+                        <div id="btnForNxtYear">
+                            <button class="btn btn-primary btn-md " id="addprojcat" type="button" data-toggle="modal" data-target=".bs-example-modal-sm"><span class="fa fa-plus"></span> ADD </button>
+                        </div>
+                        </h1>
+                    </div>            
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped " id="datatable" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        th Unit of Measure
+                                                        th Abbreviation
+                                                        th Actions
+                                                        th Status
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each uom in tbl_uom
+                                                    <tr>
+                                                        td
+                                                            value= uom.varchar_uomName
+                                                        td
+                                                            value= uom.varchar_uomAcronym
+                                                        td
+                                                            a(href=`/office/maintenance/unitofmeasure/${uom.int_uomID}/edituom` id="edituom" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
+                                                        td
+                                                            if uom.enum_uomStatus == "Inactive"
+                                                                form(method="POST" action="/office/maintenance/unitofmeasure/activate")
+                                                                    input(value=uom.int_uomID name="id" required, hidden)
+                                                                    button.btn.btn-danger.btn-s(type='submit') Inactive
+                                                            if uom.enum_uomStatus == "Active"
+                                                                form(method="POST" action="/office/maintenance/unitofmeasure/inactive")
+                                                                    input(value=uom.int_uomID name="id" required, hidden)
+                                                                    button.btn.btn-success.btn-s(type='submit') Active
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <form class="form-horizontal form-label-left" method="POST" action='#' id="formAddUOM" >
+                    <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel"><span class="section">Add Unit of Measurement (UOM)
+                            </span></h4>
+                            <div class="form-group">
+                                <label class=" col-sm-12 col-xs-12" for="input_UOM">Unit of Measure
+                                </label>    
+                                <div class=" col-sm-12 col-xs-12">
+                                    <input id="input_UOM" class="form-control col-md-10 col-xs-12" name="input_UOM" placeholder="Input measurement" required="required" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class=" col-sm-4 col-xs-4" for="input_Abbreviation">Abbreviation
+                                </label>    
+                                <div class=" col-sm-8 col-xs-8">
+                                    <input id="input_Abbreviation" class="form-control col-md-10 col-xs-12" name="input_Abbreviation" placeholder="Input abbreviation" required="required" type="text">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="submitUOM" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+    <script src="/asset_validation/dist/jquery.validate.min.js"></script>
+
+    script.
+
+        $(document).ready(function () {
+            $('#submitUOM').on('click',function (e) {
+                var form = $(this).parents('form');
+                e.preventDefault(); //prevent submit
+                            
+                    swal({
+                    title: 'Are you sure?',
+                    text: "You will add this Unit of Measure?.",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes!'
+                    }).then((result) => {
+                    if (result.value) {
+                        swal(
+                            'Success!',
+                            'Unit of Measurement Adderd',
+                            'success'
+                        )
+                        $('#formAddUOM').submit();
+                    }                        
+                    })
+            });
+        });

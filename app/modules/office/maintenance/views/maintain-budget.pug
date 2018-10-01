@@ -1,0 +1,146 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1 class="text-center">Annual Budget
+                        <br/>
+                        <div id="btnForNxtYear">
+                            <button class="btn btn-primary btn-md " id="addprojcat" type="button" data-toggle="modal" data-target=".bs-example-modal-sm"><span class="fa fa-plus"></span> Input Next Year's Budget</button>
+                        </div>
+                        </h1>
+                    </div>            
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped " id="datatable" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>YEAR</th>
+                                                        <th>Budget Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each budget in tbl_annualbudget
+                                                    <tr>
+                                                        <td>
+                                                            value= budget.date_budgetYear
+                                                        </td>
+                                                        <td>
+                                                            value= budget.decimal_annualBudget
+                                                        </td>
+                                                    </tr>
+                                                each budg in nextyear
+                                                    input(type="hidden" id="year2" name="year2" required="required" value=`${budg.date_budgetYear}` )
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-horizontal form-label-left" method="POST" action='#' id="formNxtBudget" >
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">
+                            <div id="nextYear">
+                            </div>    
+                        </span></h4>
+                        <div class="form-group">
+                            <label class=" col-sm-12 col-xs-12" for="budget">Input next year's budget:
+                            </label>    
+                            <div class=" col-sm-12 col-xs-12">
+                                <input id="budget" class="form-control col-md-7 col-xs-12" name="budget" placeholder="xxxxxxx.xx" required="required" type="number">
+                                <input id="year" name="year" type="hidden">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="submitAddbutton" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+    <script src="/asset_validation/dist/jquery.validate.min.js"></script>
+
+    script.
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        n =  new Date();
+        y = n.getFullYear();
+        m = n.getMonth() + 4;
+        d = n.getDate();
+
+        var yr = y + 1;
+
+        console.log(yr);
+        document.getElementById("year").value = yr;
+        document.getElementById("nextYear").innerHTML = "Year " + yr + "'s Budget";
+
+        var mon = months[n.getMonth()];
+
+        currdate =  mon + " " + d + ", " + y;
+        currentdate =  m + "-" + d + "-" + y;
+
+        console.log(m);
+
+        var nextyear=document.getElementById("year2").value;
+        console.log(nextyear);
+
+        if(m!=12)
+        {
+            if((y+1)==nextyear)
+            {
+                document.getElementById("btnForNxtYear").style.display = "none";
+            }
+            document.getElementById("btnForNxtYear").style.display = "none";
+        }
+        if((y+1)==nextyear)
+        {
+            document.getElementById("btnForNxtYear").style.display = "none";
+        }
+        
+
+        $(document).ready(function () {
+            //- SWEET ALERT CONFIRM SUBMIT
+            $('#submitAddbutton').on('click',function (e) {
+                var form = $(this).parents('form');
+                e.preventDefault(); //prevent submit
+                            
+                    swal({
+                    title: 'Are you sure?',
+                    text: "You will record the budget for next year.",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, record it!'
+                    }).then((result) => {
+                    if (result.value) {
+                        swal(
+                            'Success!',
+                            'Annual Project for ' + yr + ' has been recorded!',
+                            'success'
+                        )
+                        $('#formNxtBudget').submit();
+                    }                        
+                    })
+            });
+        });

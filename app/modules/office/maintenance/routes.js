@@ -3,6 +3,18 @@ var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 var nodemailer = require('nodemailer');
+var moment = require('moment');
+
+//- SCRIPT FOR CURRENT DATE
+var n =  new Date();
+var y = n.getFullYear();
+var m = n.getMonth() + 1;
+var d = n.getDate();
+var hr = n.getHours();
+var min = n.getMinutes();
+var sec = n.getSeconds();
+var now = y +"-"+ m +"-"+ d; 
+var yr = y + 1;
 
 //============================================================
 // MAINTENANCE REQUIREMENTS
@@ -1116,4 +1128,160 @@ router.post('/agency/inactive', (req, res) => {
     });
 
 });
+
+
+//============================================================
+// MAINTENANCE Annual Budget
+//============================================================
+
+router.get('/annualbudget',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - ANNUAL BUDGET');
+    console.log('=================================');
+    var queryString =`SELECT * FROM tbl_annualbudget`
+
+    db.query(queryString, (err, results, fields) => {
+        if (err) console.log(err);
+        console.log(results);
+        // This year's budget
+        
+        var queryString2 =`SELECT * FROM tbl_annualbudget
+            WHERE date_budgetYear = "${yr}"`
+        
+        db.query(queryString2, (err, results2, fields) => {
+            if (err) console.log(err);
+            console.log(results2);
+            //next year's budget
+
+            res.render('office/maintenance/views/maintain-budget', 
+            {
+                tbl_annualbudget: results,
+                nextyear:results2
+            });
+        });
+    });
+});
+
+router.post('/annualbudget', (req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - ANNUAL BUDGET POST');
+    console.log('=================================');
+    
+    var queryString = `INSERT INTO \`tbl_annualbudget\` 
+    (\`decimal_annualBudget\`, 
+    \`date_budgetYear\`)
+    VALUES
+    ("${req.body.budget}",
+    "${req.body.year}");`;
+    
+    db.query(queryString, (err, results, fields) => {        
+        if (err) throw err;
+        console.log(results);
+        res.redirect('/office/maintenance/annualbudget');
+    });
+});
+
+//============================================================
+// MAINTENANCE Unit oF Measure
+//============================================================
+
+router.get('/unitofmeasure',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - UNIT OF MEASURE');
+    console.log('=================================');
+    var queryString =`SELECT * FROM tbl_unitofmeasure`
+
+    db.query(queryString, (err, results, fields) => {
+        if (err) console.log(err);
+        console.log(results);
+
+        res.render('office/maintenance/views/maintain-uom', 
+        {
+           tbl_uom: results,
+        });
+    });
+});
+
+router.post('/unitofmeasure',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - UNIT OF MEASURE POST');
+    console.log('=================================');
+    var queryString =`INSERT INTO \`tbl_unitofmeasure\` 
+    (\`varchar_uomName\`, 
+    \`varchar_uomAcronym\`)
+    VALUES
+    ("${req.body.input_UOM}",
+    "${req.body.input_Abbreviation}");`;
+
+    db.query(queryString, (err, results, fields) => {
+        if (err) console.log(err);
+        console.log(results);
+
+        res.redirect('/office/maintenance/unitofmeasure');
+    });
+});
+
+
+router.post('/unitofmeasure/activate', (req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - unitofmeasure Status Active POST');
+    console.log('=================================');
+
+    db.query("UPDATE tbl_unitofmeasure SET enum_uomStatus = 'Active' WHERE int_uomID = ?",[req.body.id], (err, results, fields) =>{
+        if(err)
+            console.log(err);
+        else{
+            return res.redirect('/office/maintenance/unitofmeasure')
+        }
+    });
+
+});
+
+router.post('/unitofmeasure/inactive', (req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - unitofmeasure Status Inactive POST');
+    console.log('=================================');
+
+    db.query("UPDATE tbl_unitofmeasure SET enum_uomStatus = 'Inactive' WHERE int_uomID = ?",[req.body.id], (err, results, fields) =>{
+        if(err)
+            console.log(err);
+        else{
+            return res.redirect('/office/maintenance/unitofmeasure')
+        }
+    });
+
+});
+
+router.get('/unitofmeasure/:int_uomID/edituom',(req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - unitofmeasure Status EDIT GET');
+    console.log('=================================');
+    
+    var queryString = `SELECT * FROM tbl_unitofmeasure
+    WHERE tbl_unitofmeasure.int_uomID = "${req.params.int_uomID}"`;
+    
+    db.query(queryString, (err, results, fields) => {        
+        if (err) throw err;
+        res.render(`office/maintenance/views/editUOM`,{tbl_unitofmeasure:results});
+    });
+});
+
+router.post('/unitofmeasure/:int_uomID/edituom', (req, res) => {
+    console.log('=================================');
+    console.log('ADMIN: MAINTENANCE - unitofmeasure Status EDIT POST');
+    console.log('=================================');
+    
+    var queryString = `UPDATE tbl_unitofmeasure SET
+    varchar_uomName = "${req.body.uomName}",
+    varchar_uomAcronym = "${req.body.uomAcronym}"
+    WHERE tbl_unitofmeasure.int_uomID = "${req.body.int_uomID}"`;
+    
+    db.query(queryString, (err, results, fields) => {        
+        if (err) throw err;
+        console.log(results);
+        res.redirect('/office/maintenance/unitofmeasure');
+});
+});
+
+
 module.exports = router;
