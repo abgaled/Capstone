@@ -56,7 +56,7 @@ router.get('/',(req, res) => {
                     //     console.log(cityID);
 
                     var queryString5 = `SELECT * FROM tbl_city
-                    WHERE int_cityID = "2"`
+                    WHERE int_cityID = "1"`
 
                     db.query(queryString5, (err, result5, fields) => {
                         if(err) console,log(err);
@@ -84,7 +84,7 @@ router.post('/addbarangay',(req, res) => {
     console.log('=================================');
 
     console.log(req.session.office.int_userID);
-    var queryString0 = `SELECT int_cityID FROM tbl_city WHERE int_userID= ${req.session.office.int_userID}`;
+    var queryString0 = `SELECT int_cityID FROM tbl_city`;
 
     db.query(queryString0, (err, result0, fields) => {
         if(err) console.log(err);

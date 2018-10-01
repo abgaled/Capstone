@@ -499,10 +499,10 @@ router.get('/brgyaccnt/:int_barangayID/brgyuser', (req, res) => {
     console.log('=================================');
     console.log('OFFICE: brgyuserss');
     console.log('=================================');
-        var queryString =`SELECT * FROM tbl_barangayuser brgyus
-        JOIN tbl_user us ON brgyus.int_userID = us.int_userID
-        JOIN tbl_barangay brgy ON brgyus.int_barangayID = brgy.int_barangayID
-        WHERE brgyus.int_barangayID = "${req.params.int_barangayID}"`;
+        var queryString =`SELECT * FROM tbl_officialsaccount off
+        JOIN tbl_user us ON off.int_userID = us.int_userID
+        JOIN tbl_barangay brgy ON off.int_officialsID = brgy.int_barangayID
+        WHERE off.int_officialsID = "${req.params.int_barangayID}"`;
         
        var queryString2 =`SELECT * FROM tbl_barangay 
         WHERE int_barangayID = "${req.params.int_barangayID}"`;
@@ -561,10 +561,10 @@ router.post('/brgyaccnt/:int_barangayID/brgyuser',(req, res) => {
 
             var tobrgy = results1[0];
             
-            var queryBarangayuser = `INSERT INTO \`tbl_barangayuser\` (
+            var queryBarangayuser = `INSERT INTO \`tbl_officialsaccount\` (
         
                 \`int_userID\`,
-                \`int_barangayID\`)
+                \`int_officialsID\`)
                 VALUES(
                 "${tobrgy.int_userID}",
                 "${req.body.brgyID}");`;
@@ -576,8 +576,7 @@ router.post('/brgyaccnt/:int_barangayID/brgyuser',(req, res) => {
                 console.log('OFFICE: ADDBARANGAY - POST tbl_barangayuser');
                 console.log('=================================');
 
-            var getCityID =`SELECT * FROM tbl_city
-            WHERE int_userID = ${req.session.office.int_userID}`
+            var getCityID =`SELECT * FROM tbl_city`
 
             db.query(getCityID, (err, results3, fields) => {        
                 if (err) throw err;
@@ -631,10 +630,10 @@ router.post('/brgyaccnt/:int_barangayID/brgyuser',(req, res) => {
                             
                         });
                         // END OF NODE MAILER
-                        var queryString3 =`SELECT * FROM tbl_barangayuser brgyus
+                        var queryString3 =`SELECT * FROM tbl_officialsaccount brgyus
                         JOIN tbl_user us ON brgyus.int_userID = us.int_userID
-                        JOIN tbl_barangay brgy ON brgyus.int_barangayID = brgy.int_barangayID
-                        WHERE brgyus.int_barangayID = "${req.body.brgyID}"`;
+                        JOIN tbl_barangay brgy ON brgyus.int_officialsID = brgy.int_barangayID
+                        WHERE brgyus.int_officialsID = "${req.body.brgyID}"`;
                         
                        var queryString4 =`SELECT * FROM tbl_barangay 
                         WHERE int_barangayID = "${req.body.brgyID}"`;
@@ -672,10 +671,10 @@ router.post('/brgyaccnt/activate', (req, res) => {
         else{
             
             console.log(results);
-            var queryString3 =`SELECT * FROM tbl_barangayuser brgyus
+            var queryString3 =`SELECT * FROM tbl_officialsaccount brgyus
             JOIN tbl_user us ON brgyus.int_userID = us.int_userID
-            JOIN tbl_barangay brgy ON brgyus.int_barangayID = brgy.int_barangayID
-            WHERE brgyus.int_barangayID = "${resultIndex}"`;
+            JOIN tbl_barangay brgy ON brgyus.int_officialsID = brgy.int_barangayID
+            WHERE brgyus.int_officialsID = "${resultIndex}"`;
                         
             var queryString4 =`SELECT * FROM tbl_barangay 
             WHERE int_barangayID = "${resultIndex}"`;
@@ -709,10 +708,10 @@ router.post('/brgyaccnt/inactive', (req, res) => {
             console.log(err);
         else{
             console.log(results);
-            var queryString3 =`SELECT * FROM tbl_barangayuser brgyus
+            var queryString3 =`SELECT * FROM tbl_officialsaccount brgyus
             JOIN tbl_user us ON brgyus.int_userID = us.int_userID
-            JOIN tbl_barangay brgy ON brgyus.int_barangayID = brgy.int_barangayID
-            WHERE brgyus.int_barangayID = "${resultIndex}"`;
+            JOIN tbl_barangay brgy ON brgyus.int_officialsID = brgy.int_barangayID
+            WHERE brgyus.int_officialsID = "${resultIndex}"`;
                         
             var queryString4 =`SELECT * FROM tbl_barangay 
             WHERE int_barangayID = "${resultIndex}"`;
@@ -787,8 +786,7 @@ router.post('/budgetaccnt',(req, res) => {
 
             var tobrgy = results1[0];
 
-            var getCityID =`SELECT * FROM tbl_city
-            WHERE int_userID = ${req.session.office.int_userID}`
+            var getCityID =`SELECT * FROM tbl_city`
 
             db.query(getCityID, (err, results3, fields) => {        
                 if (err) throw err;
@@ -931,8 +929,7 @@ router.post('/officeaccnt',(req, res) => {
 
             var tobrgy = results1[0];
 
-            var getCityID =`SELECT * FROM tbl_city
-            WHERE int_userID = ${req.session.office.int_userID}`
+            var getCityID =`SELECT * FROM tbl_city`
 
             db.query(getCityID, (err, results3, fields) => {        
                 if (err) throw err;
@@ -1169,10 +1166,12 @@ router.post('/annualbudget', (req, res) => {
     
     var queryString = `INSERT INTO \`tbl_annualbudget\` 
     (\`decimal_annualBudget\`, 
-    \`date_budgetYear\`)
+    \`date_budgetYear\`, 
+    \`int_cityID\`)
     VALUES
     ("${req.body.budget}",
-    "${req.body.year}");`;
+    "${req.body.year}",
+    "1");`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
@@ -1189,7 +1188,7 @@ router.get('/unitofmeasure',(req, res) => {
     console.log('=================================');
     console.log('ADMIN: MAINTENANCE - UNIT OF MEASURE');
     console.log('=================================');
-    var queryString =`SELECT * FROM tbl_unitofmeasure`
+    var queryString =`SELECT * FROM tbl_unitmeasure`
 
     db.query(queryString, (err, results, fields) => {
         if (err) console.log(err);
@@ -1206,12 +1205,14 @@ router.post('/unitofmeasure',(req, res) => {
     console.log('=================================');
     console.log('ADMIN: MAINTENANCE - UNIT OF MEASURE POST');
     console.log('=================================');
-    var queryString =`INSERT INTO \`tbl_unitofmeasure\` 
-    (\`varchar_uomName\`, 
-    \`varchar_uomAcronym\`)
+    var queryString =`INSERT INTO \`tbl_unitmeasure\` 
+    (\`varchar_unitName\`, 
+    \`char_unitSymbol\`, 
+    \`enum_unitStatus\`)
     VALUES
     ("${req.body.input_UOM}",
-    "${req.body.input_Abbreviation}");`;
+    "${req.body.input_Abbreviation}",
+    "Active");`;
 
     db.query(queryString, (err, results, fields) => {
         if (err) console.log(err);
@@ -1227,7 +1228,7 @@ router.post('/unitofmeasure/activate', (req, res) => {
     console.log('ADMIN: MAINTENANCE - unitofmeasure Status Active POST');
     console.log('=================================');
 
-    db.query("UPDATE tbl_unitofmeasure SET enum_uomStatus = 'Active' WHERE int_uomID = ?",[req.body.id], (err, results, fields) =>{
+    db.query("UPDATE tbl_unitmeasure SET enum_unitStatus = 'Active' WHERE int_unitMeasureID = ?",[req.body.id], (err, results, fields) =>{
         if(err)
             console.log(err);
         else{
@@ -1242,7 +1243,7 @@ router.post('/unitofmeasure/inactive', (req, res) => {
     console.log('ADMIN: MAINTENANCE - unitofmeasure Status Inactive POST');
     console.log('=================================');
 
-    db.query("UPDATE tbl_unitofmeasure SET enum_uomStatus = 'Inactive' WHERE int_uomID = ?",[req.body.id], (err, results, fields) =>{
+    db.query("UPDATE tbl_unitmeasure SET enum_unitStatus = 'Inactive' WHERE int_unitMeasureID = ?",[req.body.id], (err, results, fields) =>{
         if(err)
             console.log(err);
         else{
@@ -1252,13 +1253,13 @@ router.post('/unitofmeasure/inactive', (req, res) => {
 
 });
 
-router.get('/unitofmeasure/:int_uomID/edituom',(req, res) => {
+router.get('/unitofmeasure/:int_unitMeasureID/edituom',(req, res) => {
     console.log('=================================');
     console.log('ADMIN: MAINTENANCE - unitofmeasure Status EDIT GET');
     console.log('=================================');
     
-    var queryString = `SELECT * FROM tbl_unitofmeasure
-    WHERE tbl_unitofmeasure.int_uomID = "${req.params.int_uomID}"`;
+    var queryString = `SELECT * FROM tbl_unitmeasure
+    WHERE tbl_unitmeasure.int_unitMeasureID = "${req.params.int_unitMeasureID}"`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;
@@ -1266,15 +1267,15 @@ router.get('/unitofmeasure/:int_uomID/edituom',(req, res) => {
     });
 });
 
-router.post('/unitofmeasure/:int_uomID/edituom', (req, res) => {
+router.post('/unitofmeasure/:int_unitMeasureID/edituom', (req, res) => {
     console.log('=================================');
     console.log('ADMIN: MAINTENANCE - unitofmeasure Status EDIT POST');
     console.log('=================================');
     
-    var queryString = `UPDATE tbl_unitofmeasure SET
-    varchar_uomName = "${req.body.uomName}",
-    varchar_uomAcronym = "${req.body.uomAcronym}"
-    WHERE tbl_unitofmeasure.int_uomID = "${req.body.int_uomID}"`;
+    var queryString = `UPDATE tbl_unitmeasure SET
+    varchar_unitName = "${req.body.uomName}",
+    char_unitSymbol = "${req.body.uomAcronym}"
+    WHERE tbl_unitmeasure.int_unitMeasureID = "${req.body.int_unitMeasureID}"`;
     
     db.query(queryString, (err, results, fields) => {        
         if (err) throw err;

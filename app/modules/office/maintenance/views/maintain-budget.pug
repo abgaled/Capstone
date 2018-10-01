@@ -32,7 +32,7 @@ block content
                                                         <td>
                                                             value= budget.date_budgetYear
                                                         </td>
-                                                        <td>
+                                                        <td>₱ 
                                                             value= budget.decimal_annualBudget
                                                         </td>
                                                     </tr>
@@ -65,7 +65,7 @@ block content
                             <label class=" col-sm-12 col-xs-12" for="budget">Input next year's budget:
                             </label>    
                             <div class=" col-sm-12 col-xs-12">
-                                <input id="budget" class="form-control col-md-7 col-xs-12" name="budget" placeholder="xxxxxxx.xx" required="required" type="number">
+                                <input id="budget" class="form-control col-md-7 col-xs-12" name="budget" placeholder="xxxxxxx.xx" required="" type="number">
                                 <input id="year" name="year" type="hidden">
                             </div>
                         </div>
@@ -85,7 +85,7 @@ block content
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         n =  new Date();
         y = n.getFullYear();
-        m = n.getMonth() + 4;
+        m = n.getMonth() + 1;
         d = n.getDate();
 
         var yr = y + 1;
@@ -99,24 +99,22 @@ block content
         currdate =  mon + " " + d + ", " + y;
         currentdate =  m + "-" + d + "-" + y;
 
+        console.log("month");
         console.log(m);
 
+        if(m<12)
+        {
+            document.getElementById("btnForNxtYear").style.display = "none";
+            console.log("month succeed");
+        }
         var nextyear=document.getElementById("year2").value;
         console.log(nextyear);
 
-        if(m!=12)
-        {
-            if((y+1)==nextyear)
-            {
-                document.getElementById("btnForNxtYear").style.display = "none";
-            }
-            document.getElementById("btnForNxtYear").style.display = "none";
-        }
         if((y+1)==nextyear)
         {
             document.getElementById("btnForNxtYear").style.display = "none";
+            console.log("year succeed");
         }
-        
 
         $(document).ready(function () {
             //- SWEET ALERT CONFIRM SUBMIT
@@ -134,13 +132,33 @@ block content
                     confirmButtonText: 'Yes, record it!'
                     }).then((result) => {
                     if (result.value) {
+                        $('#formNxtBudget').submit();
+                    }                        
+                    })
+            });
+            $(function() {
+                $("#formAddUOM").validate({
+                    rules: {
+                    budget: {
+                        required: true,
+                    },
+                    action: "required"
+                    },
+                    messages: {
+                    budget: {
+                        required: "Please enter some data",
+                    },
+                    action: "Please provide some data"
+                    },
+                    submitHandler: function(form){
+                        form.submit();
                         swal(
                             'Success!',
                             'Annual Project for ' + yr + ' has been recorded!',
                             'success'
                         )
-                        $('#formNxtBudget').submit();
-                    }                        
-                    })
+                    }
+                });
+                          
             });
         });

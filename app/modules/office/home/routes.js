@@ -28,7 +28,7 @@ router.get('/',(req, res) => {
     console.log(aweek);
 
     var queryString =`SELECT COUNT(*) AS openApplicationCount
-    FROM tbl_project
+    FROM tbl_projectdetail
     WHERE enum_projectStatus = "Ongoing"`
 
     db.query(queryString, (err, results, fields) => {
@@ -36,7 +36,7 @@ router.get('/',(req, res) => {
     if (err) console.log(err);
 
         var queryString2 =`SELECT COUNT(*) AS releasingCount
-        FROM tbl_project
+        FROM tbl_projectdetail 
         WHERE enum_projectStatus = "Releasing"`
         
         db.query(queryString2, (err, results2, fields) => {
@@ -44,9 +44,9 @@ router.get('/',(req, res) => {
         if (err) console.log(err);
 
             var queryString3 =`SELECT COUNT(*) AS latestprobStatement
-            FROM tbl_problemstatement
-            WHERE tbl_problemstatement.enum_problemStatus = 'Submitted'
-            AND tbl_problemstatement.date_createdDate >= "${aweek}"`
+            FROM tbl_intentstatement
+            WHERE tbl_intentstatement.enum_problemStatus = 'Submitted'
+            AND tbl_intentstatement.date_createdDate >= "${aweek}"`
 
             db.query(queryString3, (err, results3, fields) => {
             console.log(results3);

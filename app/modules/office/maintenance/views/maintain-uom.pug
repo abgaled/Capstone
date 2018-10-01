@@ -23,7 +23,7 @@ block content
                                                 <thead>
                                                     <tr>
                                                         th Unit of Measure
-                                                        th Abbreviation
+                                                        th Symbol
                                                         th Actions
                                                         th Status
                                                     </tr>
@@ -32,19 +32,19 @@ block content
                                                 each uom in tbl_uom
                                                     <tr>
                                                         td
-                                                            value= uom.varchar_uomName
+                                                            value= uom.varchar_unitName
                                                         td
-                                                            value= uom.varchar_uomAcronym
+                                                            value= uom.char_unitSymbol
                                                         td
-                                                            a(href=`/office/maintenance/unitofmeasure/${uom.int_uomID}/edituom` id="edituom" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
+                                                            a(href=`/office/maintenance/unitofmeasure/${uom.int_unitMeasureID}/edituom` id="edituom" class="btn btn-info btn-s"): span.fa.fa-pencil  Edit
                                                         td
-                                                            if uom.enum_uomStatus == "Inactive"
+                                                            if uom.enum_unitStatus == "Inactive"
                                                                 form(method="POST" action="/office/maintenance/unitofmeasure/activate")
-                                                                    input(value=uom.int_uomID name="id" required, hidden)
+                                                                    input(value=uom.int_unitMeasureID name="id" required, hidden)
                                                                     button.btn.btn-danger.btn-s(type='submit') Inactive
-                                                            if uom.enum_uomStatus == "Active"
+                                                            if uom.enum_unitStatus == "Active"
                                                                 form(method="POST" action="/office/maintenance/unitofmeasure/inactive")
-                                                                    input(value=uom.int_uomID name="id" required, hidden)
+                                                                    input(value=uom.int_unitMeasureID name="id" required, hidden)
                                                                     button.btn.btn-success.btn-s(type='submit') Active
                                                     </tr>
                                                 </tbody>
@@ -111,13 +111,44 @@ block content
                     confirmButtonText: 'Yes!'
                     }).then((result) => {
                     if (result.value) {
-                        swal(
-                            'Success!',
-                            'Unit of Measurement Adderd',
-                            'success'
-                        )
                         $('#formAddUOM').submit();
                     }                        
                     })
+            });
+            $(function() {
+                $("#formAddUOM").validate({
+                    rules: {
+                    input_UOM: {
+                        required: true,
+                    },
+                    action: "required"
+                    },
+                    messages: {
+                    input_UOM: {
+                        required: "Please enter some data",
+                    },
+                    action: "Please provide some data"
+                    },rules: {
+                    input_Abbreviation: {
+                        required: true,
+                    },
+                    action: "required"
+                    },
+                    messages: {
+                    input_Abbreviation: {
+                        required: "Please enter some data",
+                    },
+                    action: "Please provide some data"
+                    },
+                    submitHandler: function(form){
+                        form.submit();
+                        swal(
+                            'Success!',
+                            'UOM SUCCESFULY ADDED!',
+                            'success'
+                            )
+                    }
+                });
+                          
             });
         });
