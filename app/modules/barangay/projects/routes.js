@@ -48,15 +48,13 @@ router.get('/',(req, res) => {
     console.log('BARANGAY: PROJECTS');
     console.log('=================================');
 
-    var queryString1 = `SELECT * FROM tbl_project p 
-        JOIN tbl_projectproposal pp 
-        ON p.int_projectID=pp.int_projectID
-        WHERE p.enum_projectStatus = "Ongoing"`
+    var queryString1 = `SELECT * FROM tbl_projectdetail 
+    WHERE tbl_projectdetail.enum_projectStatus = "Ongoing"`
 
     db.query(queryString1,(err, results1) => {
 
         for (var i = 0; i < results1.length;i++){
-            results1[i].date_projectEnd = moment(results1[i].date_projectEnd).format('MMMM DD[,] YYYY');
+            results1[i].date_targetEndApp = moment(results1[i].date_targetEndApp).format('MMMM DD[,] YYYY');
         }
 
         var queryString2 = `SELECT * FROM tbl_notification 
@@ -90,10 +88,9 @@ router.post('/projectdetails',(req,res) => {
     console.log(`${req.body.ajProjectID}`);
 
     
-    var queryString = `SELECT * FROM tbl_projectproposal pp
-        JOIN tbl_project pro ON pp.int_projectID=pro.int_projectID WHERE 
-        pro.enum_projectStatus = "Ongoing" 
-        AND pp.int_projectID = ${req.body.ajProjectID}`
+    var queryString = `SELECT * FROM tbl_projectdetail 
+        WHERE tbl_projectdetail.enum_projectStatus = "Ongoing" 
+        AND tbl_projectdetail.int_projectID = ${req.body.ajProjectID}`
 
 
     db.query(queryString,(err, results, fields) => {
@@ -107,8 +104,8 @@ router.post('/projectdetails',(req,res) => {
         //     console.log("EEyyyy: "+i);
         // }
 
-        resultss.date_startApplication = moment(resultss.date_startApplication).format('MMMM DD[,] YYYY');
-        resultss.date_endApplication = moment(resultss.date_endApplication).format('MMMM DD[,] YYYY');
+        resultss.date_actualStartApp = moment(resultss.date_actualStartApp).format('MMMM DD[,] YYYY');
+        resultss.date_targetEndApp = moment(resultss.date_targetEndApp).format('MMMM DD[,] YYYY');
 
         console.log("=====RESULTSS=====")
         console.log(resultss)
@@ -419,7 +416,7 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
                         \`varchar_lastName\`,
                         \`date_birthDate\`,
                         \`enum_gender\`,
-                        \`int_applicantResidency\`,
+                        \`year_applicantResidency\`,
                         \`enum_civilStatus\`,
                         \`varchar_contactNumber\`,
                         \`varchar_emailAddress\`) 
@@ -460,9 +457,32 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
                             
                             db.query(appreqQuery,(err, appreqResult, fields) => {
                                 if(err) console.log(err);
+
+                                for(i = 0 ; i < requirements.length ; i++)
+                                {
+                                    var appreqIncQuery = `INSERT INTO tbl_applicationrequirement
+                                        (
+                                            \`int_applicationID\`,
+                                            \`int_requirementID\`,
+                                            \`enum_appreqStatus\`
+                                        )
+                                        VALUES
+                                        (
+                                            ${int_applicationID},
+                                            ${requirements[i]},
+                                            "Not Passed"
+                                        )`;
+                                    
+                                    db.query(appreqIncQuery,(err, appreqIncResult, fields) => {
+                                        if(err) console.log(err);
+                                        
+                                    });
+                                }
                                 
                             });
                         }
+
+                        
                         res.redirect('/barangay/projects');
                     });
                 // });
@@ -695,9 +715,9 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
 
     var barangayQuery = `SELECT tbl_barangay.int_barangayID 
     FROM tbl_barangay 
-    JOIN tbl_barangayuser
-    ON tbl_barangay.int_barangayID = tbl_barangayuser.int_barangayID
-    WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`;
+    JOIN tbl_officialsaccount
+    ON tbl_barangay.int_barangayID = tbl_officialsaccount.int_barangayID
+    WHERE tbl_officialsaccount.int_userID = ${req.session.barangay.int_userID}`;
     
     db.query(barangayQuery, (err, brgyID, fields) => {
         console.log('============================')

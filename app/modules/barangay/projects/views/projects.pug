@@ -30,7 +30,7 @@ block content
                                         </td>
                                         <td>
                                             //- END OF APPLICATION DATE
-                                            value=project.date_projectEnd
+                                            value=project.date_targetEndApp
                                         </td>
                                         <td>
                                             //- ORIGINAL SLOT - APPROVED APPLICANTS
@@ -141,8 +141,8 @@ block content
 
                                 document.getElementById("projecttitle").innerHTML = value.varchar_projectName    
                                 document.getElementById("projectdescription").innerHTML = value.text_projectDescription
-                                document.getElementById("projectrelstart").innerHTML = value.date_startApplication
-                                document.getElementById("projectrelend").innerHTML = value.date_endApplication
+                                document.getElementById("projectrelstart").innerHTML = value.date_actualStartApp 
+                                document.getElementById("projectrelend").innerHTML = value.date_targetEndApp
                                     
                                 console.log("Success: " );
                             });

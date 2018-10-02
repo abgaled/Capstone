@@ -47,10 +47,7 @@ block content
 													value=applicant.enum_applicationStatus
 												</td>
 												<td>
-													<div class="progress">
-														<div class="progress progress-bar-info progressbar"></div>
-														//- <div class="progress progress-bar-info" data-transitiongoal="95" aria-valuenow="95" style="width: 70%;"></div>
-													</div>
+													
 												</td>
 												<td>
 													button.btn.btn-success.mb-1(id="btn-view-application" class="btn-view-application" value= applicant.int_applicationID): span.fa.fa-eye View
@@ -214,6 +211,13 @@ block content
 										</div>
 										<br>
 						</div>
+						<hr>
+						<h3>Requirements:</h3>
+						<div class="item form-group">
+							<input type="checkbox" name = "box1"/>
+							<input type="checkbox"name = "box2" />
+							<input type="checkbox" name = "box3"/>
+						</div>
 						<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
 						</div>
@@ -281,6 +285,7 @@ block content
 										<br>
 										<br>
 						</div>
+						
 						<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
 						</div>
@@ -292,10 +297,6 @@ block content
 
 	script.
 		$(document).ready(function () {
-
-			$('.progressbar').each(function() {
-				$(this).width('50%');
-			});
 
 			$('.btn-view-application').click(function (e) {
 				e.preventDefault()
@@ -326,7 +327,7 @@ block content
 								document.getElementById("aj-middlename").innerHTML = value.varchar_middleName
 								document.getElementById("aj-birthdate").innerHTML = value.date_birthDate
 								document.getElementById("aj-gender").innerHTML = value.enum_gender
-								document.getElementById("aj-year").innerHTML = value.int_applicantResidency
+								document.getElementById("aj-year").innerHTML = value.year_applicantResidency
 								document.getElementById("aj-civil").innerHTML = value.enum_civilStatus
 								document.getElementById("aj-contact").innerHTML = value.varchar_contactNumber
 								document.getElementById("aj-email").innerHTML = value.varchar_emailAddress
@@ -380,4 +381,7 @@ block content
 			}); 
 
 			$('table.display').DataTable();
+
+			
+			
 		});

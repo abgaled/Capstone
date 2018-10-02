@@ -5,7 +5,7 @@ block content
     <div class="x_panel">
     //- <!-- DATA TABLE-->
     <center>
-        <h1>STATEMENT OF PROBLEM</h1>
+        <h1>STATEMENT OF INTENT</h1>
         <a class="btn btn-app btn-lg" id="addproblem" type="button" data-toggle="modal" data-target="#modaladdproblem"><i class="fa fa-edit"></i> Add </a>
     </center>
     <hr>
@@ -53,25 +53,25 @@ block content
                         <h4 class="modal-title" id="myModalLabel"><span class="section">Add New Statement of Problem</span></h4>
              
                 <div class="item form-group">
-                        <label class="control-label col-md-3" for="problemtitle">Statement Title:
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3" for="problemtitle">Statement Title:
                         </label>
-                        <div class="col-md-8">
-                          <input id="problemtitle" class="form-control" name="problem_title" id="problem_title" placeholder="Enter title here ..." required type="text">
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                          <input id="problemtitle" class="form-control col-md-12 col-sm-12 col-xs-12" name="problem_title" id="problem_title" placeholder="Enter title here ..." required type="text">
                         </div>
                 </div>
                 <div class="item form-group">
-                        <label class="control-label col-md-3 " for="problem_category">Problem Category:</label>
-                        <div class="col-md-7">
-                        <select name="problem_category" style=" padding:0.50em;" required>
-                            <option disabled="disabled" selected="selected">Choose..</option>
-                                each category in tbl_projectcategory
-                                    option(value=`${category.int_categoryID}`)= `${category.varchar_categoryName}`
-                        </select>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3 " for="problem_category">Problem Category:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <select name="problem_category" class="form-control" style=" padding:0.50em;" required>
+                                <option disabled="disabled" selected="selected">Choose..</option>
+                                    each category in tbl_projectcategory
+                                        option(value=`${category.int_categoryID}`)= `${category.varchar_categoryName}`
+                            </select>
                         </div>
                 </div>
                 <div class="item form-group">
-                        <label for="target_beneficiary" class=" control-label col-md-3">Target Beneficiary:</label>
-                        <div class="col-md-8">
+                        <label for="target_beneficiary" class=" control-label col-md-3 col-sm-3 col-xs-3">Target Beneficiary:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
                             <select class="select2_multiple form-control" onchange="getBeneficiary()" id="ap-projectbeneficiary" name="projectbeneficiaries[]" multiple="multiple">
                                 each beneficiary in tbl_beneficiary
                                     option(value=`${beneficiary.int_beneficiaryID}`)=beneficiary.varchar_beneficiaryName+"   "
@@ -79,24 +79,24 @@ block content
                         </div>
                 </div>
                 <div class="item form-group">
-                        <label for="problem_description" class=" control-label col-md-3">Description:</label>
-                        <div class="col-md-8">
+                        <label for="problem_description" class=" control-label col-md-3 col-sm-3 col-xs-3">Description:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
                             <textarea name="problem_description" id="problem_description" rows="3" placeholder="Please fill project description ..." class="col-sm-11 form-control" required></textarea>
                         </div>
                 </div>
                 <br>
                 <br>
                 <div class="item form-group">
-                        <label class="control-label col-md-3" for="residentName">Appealed By:
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3" for="residentName">Appealed By:
                         </label>
-                        <div class="col-md-8">
+                        <div class="col-md-9 col-sm-9 col-xs-9">
                           <input id="residentName" class="form-control" name="residentName" id="residentName" placeholder="Enter resident's name that brought up the statement ..." required type="text">
                         </div>
                 </div>
                 <div class="item form-group">
-                        <label class="control-label col-md-3" for="residentAddress">Address:
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3" for="residentAddress">Address:
                         </label>
-                        <div class="col-md-8">
+                        <div class="col-md-9 col-sm-9 col-xs-9">
                           <input id="residentAddress" class="form-control" name="residentAddress" id="residentAddress" placeholder="Enter resident's address ..." required type="text">
                         </div>
                 </div>
@@ -258,10 +258,9 @@ block content
                         url : window.location + "/ajaxgetdetails",
                         data: { ajStatementID: Id},
                         dataType: "json",
-                        success: function(tbl_problemstatement1, tbl_beneficiary){
+                        success: function(tbl_problemstatement1){
 
                             $.each(tbl_problemstatement1, function (index, value) {
-
                                 document.getElementById("aj-problemstatus").innerHTML = value.enum_problemStatus     
                                 document.getElementById("aj-problemtitle").innerHTML = value.varchar_statementTitle
                                 document.getElementById("aj-problemcontent").innerHTML = value.text_statementContent
@@ -269,20 +268,41 @@ block content
                                 document.getElementById("aj-problemcategory").innerHTML = value.varchar_categoryName
                                 document.getElementById("aj-resName").innerHTML = value.varchar_residentName
                                 document.getElementById("aj-resaddress").innerHTML = value.text_residentAddress
-                                    
-                                $.each(tbl_beneficiary, function (index1, value1) {
-                                    console.log(value1.varchar_beneficiaryName);
-
-                                    document.getElementById("aj-problemBeneficiary").innerHTML = value1.varchar_beneficiaryName;
-                                });
                             });
                         },
                         error : function(e) {
                             console.log("ERROR: ", e);
                         }
                     });	
+
+                    $.ajax({
+                        type: 'POST',
+                        url: window.location + "/ajaxbeneficiary",
+                        data: { statementID: Id},
+                        datatype: 'json',
+                        success: function(tbl_beneficiary) {
+                            var beneList = '<ul>';
+
+                            $.each(tbl_beneficiary, function(index, value) {
+                                console.log(value.length);
+
+                                for(var i = 0 ; i < value.length ; i++) {
+                                    beneList += "<li>"+value[i].varchar_beneficiaryName+"</li>";
+                                }
+                                beneList += "</ul>";
+                            });
+
+                            console.log(beneList);
+                            document.getElementById("aj-problembeneficiary").innerHTML = beneList;
+                        },
+                        error: function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });
                 }
                 }); 
+
+                
 
                 //- SWEET ALERT CONFIRM SUBMIT
                 $('#submit-problem').on('click',function (e) {
