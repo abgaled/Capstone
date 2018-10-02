@@ -6,7 +6,7 @@ block content
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h1 class="text-center">Statement of Problem</h1>
+                        <h1 class="text-center">Statement of Intent</h1>
                     </div>              
                     <div class="content-wrapper">
                         <div class="container-fluid">
@@ -19,7 +19,7 @@ block content
                                                     <tr>
                                                         <th>Problem Name</th>
                                                         <th>Barangay</th>
-                                                        <th>Date Submitted</th>
+                                                        <th>Date Created</th>
                                                         <th>Status</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -28,7 +28,7 @@ block content
                                                     <tr>
                                                         <th>Problem Name</th>
                                                         <th>Barangay</th>
-                                                        <th>Date Submitted</th>
+                                                        <th>Date Created</th>
                                                         <th>Status</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -53,10 +53,10 @@ block content
                                                                 if problem.enum_problemStatus == "Submitted"
                                                                     form(method="POST" action=`/office/problems/${problem.int_statementID}/acknowledge` id='form-approve')
                                                                         input(value=problem.int_statementID name="int_statementID" required, hidden)
-                                                                        button.btn.btn-success.btn-sm.btn-block(type='submit' id='btn-approve'): span.fa.fa-check Approve
+                                                                        button.btn.btn-success.btn-sm.btn-block(type='submit' class='btn-approve'): span.fa.fa-check Approve
                                                                     form(method="POST" action=`/office/problems/${problem.int_statementID}/rejectstatement` id='form-reject')
                                                                         input(value=problem.int_statementID name="int_statementID" required, hidden)
-                                                                        button.btn.btn-danger.btn-sm.btn-block(type='submit' id='btn-reject'): span.fa.fa-ban Reject
+                                                                        button.btn.btn-danger.btn-sm.btn-block(type='submit' class='btn-reject'): span.fa.fa-ban Reject
                                                             </td>
                                                         </tr>
                                                 </tbody>
@@ -163,7 +163,7 @@ block content
                                                     <div class="item form-group">
                                                         <div class="col-md-1">
                                                         </div>
-                                                            <label class="control-label col-md-3 " for="resName">Appealed By:       
+                                                            <label class="control-label col-md-3 " for="resName">Resident's Name:
                                                             </label>
                                                             <div class="col-md-1">
                                             
@@ -176,7 +176,7 @@ block content
                                                     <div class="item form-group">
                                                         <div class="col-md-1">
                                                         </div>
-                                                            <label class="control-label col-md-3" for="resaddress">Address:
+                                                            <label class="control-label col-md-3" for="resaddress">Resident's Address:
                                                             </label>
                                                             <div class="col-md-1">
                                             
@@ -204,7 +204,7 @@ block content
         $(document).ready(function () {
 
 
-            $('#btn-approve').on('click',function (e) {
+            $('.btn-approve').on('click',function (e) {
                 var form = $(this).parents('form');
                 e.preventDefault(); //prevent submit
                 
@@ -225,14 +225,15 @@ block content
                 })
             });
 
-            $('#btn-reject').on('click',function (e) {
+            $('.btn-reject').on('click',function (e) {
                 var form = $(this).parents('form');
                 e.preventDefault(); //prevent submit
                 
                 swal({
                     title: 'Are you sure?',
                     text: "You will reject this statement of problem.",
-                    type: 'info',
+                    type: 'warning',
+                    //- icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
@@ -269,7 +270,6 @@ block content
                     success: function(tbl_problemstatement1){
 
                         $.each(tbl_problemstatement1, function (index, value) {
-                            var bene = "";
                             console.log("===========problstate===========");
                             console.log(value);
                             console.log("===========problstate===========");
@@ -283,17 +283,6 @@ block content
                             document.getElementById("aj-resName").innerHTML = value.varchar_residentName
                             document.getElementById("aj-resaddress").innerHTML = value.text_residentAddress
                             
-
-                            //- $.each(tbl_beneficiary, function (index1, value1) {
-                            //-     console.log("===========bene===========");                            
-                            //-     console.log(value1);
-                            //-     console.log("===========bene===========");
-                                
-                            //-     bene += value1.varchar_beneficiaryName+"<br/>";
-                            //- });   
-
-                            //- console.log(bene);
-                            //- document.getElementById("aj-problembeneficiary").innerHTML = bene;
                         });
             
                         
@@ -302,10 +291,42 @@ block content
                         console.log("ERROR: ", e);
                     }
                 });	
+
+                $.ajax({
+                    type: 'POST',
+                    url: window.location + "/ajaxbeneficiary",
+                    data: { statementID: Id},
+                    datatype: 'json',
+                    success: function(tbl_beneficiary) {
+                        var beneList = '<ul>';
+
+                        $.each(tbl_beneficiary, function(index, value) {
+                            console.log(value.length);
+                            //- beneList += value.varchar_beneficiaryName+"<br/>";
+                            //- $('#aj-problembeneficiary').append(value.varchar_beneficiaryName);
+
+                            for(var i = 0 ; i < value.length ; i++) {
+                                beneList += "<li>"+value[i].varchar_beneficiaryName+"</li>";
+                            }
+                            beneList += "</ul>";
+                        });
+
+                        //- for(var i = 0 ; i < tbl_beneficiary.length ; i++) {
+                        //-     console.log(tbl_beneficiary.length);
+                        //-     beneList += tbl_beneficiary.varchar_beneficiaryName+"<br/>";
+                        //- }
+
+                        console.log(beneList);
+                        document.getElementById("aj-problembeneficiary").innerHTML = beneList;
+                    },
+                    error: function(e) {
+                        console.log("ERROR: ", e);
+                    }
+                });
             }
-            }); 
+        }); 
 
             
         });
         <!-- END STATISTIC-->
-            
+             
