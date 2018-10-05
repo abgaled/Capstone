@@ -6,7 +6,8 @@ block content
     //- <!-- DATA TABLE-->
     <center>
         <h1>STATEMENT OF INTENT</h1>
-        <a class="btn btn-app btn-lg" id="addproblem" type="button" data-toggle="modal" data-target="#modaladdproblem"><i class="fa fa-edit"></i> Add </a>
+        
+        <button class="btn btn-primary btn-lg" id="addproblem" type="button" data-toggle="modal" data-target="#modaladdproblem"><span class="fa fa-plus"></span> Add</button></h1>
     </center>
     <hr>
     <div class="container">
@@ -33,7 +34,7 @@ block content
                                 value=problem.enum_problemStatus
                             </td>
                             <td>
-                                button.btn.btn-primary.mb-1(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID) View
+                                button.btn.btn-success.mb-1(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID) View
                             </td>
                         </tr>        
                     </tbody>
@@ -50,7 +51,7 @@ block content
             <div class="modal-body">
                 <form class="form-horizontal form-label-left" method="POST" action='' id="formaddproblem" name="addproblem" novalidate>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="myModalLabel"><span class="section">Add New Statement of Problem</span></h4>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">Add New Statement of Intent</span></h4>
              
                 <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3" for="problemtitle">Statement Title:

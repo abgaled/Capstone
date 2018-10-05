@@ -6,12 +6,12 @@ block content
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                 each proj in tbl_project
-                    <div class="" >
+                    <div class=""  id="noPRINT">
                         a(href=`/office/projects` class="btn btn-danger btn-lg pull-right fa"): span.fa.fa-times-circle  
                         <form id="formcloseproj" name="formcloseproj" method="POST" action='/office/projects/endproj'>
                             <input hidden id="projID" name="projID">
                             button.btn.btn-danger.btn-s.mb-1(id="finproj" value= proj.int_projectID class="finproj pull-right" ): span.fa End Project
-                            a(href=`/office/projects` class="btn btn-success btn-lg pull-right fa"): span.fa.fa-print Print Liquidation
+                            button.btn.btn-success.btn-s.mb-1(id="printliq" class="finproj pull-right" ): span.fa.fa-print Print Liquidation
                         </form>
                     </div> 
                     <div class="x_title" >
@@ -26,15 +26,22 @@ block content
                                 <div class="card-header">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="datatable" cellspacing="0">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
                                                 <thead>
                                                     <tr>
-                                                        <th>#</th>
+                                                        <th colspan="2"></th>
+                                                        <th colspan="2" class="text-center">Estimated</th>
+                                                        <th colspan="2" class="text-center">Actual</th>
+                                                    </tr>
+                                                </thead>
+                                                <thead>
+                                                    <tr>
                                                         <th>Expenses Description</th>
-                                                        <th>Estimated Amount</th>
-                                                        <th>Actual Amount</th>
+                                                        <th>Unit Price</th>
                                                         <th>QTY</th>
-                                                        <th>Total Amount</th>
+                                                        <th>Amount</th>
+                                                        <th>QTY</th>
+                                                        <th>Amount</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -42,19 +49,22 @@ block content
                                                     each exp in tbl_expenses
                                                         <tr class="tr-shadow">
                                                             <td>
-                                                                value=exp.int_expenseID
-                                                            </td>
-                                                            <td>
                                                                 value=exp.text_expenseDescription
-                                                            </td>
-                                                            <td>Php 
-                                                                value=exp.decimal_estimatedAmount
                                                             </td>
                                                             <td>Php 
                                                                 value=exp.decimal_unitPrice
                                                             </td>
                                                             <td>
-                                                                value=exp.int_quantity
+                                                                value=exp.int_estimatedQuantity
+                                                            </td>
+                                                            <td>
+                                                                if exp.decimal_estimatedAmount == null
+                                                                    p 
+                                                                else
+                                                                    p Php #{exp.decimal_estimatedAmount} 
+                                                            </td>
+                                                            <td>
+                                                                value=exp.int_actualQuantity
                                                             </td>
                                                             <td>Php 
                                                                 value=exp.decimal_actualAmount
@@ -64,55 +74,43 @@ block content
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <th></th>
-                                                        <th><div class="pull-right">Total Estimatation: </div></th>
-                                                        <th class="">Php 
+                                                        <th colspan="2"</th>
+                                                        <th colspan="1" class=""><div class="pull-right" >Total Estimatation: </div>
+                                                        </th>
+                                                        <th>Php 
                                                         each tot in totalest
                                                             value=tot.total_estimatedexpense 
                                                         </th>
-                                                        <th></th>
-                                                        <th><div class="pull-right">Total Amount: </div></th>
-                                                        <th>
-                                                        each tot2 in total
-                                                            <div id="total"> PHP 
-                                                                value=tot2.total_expense 
-                                                            </div>
+                                                        <th colspan="1" class=""><div class="pull-right" >Total Amount: </div>
+                                                        </th>
+                                                        <th>Php 
+                                                        each totals in total
+                                                            value=totals.total_expense 
                                                         </th>
                                                     </tr>
                                                     <tr>
-                                                        <th><br><br></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th>
+                                                        <th colspan="6">
+                                                            br
+                                                            br
                                                         </th>
-                                                        <th></th>
                                                     </tr>
                                                     <tr>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th>Budget Acquired: <br/><br/>  - Total Expenses:</th>
-                                                        <th> Php 
-                                                        each check in tbl_check
-                                                            value=check.decimal_amount 
+                                                        <th colspan="3" rowspan="2"></th>
+                                                        <th >Budget Acquired: <br/><br/>  - Total Expenses:</th>
+                                                        <th colspan="2" > Php 
+                                                            value=proj.decimal_actualBudget
                                                         <br><br> Php 
                                                         each tot2 in total
                                                             value=tot2.total_expense 
                                                         </th>
-                                                        <th></th>
                                                         
                                                     </tr>
                                                     <tr>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
                                                         <th>Remaining Budget:</th>
-                                                        <th> Php 
+                                                        <th colspan="2"> Php 
                                                         each rb in tbl_rembal
                                                             value=rb.budgetbalance 
                                                         </th>
-                                                        <th></th>
                                                     </tr>
                                                 </tfoot>
                                             </table>
@@ -121,11 +119,13 @@ block content
                                 </div>
         <!-- END STATISTIC-->
         <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+        script(src='/assets/js/printjs.min.js')
 
 
         script.
 
             $(document).ready(function () {
+
                 $('#finproj').on('click',function (e) {
                     e.preventDefault();
                     var form = $(this).parents('form'); //prevent submit
@@ -147,4 +147,12 @@ block content
                             }                        
                             })
                     });
+                $('#printliq').click(function(e){
+                    e.preventDefault();
+                    $('#noPRINT').attr('style', 'display:none;')
+                    javascript:window.print(print)
+                    $('#formprint').submit();
+                    $('#noPRINT').attr('style', 'display:show;')
+                });
+                    
             });

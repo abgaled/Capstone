@@ -9,22 +9,16 @@ router.get('/',(req, res) => {
     console.log('OFFICE: PROBLEM STATEMENT-SUBMITTED');
     console.log('=================================');
 
-    // var queryString = `SELECT *
-    //     FROM tbl_problemstatement PS JOIN tbl_category C
-    //     ON PS.int_categoryID=C.int_categoryID
-    //     JOIN tbl_barangay B ON B.int_barangayID=PS.int_barangayID
-    //     ORDER BY FIELD(PS.enum_problemStatus, 'Submitted','Acknowledged','Proposed','Rejected') ASC, PS.date_createdDate DESC`;
+    
 
     var queryString = `SELECT *
         FROM tbl_intentstatement PS JOIN tbl_category C
         ON PS.int_categoryID=C.int_categoryID
-        JOIN tbl_barangay B ON B.int_barangayID=PS.int_barangayID
-        ORDER BY PS.date_createdDate DESC`;
+        JOIN tbl_barangay B ON B.int_barangayID=PS.int_barangayID`;
 
     db.query(queryString,(err, results, fields) => {
         if (err) console.log(err);
         
-        console.log(results);
 
         for(var i = 0 ; i < results.length ; i++) {
             results[i].date_createdDate = moment(results[i].date_createdDate).format('MMMM DD[,] YYYY');
@@ -51,7 +45,6 @@ router.post('/ajaxgetdetails',(req,res) => {
     db.query(queryString,(err, results, fields) => {
         if (err) console.log(err);
 
-        console.log(results);
         
         for (var i = 0; i < results.length;i++){
             results[i].date_createdDate = moment(results[i].date_createdDate).format('MMMM DD[,] YYYY');
@@ -64,8 +57,6 @@ router.post('/ajaxgetdetails',(req,res) => {
         
         var resultss = results[0];
 
-        console.log("===================RESULTSS")
-        console.log(resultss)
 
         db.query(beneQuery,(err, results1, fields) => {
             if (err) console.log(err);
@@ -103,6 +94,7 @@ router.post('/:int_statementID/acknowledge', (req, res) => {
     console.log('=================================');
     console.log('OFFICE: problem - 1 acknowledge POST');
     console.log('=================================');
+    console.log(req.body.int_statementID);
     
     var queryString1 = `UPDATE tbl_intentstatement SET
     enum_problemStatus = 'Acknowledged'
@@ -118,6 +110,7 @@ router.post('/:int_statementID/rejectstatement', (req, res) => {
     console.log('=================================');
     console.log('OFFICE: problem - 1 reject POST');
     console.log('=================================');
+    console.log(req.body.int_statementID);
     
     var queryString1 = `UPDATE tbl_intentstatement SET
     enum_problemStatus = 'Rejected'

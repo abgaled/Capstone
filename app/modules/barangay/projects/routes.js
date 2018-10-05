@@ -49,6 +49,8 @@ router.get('/',(req, res) => {
     console.log('=================================');
 
     var queryString1 = `SELECT * FROM tbl_projectdetail 
+    JOIN tbl_projectapplicationtype
+    ON tbl_projectdetail.int_projectID = tbl_projectapplicationtype.int_projectID
     WHERE tbl_projectdetail.enum_projectStatus = "Ongoing"`
 
     db.query(queryString1,(err, results1) => {
@@ -71,11 +73,12 @@ router.get('/',(req, res) => {
             console.log(notifications)
         
             var countrow = notifications.length;
+         
+                res.render('barangay/projects/views/projects',{
+                    tbl_project:results1,
+                    notifications:notifications,
+                    numbernotif:countrow});
             
-            res.render('barangay/projects/views/projects',{
-                tbl_project:results1,
-                notifications:notifications,
-                numbernotif:countrow});
         });
     });
 });
@@ -98,11 +101,6 @@ router.post('/projectdetails',(req,res) => {
 
         var resultss = results[0];
 
-        // for (var i = 0; i <= resultss.length ; i++){
-        //     // resultss[i].date_startApplication = moment(resultss[i].date_startApplication).format('MMMM DD[,] YYYY[,] h[:]mm');
-        //     // resultss[i].date_endApplication = moment(resultss[i].date_endApplication).format('MMMM DD[,] YYYY[,] h[:]mm');
-        //     console.log("EEyyyy: "+i);
-        // }
 
         resultss.date_actualStartApp = moment(resultss.date_actualStartApp).format('MMMM DD[,] YYYY');
         resultss.date_targetEndApp = moment(resultss.date_targetEndApp).format('MMMM DD[,] YYYY');
@@ -115,139 +113,116 @@ router.post('/projectdetails',(req,res) => {
 });
 
 
-router.get('/:int_projectID/applicationtype',(req,res) => {
+// AJAX - GET PROJECT DETAILS (VIEW)
+router.post('/checkbrgyapp',(req,res) => {
     console.log('=================================');
-    console.log('BARANGAY: PROJECTS-APPLICATION TYPE-GET');
+    console.log('BARANGAY: PROJECTS-AJAX CHECK BARANGAY APPLICATION (POST)');
     console.log('=================================');
+    console.log(`${req.body.ajProjectID}`);
+    console.log(`${req.session.barangay.int_userID}`);
 
 
-    var queryString1 = `SELECT * FROM tbl_project p JOIN tbl_projectproposal pp 
-        ON p.int_projectID=pp.int_projectID WHERE p.int_projectID = ${req.params.int_projectID}`
-    
-    db.query(queryString1,(err, results1) => {
+    var queryString = `SELECT * FROM tbl_officialsaccount 
+        JOIN tbl_user
+        ON tbl_user.int_userID = tbl_officialsaccount.int_userID
+        WHERE tbl_user.int_userID = ${req.session.barangay.int_userID}`
 
-        var queryString2 = `SELECT * FROM tbl_projectapplicationtype pat
-        JOIN tbl_projectproposal pp 
-        ON pat.int_projectID=pp.int_projectID
-        WHERE pat.int_projectID = ${req.params.int_projectID}`
+        db.query(queryString,(err, results, fields) => {
+            if (err) console.log(err);   
 
-        db.query(queryString2,(err, results2) => {
-
-            console.log("RESULTS 2");
-            console.log(results2);
-
-            var notificationsQuery = `SELECT * FROM tbl_notification 
-            JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
-            WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
-            AND enum_notifStatus = "New"
-            ORDER BY tbl_notification.int_notifID DESC`
-
-            db.query(notificationsQuery,(err, notifications) => {
-                if (err) console.log(err);
-                console.log('=================================');
-                console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
-                console.log('=================================');
-                console.log(notifications)
-        
-                var countrow = notifications.length;
-   
-                res.render('barangay/projects/views/applicationtype',{
-                    tbl_project:results1,
-                    tbl_applicationtype:results2,
-                    notifications:notifications,
-                    numbernotif:countrow
-                });
-            });
-        });  
-    });
-});
-
-router.post('/:int_projectID/applicationtype',(req,res) => {
-    console.log('=================================');
-    console.log('BARANGAY: PROJECTS-APPLICATION TYPE-POST');
-    console.log('=================================');
-    console.log(req.body.applicationtype)
-
-
-    var queryString1 = `SELECT * FROM tbl_project p JOIN tbl_projectproposal pp 
-    ON p.int_projectID=pp.int_projectID WHERE p.int_projectID = ${req.params.int_projectID}`
-
-    db.query(queryString1,(err, results1) => {
-
-        var project = results1[0];
-
-        var queryString2 = `SELECT C.int_categoryID
-            FROM tbl_project P JOIN tbl_projectcategory PC
-            ON P.int_projectID=PC.int_projectID
-            JOIN tbl_category C ON PC.int_categoryID=C.int_categoryID
-            WHERE P.int_projectID= ${req.params.int_projectID}`
-
-        db.query(queryString2,(err, results2) => {
-            console.log("RESULTS2")
-            var int_categoryID = results2[0];
-
-            var notificationsQuery = `SELECT * FROM tbl_notification 
-            JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
-            WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
-            AND enum_notifStatus = "New"
-            ORDER BY tbl_notification.int_notifID DESC`
-
-            db.query(notificationsQuery,(err, notifications) => {
-                if (err) console.log(err);
-                console.log('=================================');
-                console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
-                console.log('=================================');
-                console.log(notifications)
-        
-                var countrow = notifications.length;
-
-
-                var requirementQuery = `SELECT *
-                    FROM tbl_requirement R JOIN tbl_projectrequirement PR
-                    ON R.int_requirementID=PR.int_requirementID
-                    WHERE PR.int_projectID= ${req.params.int_projectID}`;
-
-                db.query(requirementQuery,(err, requirementResult) => {
-                    console.log('============================')
-                    console.log(requirementResult);
-                    console.log("======REQUIREMENT SELECTED======")
-
-                    
-                    if (req.body.applicationtype == "Resident"){
+            var brgyID = results[0];
+            console.log("=======================BRGY ID")
+            console.log(brgyID);
+            console.log("=======================BRGY ID END")
             
-                        res.render('barangay/projects/views/perresident',{
-                            tbl_project:results1,
-                            int_categoryID:int_categoryID,
-                            requirements:requirementResult,
-                            notifications:notifications,
-                            numbernotif:countrow
-                        });
-                    }
-                    if (req.body.applicationtype == "Barangay"){
             
-                        res.render('barangay/projects/views/perbarangay',{
-                            tbl_project:results1,
-                            int_categoryID:int_categoryID,
-                            requirements:requirementResult,
-                            notifications:notifications,
-                            numbernotif:countrow
-                        });
+            var queryString1 = `SELECT * FROM tbl_application
+                JOIN tbl_barangayapplication
+                ON tbl_application.int_applicationID = tbl_barangayapplication.int_applicationID
+                JOIN tbl_officialsaccount
+                ON tbl_application.int_barangayID = tbl_officialsaccount.int_officialsID 
+                WHERE tbl_application.int_projectID = ${req.body.ajProjectID}
+                AND tbl_officialsaccount.int_officialsID = ${brgyID.int_officialsID}`
+
+
+                db.query(queryString1,(err, results1, fields) => {
+                    if (err) console.log(err);
+
+                    console.log("=======CHECK IF THERE'S AN APPLICATION======");
+                    console.log(results1)
+                    console.log("=======CHECK IF THERE'S AN APPLICATION======");
+
+                    if(results1.length > 0 ){
+                        
+                        console.log("MAY RECORD");
+
+                        var record = true;
+
+                        return res.send({check_app:results1,record:record});
                     }
-                    if (req.body.applicationtype == "Household"){
-            
-                        res.render('barangay/projects/views/perhousehold',{
-                            tbl_project:results1,
-                            int_categoryID:int_categoryID,
-                            requirements:requirementResult,
-                            notifications:notifications,
-                            numbernotif:countrow
-                        });
+
+                    else{
+                        console.log("WALANG RECORD");
+                        
+                        var record = false;
+                        
+                        return res.send({check_app:results1,record:record});
+                                
+                        
                     }
-                });
-            });
+                    // END OF ELSE
         });
     });
 });
+
+
+// router.get('/:int_projectID/applicationtype',(req,res) => {
+//     console.log('=================================');
+//     console.log('BARANGAY: PROJECTS-APPLICATION TYPE-GET');
+//     console.log('=================================');
+
+
+//     var queryString1 = `SELECT * FROM tbl_project p JOIN tbl_projectproposal pp 
+//         ON p.int_projectID=pp.int_projectID WHERE p.int_projectID = ${req.params.int_projectID}`
+    
+//     db.query(queryString1,(err, results1) => {
+
+//         var queryString2 = `SELECT * FROM tbl_projectapplicationtype pat
+//         JOIN tbl_projectproposal pp 
+//         ON pat.int_projectID=pp.int_projectID
+//         WHERE pat.int_projectID = ${req.params.int_projectID}`
+
+//         db.query(queryString2,(err, results2) => {
+
+//             console.log("RESULTS 2");
+//             console.log(results2);
+
+//             var notificationsQuery = `SELECT * FROM tbl_notification 
+//             JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+//             WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+//             AND enum_notifStatus = "New"
+//             ORDER BY tbl_notification.int_notifID DESC`
+
+//             db.query(notificationsQuery,(err, notifications) => {
+//                 if (err) console.log(err);
+//                 console.log('=================================');
+//                 console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+//                 console.log('=================================');
+//                 console.log(notifications)
+        
+//                 var countrow = notifications.length;
+   
+//                 res.render('barangay/projects/views/applicationtype',{
+//                     tbl_project:results1,
+//                     tbl_applicationtype:results2,
+//                     notifications:notifications,
+//                     numbernotif:countrow
+//                 });
+//             });
+//         });  
+//     });
+// });
+
 
 router.get('/:int_projectID/apply',(req,res) => {
     console.log('=================================');
@@ -256,8 +231,10 @@ router.get('/:int_projectID/apply',(req,res) => {
 
     
 
-    var queryString1 = `SELECT * FROM tbl_project p JOIN tbl_projectproposal pp 
-        ON p.int_projectID=pp.int_projectID WHERE p.int_projectID = ${req.params.int_projectID}`
+    var queryString1 = `SELECT * FROM tbl_projectdetail
+        JOIN tbl_projectapplicationtype
+        ON tbl_projectdetail.int_projectID = tbl_projectapplicationtype.int_projectID
+        WHERE tbl_projectdetail.int_projectID = ${req.params.int_projectID}`
     
     db.query(queryString1,(err, results1) => {
 
@@ -271,7 +248,7 @@ router.get('/:int_projectID/apply',(req,res) => {
 
         db.query(queryString2,(err, results2) => {
             console.log("RESULTS2")
-            var int_categoryID = results2[0];
+            var int_categoryID = results2;
 
             var notificationsQuery = `SELECT * FROM tbl_notification 
             JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
@@ -298,9 +275,9 @@ router.get('/:int_projectID/apply',(req,res) => {
                     console.log('============================')
                     console.log(requirementResult);
                     console.log("======REQUIREMENT SELECTED======")
-
+                    console.log(project.enum_applicationType)
                     
-                    if (project.varchar_applicationType == "Resident"){
+                    if (project.enum_applicationType == "Resident"){
             
                         res.render('barangay/projects/views/perresident',{
                             tbl_project:results1,
@@ -310,7 +287,7 @@ router.get('/:int_projectID/apply',(req,res) => {
                             numbernotif:countrow
                         });
                     }
-                    if (project.varchar_applicationType == "Barangay"){
+                    if (project.enum_applicationType == "Barangay"){
             
                         res.render('barangay/projects/views/perbarangay',{
                             tbl_project:results1,
@@ -320,7 +297,7 @@ router.get('/:int_projectID/apply',(req,res) => {
                             numbernotif:countrow
                         });
                     }
-                    if (project.varchar_applicationType == "Household"){
+                    if (project.enum_applicationType == "Household"){
             
                         res.render('barangay/projects/views/perhousehold',{
                             tbl_project:results1,
@@ -357,20 +334,25 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
     console.log('=================================');
     console.log('BARANGAY: PROJECTS-APPLICATION-FORM(RESIDENT)-POST');
     console.log('=================================');
+    
 
     console.log(req.session.barangay.int_userID);
 
     var barangayQuery = `SELECT tbl_barangay.int_barangayID 
         FROM tbl_barangay 
-        JOIN tbl_barangayuser
-        ON tbl_barangay.int_barangayID = tbl_barangayuser.int_barangayID
-        WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`
+        JOIN tbl_officialsaccount
+        ON tbl_barangay.int_barangayID = tbl_officialsaccount.int_officialsID
+        WHERE tbl_officialsaccount.int_userID = ${req.session.barangay.int_userID}`
 
     db.query(barangayQuery, (err, barangay, fields) => {        
         if (err) throw err;
 
         var barangayFinal = barangay[0];
         console.log(barangayFinal);
+
+        var curdatetime = moment().format('YYYY-MM-DD HH:mm:ss');
+        console.log(curdatetime);
+
 
         // ===============================================================================
         //                          INSERT INTO TBL_APPLICATION
@@ -379,12 +361,14 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
         (\`int_barangayID\`,
         \`int_projectID\`,
         \`enum_applicationType\`,
-        \`enum_applicationStatus\`) 
+        \`enum_applicationStatus\`,
+        \`datetime_submittedDate\`) 
         VALUES 
         (${barangayFinal.int_barangayID},
         ${req.params.int_projectID},
         "Resident",
-        "Pending")`
+        "Pending",
+        "${curdatetime}")`
     
 
         db.query(queryString1,(err, results1, fields) => {
@@ -399,16 +383,6 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
 
                 int_applicationID = queryselect2[0].int_applicationID;
 
-                // var queryString2 = `SELECT * FROM tbl_barangay JOIN tbl_user
-                //     ON tbl_user.int_userID = tbl_barangay.int_userID 
-                //     JOIN tbl_city ON tbl_barangay.int_cityID = tbl_city.int_cityID
-                //     WHERE tbl_user.int_userID = ${req.session.barangay.int_userID}`
-
-                // db.query(queryString2,(err, results2, fields) => {
-                //     if (err) console.log(err);
-                //     console.log("SELECT & JOIN: USER & OFFICE");
-                //     console.log(results2);
-
                     var insertPersonalInfo = `INSERT INTO tbl_personalinformation
                         (\`int_applicationID\`,
                         \`varchar_firstName\`,
@@ -419,7 +393,8 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
                         \`year_applicantResidency\`,
                         \`enum_civilStatus\`,
                         \`varchar_contactNumber\`,
-                        \`varchar_emailAddress\`) 
+                        \`varchar_emailAddress\`,
+                        \`text_address\`) 
                         VALUES 
                         (${int_applicationID},
                         "${req.body.apply_fname}",
@@ -430,7 +405,8 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
                         "${req.body.apply_yrres}",
                         "${req.body.apply_civilstat}",
                         "${req.body.apply_contact}",
-                        "${req.body.apply_emailaddress}")`
+                        "${req.body.apply_emailaddress}",
+                        "${req.body.apply_address}")`
 
                     db.query(insertPersonalInfo,(err, personalinfo, fields) => {
                         if (err) console.log(err);
@@ -455,12 +431,21 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
                                     "Passed"
                                 )`;
                             
-                            db.query(appreqQuery,(err, appreqResult, fields) => {
-                                if(err) console.log(err);
-
-                                for(i = 0 ; i < requirements.length ; i++)
-                                {
-                                    var appreqIncQuery = `INSERT INTO tbl_applicationrequirement
+                                db.query(appreqQuery,(err, appreqResult, fields) => {
+                                    if(err) console.log(err);
+                                    
+                                    
+                                });
+                        }
+                                if(req.body.apply_uncheck !== null){
+                                    console.log("===================MAY UNCHECK");
+                                    var uncheck = req.body.apply_uncheck;
+                                    console.log("=======================UNCHECK=================")
+                                    console.log(uncheck);
+                                    
+                                    for(a = 0 ; a < uncheck.length ; a++)
+                                    {
+                                        var appreqIncQuery = `INSERT INTO tbl_applicationrequirement
                                         (
                                             \`int_applicationID\`,
                                             \`int_requirementID\`,
@@ -469,21 +454,20 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
                                         VALUES
                                         (
                                             ${int_applicationID},
-                                            ${requirements[i]},
-                                            "Not Passed"
+                                            ${uncheck[a]},
+                                            "Incomplete"
                                         )`;
                                     
-                                    db.query(appreqIncQuery,(err, appreqIncResult, fields) => {
-                                        if(err) console.log(err);
+                                        db.query(appreqIncQuery,(err, appreqIncResult, fields) => {
+                                            if(err) console.log(err);
                                         
-                                    });
+                                        });
+                                    }
                                 }
-                                
-                            });
-                        }
+                                           
+                            res.redirect('/barangay/projects');
 
-                        
-                        res.redirect('/barangay/projects');
+                            
                     });
                 // });
             });
@@ -499,14 +483,17 @@ router.post('/:int_projectID/apply/barangay',(req,res) => {
 
     var barangayQuery = `SELECT tbl_barangay.int_barangayID 
     FROM tbl_barangay 
-    JOIN tbl_barangayuser
-    ON tbl_barangay.int_barangayID = tbl_barangayuser.int_barangayID
-    WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`
+    JOIN tbl_officialsaccount
+    ON tbl_barangay.int_barangayID = tbl_officialsaccount.int_officialsID
+    WHERE tbl_officialsaccount.int_userID = ${req.session.barangay.int_userID}`
 
     db.query(barangayQuery, (err, barangay, fields) => {        
         if (err) throw err;
 
         var barangayFinal = barangay[0];
+
+        var curdatetime = moment().format('YYYY-MM-DD HH:mm:ss');
+        console.log(curdatetime);
 
         // ===============================================================================
         //                          INSERT INTO TBL_APPLICATION
@@ -515,12 +502,14 @@ router.post('/:int_projectID/apply/barangay',(req,res) => {
         (\`int_barangayID\`,
         \`int_projectID\`,
         \`enum_applicationType\`,
-        \`enum_applicationStatus\`) 
+        \`enum_applicationStatus\`,
+        \`datetime_submittedDate\`) 
         VALUES 
         (${barangayFinal.int_barangayID},
         ${req.params.int_projectID},
         "Barangay",
-        "Pending")`
+        "Pending",
+        "${curdatetime}")`
     
 
         db.query(queryString1,(err, results1, fields) => {
@@ -587,15 +576,17 @@ router.post('/:int_projectID/apply/household',(req,res) => {
 
     var barangayQuery = `SELECT tbl_barangay.int_barangayID 
     FROM tbl_barangay 
-    JOIN tbl_barangayuser
-    ON tbl_barangay.int_barangayID = tbl_barangayuser.int_barangayID
-    WHERE tbl_barangayuser.int_userID = ${req.session.barangay.int_userID}`
+    JOIN tbl_officialsaccount
+    ON tbl_barangay.int_barangayID = tbl_officialsaccount.int_officialsID
+    WHERE tbl_officialsaccount.int_userID = ${req.session.barangay.int_userID}`
 
     db.query(barangayQuery, (err, barangay, fields) => {        
         if (err) throw err;
 
         var barangayFinal = barangay[0];
-
+        
+        var curdatetime = moment().format('YYYY-MM-DD HH:mm:ss');
+        console.log(curdatetime);
         // ===============================================================================
         //                          INSERT INTO TBL_APPLICATION
         // ===============================================================================
@@ -603,12 +594,14 @@ router.post('/:int_projectID/apply/household',(req,res) => {
         (\`int_barangayID\`,
         \`int_projectID\`,
         \`enum_applicationType\`,
-        \`enum_applicationStatus\`) 
+        \`enum_applicationStatus\`,
+        \`datetime_submittedDate\`) 
         VALUES 
         (${barangayFinal.int_barangayID},
         ${req.params.int_projectID},
         "Household",
-        "Pending")`
+        "Pending",
+        "${curdatetime}")`
     
 
         db.query(queryString1,(err, results1, fields) => {
@@ -716,7 +709,7 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
     var barangayQuery = `SELECT tbl_barangay.int_barangayID 
     FROM tbl_barangay 
     JOIN tbl_officialsaccount
-    ON tbl_barangay.int_barangayID = tbl_officialsaccount.int_barangayID
+    ON tbl_barangay.int_barangayID = tbl_officialsaccount.int_officialsID
     WHERE tbl_officialsaccount.int_userID = ${req.session.barangay.int_userID}`;
     
     db.query(barangayQuery, (err, brgyID, fields) => {
@@ -727,10 +720,10 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
         barangayID = brgyID[0].int_barangayID;
         console.log(barangayID);
     
-        var queryString1 = `SELECT * FROM tbl_project p 
-            JOIN tbl_projectproposal pp 
-            ON p.int_projectID=pp.int_projectID
-            WHERE p.int_projectID = ${req.params.int_projectID}`
+        var queryString1 = `SELECT * FROM tbl_projectdetail
+            JOIN tbl_projectapplicationtype
+            ON tbl_projectdetail.int_projectID = tbl_projectapplicationtype.int_projectID
+            WHERE tbl_projectdetail.int_projectID = ${req.params.int_projectID}`
 
         db.query(queryString1,(err, results1) => {
 
@@ -740,7 +733,7 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
                 date_results[i].date_projectEnd = moment(date_results[i].date_projectEnd).format('MM-DD-YYYY');
             }
 
-            var getResults1 = results1[0];
+            
 
             var notificationQuery = `SELECT * FROM tbl_notification 
             JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
@@ -798,7 +791,7 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
 
                 
                             res.render('barangay/projects/views/applicationlist',{
-                                tbl_project:getResults1,
+                                tbl_project:results1,
                                 tbl_applicants:applicants,
                                 tbl_barangay:barangay,
                                 tbl_household:household,
@@ -913,6 +906,160 @@ router.get('/registeredapplicants/:int_projectID/list', (req, res) => {
                 numbernotif:countrow});
         });
     });
+});
+
+
+router.get('/:int_projectID/liquidation',(req, res) => {
+    console.log('=================================');
+    console.log('BARANGAY: ONGOING PROJECT - LIQUIDATION');
+    console.log('=================================');
+
+    // var queryString = `UPDATE tbl_project SET
+    // enum_projectStatus = 'Finished'
+    // WHERE tbl_project.int_projectID = "${req.body.int_projectID}"`
+
+    // db.query(queryString, (err, results, fields) => {
+    //     console.log(results);
+    // });
+    var queryNOTIF = `SELECT * FROM tbl_notification 
+    JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
+    WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
+    AND enum_notifStatus = "New"
+    ORDER BY tbl_notification.int_notifID DESC`
+
+    db.query(queryNOTIF,(err, notifications) => {
+        if (err) console.log(err);
+        console.log('=================================');
+        console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
+        console.log('=================================');
+        console.log(notifications)
+
+        var queryString1 =`SELECT * FROM tbl_expense ex
+        JOIN tbl_projectdetail proj ON ex.int_projectID = proj.int_projectID
+        WHERE ex.int_projectID = "${req.params.int_projectID}"`
+
+        var queryString2 =`SELECT * FROM tbl_projectdetail proj
+        WHERE proj.int_projectID = "${req.params.int_projectID}"`
+
+        var queryString3 =`SELECT SUM(decimal_estimatedAmount) AS "total_estimatedexpense" 
+        FROM tbl_expense
+        WHERE int_projectID = "${req.params.int_projectID}"`
+
+        var queryString4 =`SELECT SUM(decimal_actualAmount) AS "total_expense" 
+        FROM tbl_expense
+        WHERE int_projectID = "${req.params.int_projectID}"`
+
+        // var queryString6 =`SELECT (SELECT decimal_amount FROM tbl_checkapproval
+        //     WHERE int_projectID = "${req.params.int_projectID}")-(SUM(decimal_actualAmount)) AS "budgetbalance" 
+        //     FROM tbl_expense
+        //     WHERE int_projectID = "${req.params.int_projectID}"`
+
+            db.query(queryString1, (err, results1, fields) => {
+                console.log(results1)
+                db.query(queryString2, (err, results2, fields) => { 
+                    console.log(results2)
+                    db.query(queryString3, (err, results3, fields) => {
+                        console.log(results3)
+                        db.query(queryString4, (err, results4, fields) => {
+                            console.log(results4)
+                            // db.query(queryString6, (err, results6, fields) => { 
+                                // console.log(results6)
+                    
+        
+                            res.render('barangay/projects/views/liquidation',
+                            {
+                                tbl_expenses:results1,
+                                tbl_project:results2,
+                                totalest:results3,
+                                total:results4,
+                                // tbl_rembal:results6,
+                                notifications:notifications
+                            });
+                        // });
+                    });
+                });
+            });
+        });
+    });
+});
+
+router.post('/senliquidation', (req, res) => {
+    console.log('=================================');
+    console.log('BARANGAY: Project finproj POST');
+    console.log('=================================');
+
+    console.log(req.body.int_projectID);
+
+    var desc = req.body.expenseDesc;
+    console.log(desc);
+
+    var expenseID = req.body.int_expenseID;
+    console.log(expenseID);
+
+    var total_amount = req.body.total_amount;
+    console.log(total_amount);
+
+    var Quantity = req.body.Unit_Quantity;
+    console.log(Quantity);
+
+    var unitPrice = req.body.decimal_unitPrice;
+    console.log(unitPrice);
+
+    console.log(expenseID.length);
+    console.log(total_amount.length);
+    for(var i=0;i<total_amount.length;i++)
+    {
+        console.log(expenseID[i]);
+        console.log(total_amount[i]);
+        console.log(Quantity[i]);
+
+        if(i<expenseID.length)
+        {
+            console.log(i);
+            var queryString1 = `UPDATE tbl_expense SET
+            decimal_actualAmount = ${total_amount[i]},
+            int_actualQuantity = ${Quantity[i]}
+            WHERE tbl_expense.int_expenseID = ${expenseID[i]}`
+            db.query(queryString1, (err, results) => {        
+                if (err) throw err;
+            });
+        }
+        else if(total_amount[i]!= ""){
+            
+            console.log(i);
+            console.log(desc[i-expenseID.length]);
+            console.log("hello");
+            var insertEXPENSE = `INSERT INTO \`tbl_expense\`
+            (
+                \`int_projectID\`,
+                \`decimal_unitPrice\`,
+                \`text_expenseDescription\`,
+                \`decimal_actualAmount\`,
+                \`int_actualQuantity\`
+            )
+            VALUES
+            (
+                "${req.body.int_projectID}",
+                "${unitPrice[i]}",
+                "${desc[i-expenseID.length]}",
+                "${total_amount[i]}",
+                "${Quantity[i]}"
+            )`;
+            db.query(insertEXPENSE, (err, addEx) => {        
+                if (err) throw err;
+                console.log(addEx);
+            });
+        }
+    }
+
+    // var queryString1 = `UPDATE tbl_expense SET
+    // enum_projectStatus = 'Finished'
+    // WHERE tbl_project.int_projectID = ${req.body.projID}`
+            
+    // db.query(queryString1, (err, results) => {        
+    //     if (err) throw err;
+        res.redirect('/barangay/projects');
+    // });
 });
 
 module.exports = router;

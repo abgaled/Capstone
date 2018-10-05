@@ -5,7 +5,7 @@ block content
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                each project in tbl_projectproposal
+                each project in tbl_projectdetail
                     <div class="x_title">
                         <h2>Project Details<small>Date Created: 
                         value= "(" + project.date_createdDate + ")"
@@ -23,7 +23,7 @@ block content
                     <div class="clearfix"></div>
                 </div>
                     <div class="x_content">
-                    each project in tbl_projectproposal
+                    each project in tbl_projectdetail
                         <table class="table jambo_table table-hover">
                         <thead>
                             <tr>
@@ -74,7 +74,7 @@ block content
                             <tr>
                                 <th scope="row">Project Rationale:</th>
                                 <td>
-                                value=project.varchar_projectRationale
+                                value=project.text_projectRationale
                                 </td>
                             </tr>
                             <tr>
@@ -157,8 +157,8 @@ block content
                             <tr>
                                 <th scope="row">Actual Start of Application: </th>
                                 <td>
-                                    if project.date_startApplication == 'Invalid Date'
-                                        value='--------------'
+                                    if project.date_startApplication === 'NULL'
+                                        p '-----------------'
                                     else 
                                         value=project.date_startApplication
                                 </td>
@@ -172,19 +172,26 @@ block content
                             <tr>
                                 <th scope="row">Actual Closing of Application: </th>
                                 <td>
-                                value=project.date_endApplication
+                                    if project.date_endApplication === 'NULL'
+                                        p '-----------------'
+                                    else
+                                        value=project.date_endApplication
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Target Start of Releasing: </th>
                                 <td>
-                                value=project.date_targetStartRelease
+                                    value=project.date_targetStartRelease
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Actual Start of Releasing: </th>
                                 <td>
-                                value=project.date_startReleaseDate
+                                    if project.date_startReleaseDate === 'NULL'
+                                        p '-----------------'
+                                    else 
+                                        value=project.date_startReleaseDate
+                                //- value=project.date_startReleaseDate
                                 </td>
                             </tr>
                             <tr>
@@ -196,7 +203,11 @@ block content
                             <tr>
                                 <th scope="row">Actual End of Releasing: </th>
                                 <td>
-                                value=project.date_endReleaseDate
+                                    if project.date_endReleaseDate === 'NULL'
+                                        p '-----------------'
+                                    else 
+                                        value=project.date_endReleaseDate
+                                //- value=project.date_endReleaseDate
                                 </td>
                             </tr>
                             <tr>
@@ -207,8 +218,12 @@ block content
                             </tr>
                             <tr>
                                 <th scope="row">Actual Closing of Project: </th>
-                                <td>
-                                value=project.date_projectClose
+                                <td id="lookValue">
+                                    if project.date_projectClose === 'null'
+                                        value='-----------------'
+                                    else 
+                                        value=project.date_projectClose
+                                //- value=project.date_projectClose
                                 </td>
                             </tr>
                             <tr>
@@ -239,8 +254,8 @@ block content
                     </table>
                 </div>
             </div>
-        each project in tbl_projectproposal
-            if project.enum_projectStatus != "Approved"
+        each project in tbl_projectdetail
+            if project.enum_projectStatus != "Created"
                 if project.enum_projectStatus === "Ongoing" 
                     <div class="x_panel">
                     <div class="x_title">
@@ -643,6 +658,8 @@ block content
 
         script.
 
+            var valu = document.getElementById("lookValue").text;
+            console.log(valu);
             //- SCRIPT GET INT_APPLICATIONID (VIEW MODAL)
 
             $(document).ready(function () {

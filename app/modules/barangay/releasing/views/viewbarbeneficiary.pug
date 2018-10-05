@@ -1,0 +1,226 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                each proj in tbl_project
+                    <div class="x_title">
+                        <center>
+                        <h3 > Project Title: 
+                            value=proj.varchar_projectName
+                        </h3>
+                        <small>
+                            value= "(" + proj.text_projectDescription + ")"
+                        </small>  
+                            </br>
+                            </br>
+                        </center>
+                        <div>
+                            input(type="hidden" value=`${proj.int_projectID}` id="int_projectID" name="int_projectID")
+                            a(href=`/barangay/releasing/${proj.int_projectID}/viewproj` id="viewproj" style="float:left;" class="btn btn-info btn-s"): span.fa.fa-eye  Project Details
+                            <div class="text-center">
+                                button.btn.btn-primary.btn-s.fa(id="addben"  value= appID.int_applicationID class=""): span.fa.fa-plus ADD Beneficiary
+                            a(href=`/barangay/releasing/` id="" class="btn btn-dark btn-s pull-right"): span.fa.fa-arrow-circle-left  Back
+                            </div>
+                            </br>
+                            </br>
+                        </div>
+                    </div> 
+                    <div class="x_content">
+                        <div class="container">
+                            <div class="table-responsive m-b-40">
+                                <table id="datatable" class="table table-borderless table-data3">
+                                    <thead>
+                                        <tr>
+                                            <th>Last Name</th>
+                                            <th>First Name</th>
+                                            <th>Middle Name</th>
+                                            <th>Remarks</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    each ben in tbl_beneficiary
+                                        <tr>    
+                                            <td>
+                                                value= ben.varchar_LName
+                                            </td>
+                                            <td>
+                                                value= ben.varchar_FName
+                                            </td>
+                                            <td>
+                                                value= ben.varchar_MName
+                                            </td>
+                                            <td>
+                                                value= ben.text_remarks
+                                            </td>
+                                            <td></td>
+                                        </tr>            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm" id="modalADDbeneficiary" abindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form class="form-horizontal form-label-left" method="POST" action='/barangay/releasing/addbeneficiary' id="formAddBen" >
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">Add Beneficiary
+                        </span></h4>
+                        <div class="form-horizontal form-label-left">
+                            <div class="form-group col-md-4">
+                                <label>First Name</label>
+                                <input type="text" id="benFNAME" name="benFNAME" class="form-control" required placeholder="Enter First Name">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Middle Name<span> (Optional)</span></label>
+                                <input type="text" id="benMNAME" name="benMNAME" class="form-control"  placeholder="Enter Middle Name">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Last Name</label>
+                                <input type="text" id="benLNAME" name="benLNAME" class="form-control" required placeholder="Enter Last Name">
+                            </div>
+                            <br><br><br>
+                        </div>
+                        <div class="form-horizontal form-label-left">
+                            <div class="form-group col-md-8">
+                                <label>Remarks</label>
+                                <textarea class="resizable_textarea form-control" id="benREMARKS" name="benREMARKS" required placeholder="Enter Beneficiary Remarks"></textarea>
+                            </div>
+                            <div class="form-group col-md-4" style="margin-top:28px">
+                                //<button class="btn btn-primary btn-lg btn-block " id="signButton" type="button" data-toggle="modal" data-target="#modalBeneficiarySignature"><span class="fa fa-plus"></span> Signature</button>
+                            </div>
+                            <br><br><br>
+                            <br><br>
+                            <br><br><br>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="appID" name="appID" >
+                        <button type="submit" id="submitben" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm" id="modalBeneficiarySignature" abindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form class="form-horizontal form-label-left" method="POST" action='#' id="formAddUOM" >
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">Beneficiary Signature
+                        </span></h4>
+                        <div class="col-md-12">
+                            <center>
+                                <canvas id="signaturePadBeneficiary" class="signature-pad" style="margin: auto; border: 2px solid #d2b48c" width='600', height='300'></canvas>
+                                    <button id="undo" class= "btn"> Undo
+                                    <button id="benSign" type="button" class= "btn float-right"> Submit 
+                            </center>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    script(src='/assets/js/signaturePad.js')
+    script(src='/assets/js/rasterizeHTML.js')
+    script(src='/assets/js/jspdf.js')
+    script(src='/assets/js/printjs.min.js')
+    
+    script(type='text/javascript').
+        $(document).ready(function(){
+            var canvas = document.getElementById("signaturePadBeneficiary");
+            console.log("")
+            var signaturePad = new SignaturePad(canvas, {backgroundColor: 'rgb(255, 255, 255)'});
+            var print = document.getElementById("print");
+            var printCanvas = document.getElementById("printCanvas");
+            
+            $('#addben').click(function(e){
+                e.preventDefault()
+                var Id = $(this).val();
+                document.getElementById("appID").value = Id
+                $('#modalADDbeneficiary').modal('show');
+                console.log(Id);
+            });
+
+            $('#submitben').click(function(e){
+                e.preventDefault()
+                swal({
+                    title: 'Are you sure?',
+                    text: "You will beneficiary?",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        $('#formAddBen').submit();
+                    }                        
+                })
+            });
+            $(function() {
+                $("#formAddBen").validate({
+                    rules: {
+                    benFNAME: {
+                        required: true,
+                    },
+                    action: "required"
+                    },
+                    messages: {
+                    benFNAME: {
+                        required: "Please enter some data",
+                    },
+                    action: "Please provide some data"
+                    },
+                    submitHandler: function(form){
+                        form.submit();
+                        swal(
+                            'Success!',
+                            'Realsing is now open!',
+                            'success'
+                            )
+                    }
+                });
+                          
+            });
+
+            $('#undo').click(function(e){
+                e.preventDefault()
+                signaturePad.clear()
+            });
+            $('#benSign').click(function(){
+                if (signaturePad.isEmpty()){
+                    swal({
+                        title: 'No Signature',
+                        icon: 'error',
+                        text: 'Please provide signature below.',
+                        button: 'Okay',
+                    })
+                }
+                else{
+                    //- var data = signaturePad.toDataURL("image/jpeg")
+                    //- $('.tenantPirma').attr('src', `${data}`);
+                    //- $('#signaturePadBeneficiary').modal('hide');
+                }
+            });
+            $('#signaturePadBeneficiary').on('hidden.bs.modal', function(){
+            });
+            
+            //- var roomID = $('#roomID').val();
+            //- var tenantID = $('#tenantID').val();
+            //- var dateRented = $('#dateRented').val();
+            //- var invoiceID = $('#invoiceID').val();
+        });

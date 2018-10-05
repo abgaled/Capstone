@@ -56,9 +56,16 @@ block content
 
                                             if project.enum_applicationType == "Barangay"
                                                 button.btn.btn-success.mb-1(id="btn-view-project" class="btn-view-project" value= project.int_projectID): span.fa.fa-eye View
-                                                //- a(href=`/barangay/projects/${project.int_projectID}/apply` class="btn btn-primary btn-sm" class="brgyregister" value= project.int_projectID): <i class="fa fa-files-o"></i> Register      
-                                                button.btn.btn-primary.mb-1(id="btn-register-project" class="btn-register-project" value= project.int_projectID): span.fa.fa-files-o &nbsp Register
-                                                a(href=`/barangay/projects/${project.int_projectID}/registeredapplicants` class="btn btn-info btn-sm"): <i class="fa fa-users"></i> View Application    
+                                                a(href=`/barangay/projects/${project.int_projectID}/apply` class="btn btn-primary btn-sm" class="brgyregister"): <i class="fa fa-files-o"></i> Register    
+
+                                                each brgy in barangay
+                                                    if brgy.enum_applicationStatus == "Pending" || brgy.enum_applicationStatus == "Approved" || brgy.enum_applicationStatus == "Received" || brgy.enum_applicationStatus == "In Progress" 
+                                                    a(href=`/barangay/projects/${project.int_projectID}/registeredapplicants` class="btn btn-info btn-sm"): <i class="fa fa-users"></i> View Application    
+                                                        script.
+                                                            var counter = document.getElementsByClassName('brgyregister'), a;
+                                                                for(a= 0; a < counter.length; a++){
+                                                                    document.getElementsByClassName('brgyregister')[a].style.display = 'none';
+                                                                }
                                         </td>
                                     </tr>                   
                                 </tbody>
@@ -171,51 +178,6 @@ block content
                 }
                 });
                 //- END OF BUTTON VIEW PROJECT 
-
-                //- AJAX CHECK IF ALREADY APPLY (BARANGAY)
-                $('.btn-register-project').click(function (e) {
-                    e.preventDefault()
-                    var Id = $(this).val();
-                    console.log("================================Id(Class)")
-                    console.log(Id);
-                    console.log("================================Id(Class)")
-                    
-                    ajaxGet();
-
-                    function ajaxGet(){
-                    console.log("========Id");
-                    console.log(Id);
-                    console.log("========Id");
-
-                    $.ajax({
-                        type : "POST",
-                        url : window.location + "/checkbrgyapp",
-                        data: { ajProjectID: Id},
-                        dataType: "json",
-                        success: function(record){
-
-                        if (record.record == true){
-                            console.log("Success: True" );
-                            swal({
-                                type: 'error',
-                                title: 'Already Registered',
-                                text: 'Please check the application page to check the status of your application.',
-                                })
-                            console.log(record.record)
-                        }
-                        else{
-                            console.log("Success: False" );
-                            console.log(record.record)
-                            window.location = window.location +"/"+ Id +"/apply";
-                        }   
-                        },
-                        error : function(e) {
-                            console.log("ERROR: ", e);
-                        }
-                    });	
-                }
-                });
-                //- END OF CHECKING BRGY APPLICATION
 
             //- END OF DOCUMENT READY
             });

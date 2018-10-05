@@ -6,6 +6,7 @@ block content
 		
 	//- <!-- page content -->
 	<div class="right_col" role="main">
+	each proj in tbl_project
 		<div class="x_panel">
 			<div class="x_title">
 				<h2><i class="fa fa-users"></i> Applications</h2>
@@ -14,18 +15,23 @@ block content
 			<div class="x_content">
 				<div class="" role="tabpanel" data-example-id="togglable-tabs">
 					<ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-						<li role="presentation" class="active"><a href="#tab_content1" id="resident-tab" role="tab" data-toggle="tab" aria-expanded="true">Residents</a>
-						</li>
-						<li role="presentation"><a href="#tab_content2" id="household-tab" role="tab" data-toggle="tab" aria-expanded="true">Household</a>
-						</li>
-						<li role="presentation"><a href="#tab_content3" id="barangay-tab" role="tab" data-toggle="tab" aria-expanded="true">Barangay</a>
-						</li>
+					
+						if proj.enum_applicationType == "Resident"
+							<li role="presentation" class="active"><a href="#tab_content1" id="resident-tab" role="tab" data-toggle="tab" aria-expanded="true">Residents</a>
+							</li>
+						if proj.enum_applicationType == "Household"
+							<li role="presentation" class="active"><a href="#tab_content2" id="household-tab" role="tab" data-toggle="tab" aria-expanded="true">Household</a>
+							</li>
+						if proj.enum_applicationType == "Barangay"
+							<li role="presentation" class="active"><a href="#tab_content3" id="barangay-tab" role="tab" data-toggle="tab" aria-expanded="true">Barangay</a>
+							</li>
 					</ul>
 					<div id="myTabContent" class="tab-content">
 						<br>
 						//- START OF TABS
 						<div id="myTabContent" class="tab-content">
 
+						if proj.enum_applicationType == "Resident"
 							//- START OF 1ST TAB (RESIDENTS)
 							<div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="resident-tab">
 								<table id="datatable" class="table table-borderless table-data3 display">
@@ -57,9 +63,9 @@ block content
 								</table>
 							</div>
 							//- END OF 1ST TAB
-
+						if proj.enum_applicationType == "Household"
 							//- START OF 2ND TAB (HOUSEHOLD)
-							<div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="household-tab">
+							<div role="tabpanel" class="tab-pane fade active in" id="tab_content2" aria-labelledby="household-tab">
 								<table id="datatable" class="table table-borderless table-data3 display">
 									<thead>
 										<tr>
@@ -91,16 +97,15 @@ block content
 								</table>
 							</div>
 							//- END OF 2ND TAB
-
+						if proj.enum_applicationType == "Barangay"
 							//- START OF 3RD TAB
-							<div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="barangay-tab">
+							<div role="tabpanel" class="tab-pane fade active in" id="tab_content3" aria-labelledby="barangay-tab">
 								<table class="table table-borderless table-data3 ">
 									<thead>
 										<tr>
 											<th>Application Reason</th>
 											<th>Slots</th>
 											<th>Status</th>
-											<th>Action/s</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -114,9 +119,6 @@ block content
 												</td>
 												<td>
 													value=barangay.enum_applicationStatus
-												</td>
-												<td>
-													//- button.btn.btn-success.mb-1(id="btn-view-application" class="btn-view-application" ): span.fa.fa-eye View
 												</td>
 											</tr>                   
 									</tbody>

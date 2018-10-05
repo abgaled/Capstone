@@ -1,0 +1,245 @@
+octype html
+html(lang='en')
+	// Mirrored from demos.creative-tim.com/paper-dashboard-pro/examples/dashboard/overview.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Mar 2018 17:11:03 GMT
+	head
+		meta(charset='utf-8')
+		link(rel='icon', type='image/png', href='/logo/logo-black.png')
+		link(rel='apple-touch-icon', sizes='76x76', href='/logo/logo-black.png')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+		title Landlord - Dashboard
+		// Bootstrap core CSS
+		link(href='/paperDashboard/css/bootstrap.min.css', rel='stylesheet')
+		// Paper Dashboard core CSS
+		link(href='/paperDashboard/css/paper-dashboard23cd.css?v=1.2.1', rel='stylesheet')
+		// CSS for Demo Purpose, don't include it in your project
+		link(href='/paperDashboard/css/demo.css', rel='stylesheet')
+		// Fonts and icons
+		link(href='/paper/font-awesome-4.7.0/css/font-awesome.min.css', rel='stylesheet')
+		link(href='/paperDashboard/fonts/cssbba8.css?family=Muli:400,300', rel='stylesheet', type='text/css')
+		link(href='/paperDashboard/css/themify-icons.css', rel='stylesheet')
+		// Sweetalert
+		link(href='/paperDashboard/css/sweetalert.css', rel='stylesheet')
+		// Printjs
+		link(rel="stylesheet", href="/paperDashboard/css/printjs.min.css")
+	body
+		.content-page#print
+			// Start content
+			.content
+				.container-fluid
+						//- .col-md-3(style='padding-right:160px;padding-top:400px')
+						//- 	img.tenantPirma(style='transform: rotate(90deg); width:350px; height:100px')
+						//- 	img.landlordPirma(style='transform: rotate(90deg); width:350px; height:100px;margin-top:700px')
+						.col-md-12
+							.card-box
+								.panel-heading
+									h4.text-center Contract of Lease
+									.clearfix
+										.pull-right
+											p
+												| Rental Due Date:
+												br
+												p Every #{dateToday.day} of the Month
+
+								.panel-body
+									.clearfix
+										.pull-left
+											img(src='/logo/logo-black.png' style='width:100px;height:100px;')
+										.pull-right
+											h4
+												| Invoice Ref. No
+												br
+												strong #{contract.strInvoiceID}
+									hr
+									.row
+										.col-md-12
+											p KNOW ALL MEN BY THESE PRESENTS:
+											p &nbsp; &nbsp; &nbsp;This Contract of Lease, made and entered into this #{dateToday.day} day of #{dateToday.month}, #{dateToday.year} at #{contract.strLocation}, by and between:
+											p &nbsp; &nbsp; &nbsp;#{contract.landlordFirstName} #{contract.landlordMiddleName} #{contract.landlordLastName}, a Mayora Landlord with ID #{contract.strLandlordID}, and of legal age, and residing at #{contract.landlordAddress}, herein referred to as the LESSOR;
+											p.text-center - and -
+											p &nbsp; &nbsp; &nbsp;#{contract.tenantFirstName} #{contract.tenantMiddleName} #{contract.tenantLastName}, a Mayora Tenant with ID #{contract.strTenantId}, and of legal age, and residing at #{contract.tenantAddress}, herein referred to as the LESSEE;
+											p.text-center - WITNESSETH THAT -
+											p &nbsp; &nbsp; &nbsp;WHEREAS, the LESSOR is the registered and absolute owner of apartment with Mayora Room ID #{contract.intRoomID} situated at #{contract.strLocation};
+											p &nbsp; &nbsp; &nbsp;WHEREAS, the LESSOR desires to lease a the above-stated premised and is willing to lease the same unto the LESSEE subject to the terms and conditions hereinafter specified;
+											p &nbsp; &nbsp; &nbsp;NOW, THEREFORE, for and in consideration of the foregoing and mutual covenants herein contained, the LESSOR by these presents to hereby let and lease unto the LESSEE the aforementioned apartment in Mayora and the LESSEE accepts the same by way of lease subject to the following terms and conditions:
+											p &nbsp; &nbsp; &nbsp;1. The property/premises is leased exclusively for residential purposes only. The LESSEE shall, at his/her expense, maintain the leased portion of the property in such a way that the same shall not constitute a public or private nuisance, and shall not permit noxious odors and noise to emanate from the leased property/premises. Social activities of the LESSEE on the premises shall be conducted without undue noise and disturbance to the neighbors. Deceased family members shall not lie in state in the leased premises.
+											p &nbsp; &nbsp; &nbsp;2. The LESSEE agrees to occupy the premises for not less than #{contract.jsonContract.minimumDuration} months from date of rental commencing #{dateToday.startRent} to #{dateToday.endRent}. The occupants shall be limited to #{contract.intPaxCapacity} persons only. #{bill.rule}. The leased property is a room with #{contract.intBedrooms} BEDROOM/S, #{room.kitchen}, #{room.CR}, #{room.garage} located at #{contract.strLocation}.
+											p &nbsp; &nbsp; &nbsp;3. The parties herein agree that the monthly rental of the leased premises shall be #{contract.dblMonthlyFee} in the Philippine Currency, excluding utilities like electricity, water, telephone, cable, etc. The rent is payable in every #{dateToday.day} of the month to which the rent corresponds. Late monthly rental payment shall be charged at #{contract.jsonContract.penalty} percent per day rate.
+											p &nbsp; &nbsp; &nbsp;4. The LESSEE shall not make any major structural changes, alteration, or improvements on the leased premises without the written consent of the LESSOR; however, any major alterations or improvements made or introduced by the LESSEE in the leased premises of this Contract automatically inure the benefit of the LESSOR without any obligation on the latter to pay or refund its value or cost to the LESSEE. Such improvement introduced by the LESSEE during the term of the lease and which may be removed without damaging the subject premises may be removed by the LESSEE at his/her own expense.
+											p &nbsp; &nbsp; &nbsp;5. The LESSEE shall hear the following repairs and expenses: replacement of the light bulbs, fuses, faucets, lost or broken handles, lost keys, installation and removal of appliances, including restoration work in connection therewith, replacement or restoration of any damage or breakage caused by the LESSEE and/or LESSEE’s household helps or guests, unclogging of drains and any other item of repair. In making repairs and replacements, the LESSEE shall maintain the quality of the fixtures and appurtenances of the leased premises.
+											p &nbsp; &nbsp; &nbsp;6. The LESSEE shall not occupy any other portion of the property other than what is specifically agreed upon as indicated in the first paragraph of page 2 of this Contract of Lease.
+											p &nbsp; &nbsp; &nbsp;7. The LESSEE shall not sublease the leased premises or any portion thereof without the knowledge and written consent of the LESSOR.
+											p &nbsp; &nbsp; &nbsp;8. The LESSEE, during their occupancy of the leased premises shall hold the LESSOR free and harmless from any damage, liability or responsibility to any person or property arising out of or as consequences of employees, domestic helps and guests.
+											p(style='margin-left:50px') &nbsp; &nbsp; &nbsp;The LESSOR, in any and/all instances shall not be responsible for losses or damages which may be sustained by the LESSEE by reasons of fire, theft, or other causes. The LESSEE shall not bring into the leased premises flammable goods, explosives, objects or other articles, except what is necessary for the normal use which shall increase the fire hazards and fire insurance of the building; should fire or any form of destruction occur due to the fault, directly or indirectly of the LESSEE, the latter shall be responsible for the consequent losses and damages.
+											p(style='margin-left:50px') &nbsp; &nbsp; &nbsp;The LESSOR shall not be liable nor responsible for the presence of ants and any other insects, if any, in the leased premises; for the failure of water supply and/or electric current, or for any injury, loss or damage which the LESSEE, his/her household helps, employees or guests might sustain in the leased premises due to any cause whatsoever or for any damage done occasioned by and arising from plumbing, gas, water pipe in, above, upon or about said leased premises.
+											p &nbsp; &nbsp; &nbsp;9. Bills of water, electricity, telephone, cable and other utilities consumed at the leased premises are for the account of LESSE. Default by the LESSE in the payment of electricity, water, telephone, cable and rental bills, authorizes the LESSOR to deduct such amounts from the deposit for lease. Should the deposit for lease be insufficient to cover the arrears in the payment of the rent and other bills like MERALCO, Manila Water, PLDT, and Sky Cable or the like, the LESSOR may seize and retain the property of the LESSE in the premise as pledge or security for the payment of said rent in arrears or cost of other utilities.
+											p &nbsp; &nbsp; &nbsp;10. In the event of failure of the LESSEE to pay the monthly rent in the amount and on the date specified on this Contract of Lease, the LESSOR shall have the right to eject the LESSEE and be entitled to collect images on the leased property. 
+											p &nbsp; &nbsp; &nbsp;IN WITNESS WHEREOF, the LESSOR and the LESSEE have set their hands on this instrument at #{contract.strLocation}, this #{dateToday.day} day of #{dateToday.month}, #{dateToday.year}.
+									.m-h-50
+									.row
+										.col-md-12
+											.row
+												.col-md-6
+													img.tenantPirma(style='width:350px;height:100px')
+													br
+													| ________________________________________________
+													br
+													strong &nbsp;&nbsp;&nbsp; #{contract.strTenantId} - #{contract.tenantFirstName} #{contract.tenantMiddleName} #{contract.tenantLastName}
+												.col-md-6
+													img.landlordPirma(style='width:350px;height:100px')
+													br
+													| ________________________________________________
+													br
+													strong &nbsp;&nbsp;&nbsp; #{contract.strLandlordID} - #{contract.landlordFirstName} #{contract.landlordMiddleName} #{contract.landlordLastName}
+									hr
+									.d-print-none#noPrint
+										.pull-right
+											a.btn.btn-inverse.waves-effect.waves-light#signContractButton(href='javascript:void(0)')
+												i.fa.fa-pencil
+												span &nbsp;&nbsp; Sign Contract
+											a.btn.btn-success.waves-effect.waves-light#printButton(href='javascript:void(0)' disabled)
+												i.fa.fa-print
+												span &nbsp;&nbsp; Print
+										.clearfix
+		#signatureTenantModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='false')
+			.modal-dialog.modal-register
+				.modal-content
+					.modal-header.no-border-header.text-center
+						button.close(type='button', data-dismiss='modal', aria-label='Close')
+							span(aria-hidden='true') ×
+						h5.text-muted Sign Contract
+						h3.modal-title.text-center Mayora Tenant
+					.modal-body
+						.row
+							.col-md-12
+								center
+									canvas#signaturePadTenant.signature-pad(style="margin: auto; border: 2px solid #d2b48c" width='400', height='200')
+									h4.header-title.m-t-0.m-b-30 #{contract.strTenantId} - #{contract.tenantFirstName} #{contract.tenantMiddleName} #{contract.tenantLastName}
+									p Tenant
+									button#undo1.btn.btn-mayora(href='#') Undo
+									button#firstSig.btn.btn-mayora.float-right(href='#') Submit
+		button#openNextModal(style='display:none;')
+		#signatureLandlordModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='false')
+			.modal-dialog.modal-register
+				.modal-content
+					.modal-header.no-border-header.text-center
+						button.close(type='button', data-dismiss='modal', aria-label='Close')
+							span(aria-hidden='true') ×
+						h5.text-muted Sign Contract
+						h3.modal-title.text-center Mayora Landlord
+					.modal-body
+						.row
+							.col-md-12
+								center
+									canvas#signaturePadLandlord.signature-pad(style="margin: auto; border: 2px solid #d2b48c" width='400', height='200')
+									h4.header-title.m-t-0.m-b-30 #{contract.strLandlordID} - #{contract.landlordFirstName} #{contract.landlordMiddleName} #{contract.landlordLastName}
+									p Landlord
+									button#undo2.btn.btn-mayora(href='#') Undo
+									button#secondSig.btn.btn-mayora.float-right(href='#') Submit
+		form#redirect(method='get' action='/landlord/contract')
+		input#roomID(type='hidden' value=`${contract.intRoomID}`)
+		input#tenantID(type='hidden' value=`${contract.strTenantId}`)
+		input#dateRented(type='hidden' value=`${dateToday.startRent}`)
+		input#invoiceID(type='hidden' value=`${contract.strInvoiceID}`)
+		// Core JS Files. Extra: TouchPunch for touch library inside jquery-ui.min.js
+		script(src='/paperDashboard/js/jquery-3.1.1.min.js', type='text/javascript')
+		script(src='/paperDashboard/js/jquery-ui.min.js', type='text/javascript')
+		script(src='/paperDashboard/js/perfect-scrollbar.min.js', type='text/javascript')
+		script(src='/paperDashboard/js/bootstrap.min.js', type='text/javascript')
+		// Switch and Tags Input Plugins
+		script(src='/paperDashboard/js/bootstrap-switch-tags.js')
+		// Circle Percentage-chart
+		script(src='/paperDashboard/js/jquery.easypiechart.min.js')
+		// Charts Plugin
+		script(src='/paperDashboard/js/chartist.min.js')
+		// Notifications Plugin
+		script(src='/paperDashboard/js/bootstrap-notify.js')
+		// Paper Dashboard PRO Core javascript and methods for Demo purpose
+		script(src='/paperDashboard/js/paper-dashboard23cd.js?v=1.2.1')
+		// Sharrre Library
+		script(src='/paperDashboard/js/jquery.sharrre.js')
+		// Paper Dashboard PRO DEMO methods, don't include it in your project!
+		script(src='/paperDashboard/js/demo.js')
+		// Signature
+		script(src='/paperDashboard/js/signaturePad.js')
+		// Moment
+		script(src='/paperDashboard/js/moment.min.js')
+		// sweetalert
+		script(src='/paperDashboard/js/sweetalert.js')
+		// Contract Signing Needs
+		script(src='/paperDashboard/js/signaturePad.js')
+		script(src='/paperDashboard/js/rasterizeHTML.js')
+		script(src='/paperDashboard/js/jspdf.js')
+		script(src='/paperDashboard/js/printjs.min.js')
+
+		script(type='text/javascript').
+			$(document).ready(function(){
+				var canvas = document.getElementById("signaturePadTenant");
+				var signaturePad = new SignaturePad(canvas, {backgroundColor: 'rgb(255, 255, 255)'});
+				var canvas2 = document.getElementById("signaturePadLandlord");
+				var signaturePad2 = new SignaturePad(canvas2, {backgroundColor: 'rgb(255, 255, 255)'});
+				var print = document.getElementById("print");
+				var printCanvas = document.getElementById("printCanvas");
+
+				var roomID = $('#roomID').val();
+				var tenantID = $('#tenantID').val();
+				var dateRented = $('#dateRented').val();
+				var invoiceID = $('#invoiceID').val();
+				$('#signContractButton').click(function(){
+					$('#signatureTenantModal').modal('show');
+				});
+				$('#undo1').click(function(){	
+					signaturePad.clear()
+				});
+				$('#undo2').click(function(){	
+					signaturePad2.clear()
+				});
+				$('#firstSig').click(function(){
+					if (signaturePad.isEmpty()){
+						swal({
+							title: 'No Signature',
+							icon: 'error',
+							text: 'Please provide signature below.',
+							button: 'Okay',
+						})
+					}
+					else{
+						var data = signaturePad.toDataURL("image/jpeg")
+						$('.tenantPirma').attr('src', `${data}`);
+						$('#signatureTenantModal').modal('hide');
+					}
+				});
+				$('#signatureTenantModal').on('hidden.bs.modal', function(){
+					$('#openNextModal').trigger('click');
+				});
+				$('#openNextModal').click(function(){
+					$('#signatureLandlordModal').modal('show');
+				});
+				$('#secondSig').click(function(){
+					if (signaturePad2.isEmpty()){
+						swal({
+							title: 'No Signature',
+							icon: 'error',
+							text: 'Please provide signature below.',
+							button: 'Okay',
+						})
+					}
+					else{
+						var data2 = signaturePad2.toDataURL("image/jpeg")
+						$('.landlordPirma').attr('src', `${data2}`);
+						$('#signatureLandlordModal').modal('hide');
+						$('#printButton').attr('disabled', false);
+					}
+				});
+				$('#printButton').click(function(){
+					$('#noPrint').attr('style', 'display:none;')
+					javascript:window.print()
+					
+				});
+				window.onafterprint = function(){
+					console.log(roomID+tenantID+dateRented);
+					$.post('/landlord/contractsigned', {room: roomID, tenant: tenantID, date: dateRented, invoice: invoiceID})
+					.done(data =>{
+						$('#redirect').submit();
+					});
+				};
+			});

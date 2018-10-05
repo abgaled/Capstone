@@ -88,7 +88,7 @@ block content
                                         </div>
                                     </div>
                                     <div class="form-row">
-                                        <div class="form-group col-md-4 col-sm-12">
+                                        <div class="form-group col-md-2 col-sm-12">
                                             <label for="ap-gender" class="control-label"><strong>Gender:</strong><span style="color:red;"> *</span></label>
                                             <div class="form-check form-check-inline" id="ap-gender" >
                                                 <label class="form-check-label">
@@ -110,13 +110,18 @@ block content
                                             <label for="ap-yrres" class="form-control-label"><strong>Computed Years:</strong></label>
                                                 <div type="text" id="ap-computeyrres" name="apply_computeyrres" class="col-sm-11 form-control " readonly></div>
                                         </div>
-                                        <div class="form-group col-md-4 col-sm-12">
+                                        <div class="form-group col-md-2 col-sm-12">
                                             <label for="ap-civilstat" class="form-control-label"><strong>Civil Status:</strong><span style="color:red;"> *</span></label>
                                             <select class="form-control" id="ap-civilstat" name="apply_civilstat" onchange="getcivilstat()">
                                                 <option value="Single">Single</option>
                                                 <option value="Married">Married</option>
-                                                <option value="Widowed">Widowed</option>
+                                                <option value="Widow/Widower">Widow/Widower</option>
+                                                <option value="Separated">Separated</option>
                                             </select>
+                                        </div>
+                                         <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-address" class="form-control-label"><strong>Address:</strong><span style="color:red;"> *</span></label>
+                                                <input type="text" id="ap-address" onchange="getaddress()" name="apply_address" placeholder="Type here ..." class="col-sm-11 form-control ">
                                         </div>
                                     </div>
                                 </div>
@@ -143,6 +148,7 @@ block content
                                                         </text>
                                                         <br>
                                                 </label>
+                                                <input type="hidden" id="ap-uncheck" class="ap-uncheck" name="apply_uncheck[]">
                                             </div>
                                         </tr>                   
                                     </div>
@@ -207,6 +213,10 @@ block content
                                                             <td><div id="result-civilstat"></div></td>
                                                             </tr>
                                                             <tr>
+                                                            <th scope="row">Address:</th>
+                                                            <td><div id="result-address"></div></td>
+                                                            </tr>
+                                                            <tr>
                                                             <th scope="row"></th>
                                                             <td></td>
                                                             </tr>
@@ -245,6 +255,7 @@ block content
 
     //- SCRIPT FOR TABS
     script.
+        
         //- SWEET ALERT CONFIRM SUBMIT
                 $('#regForm').on('submit',function (e) {
                     var form = $(this).parents('form');
@@ -372,6 +383,17 @@ block content
 
         }
 
+        function getaddress() {
+            var address = document.getElementById("ap-address").value;
+            console.log(address);
+
+            if(address!=0){
+                document.getElementById("result-address").innerHTML = address;
+                
+            }
+
+        }
+
         function computeyrres() {
             var yrres = document.getElementById("ap-yrres").value;
             console.log(yrres);
@@ -402,6 +424,63 @@ block content
             var reqNames = [];
             var names = "";
             
+            //- var checkCB = document.getElementsByClassName("ap-reqName").checked;
+            //- var eyy =[];
+            //- console.log("==============UNCHECKED:================");
+            //- console.log(eyy);
+            //- console.log("==============UNCHECKED:================");
+
+            //- if(checkCB == true){
+            //-     console.log("NACHECKAN TO");
+            //- }
+            //- if(checkCB == false){
+            //-     console.log("HINDI NACHECKAN TO");
+            //- }
+
+            //- $('input[type="checkbox"]').click(function(){
+            //- if($(this).prop("checked") == true){
+            //-     console.log("Checkbox is checked.");
+            //- }
+            //- else if($(this).prop("checked") == false){
+            //-     console.log("Checkbox is unchecked.");
+                
+            //-     var uncheck = $(this).val();
+            //-     console.log(uncheck);
+            //-     document.getElementById('ap-uncheck').value = uncheck;
+            //- }
+            //- });
+            var uncheckArr = [];
+            $('input[type="checkbox"]').each(function(index) {
+
+                if(!this.checked) {
+                    console.log("=========uncheck=======");
+                    console.log(this.value);
+                    console.log("=========uncheck=======");
+
+                    //- var uncheck = this.value;
+                    //- document.getElementById('ap-uncheck').value = uncheck;
+                    //- document.getElementsByClassName('ap-uncheck').value = uncheck;
+                    //- uncheckArr.push($(this).val()); 
+                    console.log('PUUUUUUUUUUUUUUUUUSH')
+                    console.log(uncheckArr.push($(this).val()))
+                    console.log('PUUUUUUUUUUUUUUUUUSH')
+
+                    //- for(var a = 0 ; a < uncheckArr.length ; a++) {
+                    //-     var index = uncheckArr[a];
+
+                    //-     console.log("---------------INDEX")
+                    //- }
+                    console.log("============ARRAY OF UNCHECK");
+                    console.log(uncheckArr);
+                    console.log("============ END ARRAY OF UNCHECK");
+                    
+                    document.getElementById('ap-uncheck').value = uncheckArr;
+                    console.log("DOOOOOOOOOOOOOOOOOOOOOOOOOOOM")
+                    console.log(document.getElementById('ap-uncheck').value = uncheckArr)
+                    console.log("DOOOOOOOOOOOOOOOOOOOOOOOOOOOMENNNNNNNNNNNND")
+                }
+            });
+            
 
             $('.ap-reqName:checked').each(function() {
                 reqIndeces.push($("input[type=checkbox]").index($(this)));
@@ -421,4 +500,5 @@ block content
             console.log(reqIndeces);
 
             document.getElementById("result-projRequirement").innerHTML = names;
+            
         }

@@ -7,52 +7,449 @@ block content
                 <div class="x_panel">
                     <div class="x_title">
                         <h1 class="text-center">Releasing Projects</h1>
-                    </div>              
-                    <div class="content-wrapper">
-                        <div class="container-fluid">
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered" id="datatable" cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Project Name</th>
-                                                        <th>Releasing Date</th>
-                                                        <th>Status</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Project Name</th>
-                                                        <th>Releasing Date</th>
-                                                        <th>Status</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </tfoot>
-                                                <tbody>
-                                                each project in tbl_project
-                                                    <tr>
-                                                        <td>
-                                                            value=project.varchar_projectName
-                                                        </td>
-                                                        <td>
-                                                            value=project.datetime_releasingStart
-                                                        </td>
-                                                        <td>
-                                                            value=project.enum_projectStatus
-                                                        </td>
-                                                        <td>
-                                                            a(href=`/barangay/releasing/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-info btn-xs btn-block"): span View Details
-                                                            //a(href=`/office/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-primary btn-xs btn-block"): span Beneficiaries
-                                                            a(href=`/barangay/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-success btn-xs btn-block"): span Start Releasing
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                    </div>          
+                    <div class="x_content">    
+                        <div class="content-wrapper">
+                            <div class="container-fluid">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-borderless" id="datatable" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Project Name</th>
+                                                            <th>Releasing Date</th>
+                                                            th Project Budget
+                                                            <th>Status</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    each project in tbl_project
+                                                        <tr>
+                                                            <td>
+                                                                value=project.varchar_projectName
+                                                            </td>
+                                                            <td>
+                                                                value=project.date_targetStartRelease
+                                                            </td>
+                                                            td ₱ 
+                                                                value= project.decimal_estimatedBudget
+                                                            <td>
+                                                                if project.enum_projectStatus == "Releasing" && project.enum_barangayReleaseStatus == null
+                                                                    p Ready to Release
+                                                                else
+                                                                    value= project.enum_barangayReleaseStatus
+                                                            </td>
+                                                            <td>
+                                                                button.btn.btn-info.mb-1(id="btn-view-project" class="btn-view-project" value= project.int_projectID): span.fa.fa-eye View
+                                                                //a(href=`/barangay/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-primary btn-xs btn-block"): span Beneficiaries
+                                                                if project.enum_projectStatus == 'Releasing' && project.enum_barangayReleaseStatus == null
+                                                                    button.btn.btn-success.btn-s(id="btn-release"  value= project.int_projectID class="btn-release"): span.fa.fa-open Open Releasing
+                                                                    <form hidden id="formprojectOPEN" method="POST" action='/barangay/releasing/openreleasing' name="formprojectOPEN">
+                                                                        //- <input id="int_projectID" name="int_projectID" >
+                                                                        input(type="text" value=`${project.int_projectID}` id="srint_projectID" name="srint_projectID")
+                                                                    </form>
+                                                                if project.enum_barangayReleaseStatus == 'Releasing'
+                                                                    if project.enum_applicationType == "Resident" || project.enum_applicationType == "Household"
+                                                                        a(href=`/barangay/releasing/${project.int_projectID}/viewben` id="viewben" class="btn btn-primary btn-s"): span.fa.fa-eye View Beneficiary Releasing
+                                                                    if project.enum_applicationType == "Barangay"
+                                                                        a(href=`/barangay/releasing/${project.int_projectID}/viewbarangay` id="viewbarangay" class="btn btn-primary btn-s"): span.fa.fa-eye View Beneficiary Releasing
+                                                                    <form hidden id="formprojectCLOSE" method="POST" action='/barangay/releasing/closerel' name="formprojectCLOSE">
+                                                                        //- <input id="int_projectID" name="int_projectID" >
+                                                                        input(type="text" value=`${project.int_projectID}` id="int_projectID" name="int_projectID")
+                                                                    </form>
+                                                                    button.btn.btn-danger.btn-s(id="btn-release-close"  value= project.int_projectID class="btn-release-close"): span.fa.fa-times-circle-o Close Releasing
+
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg" id="modalviewproject" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">View Project Details</span></h4> 
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="projecttitle">Project:
+                                </label>
+                                <div class="col-md-9" id="projecttitle">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="projectdescription">Description:
+                                </label>
+                                <div class="col-md-9" id="projectdescription" >
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="projectrelstart">Start of Releasing:
+                                </label>
+                                <div class="col-md-9" id="projectrelstart">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="projectrelend">End of Releasing (Target Date):
+                                </label>
+                                <div class="col-md-9" id="projectrelend">
+                    
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="startreleaseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-horizontal form-label-left" method="POST" action='/barangay/releasing/openlatereleasing' id="formstartreason">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="mediumModalLabel">Scheduled Date to Start Releasing:
+                            <div class="" id="aj-projectDate">
+                            </div>
+                        </h4>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-md-1 col-sm-1 col-xs-12">
+                                </div>
+                                <label class="col-md-5" for="projectReason">Reason of early/late project releasing start
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <textarea class="resizable_textarea form-control" id="projectReason" name="projectReason" placeholder=""></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="projectID" name="projectID" >
+                                <input type="hidden" id="current_date" name="current_date" >
+                                 <button type="submit" id="but-sub" class="btn btn-success">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="" id="aj-current_date">
+                                                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>          
+    <div class="modal fade" id="endreleaseModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-horizontal form-label-left" method="POST" action='/barangay/releasing/closelaterel' id="formendreason">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="mediumModalLabel">Scheduled Date to End Releasing:
+                            <div class="" id="ej-projectDate">
+                            </div>
+                        </h4>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-md-1 col-sm-1 col-xs-12">
+                                </div>
+                                <label class="col-md-5" for="projectReason">Reason of early/late project release emd
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <textarea class="resizable_textarea form-control" id="eprojectReason" name="eprojectReason" placeholder=""></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="eprojectID" name="eprojectID" >
+                                <input type="hidden" id="ecurrent_date" name="ecurrent_date" >
+                                 <button type="submit" id="but-end" class="btn btn-success">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <strong><small>Current Date:</small>
+                    <div class="" id="ej-current_date">
+                                                    
+                    </div></strong>
+                </div>
+            </div>
+        </div>
+    </div>                      
         <!-- END STATISTIC-->
-            
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+
+
+    script.
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        n =  new Date();
+        y = n.getFullYear();
+        m = n.getMonth() + 1;
+        d = n.getDate();
+        var mon = months[n.getMonth()];
+        currdate =  mon + " " + d + ", " + y;
+        currentdate =  m + "-" + d + "-" + y;
+
+        $(document).ready(function () {
+            $('.btn-view-project').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#modalviewproject').modal('show');
+                    ajaxGet();
+
+                    function ajaxGet(){
+                    console.log("========Id");
+                    console.log(Id);
+                    console.log("========Id");
+
+                    $.ajax({
+                        type : "POST",
+                        url : window.location + "/projectdetails",
+                        data: { ajProjectID: Id},
+                        dataType: "json",
+                        success: function(tbl_project){
+
+                        console.log(tbl_project)
+
+                            $.each(tbl_project, function (index, value) {
+                                console.log(value);
+
+                                document.getElementById("projecttitle").innerHTML = value.varchar_projectName    
+                                document.getElementById("projectdescription").innerHTML = value.text_projectDescription
+                                document.getElementById("projectrelstart").innerHTML = value.date_actualStartRelease
+                                document.getElementById("projectrelend").innerHTML = value.date_targetEndRelease
+                                    
+                                console.log("Success: " );
+                            });
+                                                        
+                            
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });	
+                }
+                });
+                
+            $('.btn-release').click(function (e) {
+                e.preventDefault()
+                var Id = $(this).val();
+                document.getElementById("projectID").value = Id
+                console.log("================================Id(Class)")
+                console.log(Id);
+                console.log("================================Id(Class)")
+                ajaxGetproj();
+                        
+                function ajaxGetproj(){
+                console.log("========Id");
+                console.log(Id);
+                console.log("========Id");
+                
+
+                $.ajax({
+                    type : "POST",
+                    url : window.location + "/ajaxgetprojectdetails",
+                    data: { ajProjectID: Id},
+                    dataType: "json",
+                    success: function(tbl_project1){
+
+                    console.log(tbl_project1)
+
+                    $.each(tbl_project1, function (index, value) {
+                        console.log(value);
+                        if(value.enum_projectStatus == "Releasing"){
+                            if(value.date_targetStartRelease != currdate){
+                                $('#startreleaseModal').modal('show');
+                                document.getElementById("aj-projectDate").innerHTML = value.date_targetStartRelease
+                                document.getElementById("aj-current_date").innerHTML = currdate
+                                document.getElementById("current_date").value = currentdate
+                            }
+                                else
+                                {
+                                    swal({
+                                    title: 'Are you sure?',
+                                    text: "You will start the releasing of this project.",
+                                    type: 'info',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, Start Releasing!'
+                                    }).then((result) => {
+                                    if (result.value) {
+                                        $('#formprojectOPEN').submit();
+                                    }                        
+                                    })
+                                }
+                            }
+                            console.log("Success: " );
+                        });                                     
+                                
+                    },
+                    error : function(e) {
+                        console.log("ERROR: ", e);
+                    }
+                });	
+            }
+            });  
+            $('.btn-release-close').click(function (e) {
+                e.preventDefault()
+                var Id = $(this).val();
+                document.getElementById("eprojectID").value = Id
+                console.log("================================Id(Class)")
+                console.log(Id);
+                console.log("================================Id(Class)")
+                ajaxGetproj();
+                        
+                function ajaxGetproj(){
+                console.log("========Id");
+                console.log(Id);
+                console.log("========Id");
+                
+
+                $.ajax({
+                    type : "POST",
+                    url : window.location + "/ajaxgetclosedetails",
+                    data: { ajProjectID: Id},
+                    dataType: "json",
+                    success: function(tbl_project1){
+
+                    console.log(tbl_project1)
+
+                    $.each(tbl_project1, function (index, value) {
+                        console.log(value);
+                        if(value.enum_projectStatus == "Releasing"){
+                            if(value.date_targetEndRelease != currdate){
+                                $('#endreleaseModal').modal('show');
+                                document.getElementById("ej-projectDate").innerHTML = value.date_targetEndRelease
+                                document.getElementById("ej-current_date").innerHTML = currdate
+                                document.getElementById("ecurrent_date").value = currentdate
+                            }
+                                else
+                                {
+                                    swal({
+                                    title: 'Are you sure?',
+                                    text: "You will end the releasing of this project.",
+                                    type: 'danger',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, end it!'
+                                    }).then((result) => {
+                                    if (result.value) {
+                                        $('#formprojectCLOSE').submit();
+                                    }                        
+                                    })
+                                }
+                            }
+                            console.log("Success: " );
+                        });                                     
+                                
+                    },
+                    error : function(e) {
+                        console.log("ERROR: ", e);
+                    }
+                });	
+            }
+            });  
+            //- SWEET ALERT CONFIRM SUBMIT
+            $('#but-end').on('click',function (e) {
+                var form = $(this).parents('form');
+                e.preventDefault(); //prevent submit
+                
+                    swal({
+                    title: 'Are you sure?',
+                    text: "You sure to close releasing of project?.",
+                    type: 'danger',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Close it!'
+                    }).then((result) => {
+                    if (result.value) {
+                        $('#formendreason').submit();
+                    }                        
+                    })
+            });
+
+            $('#but-sub').on('click',function (e) {
+                var form = $(this).parents('form');
+                e.preventDefault(); //prevent submit
+                
+                    swal({
+                    title: 'Are you sure?',
+                    text: "You sure to open releasing of project?.",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Open it!'
+                    }).then((result) => {
+                    if (result.value) {
+                        $('#formstartreason').submit();
+                    }                        
+                    })
+            });  
+            //- START VALIDATION
+            $(function() {
+                $("#formstartreason").validate({
+                    rules: {
+                    projectReason: {
+                        required: true,
+                    },
+                    action: "required"
+                    },
+                    messages: {
+                    projectReason: {
+                        required: "Please enter some data",
+                    },
+                    action: "Please provide some data"
+                    },
+                    submitHandler: function(form){
+                        form.submit();
+                        swal(
+                            'Success!',
+                            'Realsing is now open!',
+                            'success'
+                            )
+                    }
+                });
+                          
+            });
+        });
+        
+    script(src='/assets/js/signaturePad.js')
+    script(src='/assets/js/rasterizeHTML.js')
+    script(src='/assets/js/jspdf.js')
+    script(src='/assets/js/printjs.min.js')

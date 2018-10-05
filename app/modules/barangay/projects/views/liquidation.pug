@@ -1,0 +1,295 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                each proj in tbl_project
+                    <div class="" >
+                        a(href=`/barangay/projects` class="btn btn-danger btn-lg pull-right fa"): span.fa.fa-times-circle  
+                        <form id="formcloseproj" name="formcloseproj" method="POST" action='/barangay/projects/endproj'>
+                            <input hidden id="projID" name="projID">
+                            //- button.btn.btn-danger.btn-md.mb-1(id="finproj" value= proj.int_projectID class="finproj pull-right" ): span.fa End Project
+                            //- button.btn.btn-inverse.btn-md.mb-1(id="finproj" value= proj.int_projectID class="finproj pull-right" ): span.fa.fa-print Print Liquidation
+                        </form>
+                    </div> 
+                    <div class="x_title" >
+                        <h1 class="text-center">Project - Liquidation</h1>
+                            <h4 class="text-center">
+                                value="(" + proj.varchar_projectName + ")"
+                            </h4>
+                            //- button.btn.btn-success.mb-1(id="add_expense" class="add_expense"): span.fa.fa-plus Add additional Expense
+                    </div>             
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <form id="formLiquidate" method="POST" action='/barangay/projects/senliquidation' name="formLiquidate">
+                                            input(type="hidden" value=`${proj.int_projectID}` id="int_projectID" name="int_projectID" class="int_projectID")
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="2"></th>
+                                                            <th colspan="2" class="text-center">Estimated</th>
+                                                            <th colspan="2" class="text-center">Actual</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Expenses Description</th>
+                                                            <th>Unit Price</th>
+                                                            <th>QTY</th>
+                                                            <th>Amount</th>
+                                                            <th>QTY</th>
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                            each exp in tbl_expenses
+                                                                <tr class="tr-shadow">
+                                                                    input(type="hidden" value=`${exp.int_expenseID}` id="int_expenseID" name="int_expenseID" class="int_expenseID")
+                                                                    <td>
+                                                                        value=exp.text_expenseDescription
+                                                                    </td>
+                                                                    <td class='' >#{exp.decimal_unitPrice} 
+                                                                        input(type="hidden" value=`${exp.decimal_unitPrice}` id="decimal_unitPrice" name="decimal_unitPrice" class="decimal_unitPrice")
+                                                                    </td>
+                                                                    <td>
+                                                                        value=exp.int_estimatedQuantity
+                                                                    </td>
+                                                                    <td>Php 
+                                                                        value=exp.decimal_estimatedAmount
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="number" id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity">
+                                                                        
+                                                                    </td>
+                                                                    <td>
+                                                                        <div id="" class=" ">
+                                                                            <input type="number" readonly id="total_amount" name="total_amount" class="total_amount form-control" required placeholder="Amount">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            
+                                                            <tr class="tr-shadow expense-router rowCounter">
+                                                                <td>
+                                                                    input(type="hidden" value=`1` id="rowCount" name="rowCount" class="rowCount")
+                                                                    input(type="text" id="expenseDesc" name="expenseDesc" class="expenseDesc form-control" placeholder="Enter Expense Description")
+                                                                </td>
+                                                                <td class='' >
+                                                                    input(type="number" id="decimal_unitPrice" name="decimal_unitPrice" class="decimal_unitPrice form-control" placeholder="Enter Unit Price")
+                                                                </td>
+                                                                <td>
+                                                                    //- value=exp.int_estimatedQuantity
+                                                                    //<input type="number" id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity">
+                                                                </td>
+                                                                <td>
+                                                                    //- value=exp.decimal_estimatedAmount
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity">
+                                                                </td>
+                                                                <td>
+                                                                    <div id="" class=" ">
+                                                                        <input type="number" readonly id="total_amount" name="total_amount" class="total_amount form-control" required placeholder="Amount">
+                                                                    </div>
+                                                                </td>
+                                                            </tr> 
+                                                            
+                                                            <tr class="tr-shadow expense-router rowCounter">
+                                                                <td>
+                                                                    input(type="hidden" value=`2` id="rowCount" name="rowCount" class="rowCount")
+                                                                    input(type="text" id="expenseDesc" name="expenseDesc" class="expenseDesc form-control" placeholder="Enter Expense Description")
+                                                                </td>
+                                                                <td class='' >
+                                                                    input(type="number" id="decimal_unitPrice" name="decimal_unitPrice" class="decimal_unitPrice form-control" placeholder="Enter Unit Price")
+                                                                </td>
+                                                                <td>
+                                                                    //- value=exp.int_estimatedQuantity
+                                                                    //<input type="number" id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity">
+                                                                </td>
+                                                                <td>
+                                                                    //- value=exp.decimal_estimatedAmount
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity">
+                                                                </td>
+                                                                <td>
+                                                                    <div id="" class=" ">
+                                                                        <input type="number" readonly id="total_amount" name="total_amount" class="total_amount form-control" required placeholder="Amount">
+                                                                    </div>
+                                                                </td>
+                                                            </tr> 
+                                                            <tr class="tr-shadow expense-router rowCounter">
+                                                                <td>
+                                                                    input(type="hidden" value=`3` id="rowCount" name="rowCount" class="rowCount")
+                                                                    input(type="text" id="expenseDesc" name="expenseDesc" class="expenseDesc form-control" placeholder="Enter Expense Description")
+                                                                </td>
+                                                                <td class='' >
+                                                                    input(type="number" id="decimal_unitPrice" name="decimal_unitPrice" class="decimal_unitPrice form-control" placeholder="Enter Unit Price")
+                                                                </td>
+                                                                <td>
+                                                                    //- value=exp.int_estimatedQuantity
+                                                                    //<input type="number" id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity">
+                                                                </td>
+                                                                <td>
+                                                                    //- value=exp.decimal_estimatedAmount
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity">
+                                                                </td>
+                                                                <td>
+                                                                    <div id="" class=" ">
+                                                                        <input type="number" readonly id="total_amount" name="total_amount" class="total_amount form-control" required placeholder="Amount">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>  
+                                                            
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="3" class=""><div class="pull-right" >Total Estimatation:
+                                                                </div>
+                                                            </th>
+                                                            <th>Php 
+                                                            each tot in totalest
+                                                                value=tot.total_estimatedexpense 
+                                                            </th>
+                                                            <th colspan="1" class=""><div class="pull-right" >Total Amount: </div>
+                                                            </th>
+                                                            <th class="totalamount" id="totalamount">Php 
+                                                            </th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                            button.btn.btn-success.mb-1.pull-right(id="submit-liq" class="submit-liq"): span.fa.fa-plus Submit Liquidated Expense
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- END STATISTIC-->
+        <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+
+
+        script.
+
+            $(document).ready(function () {
+
+
+                    $(".decimal_unitPrice, .Unit_Quantity").on("change", function() {
+                        var quan = [];
+                        var uprice = [];
+                        var totAmount = [];
+                        var totalamount = 0;
+                    
+                        $(".Unit_Quantity").each(function (){
+                            if( !$(this).val()){
+                                //- continue;
+                                quan.push($(this).val());
+
+                            }
+                            else {
+                                quan.push($(this).val());
+                            }
+                        });
+                        $(".decimal_unitPrice").each(function (){
+                            if( !$(this).val()){
+                                //- continue;
+                                quan.push($(this).val());
+                            }
+                            else {
+                                uprice.push($(this).val());
+                            }
+                        });
+                        for(var i = 0 ; i < quan.length ; i++) {
+
+                                console.log(quan[i]);
+                                console.log(uprice[i]);
+
+                            console.log([i+1]+"- Quantity:"+quan[i]+" Unit Price:"+uprice[i]);
+                            totAmount[i] = (quan[i]*uprice[i]);
+                            console.log(totAmount[i]);
+                            $(".total_amount").eq(i).val(totAmount[i]);
+
+                            totalamount += totAmount[i];
+                            console.log(totalamount);
+                            $("#totalamount").html(totalamount);
+                        }
+                        console.log("Yeeey!");
+                    });
+                    
+                    //- $(document).on('click', '#add_expense', function(){
+                    //-     var fieldHTML = "<td>input(type="text" id="expenseDescription" namae="expenseDescription" class="expenseDescription form-control")</td><td class='' colspan="1">input(type="number" id="decimal_unitPrice" namae="decimal_unitPrice" class="decimal_unitPrice form-control")</td><td></td><td></td><td><input type="number" id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity"></td><td><div id="" class=" "><input type="number" readonly id="total_amount" name="total_amount" class="total_amount form-control" required placeholder="Amount"></div></td>";
+                    //-     $('body').find('.expense-router:last').after(fieldHTML);
+                    //- });
+
+                    $('.submit-liq').on('click',function (e) {
+                        var form = $(this).parents('form');
+                        e.preventDefault(); //prevent submit
+                                            
+                            swal({
+                            title: 'Are you sure?',
+                            text: "You sure to submit this liquidation?.",
+                            type: 'info',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, Open it!'
+                            }).then((result) => {
+                            if (result.value) {
+                                swal({
+                                title: "Successful",
+                                text: "You successfully submitted the liquidation!",
+                                icon: "success",
+                                button: "OK!",
+                                });
+                                $('#formLiquidate').submit();
+                            }                        
+                            })
+                    });  
+
+                //- $(".Unit_Quantity").on("change", function() {
+                //-     var quan = $(".Unit_Quantity").val()
+                //-     console.log(quan);
+                //-     var amount = $("#decimal_unitPrice").val()
+                //-     console.log(amount);
+                //-     totAmount = (quan*amount);
+                //-     console.log(totAmount);
+                //-     //- $(".total_amount").inner() = totAmount
+                //-     document.getElementById("total_amount").innerHTML = totAmount;
+                //-     console.log("Yeeey!");
+                //- });
+
+                //- $('#finproj').on('click',function (e) {
+                //-     e.preventDefault();
+                //-     var form = $(this).parents('form'); //prevent submit
+                //-     var Id = $(this).val();
+                //-     document.getElementById("projID").value = Id
+
+                                    
+                //-             swal({
+                //-             title: 'Are you sure?',
+                //-             text: "You sure to close application of project?.",
+                //-             type: 'info',
+                //-             showCancelButton: true,
+                //-             confirmButtonColor: '#3085d6',
+                //-             cancelButtonColor: '#d33',
+                //-             confirmButtonText: 'Yes, Close it!'
+                //-             }).then((result) => {
+                //-             if (result.value) {
+                //-                 $(form).submit();
+                //-             }                        
+                //-             })
+                //-     });
+            });

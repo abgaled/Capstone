@@ -52,10 +52,10 @@ block content
                                                                 button.btn.btn-info.mb-1.btn-sm.btn-block(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID): span.fa.fa-eye View
                                                                 if problem.enum_problemStatus == "Submitted"
                                                                     form(method="POST" action=`/office/problems/${problem.int_statementID}/acknowledge` id='form-approve')
-                                                                        input(value=problem.int_statementID name="int_statementID" required, hidden)
+                                                                        input(value= problem.int_statementID name="int_statementID" type="hidden")
                                                                         button.btn.btn-success.btn-sm.btn-block(type='submit' class='btn-approve'): span.fa.fa-check Approve
                                                                     form(method="POST" action=`/office/problems/${problem.int_statementID}/rejectstatement` id='form-reject')
-                                                                        input(value=problem.int_statementID name="int_statementID" required, hidden)
+                                                                        input(value= problem.int_statementID name="int_statementID" type="hidden")
                                                                         button.btn.btn-danger.btn-sm.btn-block(type='submit' class='btn-reject'): span.fa.fa-ban Reject
                                                             </td>
                                                         </tr>
@@ -71,7 +71,7 @@ block content
                                         <div class="modal-body">
                                             
                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-                                                <h4 class="modal-title" id="myModalLabel"><span class="section">View Statement of Problem</span></h4> 
+                                                <h4 class="modal-title" id="myModalLabel"><span class="section">View Statement of Intent</span></h4> 
                                                 <div class="item form-group">
                                                         <label class="control-label col-md-3 " for="problemtitle">Statement Title:
                                                         </label>
@@ -204,48 +204,52 @@ block content
         $(document).ready(function () {
 
 
-            $('.btn-approve').on('click',function (e) {
-                var form = $(this).parents('form');
-                e.preventDefault(); //prevent submit
+            //- $('.btn-approve').on('click',function (e) {
+            //-     var form = $(this).parents('form');
+            //-     e.preventDefault(); //prevent submit
+            //-     var Id = $(this).val();
+            //-     console.log("================================Id(Class)")
+            //-     console.log(Id);
+            //-     console.log("================================Id(Class)")
                 
-                swal({
-                    title: 'Are you sure?',
-                    text: "You will approve this statement of problem.",
-                    type: 'info',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, approve it!'
-                }).then((result) => {
-                    if (result.value) {
-                        swal("Success!", "The statement has been approved", "success");
-                        $('#form-approve').submit();
+            //-     swal({
+            //-         title: 'Are you sure?',
+            //-         text: "You will approve this statement of intent.",
+            //-         type: 'info',
+            //-         showCancelButton: true,
+            //-         confirmButtonColor: '#3085d6',
+            //-         cancelButtonColor: '#d33',
+            //-         confirmButtonText: 'Yes, approve it!'
+            //-     }).then((result) => {
+            //-         if (result.value) {
+            //-             swal("Success!", "The statement has been approved", "success");
+            //-             $('#form-approve').submit();
                         
-                    }                        
-                })
-            });
+            //-         }                        
+            //-     })
+            //- });
 
-            $('.btn-reject').on('click',function (e) {
-                var form = $(this).parents('form');
-                e.preventDefault(); //prevent submit
+            //- $('.btn-reject').on('click',function (e) {
+            //-     var form = $(this).parents('form');
+            //-     e.preventDefault(); //prevent submit
                 
-                swal({
-                    title: 'Are you sure?',
-                    text: "You will reject this statement of problem.",
-                    type: 'warning',
-                    //- icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, reject it!'
-                }).then((result) => {
-                    if (result.value) {
-                        swal("Success!", "The statement has been rejected", "success");
-                        $('#form-reject').submit();
+            //-     swal({
+            //-         title: 'Are you sure?',
+            //-         text: "You will reject this statement of intent.",
+            //-         type: 'warning',
+            //-         //- icon: 'warning',
+            //-         showCancelButton: true,
+            //-         confirmButtonColor: '#3085d6',
+            //-         cancelButtonColor: '#d33',
+            //-         confirmButtonText: 'Yes, reject it!'
+            //-     }).then((result) => {
+            //-         if (result.value) {
+            //-             swal("Success!", "The statement has been rejected", "success");
+            //-             $('#form-reject').submit();
                         
-                    }                        
-                })
-            });
+            //-         }                        
+            //-     })
+            //- });
 
 
             $(document).on('click', '.btn-view-problem', function (e) {

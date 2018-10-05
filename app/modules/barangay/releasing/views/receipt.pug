@@ -1,0 +1,147 @@
+<head>
+    <link rel="icon" href="/icons/cityprologo.png" type="image/png" />
+
+    <title>City Project Application and Beneficiary Releasing</title>
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+    
+
+    <!-- Bootstrap -->
+    <link href="/cityadmin/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/cityadmin/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/cityadmin/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/cityadmin/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+	
+    <!-- bootstrap-progressbar -->
+    <link href="/cityadmin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="/cityadmin/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="/cityadmin/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- date-tables -->
+    <link href="/cityadmin/vendors/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <script src="/cityadmin/vendors/datatables/jquery.dataTables.js"></script>
+
+    <script src="/cityadmin/vendors/datatables/dataTables.bootstrap4.js"></script>
+
+    <script src="/cityadmin/build/js/sb-admin-datatables.min.js"></script>
+
+    //- SWEET ALERT
+    <script src="/asset_sweetalert/src/sweetalert2.all.min.js"></script>
+    link(rel="stylesheet", href="/assets/css/printjs.min.css")
+    
+
+    <!-- Custom Theme Style -->
+    <link href="/cityadmin/build/css/custom.min.css" rel="stylesheet">
+</head>
+<body>
+each proDET in projectDETAILS
+    if proDET.enum_applicationType =='Resident'
+        <div class="right_col" role="main">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                    each app in tbl_app
+                        <div class="x_content" >
+                            <div id="printRE">
+                                br
+                                br
+                                .row
+                                    .col-md-10   
+                                        p.text-center &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;Office of the Congresswomen Alexandria Gonzales
+                                        p.text-center  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Mandaluyong City
+                                        p.text-center  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 315 Maysilo Cir, 1550 Metro Manila
+                                hr
+                                .row
+                                    .col-md-12
+                                            p  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; PROJECT TITLE:  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #{app.varchar_projectName}
+                                            p  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DATE:  &nbsp; &nbsp;  #{dateNow.dateNow}
+                                br
+                                .row
+                                    .col-md-12
+                                    p(style='margin-left:55px') &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; I, <strong><u>#{app.varchar_firstName} #{app.varchar_middleName} #{app.varchar_lastName} </u></strong>have received the following benefits:
+                                        each benefits in tbl_benefits
+                                            p(style='margin-left:85px') &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- #{benefits.int_itemQuantity} #{benefits.char_itemUnit}/s of #{benefits.text_benefitName}
+                                hr
+                                .row
+                                    .col-md-12
+                                        p.text-center &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (Proof of benefit received)
+                                        p.text-center  &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; City Project Application and Beneficiary Releasing Management System
+                                .d-print-none#noPrint
+                                    hr
+                                    .pull-right
+                                        a(href=`/barangay/releasing/${app.int_projectID}/viewben` id="closebutton" class="float-right btn btn-danger btn-s"): span.fa.fa-cross Close
+                                        <button id="printReceiptButton" type="button" class= "btn float-right btn-sm btn-inverse fa fa-print">&nbsp;&nbsp; Print Receipt
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    if proDET.enum_applicationType == 'Household'
+        <div class="right_col" role="main">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                    each hou in tbl_house
+                        <div class="x_content" >
+                            <div id="printRE">
+                                br
+                                br
+                                .row
+                                    .col-md-10   
+                                        p.text-center &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;Office of the Congresswomen Alexandria Gonzales
+                                        p.text-center  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Mandaluyong City
+                                        p.text-center  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 315 Maysilo Cir, 1550 Metro Manila
+                                hr
+                                .row
+                                    .col-md-12
+                                            p  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; PROJECT TITLE:  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #{hou.varchar_projectName}
+                                            p  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DATE:  &nbsp; &nbsp;  #{dateNow.dateNow}
+                                br
+                                .row
+                                    .col-md-12
+                                    p(style='margin-left:55px') &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The  <strong><u>#{hou.varchar_familyName}</u></strong> family have received the following benefits:
+                                        each benefits in tbl_benefits
+                                            p(style='margin-left:85px') &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- #{benefits.int_itemQuantity} #{benefits.char_itemUnit}/s of #{benefits.text_benefitName}
+                                hr
+                                .row
+                                    .col-md-12
+                                        p.text-center &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (Proof of benefit received)
+                                        p.text-center  &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; City Project Application and Beneficiary Releasing Management System
+                                .d-print-none#noPrint
+                                    hr
+                                    .pull-right
+                                        a(href=`/barangay/releasing/${hou.int_projectID}/viewben` id="closebutton" class="float-right btn btn-danger btn-s"): span.fa.fa-cross Close
+                                        <button id="printReceiptButton" type="button" class= "btn float-right btn-sm btn-inverse fa fa-print">&nbsp;&nbsp; Print Receipt
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+    <script src="/cityadmin/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="/asset_validation/dist/jquery.validate.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/cityadmin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="/cityadmin/build/js/custom.min.js"></script>
+    script(src='/assets/js/signaturePad.js')
+    script(src='/assets/js/rasterizeHTML.js')
+    script(src='/assets/js/jspdf.js')
+    script(src='/assets/js/printjs.min.js')
+    
+    script(type='text/javascript').
+        $(document).ready(function(){
+
+            $('#printReceiptButton').click(function(){
+                $('#noPrint').attr('style', 'display:none;')
+                javascript:window.print(print)
+                $('#formprint').submit();
+                $('#noPrint').attr('style', 'display:show;')
+            });
+        });
