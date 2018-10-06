@@ -1190,7 +1190,7 @@ router.post('/createproject',(req, res) => {
                 console.log(statementList[o]);
 
                 var updateStatus =  `UPDATE tbl_intentstatement 
-                    SET enum_problemStatus = "Proposed",
+                    SET enum_problemStatus = "Solved",
                     int_projectID = ${toproject.int_projectID}
                     WHERE int_statementID = ${statementList[o]}`;
 

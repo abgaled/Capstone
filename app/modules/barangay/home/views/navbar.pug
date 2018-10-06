@@ -67,7 +67,7 @@ block navcontent
                 <ul class="nav side-menu">
                   <li><a href="/barangay/home"><i class="fa fa-home"></i> Home </span></a>
                   </li>
-                  <li><a href="/barangay/problemstatement"><i class="fa fa-copy"></i> Statement of Intent </span></a>
+                  <li><a href="/barangay/problemstatement"><i class="fa fa-copy"></i> Statement of Problem </span></a>
                   </li>
                   <li><a href="/barangay/projects"><i class="fa fa-folder-open"></i> Projects </span></a>
                   </li>
@@ -110,41 +110,41 @@ block navcontent
                     </ul>
                     </li>
 
-                    <li role="presentation" class="dropdown">
-                    <a style="margin-top:19%;"href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-bell-o"></i>
-                            <span class="badge bg-green">
-                                value= numbernotif
-                            </span>
-                    </a>
-                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                        each notif in notifications
-                            <li>
-                            a(href=`/barangay/notifications/${notif.int_notifID}`)
-                                <span class="image"><img src="/cityadmin/production/images/img.png" alt="Profile Image" /></span>
-                                <span>
-                                <b>
-                                <span>From:
-                                    value= " "+notif.varchar_userEmailAddress
-                                </span>
-                                </b>
-                                <p>About:
-                                    value= " "+notif.enum_notifInfo
-                                </p>
-                                </span>
-                                <p class="message" style="float:right;">
-                                    value= notif.varchar_notifTitle
-                                </p>
-                            </li>
-                        <li>
-                        <div class="text-center">
-                            a(href=`/barangay/notifications`)
-                                <strong>See All Notifications</strong>
-                                <i class="fa fa-angle-right"></i>
-                        </div>
-                        </li>
-                    </ul>
-                    </li>
+                    //- <li role="presentation" class="dropdown">
+                    //- <a style="margin-top:19%;"href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                    //-     <i class="fa fa-bell-o"></i>
+                    //-         <span class="badge bg-green">
+                    //-             value= numbernotif
+                    //-         </span>
+                    //- </a>
+                    //- <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    //-     each notif in notifications
+                    //-         <li>
+                    //-         a(href=`/barangay/notifications/${notif.int_notifID}`)
+                    //-             <span class="image"><img src="/cityadmin/production/images/img.png" alt="Profile Image" /></span>
+                    //-             <span>
+                    //-             <b>
+                    //-             <span>From:
+                    //-                 value= " "+notif.varchar_userEmailAddress
+                    //-             </span>
+                    //-             </b>
+                    //-             <p>About:
+                    //-                 value= " "+notif.enum_notifInfo
+                    //-             </p>
+                    //-             </span>
+                    //-             <p class="message" style="float:right;">
+                    //-                 value= notif.varchar_notifTitle
+                    //-             </p>
+                    //-         </li>
+                    //-     <li>
+                    //-     <div class="text-center">
+                    //-         a(href=`/barangay/notifications`)
+                    //-             <strong>See All Notifications</strong>
+                    //-             <i class="fa fa-angle-right"></i>
+                    //-     </div>
+                    //-     </li>
+                    //- </ul>
+                    //- </li>
                 </ul>
                 </nav>
             </div>
