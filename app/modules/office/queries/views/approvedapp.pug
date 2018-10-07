@@ -1,0 +1,88 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    .d-print-none#noPrint
+                        .pull-right
+                            <button id="printReceiptButton" type="button" class= "btn float-right btn-sm btn-inverse fa fa-print">&nbsp;&nbsp; Print
+                    <div class="x_title">
+                        <h1 class="text-center">Approved Application</h1>
+                        
+                    </div>              
+                    <div class="content-wrapper" >
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Last Name</th>
+                                                        <th>First Name</th>
+                                                        <th>Middle Name</th>
+                                                        <th>Gender</th>
+                                                        <th>Address</th>
+                                                        <th>E-mail Address</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each app in tbl_resAPP
+                                                    <tr>   
+                                                        <td>
+                                                            value= app.varchar_lastName
+                                                        </td>
+                                                        <td>
+                                                            value= app.varchar_firstName
+                                                        </td>
+                                                        <td>
+                                                            value= app.varchar_middleName
+                                                        </td>
+                                                        <td>
+                                                            value= app.enum_gender
+                                                        </td>
+                                                        <td>
+                                                            value= app.text_address
+                                                        </td>
+                                                        <td>
+                                                            value= app.varchar_emailAddress
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    script(src='/assets/js/jspdf.js')
+    script(src='/assets/js/printjs.min.js')
+    
+    script(type='text/javascript').
+        $(document).ready(function(){
+            $('#printReceiptButton').click(function(){
+                $('#noPrint').attr('style', 'display:none;')
+                javascript:window.print(print)
+                $('#formprint').submit();
+                $('#noPrint').attr('style', 'display:show;')
+            });
+            $("#fillform").on("change", function() {
+                var Id = $(this).val();
+                console.log(Id);
+                for(var i = 0; i < 10; i++)
+                {
+                    if(Id==1)
+                    {
+                        
+                    }
+                }
+            });
+        });

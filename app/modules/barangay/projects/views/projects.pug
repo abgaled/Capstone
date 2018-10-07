@@ -47,18 +47,27 @@ block content
                                         <td>
                                             if project.enum_applicationType == "Resident"
                                                 button.btn.btn-success.mb-1(id="btn-view-project" class="btn-view-project" value= project.int_projectID): span.fa.fa-eye View
-                                                a(href=`/barangay/projects/${project.int_projectID}/apply` class="btn btn-primary btn-sm"): <i class="fa fa-files-o"></i> Register
-                                                a(href=`/barangay/projects/${project.int_projectID}/registeredapplicants` class="btn btn-info btn-sm"): <i class="fa fa-users"></i> Applications
+                                                if project.enum_projectStatus == "Ongoing"
+                                                    a(href=`/barangay/projects/${project.int_projectID}/apply` class="btn btn-primary btn-sm"): <i class="fa fa-files-o"></i> Register
+                                                    a(href=`/barangay/projects/${project.int_projectID}/registeredapplicants` class="btn btn-info btn-sm"): <i class="fa fa-users"></i> Applications
+                                                if project.enum_projectStatus == "Closed Releasing"
+                                                    a(href=`/barangay/projects/${project.int_projectID}/liquidation` class="btn btn-dark btn-sm"): <i class="fa fa-files-o"></i> Liquidation
                                             if project.enum_applicationType == "Household"
                                                 button.btn.btn-success.mb-1(id="btn-view-project" class="btn-view-project" value= project.int_projectID): span.fa.fa-eye View
-                                                a(href=`/barangay/projects/${project.int_projectID}/apply` class="btn btn-primary btn-sm"): <i class="fa fa-files-o"></i> Register
-                                                a(href=`/barangay/projects/${project.int_projectID}/registeredapplicants` class="btn btn-info btn-sm"): <i class="fa fa-users"></i> Applications
+                                                if project.enum_projectStatus == "Ongoing"
+                                                    a(href=`/barangay/projects/${project.int_projectID}/apply` class="btn btn-primary btn-sm"): <i class="fa fa-files-o"></i> Register
+                                                    a(href=`/barangay/projects/${project.int_projectID}/registeredapplicants` class="btn btn-info btn-sm"): <i class="fa fa-users"></i> Applications
+                                                if project.enum_projectStatus == "Closed Releasing"
+                                                    a(href=`/barangay/projects/${project.int_projectID}/liquidation` class="btn btn-dark btn-sm"): <i class="fa fa-files-o"></i> Liquidation
 
                                             if project.enum_applicationType == "Barangay"
                                                 button.btn.btn-success.mb-1(id="btn-view-project" class="btn-view-project" value= project.int_projectID): span.fa.fa-eye View
-                                                //- a(href=`/barangay/projects/${project.int_projectID}/apply` class="btn btn-primary btn-sm" class="brgyregister" value= project.int_projectID): <i class="fa fa-files-o"></i> Register      
-                                                button.btn.btn-primary.mb-1(id="btn-register-project" class="btn-register-project" value= project.int_projectID): span.fa.fa-files-o &nbsp Register
-                                                a(href=`/barangay/projects/${project.int_projectID}/registeredapplicants` class="btn btn-info btn-sm"): <i class="fa fa-users"></i> View Application    
+                                                if project.enum_projectStatus == "Ongoing"
+                                                    //- a(href=`/barangay/projects/${project.int_projectID}/apply` class="btn btn-primary btn-sm" class="brgyregister" value= project.int_projectID): <i class="fa fa-files-o"></i> Register      
+                                                    button.btn.btn-primary.mb-1(id="btn-register-project" class="btn-register-project" value= project.int_projectID): span.fa.fa-files-o &nbsp Register
+                                                    a(href=`/barangay/projects/${project.int_projectID}/registeredapplicants` class="btn btn-info btn-sm"): <i class="fa fa-users"></i> View Application    
+                                                if project.enum_projectStatus == "Closed Releasing"
+                                                    a(href=`/barangay/projects/${project.int_projectID}/liquidation` class="btn btn-dark btn-sm"): <i class="fa fa-files-o"></i> Liquidation
                                         </td>
                                     </tr>                   
                                 </tbody>

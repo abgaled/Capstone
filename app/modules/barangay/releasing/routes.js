@@ -341,6 +341,7 @@ router.get('/:int_projectID/viewben',(req, res) => {
             if (err) console.log(err);
             console.log('=================================');
             console.log('BARANGAY: RESIDENT');
+            console.log(queryRes);
             console.log('=================================');
             db.query(queryHouse, (err, resultshouse, fields) => {
                 console.log(resultshouse);
