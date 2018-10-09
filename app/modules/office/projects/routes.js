@@ -686,8 +686,10 @@ router.post('/openlateapplication', (req, res) => {
         if (err) throw err;
         console.log(results);
 
+
         var queryString1 = `UPDATE tbl_projectdetail SET
-        enum_projectStatus = 'Ongoing'
+        enum_projectStatus = 'Ongoing',
+        date_actualStartApp = "${currentDate}"
         WHERE tbl_projectdetail.int_projectID = ${req.body.projectID}`
                 
         db.query(queryString1, (err, results2) => {        
@@ -698,123 +700,7 @@ router.post('/openlateapplication', (req, res) => {
         });
     });
 });
-// router.get('/finishedproject',(req, res) => {
-//     console.log('=================================');
-//     console.log('OFFICE: FINISHED PROJECT');
-//     console.log('=================================');
 
-//     var queryString =`SELECT * FROM tbl_project pr
-//     JOIN tbl_projectproposal prpro 
-//     ON pr.int_projectID=prpro.int_projectID
-//     WHERE pr.enum_projectStatus = 'Finished' 
-//     ORDER BY pr.int_projectID DESC`
-
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-
-//             var queryString2=`SELECT *, GROUP_CONCAT(DISTINCT varchar_categoryName) varchar_categoryName
-//                 FROM tbl_projectcategory PC JOIN tbl_projectproposal PR ON pr.int_projectID=pc.int_projectID
-//                 JOIN tbl_category C ON C.int_categoryID=PC.int_categoryID
-//                 JOIN tbl_project P ON P.int_projectID = PR.int_projectID
-//                 WHERE P.enum_projectStatus="Finished"
-//                 GROUP BY P.int_projectID`;
-
-//         db.query(queryString2, (err, results2, fields) => {
-//             console.log("-----------RESULTS2")
-//             console.log(results2);
-
-//             res.render('office/projects/views/finishedproject',{
-//                 tbl_project:results2});
-//         });
-//     });
-// });
-
-
-// router.get('/finishedproject/:int_projectID/viewfinished',(req, res) => {
-//     console.log('=================================');
-//     console.log('OFFICE: ONGOING PROJECT');
-//     console.log('=================================');
-//     var queryString =`SELECT * FROM tbl_projectproposal pr
-//     JOIN tbl_project proj ON pr.int_projectID = proj.int_projectID
-//     WHERE pr.int_projectID = "${req.params.int_projectID}"`
-
-//     var queryString2 =`SELECT * FROM tbl_projectrequirement prcat
-//     JOIN tbl_projectproposal pr ON pr.int_projectID=prcat.int_projectID
-//     JOIN tbl_requirement rq ON rq.int_requirementID=prcat.int_requirementID
-//     WHERE pr.int_projectID = "${req.params.int_projectID}"`
-
-//     var queryString3 =`SELECT * FROM tbl_projectbeneficiary prbf
-//     JOIN tbl_projectproposal pr ON pr.int_projectID=prbf.int_projectID
-//     JOIN tbl_beneficiary bf ON prbf.int_beneficiaryID=bf.int_beneficiaryID
-//     WHERE pr.int_projectID = "${req.params.int_projectID}"`
-
-//     var queryString4 =`SELECT * FROM tbl_projectlocation pl
-//     JOIN tbl_projectproposal pr ON pr.int_projectID=pl.int_projectID
-//     JOIN tbl_releaselocation rl ON pl.int_locationID=rl.int_locationID
-//     WHERE pr.int_projectID = "${req.params.int_projectID}"`
-
-//     var queryString5 =`SELECT * FROM tbl_projectcategory pc
-//     JOIN tbl_projectproposal pr ON pr.int_projectID=pc.int_projectID
-//     JOIN tbl_category cat ON cat.int_categoryID=pc.int_categoryID
-//     WHERE pr.int_projectID = "${req.params.int_projectID}"`
-    
-
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-//         // console.log(results);
-//         db.query(queryString2, (err, results2, fields) => {
-//             console.log(results2);
-//             if (err) console.log(err);
-//             db.query(queryString3, (err, results3, fields) => {
-//                 console.log(results3);
-//                 if (err) console.log(err);
-//                 db.query(queryString4, (err, results4, fields) => {
-//                     console.log(results4);
-//                     if (err) console.log(err);
-//                     db.query(queryString5, (err, results5, fields) => {
-//                         console.log(results5);
-//                         if (err) console.log(err);
-//         res.render('office/projects/views/viewfinished', {tbl_projectproposal:results, tbl_projectrequirement:results2, tbl_projectbeneficiary:results3, tbl_releaselocation:results4,tbl_projectcategory:results5});
-
-//     });});});});
-// });
-// });
-
-// router.get('/finishedproject/:int_projectID/viewapp',(req, res) => {
-//     console.log('=================================');
-//     console.log('OFFICE: FINISHED PROJECT - VIEW APPLICATION');
-//     console.log('=================================');
-
-//     var queryString =`SELECT * FROM tbl_project pr
-//     JOIN tbl_application app
-//     ON pr.int_projectID=app.int_projectID
-//     JOIN tbl_personalinformation pi
-//     ON pi.int_applicationID = app.int_applicationID
-//     WHERE pr.enum_projectStatus = 'Finished'
-//     AND app.int_projectID=${req.params.int_projectID}`
-
-    
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-
-//         var queryString2= `SELECT * FROM tbl_project pr
-//         JOIN tbl_projectproposal pp 
-//         ON pr.int_projectID = pp.int_projectID
-//         WHERE pr.enum_projectStatus = 'Finished'
-//         AND pr.int_projectID=${req.params.int_projectID}`
-
-//         db.query(queryString2, (err, results2, fields) => {
-
-//             res.render('office/projects/views/appfinishedproject',{
-//                 tbl_project:results,
-//                 project:results2});
-//         });
-//     });
-// });
 
 // AJAX GET DETAILS FINISHED PROJECT - VIEW APPLICANT DETAILS
 router.post('/finishedproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,res) => {

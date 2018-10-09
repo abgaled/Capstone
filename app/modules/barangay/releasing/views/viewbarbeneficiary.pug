@@ -19,10 +19,10 @@ block content
                         </center>
                         <div>
                             input(type="hidden" value=`${proj.int_projectID}` id="int_projectID" name="int_projectID")
-                            a(href=`/barangay/releasing/${proj.int_projectID}/viewproj` id="viewproj" style="float:left;" class="btn btn-info btn-s"): span.fa.fa-eye  Project Details
+                            //- button.btn.btn-info.mb-1.btn-s(id="btn-view-project"  style="float:left;" class="btn-view-project" value= proj.int_projectID): span.fa.fa-eye View Project Details
                             <div class="text-center">
                                 button.btn.btn-primary.btn-s.fa(id="addben"  value= appID.int_applicationID class=""): span.fa.fa-plus ADD Beneficiary
-                            a(href=`/barangay/releasing/` id="" class="btn btn-dark btn-s pull-right"): span.fa.fa-arrow-circle-left  Back
+                            a(href=`/barangay/releasing/` id="" style="float:right;" class="btn btn-dark btn-s "): span.fa.fa-arrow-circle-left  Back
                             </div>
                             </br>
                             </br>
@@ -38,7 +38,7 @@ block content
                                             <th>First Name</th>
                                             <th>Middle Name</th>
                                             <th>Remarks</th>
-                                            <th>Actions</th>
+                                            <th>Date and Time Received</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -56,11 +56,62 @@ block content
                                             <td>
                                                 value= ben.text_remarks
                                             </td>
-                                            <td></td>
+                                            <td>
+                                                value= ben.datetime_received
+                                            </td>
                                         </tr>            
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg" id="modalviewproject" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">View Project Details</span></h4> 
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="projecttitle">Project:
+                                </label>
+                                <div class="col-md-9" id="projecttitle">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="projectdescription">Description:
+                                </label>
+                                <div class="col-md-9" id="projectdescription" >
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="projectrelstart">Start of Releasing:
+                                </label>
+                                <div class="col-md-9" id="projectrelstart">
+                    
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="projectrelend">End of Releasing: (Target Date)
+                                </label>
+                                <div class="col-md-9" id="projectrelend">
+                    
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
                         </div>
                     </div>
                 </div>
@@ -78,7 +129,7 @@ block content
                         </span></h4>
                         <div class="form-horizontal form-label-left">
                             <div class="form-group col-md-4">
-                                <label>First Name</label>
+                                <label>First Name</label><span style="color:red">*</span>
                                 <input type="text" id="benFNAME" name="benFNAME" class="form-control" required placeholder="Enter First Name">
                             </div>
                             <div class="form-group col-md-4">
@@ -86,14 +137,14 @@ block content
                                 <input type="text" id="benMNAME" name="benMNAME" class="form-control"  placeholder="Enter Middle Name">
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Last Name</label>
+                                <label>Last Name</label><span style="color:red">*</span>
                                 <input type="text" id="benLNAME" name="benLNAME" class="form-control" required placeholder="Enter Last Name">
                             </div>
                             <br><br><br>
                         </div>
                         <div class="form-horizontal form-label-left">
                             <div class="form-group col-md-8">
-                                <label>Remarks</label>
+                                <label>Remarks</label><span style="color:red">*</span>
                                 <textarea class="resizable_textarea form-control" id="benREMARKS" name="benREMARKS" required placeholder="Enter Beneficiary Remarks"></textarea>
                             </div>
                             <div class="form-group col-md-4" style="margin-top:28px">
@@ -155,22 +206,7 @@ block content
                 console.log(Id);
             });
 
-            $('#submitben').click(function(e){
-                e.preventDefault()
-                swal({
-                    title: 'Are you sure?',
-                    text: "You will beneficiary?",
-                    type: 'info',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes!'
-                }).then((result) => {
-                    if (result.value) {
-                        $('#formAddBen').submit();
-                    }                        
-                })
-            });
+            
             $(function() {
                 $("#formAddBen").validate({
                     rules: {
@@ -195,6 +231,22 @@ block content
                     }
                 });
                           
+            });
+            $('#submitben').click(function(e){
+                e.preventDefault()
+                swal({
+                    title: 'Are you sure?',
+                    text: "You will beneficiary?",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes!'
+                }).then((result) => {
+                    if (result.value) {
+                        $('#formAddBen').submit();
+                    }                        
+                })
             });
 
             $('#undo').click(function(e){

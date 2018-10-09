@@ -51,7 +51,8 @@ router.get('/',(req, res) => {
     var queryString1 = `SELECT * FROM tbl_projectdetail 
     JOIN tbl_projectapplicationtype
     ON tbl_projectdetail.int_projectID = tbl_projectapplicationtype.int_projectID
-    WHERE tbl_projectdetail.enum_projectStatus = "Ongoing" OR tbl_projectdetail.enum_projectStatus = "Closed Releasing"`
+    WHERE tbl_projectdetail.enum_projectStatus = "Ongoing" 
+    OR tbl_projectdetail.enum_projectStatus = "Closed Releasing"`
 
     db.query(queryString1,(err, results1) => {
 
@@ -73,12 +74,46 @@ router.get('/',(req, res) => {
             console.log(notifications)
         
             var countrow = notifications.length;
-         
-                res.render('barangay/projects/views/projects',{
-                    tbl_project:results1,
-                    notifications:notifications,
-                    numbernotif:countrow});
+
+                    for (var i = 0; i < results1.length;i++){
+                        var approvedSlotsFinal = results1[i].int_allotedSlot ;
+                        console.log("APPROVED SLOTS FINAL ===============")
+                        console.log(approvedSlotsFinal);
+                        console.log("APPROVED SLOTS FINAL ===============")
+
+                        var countSlotsFinal = results1[i].int_projectID ;
+
+                            console.log("INT PROJECT ID")
+                            console.log(countSlotsFinal)
+                            console.log("INT PROJECT ID")
+
+                        // for (var a = 0; a < approvedslots.length; a++){
+                        // console.log("APPROVED SLOTS FINAL ===============")
+                        // console.log(approvedSlotsFinal);
+                        // console.log("APPROVED SLOTS FINAL ===============")
+                        // }
+                    }
+                    var countSlots = `SELECT COUNT(*) FROM tbl_application 
+                            JOIN tbl_projectdetail 
+                            ON tbl_application.int_projectID = tbl_projectdetail.int_projectID
+                            WHERE tbl_application.enum_applicationStatus = "Approved"
+                            AND tbl_application.int_projectID = ${countSlotsFinal}`
+
+                        db.query(countSlots,(err, approvedslots) => {
+                            if (err) console.log(err);
+
+                            console.log("APPROVED SLOTS COUNT ===============")
+                            console.log(approvedslots);
+                            console.log("APPROVED SLOTS COUNT ===============")
+
+                        });
+                    
             
+                    res.render('barangay/projects/views/projects',{
+                        tbl_project:results1,
+                        notifications:notifications,
+                        numbernotif:countrow
+                    });
         });
     });
 });
@@ -174,55 +209,6 @@ router.post('/checkbrgyapp',(req,res) => {
         });
     });
 });
-
-
-// router.get('/:int_projectID/applicationtype',(req,res) => {
-//     console.log('=================================');
-//     console.log('BARANGAY: PROJECTS-APPLICATION TYPE-GET');
-//     console.log('=================================');
-
-
-//     var queryString1 = `SELECT * FROM tbl_project p JOIN tbl_projectproposal pp 
-//         ON p.int_projectID=pp.int_projectID WHERE p.int_projectID = ${req.params.int_projectID}`
-    
-//     db.query(queryString1,(err, results1) => {
-
-//         var queryString2 = `SELECT * FROM tbl_projectapplicationtype pat
-//         JOIN tbl_projectproposal pp 
-//         ON pat.int_projectID=pp.int_projectID
-//         WHERE pat.int_projectID = ${req.params.int_projectID}`
-
-//         db.query(queryString2,(err, results2) => {
-
-//             console.log("RESULTS 2");
-//             console.log(results2);
-
-//             var notificationsQuery = `SELECT * FROM tbl_notification 
-//             JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
-//             WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
-//             AND enum_notifStatus = "New"
-//             ORDER BY tbl_notification.int_notifID DESC`
-
-//             db.query(notificationsQuery,(err, notifications) => {
-//                 if (err) console.log(err);
-//                 console.log('=================================');
-//                 console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
-//                 console.log('=================================');
-//                 console.log(notifications)
-        
-//                 var countrow = notifications.length;
-   
-//                 res.render('barangay/projects/views/applicationtype',{
-//                     tbl_project:results1,
-//                     tbl_applicationtype:results2,
-//                     notifications:notifications,
-//                     numbernotif:countrow
-//                 });
-//             });
-//         });  
-//     });
-// });
-
 
 router.get('/:int_projectID/apply',(req,res) => {
     console.log('=================================');
@@ -413,21 +399,30 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
 
                         // INSERT TABLE APPLICATION REQUIREMENT
                         var requirements = req.body.requirementID;
+                        var requirementsloc = req.body.requirementLoc;
+
                         console.log("==============REQUIREMENT=============");
                         console.log(requirements)
+                        console.log("==============REQUIREMENT LOCATION=============");
+                        console.log(requirementsloc)
+
 
                         for(i = 0 ; i < requirements.length ; i++)
                         {
+                            for(j = 0 ; j < requirementsloc.length ; j++)
+                            {
                             var appreqQuery = `INSERT INTO tbl_applicationrequirement
                                 (
                                     \`int_applicationID\`,
                                     \`int_requirementID\`,
+                                    \`varchar_fileLocation\`,
                                     \`enum_appreqStatus\`
                                 )
                                 VALUES
                                 (
                                     ${int_applicationID},
                                     ${requirements[i]},
+                                    "${requirementsloc[j]}",
                                     "Passed"
                                 )`;
                             
@@ -436,40 +431,13 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
                                     
                                     
                                 });
+                            }
                         }
-                                if(req.body.apply_uncheck !== null){
-                                    console.log("===================MAY UNCHECK");
-                                    var uncheck = req.body.apply_uncheck;
-                                    console.log("=======================UNCHECK=================")
-                                    console.log(uncheck);
-                                    
-                                    for(a = 0 ; a < uncheck.length ; a++)
-                                    {
-                                        var appreqIncQuery = `INSERT INTO tbl_applicationrequirement
-                                        (
-                                            \`int_applicationID\`,
-                                            \`int_requirementID\`,
-                                            \`enum_appreqStatus\`
-                                        )
-                                        VALUES
-                                        (
-                                            ${int_applicationID},
-                                            ${uncheck[a]},
-                                            "Incomplete"
-                                        )`;
-                                    
-                                        db.query(appreqIncQuery,(err, appreqIncResult, fields) => {
-                                            if(err) console.log(err);
-                                        
-                                        });
-                                    }
-                                }
-                                           
-                            res.redirect('/barangay/projects');
+                        // END OF FOR LOOP (PASSED & LOCATION)
+                        res.redirect('/barangay/projects');
 
                             
                     });
-                // });
             });
         });
     });

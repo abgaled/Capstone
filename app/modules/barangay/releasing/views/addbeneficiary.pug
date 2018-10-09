@@ -90,7 +90,7 @@ block content
                                 hr
                                 .pull-right
                                     each proj in tbl_proj
-                                        a(href=`/barangay/releasing/${proj.int_projectID}/viewbarangay` id="closebutton" class="float-right btn btn-danger btn-s"): span.fa.fa-cross Close
+                                        a(href=`/barangay/releasing/${proj.int_projectID}/viewbarangay` disabled id="closebutton" class="float-right btn btn-danger btn-s"): span.fa.fa-cross Close
                                     <button id="signReceiptButton" type="button" class= "btn float-right btn-sm btn-inverse fa fa-pencil">&nbsp;&nbsp; Sign Receipt
                                     <button id="printReceiptButton" type="button" disabled class= "btn float-right btn-sm btn-inverse fa fa-print">&nbsp;&nbsp; Print Receipt
                                                                             
@@ -164,6 +164,7 @@ block content
                     $('.tenantPirma').attr('src', `${data}`);
                     $('#modalBeneficiarySignature').modal('hide');
                     $('#printReceiptButton').attr('disabled', false);
+                    $('#closebutton').attr('disabled', false);
                 }
             });
             var print = document.getElementById("printRE");

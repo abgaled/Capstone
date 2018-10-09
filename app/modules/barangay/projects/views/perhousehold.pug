@@ -48,44 +48,73 @@ block content
                             <div>
                                 <button id="btnAddAddress" class="btn btn-primary btn-md" type="button" style="float:right;">Add Family Member</button>
                             </div>
-                            <table id="tbl" class="table table-borderless table-data3" style="">
-                                <thead>
-                                        <tr>
-                                            <th>First Name</th>
-                                            <th>Lastname Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Civil Status</th>
-                                            <th>Educational Attainment<br><small>(Highest)</small></th>
-                                            <th>Occupation</th>
-                                        </tr>
-                                </thead>
-                            </table>
-                            <div id ="idcontent">
-
-                            </div>
                             <br>
+                            <br>
+                            <br>
+                            <div class="table-responsive">
+                                <table id="datatable-fixed-header expenseTable" class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th width="15%">First Name</th>
+                                            <th width="15%">Last Name</th>
+                                            <th width="15%">Middle Name</th>
+                                            <th width="15%">Civil Status</th>
+                                            <th width="20%">Educational Attainment<br><small>(Highest)</small></th>
+                                            <th width="20%">Occupation</th>
+                                        </tr>
+                                        <tr class="family-row familyCounter">
+                                            <td><input type="text" name="famfname[]" class="form-control" style="width:100%"/></td>
+                                            <td><input type="text" name="famlname[]" class="form-control" style="width:100%"/></td>
+                                            <td><input type="text" name="fammname[]" class="form-control" style="width:100%"/></td>
+                                            <td>
+                                                <select name ="famcivil[]" class="form-control" style="width:100%">
+                                                    <option value = "Single">Single</option>
+                                                    <option value = "Married">Married</option>
+                                                    <option value = "Widowed">Widowed</option>
+                                                    <option value = "Divorce/Separated">Divorce/Separated</option>
+                                                </select>
+                                            </td> <td><input type="text" name="fameduc[]" class="form-control" style="width:100%"/></td>
+                                            <td><input type="text" name="famoccu[]" class="form-control" style="width:100%" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <hr>
                             
                             <div><button id="btnAddContributor" class="btn btn-primary btn-md" type="button" style="float:right;">Add Financial Contributor</button></div>
-                            
-                            <table id="tbl1" class="table table-borderless table-data3" style="table-layout:fixed;width:100%;">
-                                <thead>
-                                        <tr>
-                                            <th>Purpose of Financial Contribution<br><small> (e.g. educational assistance)</small></th>
-                                            <th>Relationship</th>
-                                            <th>Frequency of Contribution</th>
-                                            <th>Annual Contribution</th>
-                                        </tr>
-                                </thead>
-                            </table>
-                            <div>
-                                <div id ="fincontribution">
-                                    
+                            <br>
+                            <br>    
+                            <br>
+                                <div class="table-responsive">
+                                    <table id="datatable-fixed-header expenseTable" class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th width="30%">Purpose of Financial Contribution<br><small> (e.g. educational assistance)</small></th>
+                                                <th width="15%">Relationship</th>
+                                                <th width="15%">Frequency of Contribution</th>
+                                                <th width="15%">Annual Contribution</th>
+                                            </tr>
+                                            <tr class="contributor-row contributorCounter">
+                                                <td><input type="text" name="famconpurpose[]" class="form-control" style="width:100%" /></td>
+                                                <td><input type="text" name="famconrel[]" class="form-control" style="width:100%" /></td>
+                                                <td>
+                                                    <select class="form-control" name="famconfrequency[]" class="form-control" style="width:100%">
+                                                        <option value="Monthly">Monthly</option>
+                                                        <option value="Quarterly">Quarterly</option>
+                                                        <option value="Semi Annual">Semi Annual</option>
+                                                        <option value="Annual">Annual</option>
+                                                        <option value="Irregular">Irregular</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="number" name="famconannual[]" class="financial-contributor form-control" style="width:100%" /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div style="float:right;">
-                                    <label style="font-weight:bold;font-size:19;">TOTAL: </label><span>&nbsp<input type="number" name="apply_famincome" readonly/></span>
+                                    <label style="font-weight:bold;font-size:19;">TOTAL: </label><span>&nbsp<input type="number" id="totalIncome" name="apply_famincome" readonly/></span>
                                 </div>
-                            </div>
+                            
                             <br>
                             <hr>
                             <div><button class="btn btn-success btn-lg" type="submit" style="float:right;">Register</button></div>
@@ -98,12 +127,66 @@ block content
 
     //- SCRIPT FOR TABS
     script.
-        $(document).ready(function(){
-            $("#btnAddAddress").click(function () {
-                $("#idcontent").append('<tbody><tr><td><input type="text" name="famfname" /></td><td><input type="text" name="famlname" /></td><td><input type="text" name="fammname" /></td><td><select name ="famcivil" class="form-control"><option value = "Single">Single</option><option value = "Married">Married</option><option value = "Widowed">Widowed</option><option value = "Divorce/Separated">Divorce/Separated</option></select></td> <td><input type="text" name="fameduc" /></td><td><input type="text" name="famoccu" /></td></tr></tbody>  ');
-            });
+        var familyCounter = 1;
+        var contributorCounter = 1;
 
-            $("#btnAddContributor").click(function () {
-                $("#fincontribution").append('<tbody><tr><td><input type="text" name="famconpurpose" /></td><td><input type="text" name="famconrel" /></td><td><select class="form-control" name="famconfrequency"><option value="Monthly">Monthly</option><option value="Quarterly">Quarterly</option><option value="Semi Annual">Semi Annual</option><option value="Annual">Annual</option><option value="Irregular">Irregular</option></select></td><td><input type="text" name="famconannual" /></td></tr></tbody>');
+        $(document).ready(function(){
+
+            //- TABLE ADD FAMILY
+            $(document).on('click', '#btnAddAddress', function(){
+                familyCounter++;
+                var fieldHTML = '<tr class="family-row familyCounter"><td><input type="text" name="famfname[]" class="form-control" style="width:100%"/></td><td><input type="text" name="famlname[]" class="form-control" style="width:100%"/></td><td><input type="text" name="fammname[]" class="form-control" style="width:100%"/></td><td><select name ="famcivil[]" class="form-control" style="width:100%"><option value = "Single">Single</option><option value = "Married">Married</option><option value = "Widowed">Widowed</option><option value = "Divorce/Separated">Divorce/Separated</option></select></td> <td><input type="text" name="fameduc[]" class="form-control" style="width:100%"/></td><td><input type="text" name="famoccu[]" class="form-control" style="width:100%" /></td></tr>';
+                $('body').find('.family-row:last').after(fieldHTML);
+            });
+            //- END OF TABLE ADD FAMILY
+
+            //- TABLE ADD FINANCIAL CONTRIBUTOR
+            $(document).on('click', '#btnAddContributor', function(){
+                contributorCounter++;
+                var fieldHTML = '<tr class="family-row contributorCounter"><td><input type="text" name="famconpurpose[]" class="form-control" style="width:100%" /></td><td><input type="text" name="famconrel[]" class="form-control" style="width:100%" /></td><td><select class="form-control" name="famconfrequency[]" class="form-control" style="width:100%"><option value="Monthly">Monthly</option><option value="Quarterly">Quarterly</option><option value="Semi Annual">Semi Annual</option><option value="Annual">Annual</option><option value="Irregular">Irregular</option></select></td><td><input type="number" name="famconannual[]" class="financial-contributor form-control" style="width:100%" /></td></tr>';
+                $('body').find('.contributor-row:last').after(fieldHTML);
+            });
+            //- END OF ADD FINANCIAL CONTRIBUTOR
+
+            $(document).on('change', '.financial-contributor', function() {
+                console.log('Change Detected');
+                //- var beneQuan = [];
+                var contrib = [];
+                var totalAmount = 0;
+
+                //- $(".ap-benefitquantity").each(function() {
+                //-     beneQuan.push($(this).val());
+                //- });
+
+                $(".financial-contributor").each(function() {
+                    contrib.push($(this).val());
+                });
+
+                for(var i = 0 ; i < contrib.length ; i++) {
+
+                    totalAmount += contrib[i];
+                    console.log(totalAmount);
+                    
+                    //- var n= (beneQuan[i]*beneUPrice[i]).toString().split(".");
+                    //- n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    var m= totalAmount.toString().split(".");
+                    m[0] = m[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                    
+                    //- $(".benefitAmount").eq(i).val(beneQuan[i]*beneUPrice[i]);
+                    //- $(".benefitAmounts").eq(i).val("PHP "+n.join("."));
+
+                    
+                    //- if(isNaN(beneQuan[i]*beneUPrice[i])){
+                    //-     $(".benefitAmounts").eq(i).value("0.00");
+                    //-     console.log("NaN detected");
+                    //- }
+                    //- else {
+                    //-     $(".benefitAmounts").eq(i).val(n.join("."));
+                    //- }
+
+                    $("#totalIncome").val(totalAmount);
+                    //- $("#totBeneBudgets").val("PHP "+m.join("."));
+                }
             });
         });

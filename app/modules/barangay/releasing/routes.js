@@ -523,6 +523,7 @@ router.post('/projectdetails',(req,res) => {
     });
 });
 
+
 router.get('/:int_projectID/viewbarangay',(req, res) => {
     console.log('=================================');
     console.log('BARANGAY: RELEASING PROJECT - VIEW BENEFICIARIES BARANGAY');
@@ -577,6 +578,12 @@ router.get('/:int_projectID/viewbarangay',(req, res) => {
                     console.log('=================================');
                     var resBAR = results3;
                     console.log(resBAR)
+                    for(var i=0;i<resBAR.length;i++)
+                    {
+                        resBAR[i].datetime_received = moment(resBAR[i].datetime_received).format('LLL');
+                    }
+
+
                         var queryString4 =`SELECT int_applicationID FROM tbl_application 
                         WHERE int_barangayID = ${resultss[0].int_barangayID}
                         AND int_projectID = "${req.params.int_projectID}"
@@ -596,7 +603,7 @@ router.get('/:int_projectID/viewbarangay',(req, res) => {
                             {
                                 tbl_project:results,
                                 notifications:notifications,
-                                tbl_beneficiary:results3,
+                                tbl_beneficiary:resBAR,
                                 appID:resultAPP
                             });
                         });
@@ -925,7 +932,47 @@ router.post('/closerel', (req, res) => {
     db.query(queryString1, (err, results) => {        
         if (err) throw err;
 
-        res.redirect('/barangay/releasing');
+        var queryString2 = `SELECT COUNT(*) AS closeBarRel, int_projectID
+        FROM tbl_barangayreleasing
+        WHERE enum_barangayReleaseStatus = "Closed"
+        AND int_projectID =${req.body.int_projectID}`
+        db.query(queryString2, (err, results2) => {        
+            if (err) throw err;
+            console.log(results2);
+            console.log('=================================');
+            console.log('BARANGAY: CLOSED RELEASING BARANGAY COUNT');
+            console.log('=================================');
+
+            var queryString3 = `SELECT COUNT(*) AS BarRel
+            FROM tbl_barangayreleasing
+            WHERE int_projectID = ${req.body.int_projectID}`
+            db.query(queryString3, (err, results3) => {        
+                if (err) throw err;
+                console.log(results3);
+                console.log('=================================');
+                console.log('BARANGAY: RELEASING BARANGAY COUNT');
+
+                console.log('=================================');
+                if(results2[0].closeBarRel==results3[0].BarRel)
+                {
+                    var queryString4 = `UPDATE tbl_projectdetail
+                    SET enum_projectStatus = 'Closed Releasing' 
+                    WHERE int_projectID = ${req.body.int_projectID}`
+                    db.query(queryString4, (err, results4) => {        
+                        if (err) throw err;
+                        console.log(results4);
+                        console.log('=================================');
+                        console.log('BARANGAY: RELEASING CLOSED MAIN RELEASING');
+                        console.log('=================================');
+                        res.redirect('/barangay/releasing');
+                    });
+                }
+                else{
+
+                    res.redirect('/barangay/releasing');
+                }
+            });
+        });
     });
 });
 
@@ -949,18 +996,65 @@ router.post('/closelaterel', (req, res) => {
     db.query(queryString, (err, results) => {        
         if (err) throw err;
         console.log(results);
+        console.log('=================================');
+        console.log('BARANGAY: Releasing close - INSERT REASON');
+        console.log('=================================');
 
         var queryString1 = `UPDATE tbl_barangayreleasing SET
         enum_barangayReleaseStatus = 'Closed',
         date_endRelease = "${currentDate}"
-        WHERE tbl_barangayreleasing.int_barangayID=${user_results[0].int_barangayID}
-        AND tbl_barangayreleasing.int_projectID=${req.body.eprojectID} `
+        WHERE int_barangayID=${user_results[0].int_barangayID}
+        AND int_projectID=${req.body.eprojectID} `
 
                 
         db.query(queryString1, (err, results2) => {        
             if (err) throw err;
+            console.log('=================================');
+            console.log('BARANGAY: Releasing close - UPDATE TABLE');
+            console.log('=================================');
 
-            res.redirect('/barangay/releasing');
+            var queryString2 = `SELECT COUNT(*) AS closeBarRel, int_projectID
+            FROM tbl_barangayreleasing
+            WHERE enum_barangayReleaseStatus = "Closed"
+            AND int_projectID =${req.body.eprojectID}`
+            db.query(queryString2, (err, results2) => {        
+                if (err) throw err;
+                console.log(results2);
+                console.log('=================================');
+                console.log('BARANGAY: CLOSED RELEASING BARANGAY COUNT');
+                console.log('=================================');
+    
+                var queryString3 = `SELECT COUNT(*) AS BarRel
+                FROM tbl_barangayreleasing
+                WHERE int_projectID = ${req.body.eprojectID}`
+                db.query(queryString3, (err, results3) => {        
+                    if (err) throw err;
+                    console.log(results3);
+                    console.log('=================================');
+                    console.log('BARANGAY: RELEASING BARANGAY COUNT');
+                    console.log('=================================');
+
+                    if(results2[0].closeBarRel==results3[0].BarRel)
+                    {
+                        var queryString4 = `UPDATE tbl_projectdetail
+                        SET enum_projectStatus = 'Closed Releasing' 
+                        WHERE int_projectID = ${req.body.eprojectID}`
+                        db.query(queryString4, (err, results4) => {        
+                            if (err) throw err;
+                            console.log(results4);
+                            console.log('=================================');
+                            console.log('BARANGAY: RELEASING CLOSED MAIN RELEASING');
+                            console.log('=================================');
+                            res.redirect('/barangay/releasing');
+                        });
+                    }
+                    else{
+
+                        res.redirect('/barangay/releasing');
+                    }
+    
+                });
+            });
         });
     });
 });

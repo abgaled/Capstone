@@ -146,9 +146,12 @@ block content
                                                         <text class="reqNames">
                                                             value= " " + req.varchar_requirementName
                                                         </text>
+                                                        
+                                                        input(type="text" class="ap-reqLoc form-control" id="ap-requirementloc" name="requirementLoc[]")
+                                                        
                                                         <br>
                                                 </label>
-                                                <input type="hidden" id="ap-uncheck" class="ap-uncheck" name="apply_uncheck[]">
+                                                //- <input type="hidden" id="ap-uncheck" class="ap-uncheck" name="apply_uncheck[]">
                                             </div>
                                         </tr>                   
                                     </div>
@@ -424,62 +427,54 @@ block content
             var reqNames = [];
             var names = "";
             
-            //- var checkCB = document.getElementsByClassName("ap-reqName").checked;
-            //- var eyy =[];
-            //- console.log("==============UNCHECKED:================");
-            //- console.log(eyy);
-            //- console.log("==============UNCHECKED:================");
+            //- var uncheckArr = [];
+            //- $('input[type="checkbox"]').each(function(index) {
 
-            //- if(checkCB == true){
-            //-     console.log("NACHECKAN TO");
-            //- }
-            //- if(checkCB == false){
-            //-     console.log("HINDI NACHECKAN TO");
-            //- }
+            //-     if(!this.checked) {
+            //-         console.log("=========uncheck=======");
+            //-         console.log(this.value);
+            //-         console.log("=========uncheck=======");
 
-            //- $('input[type="checkbox"]').click(function(){
-            //- if($(this).prop("checked") == true){
-            //-     console.log("Checkbox is checked.");
-            //- }
-            //- else if($(this).prop("checked") == false){
-            //-     console.log("Checkbox is unchecked.");
-                
-            //-     var uncheck = $(this).val();
-            //-     console.log(uncheck);
-            //-     document.getElementById('ap-uncheck').value = uncheck;
-            //- }
-            //- });
-            var uncheckArr = [];
-            $('input[type="checkbox"]').each(function(index) {
+            //-         //- var uncheck = this.value;
+            //-         //- document.getElementById('ap-uncheck').value = uncheck;
+            //-         //- document.getElementsByClassName('ap-uncheck').value = uncheck;
+            //-         //- uncheckArr.push($(this).val()); 
+            //-         console.log('PUUUUUUUUUUUUUUUUUSH')
+            //-         console.log(uncheckArr.push($(this).val()))
+            //-         console.log('PUUUUUUUUUUUUUUUUUSH')
 
-                if(!this.checked) {
-                    console.log("=========uncheck=======");
-                    console.log(this.value);
-                    console.log("=========uncheck=======");
+            //-         //- for(var a = 0 ; a < uncheckArr.length ; a++) {
+            //-         //-     var index = uncheckArr[a];
 
-                    //- var uncheck = this.value;
-                    //- document.getElementById('ap-uncheck').value = uncheck;
-                    //- document.getElementsByClassName('ap-uncheck').value = uncheck;
-                    //- uncheckArr.push($(this).val()); 
-                    console.log('PUUUUUUUUUUUUUUUUUSH')
-                    console.log(uncheckArr.push($(this).val()))
-                    console.log('PUUUUUUUUUUUUUUUUUSH')
-
-                    //- for(var a = 0 ; a < uncheckArr.length ; a++) {
-                    //-     var index = uncheckArr[a];
-
-                    //-     console.log("---------------INDEX")
-                    //- }
-                    console.log("============ARRAY OF UNCHECK");
-                    console.log(uncheckArr);
-                    console.log("============ END ARRAY OF UNCHECK");
+            //-         //-     console.log("---------------INDEX")
+            //-         //- }
+            //-         console.log("============ARRAY OF UNCHECK");
+            //-         console.log(uncheckArr);
+            //-         console.log("============ END ARRAY OF UNCHECK");
                     
-                    document.getElementById('ap-uncheck').value = uncheckArr;
-                    console.log("DOOOOOOOOOOOOOOOOOOOOOOOOOOOM")
-                    console.log(document.getElementById('ap-uncheck').value = uncheckArr)
-                    console.log("DOOOOOOOOOOOOOOOOOOOOOOOOOOOMENNNNNNNNNNNND")
-                }
-            });
+            //-         document.getElementById('ap-uncheck').value = uncheckArr;
+            //-         console.log("DOOOOOOOOOOOOOOOOOOOOOOOOOOOM")
+            //-         console.log(document.getElementById('ap-uncheck').value = uncheckArr)
+            //-         console.log("DOOOOOOOOOOOOOOOOOOOOOOOOOOOMENNNNNNNNNNNND")
+
+            //-         //- ENABLED INPUT TEXT IF CHECK
+            //-         //- document.getElementsByClassName('ap-reqLoc')[0].disabled = false;
+            //-         //- document.getElementsByClassName('ap-reqLoc')[1].disabled = false;
+                    
+            //-     }
+
+            //- $('.ap-reqName:checked').each(function () {
+
+            //-     if($(this).attr('type') == "checkbox") {
+            //-         value = $(this).prop('checked') == false ? 0: 1;
+            //-     }
+
+            //-     else {
+            //-     value = $(this).val();
+            //-     }
+
+
+            //- });
             
 
             $('.ap-reqName:checked').each(function() {
