@@ -396,12 +396,8 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
 
                     db.query(insertPersonalInfo,(err, personalinfo, fields) => {
                         if (err) console.log(err);
-                        console.log("DONE INSERT IN PERSONAL INFO")
 
-                        console.log(personalinfo);
-
-                        var countReqProj =`SELECt * FROM tbl_projectrequirement 
-                        WHERE int_projectID =${req.params.int_projectID}`
+                        var countReqProj =`SELECt * FROM tbl_projectrequirement WHERE int_projectID =${req.params.int_projectID}`
 
                         db.query(countReqProj,(err, countReq, fields) => {
                             if (err) console.log(err);
@@ -437,16 +433,12 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
                                 )`;
                             
                             }
-                            // FOR LOOP REQS FILE PATH (j)
-                       
                         
                     
                             db.query(appreqQuery,(err, appreqResult, fields) => {
                                 if(err) console.log(err);
 
                                // START QUERY FOR NOT PASSED REQUIREMENTID
-
-                            
 
                             var queryIncID = `SELECT int_requirementID
                             FROM tbl_projectrequirement
@@ -489,27 +481,21 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
 
 
                                     }
-                                    // FOR LOOP APPREQ INC
                                     db.query(appreqIncQuery ,(err, finalReqResult, fields) => {
                                         if(err) console.log(err);
             
                                     });
-                                    // DB QUERY APPREQ INC ("INCOMPLETE")
                                 }
-                                // IF INTREQS > 0
-                            });
-                            // DB QUERY SELECT INC REQS
+                            });   
+                            
                         });
-                        // DB QUERY APPREC (INSERT "PASSED ")
+                        }
+     
                     }
-                    // FOR LOOP COUNT THE PROJECT REQS (k)
-                }
-                // FOR LOOP REQS.LENGTH(i)   
                     });
-                    // DB QUERY COUNT PROJECT REQS
                     res.redirect('/barangay/projects');
+                // END OF FOR LOOP (PASSED & LOCATION)
                 });
-                // DB QUERY INSERT PERSONAL INFO
             });
         });
     });
@@ -1100,61 +1086,6 @@ router.post('/senliquidation', (req, res) => {
     //     if (err) throw err;
         res.redirect('/barangay/projects');
     // });
-});
-
-
-//========================================================
-// FORM VALIDATIONS 
-// =======================================================
-
-// (RESIDENT)
-
-// AJAX - CHECK EMAIL 
-router.post('/:int_projectID/apply/checkemail',(req,res) => {
-    console.log('=================================');
-    console.log('BARANGAY: PROJECTS-AJAX CHECK EMAIL IF EXISTING (POST)');
-    console.log('=================================');
-    console.log(`${req.body.checkEmail}`);
-
-    var queryString = `SELECT * FROM tbl_personalinformation
-        JOIN tbl_application
-        ON tbl_personalinformation.int_applicationID = tbl_application.int_applicationID
-        WHERE tbl_personalinformation.varchar_emailAddress = "${req.body.checkEmail}"
-        AND tbl_application.int_projectID = ${req.params.int_projectID}`
-
-        db.query(queryString,(err, results, fields) => {
-            if (err) console.log(err);   
-
-            // var email = results[0];
-            // console.log("=======================BRGY ID")
-            // console.log(email);
-            // console.log("=======================BRGY ID END")
-            
-
-                    console.log("=======CHECK IF THERE'S AN APPLICATION======");
-                    console.log(results)
-                    console.log("=======CHECK IF THERE'S AN APPLICATION======");
-
-                    if(results.length > 0 ){
-                        
-                        console.log("MAY RECORD");
-
-                        var record = true;
-
-                        return res.send({check_app:results,record:record});
-                    }
-
-                    else{
-                        console.log("WALANG RECORD");
-                        
-                        var record = false;
-                        
-                        return res.send({check_app:results,record:record});
-                                
-                        
-                    }
-                    // END OF ELSE
-    });
 });
 
 module.exports = router;

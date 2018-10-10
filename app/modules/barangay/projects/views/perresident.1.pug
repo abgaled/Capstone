@@ -20,7 +20,7 @@ block content
                         
                         <div class="clearfix"></div>
                     </div>
-                    <form id="regForm" action="apply/resident" method="POST" class="form-horizontal form-label-left" name="regForm">
+                    <form id="regForm" action="apply/resident" method="POST" class="form-horizontal form-label-left">
                         <div class="x_content">
                             <!-- Smart Wizard -->
 
@@ -71,9 +71,8 @@ block content
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-2 col-sm-12">
-                                            <label for="ap-birthdate" class="form-control-label" id="label-birthdate"><strong>Birthdate:</strong><span style="color:red;"> *</span></label>
-                                                <span id="bday-invalid" style="color:red;"></span>
-                                                <input type="date" id="ap-birthdate" onkeyup="keyBirthdate()" name="apply_birthdate" placeholder="Birthdate" class="col-sm-11 form-control ">
+                                            <label for="ap-birthdate" class="form-control-label"><strong>Birthdate:</strong><span style="color:red;"> *</span></label>
+                                                <input type="date" id="ap-birthdate" onchange="getbirthdate()" name="apply_birthdate" placeholder="Birthdate" class="col-sm-11 form-control ">
                                         </div>
                                         <div class="form-group col-md-2 col-sm-12">
                                             <label for="ap-birthdate" class="form-control-label"><strong>Age:</strong></label>
@@ -85,7 +84,7 @@ block content
                                         </div>
                                         <div class="form-group col-md-5 col-sm-12">
                                             <label for="ap-email" class="form-control-label"><strong>Email Address:</strong><span style="color:red;"> *</span></label>
-                                                <input type="email" id="ap-email" onchange="getemail()" onkeyup="getemail()" name="apply_emailaddress" placeholder="(ex: abc@gmail.com)" class="col-sm-11 form-control ">
+                                                <input type="email" id="ap-email" onchange="getemail()" name="apply_emailaddress" placeholder="(ex: abc@gmail.com)" class="col-sm-11 form-control ">
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -105,7 +104,7 @@ block content
                                         
                                         <div class="form-group col-md-2 col-sm-12">
                                             <label for="ap-yrres" class="form-control-label"><strong>Year of Residency:</strong><span style="color:red;"> *</span></label>
-                                                <input type="number" min="1000" max="2018" step="1" id="ap-yrres" onchange="getyrres()" onkeyup="keyYrRes()" name="apply_yrres" placeholder="(ex. 20xx, 2010)" class="col-sm-11 form-control ">
+                                                <input type="number" min="1000" max="2018" step="1" id="ap-yrres" onchange="getyrres()" onkeyup="computeyrres()" name="apply_yrres" placeholder="(ex. 20xx, 2010)" class="col-sm-11 form-control ">
                                         </div>
                                         <div class="form-group col-md-2 col-sm-12">
                                             <label for="ap-yrres" class="form-control-label"><strong>Computed Years:</strong></label>
@@ -114,7 +113,6 @@ block content
                                         <div class="form-group col-md-2 col-sm-12">
                                             <label for="ap-civilstat" class="form-control-label"><strong>Civil Status:</strong><span style="color:red;"> *</span></label>
                                             <select class="form-control" id="ap-civilstat" name="apply_civilstat" onchange="getcivilstat()">
-                                                <option disabled="disabled" selected="selected">Choose..</option>
                                                 <option value="Single">Single</option>
                                                 <option value="Married">Married</option>
                                                 <option value="Widow/Widower">Widow/Widower</option>
@@ -144,12 +142,12 @@ block content
                                                 <br>
                                                 <label for="checkbox1" class="form-check-label ">
                                                     each req in requirements
-                                                        input(type="checkbox" onchange="getRequirement()" onclick="getRequirement()" class="ap-reqName" id="ap-requirementid" name="requirementID[]" value=`${req.int_requirementID}` )
+                                                        input(type="checkbox" onchange="getRequirement()" class="ap-reqName" id="ap-requirementid" name="requirementID[]" value=`${req.int_requirementID}` )
                                                         <text class="reqNames">
                                                             value= " " + req.varchar_requirementName
                                                         </text>
                                                         
-                                                        input(type="text" class="ap-reqLoc form-control" id="ap-requirementloc" name="requirementLoc[]" disabled)
+                                                        input(type="text" class="ap-reqLoc form-control" id="ap-requirementloc" name="requirementLoc[]" )
                                                         
                                                         <br>
                                                 </label>
@@ -258,8 +256,6 @@ block content
         </div>
     </div>
 
-    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
-    <script src="/asset_validation/dist/jquery.validate.min.js"></script>
     //- SCRIPT FOR TABS
     script.
         
@@ -317,40 +313,26 @@ block content
             }
         }
 
-        //- function getbirthdate() {
-        //-     var options = {year: 'numeric', month: 'long', day: 'numeric'};
+        function getbirthdate() {
+            var options = {year: 'numeric', month: 'long', day: 'numeric'};
 
-        //-     //- var dateString = document.getElementById("ap-birthdate").value;
-        //-     //- var myDate = new Date(dateString);
-        //-     //- var today = new Date();
-            
-        //-     //-     if ( myDate > today ) { 
-        //-     //-         document.getElementById("bday-invalid").innerHTML = "Invalid Date";
-                    
-        //-     //-     }
-        //-     //-     else{
-        //-     //-         document.getElementById("bday-invalid").innerHTML = "";
-        //-     //-         //- document.getElementById("ap-birthdate").value = "0000-00-00";
-        //-     //-     }
-            
+            var birthdate = new Date(document.getElementById("ap-birthdate").value);
+            var bday = birthdate.toLocaleDateString([], options);
 
-        //-     var birthdate = new Date(document.getElementById("ap-birthdate").value);
-        //-     var bday = birthdate.toLocaleDateString([], options);
+            console.log(bday);
 
-        //-     console.log(bday);
+            ageMS = Date.parse(Date()) - Date.parse(document.getElementById("ap-birthdate").value);
+            age = new Date();
+            age.setTime(ageMS);
+            ageYear = age.getFullYear() - 1970;
+            console.log("Current Age:")
+            console.log(ageYear)
 
-        //-     ageMS = Date.parse(Date()) - Date.parse(document.getElementById("ap-birthdate").value);
-        //-     age = new Date();
-        //-     age.setTime(ageMS);
-        //-     ageYear = age.getFullYear() - 1970;
-        //-     console.log("Current Age:")
-        //-     console.log(ageYear)
-
-        //-     if(birthdate!=0){
-        //-         document.getElementById("result-birthdate").innerHTML = bday;
-                
-        //-     }
-        //- }
+            if(birthdate!=0){
+                document.getElementById("result-birthdate").innerHTML = bday;
+                document.getElementById("ap-age").innerHTML = ageYear + " year/s old";
+            }
+        }
 
         function getcontact() {
             var contact = document.getElementById("ap-number").value;
@@ -362,61 +344,12 @@ block content
         }
 
         function getemail() {
-            //- delay(function(){
-
             var email = document.getElementById("ap-email").value;
             console.log(email);
 
-                    console.log("========Email");
-                    console.log(email);
-                    console.log("========End Email");
-
-                    $.ajax({
-                        type : "POST",
-                        url : window.location + "/checkemail",
-                        data: { checkEmail: email},
-                        dataType: "json",
-                        success: function(record){
-
-                        if (record.record == true){
-                            console.log("Success: True" );
-                            swal({
-                                type: 'info',
-                                title: email+' is <br>already registered.',
-                                text: 'Do you want to use it again for this project?',
-                                showCancelButton: true,
-                                confirmButtonText: 'Yes, use it again!',
-                                cancelButtonText: "No, I'll provide another email!",
-                                allowOutsideClick: false,
-                                }).then(function(result) {
-                                    if(result.value){
-                                        swal(
-                                        'Use it again!',
-                                        'Will use it again for this project.',
-                                        'success'
-                                        )
-                                    }
-                                    else if(result.dismiss == 'cancel'){
-                                        document.getElementById("ap-email").value = "";
-                                    }
-                               
-                                });
-                                
-                            console.log(record.record)
-                        }
-                        else{
-                            console.log("Success: False" );
-                            console.log(record.record)
-                            
-                            document.getElementById("result-email").innerHTML = email;
-                            
-                        }   
-                        },
-                        error : function(e) {
-                            console.log("ERROR: ", e);
-                        }
-                    });	
-            //- }, 700 );
+            if(email!=0){
+                document.getElementById("result-email").innerHTML = email;
+            }
         }
 
         function getgender1() {
@@ -468,27 +401,15 @@ block content
             var yrres = document.getElementById("ap-yrres").value;
             console.log(yrres);
 
-            var bdate = document.getElementById("ap-birthdate").value;
-            var d = new Date(bdate);
-
-            minyear = d.getFullYear();
-            document.getElementById("ap-yrres").setAttribute("min", minyear);
-
             curyear = new Date();
             totYear = (curyear.getFullYear() - document.getElementById("ap-yrres").value) ;
             console.log("Total Years:")
             console.log(totYear)
 
-            //- if(yrres!=0){
-                //- //- document.getElementById("result-yrres").innerHTML = yrres;
-                //- if(document.getElementById("ap-yrres").value > minyear){
-                //- document.getElementById("ap-computeyrres").innerHTML = totYear + " year/s";
-                //- }
-                //- else{
-                //- document.getElementById("ap-yrres").value = minyear
+            if(yrres!=0){
+                //- document.getElementById("result-yrres").innerHTML = yrres;
                 document.getElementById("ap-computeyrres").innerHTML = totYear + " year/s";
-                //- }
-            //- }
+            }
 
         }
 
@@ -505,16 +426,10 @@ block content
             var reqIndeces = [];
             var reqNames = [];
             var names = "";
+
+
             
-            checkBoxes=document.regForm.elements['requirementID[]'];
-            textBoxes=document.regForm.elements['requirementLoc[]'];
-            for(var i=0 ; i<checkBoxes.length;i++)
-            {
-                checkBoxes[i].myIndex = i;
-                checkBoxes[i].onchange = function() {
-                    textBoxes[this.myIndex].disabled =!(this.checked);
-                };
-            }
+            
 
             $('.ap-reqName:checked').each(function() {
                 reqIndeces.push($("input[type=checkbox]").index($(this)));
@@ -536,118 +451,3 @@ block content
             document.getElementById("result-projRequirement").innerHTML = names;
             
         }
-
-        //- FUNCTION TO DELAY INPUTTED DATAS
-            var delay = (function(){
-                var timer = 0;
-                return function(callback, ms){
-                    clearTimeout (timer);
-                    timer = setTimeout(callback, ms);
-                };
-            })();
-        //- END OF FUNCTION TO DELAY INPUTTED DATAS
-
-        //- DELAY INPUT BIRTHDATE
-            function keyBirthdate(){
-                delay(function(){
-
-                    var dateString = document.getElementById("ap-birthdate").value;
-                    var myDate = new Date(dateString);
-                    var today = new Date();
-                    
-                        if ( myDate > today ) { 
-                            document.getElementById("bday-invalid").innerHTML = "Invalid Date";
-                           
-                            document.getElementById("ap-birthdate").value = today;
-                             
-                        }
-                        else{
-                            document.getElementById("bday-invalid").innerHTML = "";
-                            
-                        }
-                        
-                    //- var bdate = document.getElementById("ap-birthdate").value;
-                    //- var d = new Date(bdate);
-
-                    //- minyear = d.getFullYear();
-                    //- document.getElementById("ap-yrres").setAttribute("min", minyear);
-                    ageMS = Date.parse(Date()) - Date.parse(document.getElementById("ap-birthdate").value);
-                    age = new Date();
-                    age.setTime(ageMS);
-                    ageYear = age.getFullYear() - 1970;
-                    console.log("Current Age:")
-                    console.log(ageYear)
-                    document.getElementById("ap-age").innerHTML = ageYear + " year/s old";
-                }, 600 );
-
-                var options = {year: 'numeric', month: 'long', day: 'numeric'};
-                var birthdate = new Date(document.getElementById("ap-birthdate").value);
-                var bday = birthdate.toLocaleDateString([], options);
-                document.getElementById("result-birthdate").innerHTML = bday;
-
-                $("#ap-birthdate").bind('mouseup', function () {
-                    ageMS = Date.parse(Date()) - Date.parse(document.getElementById("ap-birthdate").value);
-                    age = new Date();
-                    age.setTime(ageMS);
-                    ageYear = age.getFullYear() - 1970;
-                    console.log("Current Age:")
-                    console.log(ageYear)
-                    document.getElementById("ap-age").innerHTML = ageYear + " year/s old";
-
-                    var dateString = document.getElementById("ap-birthdate").value;
-                    var myDate = new Date(dateString);
-                    var today = new Date();
-                    //- document.getElementById("ap-birthdate").setAttribute("max", today);
-                    
-                        if ( myDate > today ) { 
-                            document.getElementById("bday-invalid").innerHTML = "Invalid Date";
-                           
-                            document.getElementById("ap-birthdate").value = today;
-                             
-                        }
-                        else{
-                            document.getElementById("bday-invalid").innerHTML = "";
-                            
-                        }
-                });
-
-            }
-        //- END DELAY INPUT BIRTHDATE
-
-        //- DELAY INPUT YR OF RESIDENCY && COMPUTE TOTAL YEAR OF RESIDENCY
-            function keyYrRes(){
-                delay(function(){
-                    console.log('Time elapsed!');
-                    var yrres = document.getElementById("ap-yrres").value;
-                    console.log(yrres);
-
-                    var bdate = document.getElementById("ap-birthdate").value;
-                    var d = new Date(bdate);
-
-                    minyear = d.getFullYear();
-
-                    if(minyear > yrres){
-                        document.getElementById("ap-yrres").setAttribute("min", minyear);
-                        document.getElementById("ap-yrres").value = minyear;
-                        curyear = new Date();
-                        totYear = (curyear.getFullYear() - document.getElementById("ap-yrres").value) ;
-                        console.log("Total Years:")
-                        console.log(totYear)
-                    }
-
-                    curyear = new Date();
-                    totYear = (curyear.getFullYear() - document.getElementById("ap-yrres").value) ;
-                    console.log("Total Years:")
-                    console.log(totYear)
-                    
-
-                    document.getElementById("ap-computeyrres").innerHTML = totYear + " year/s";
-                }, 800 );
-                $("#ap-yrres").bind('mouseup', function () {
-                    curyear = new Date();
-                    totYear = (curyear.getFullYear() - document.getElementById("ap-yrres").value) ; 
-                    document.getElementById("ap-computeyrres").innerHTML = totYear + " year/s";
-                });
-        }
-        //- END OF DELAY YR RES
-       
