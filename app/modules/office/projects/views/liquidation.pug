@@ -11,7 +11,6 @@ block content
                         <form id="formcloseproj" name="formcloseproj" method="POST" action='/office/projects/endproj'>
                             <input hidden id="projID" name="projID">
                             button.btn.btn-danger.btn-s.mb-1(id="finproj" value= proj.int_projectID class="finproj pull-right" ): span.fa End Project
-                            button.btn.btn-success.btn-s.mb-1(id="printliq" class="finproj pull-right" ): span.fa.fa-print Print Liquidation
                         </form>
                     </div> 
                     <div class="x_title" >
@@ -19,103 +18,283 @@ block content
                             <h4 class="text-center">
                                 value="(" + proj.varchar_projectName + ")"
                             </h4>
+                            button.btn.btn-success.mb-1(id="add_expense" class="add_expense"): span.fa.fa-plus Add additional Expense
                     </div>             
                     <div class="content-wrapper">
                         <div class="container-fluid">
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered" id="datatable" cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="2"></th>
-                                                        <th colspan="2" class="text-center">Estimated</th>
-                                                        <th colspan="2" class="text-center">Actual</th>
-                                                    </tr>
-                                                </thead>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Expenses Description</th>
-                                                        <th>Unit Price</th>
-                                                        <th>QTY</th>
-                                                        <th>Amount</th>
-                                                        <th>QTY</th>
-                                                        <th>Amount</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <form>
-                                                    each exp in tbl_expenses
-                                                        <tr class="tr-shadow">
-                                                            <td>
-                                                                value=exp.text_expenseDescription
-                                                            </td>
-                                                            <td>Php 
-                                                                value=exp.decimal_unitPrice
-                                                            </td>
-                                                            <td>
-                                                                value=exp.int_estimatedQuantity
-                                                            </td>
-                                                            <td>
-                                                                if exp.decimal_estimatedAmount == null
-                                                                    p 
-                                                                else
-                                                                    p Php #{exp.decimal_estimatedAmount} 
-                                                            </td>
-                                                            <td>
-                                                                value=exp.int_actualQuantity
-                                                            </td>
-                                                            <td>Php 
-                                                                value=exp.decimal_actualAmount
-                                                            </td>
+                                    <form id="formLiquidate" method="POST" action='/office/projects/sendliquidation' class="formLiquidate" name="formLiquidate">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                input(type="hidden" value=`${proj.int_projectID}` id="int_projectID" name="int_projectID" class="int_projectID")
+                                                <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="2"></th>
+                                                            <th colspan="2" class="text-center">Estimated</th>
+                                                            <th colspan="2" class="text-center">Actual</th>
                                                         </tr>
-                                                    </form>    
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th colspan="2"</th>
-                                                        <th colspan="1" class=""><div class="pull-right" >Total Estimatation: </div>
-                                                        </th>
-                                                        <th>Php 
-                                                        each tot in totalest
-                                                            value=tot.total_estimatedexpense 
-                                                        </th>
-                                                        <th colspan="1" class=""><div class="pull-right" >Total Amount: </div>
-                                                        </th>
-                                                        <th>Php 
-                                                        each totals in total
-                                                            value=totals.total_expense 
-                                                        </th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th colspan="6">
-                                                            br
-                                                            br
-                                                        </th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th colspan="3" rowspan="2"></th>
-                                                        <th >Budget Acquired: <br/><br/>  - Total Expenses:</th>
-                                                        <th colspan="2" > Php 
-                                                            value=proj.decimal_actualBudget
-                                                        <br><br> Php 
-                                                        each tot2 in total
-                                                            value=tot2.total_expense 
-                                                        </th>
-                                                        
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Remaining Budget:</th>
-                                                        <th colspan="2"> Php 
-                                                        each rb in tbl_rembal
-                                                            value=rb.budgetbalance 
-                                                        </th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
+                                                    </thead>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Expenses Description</th>
+                                                            <th>Unit Price</th>
+                                                            <th>QTY</th>
+                                                            <th>Amount</th>
+                                                            <th>QTY</th>
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        each exp in tbl_expenses
+                                                            <tr class="tr-shadow">
+                                                                input(type="hidden" value=`${exp.int_expenseID}` id="int_expenseID" name="int_expenseID" class="int_expenseID")
+                                                                <td>
+                                                                    value=exp.text_expenseDescription
+                                                                </td>
+                                                                <td class='' >Php #{exp.decimal_unitPrice.toLocaleString()} 
+                                                                    input(type="hidden" value=`${exp.decimal_unitPrice}` id="decimal_unitPrice" name="decimal_unitPrice" class="decimal_unitPrice")
+                                                                </td>
+                                                                <td>
+                                                                    value= exp.int_estimatedQuantity
+                                                                </td>
+                                                                <td>Php 
+                                                                    value= exp.decimal_estimatedAmount.toLocaleString()
+                                                                </td>
+                                                                <td>
+                                                                each app in tbl_appCount
+                                                                    if exp.text_expenseDescription == "Benefit Expense"
+                                                                        input(type="number" value=`${app.appCount}` id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control")
+                                                                    else
+                                                                        <input type="number"  value=`${app.appCount}`  id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity">                                                                        
+                                                                </td>
+                                                                <td>
+                                                                    <div id="" class=" ">
+                                                                        <input type="text" readonly id="total_amountDis" name="total_amountDis" class="total_amountDis form-control" required placeholder="Amount">
+                                                                        <input type="hidden" readonly id="total_amount" name="total_amount" class="total_amount form-control" required placeholder="Amount">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>        
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="2"</th>
+                                                            <th colspan="1" class=""><div class="pull-right" >Total Estimatation: </div>
+                                                            </th>
+                                                            <th>Php 
+                                                            each tot in totalest
+                                                                value=tot.total_estimatedexpense.toLocaleString()
+                                                            </th>
+                                                            <th colspan="1" class=""><div class="pull-right" >Total Amount: </div>
+                                                            </th>
+                                                            <th>
+                                                                <div id="" class=" ">
+                                                                    <input type="text" readonly id="totalamountDis" name="totalamountDis" class="totalamountDis form-control" required placeholder="Amount">
+                                                                    <input type="hidden" readonly id="totalamount" name="totalamount" class="totalamount form-control" required placeholder="Amount">
+                                                                </div>
+                                                            </th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                                <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="4" class="text-center">Additional Expense (INCASE)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="1">Expenses Description</th>
+                                                            <th>Unit Price</th>
+                                                            <th>QTY</th>
+                                                            <th>Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>    
+                                                        <tr class="tr-shadow">
+                                                            <td >
+                                                                <input type="text"    id="addEx_desc" name="addEx_desc" class="addEx_desc form-control"  placeholder="Enter Description...">                                                                        
+                                                            </td>  
+                                                            
+                                                            <td>
+                                                                <input type="number"    id="addUnit_Price" name="addUnit_Price" class="addUnit_Price form-control"  placeholder="Enter Unit Price...">                                                                        
+                                                            </td>  
+                                                            
+                                                            <td>
+                                                                <input type="number"   id="addQuanity" name="addQuanity" class="addQuanity form-control"  placeholder="Enter Quantity...">                                                                        
+                                                            </td>  
+                                                            <td>
+                                                                <input type="hidden"  readonly id="addAmount" name="addAmount" class="addAmount form-control"  placeholder="">   
+                                                                <input type="text"  readonly id="addAmountDis" name="addAmountDis" class="addAmountDis form-control"  placeholder="">                                                                        
+                                                            </td>  
+                                                        </tr>   
+                                                        <tr class="tr-shadow">
+                                                            <td >
+                                                                <input type="text"    id="addEx_desc" name="addEx_desc" class="addEx_desc form-control"  placeholder="Enter Description...">                                                                        
+                                                            </td>  
+                                                            
+                                                            <td>
+                                                                <input type="number"    id="addUnit_Price" name="addUnit_Price" class="addUnit_Price form-control"  placeholder="Enter Unit Price...">                                                                        
+                                                            </td>  
+                                                            
+                                                            <td>
+                                                                <input type="number"   id="addQuanity" name="addQuanity" class="addQuanity form-control"  placeholder="Enter Quantity...">                                                                        
+                                                            </td>  
+                                                            <td>
+                                                                <input type="hidden"  readonly id="addAmount" name="addAmount" class="addAmount form-control"  placeholder="">   
+                                                                <input type="text"  readonly id="addAmountDis" name="addAmountDis" class="addAmountDis form-control"  placeholder="">                                                                        
+                                                            </td>  
+                                                        </tr>   
+                                                        <tr class="tr-shadow">
+                                                            <td >
+                                                                <input type="text"    id="addEx_desc" name="addEx_desc" class="addEx_desc form-control"  placeholder="Enter Description...">                                                                        
+                                                            </td>  
+                                                            
+                                                            <td>
+                                                                <input type="number"    id="addUnit_Price" name="addUnit_Price" class="addUnit_Price form-control"  placeholder="Enter Unit Price...">                                                                        
+                                                            </td>  
+                                                            
+                                                            <td>
+                                                                <input type="number"   id="addQuanity" name="addQuanity" class="addQuanity form-control"  placeholder="Enter Quantity...">                                                                        
+                                                            </td>  
+                                                            <td>
+                                                                <input type="hidden"  readonly id="addAmount" name="addAmount" class="addAmount form-control"  placeholder="">   
+                                                                <input type="text"  readonly id="addAmountDis" name="addAmountDis" class="addAmountDis form-control"  placeholder="">                                                                        
+                                                            </td>  
+                                                        </tr>   
+                                                        <tr class="tr-shadow">
+                                                            <td >
+                                                                <input type="text"    id="addEx_desc" name="addEx_desc" class="addEx_desc form-control"  placeholder="Enter Description...">                                                                        
+                                                            </td>  
+                                                            
+                                                            <td>
+                                                                <input type="number"    id="addUnit_Price" name="addUnit_Price" class="addUnit_Price form-control"  placeholder="Enter Unit Price...">                                                                        
+                                                            </td>  
+                                                            
+                                                            <td>
+                                                                <input type="number"   id="addQuanity" name="addQuanity" class="addQuanity form-control"  placeholder="Enter Quantity...">                                                                        
+                                                            </td>  
+                                                            <td>
+                                                                <input type="hidden"  readonly id="addAmount" name="addAmount" class="addAmount form-control"  placeholder="">   
+                                                                <input type="text"  readonly id="addAmountDis" name="addAmountDis" class="addAmountDis form-control"  placeholder="">                                                                        
+                                                            </td>  
+                                                        </tr>   
+                                                        <tr class="tr-shadow">
+                                                            <td >
+                                                                <input type="text"    id="addEx_desc" name="addEx_desc" class="addEx_desc form-control"  placeholder="Enter Description...">                                                                        
+                                                            </td>  
+                                                            
+                                                            <td>
+                                                                <input type="number"    id="addUnit_Price" name="addUnit_Price" class="addUnit_Price form-control"  placeholder="Enter Unit Price...">                                                                        
+                                                            </td>  
+                                                            
+                                                            <td>
+                                                                <input type="number"   id="addQuanity" name="addQuanity" class="addQuanity form-control"  placeholder="Enter Quantity...">                                                                        
+                                                            </td>  
+                                                            <td>
+                                                                <input type="hidden"  readonly id="addAmount" name="addAmount" class="addAmount form-control"  placeholder="">   
+                                                                <input type="text"  readonly id="addAmountDis" name="addAmountDis" class="addAmountDis form-control"  placeholder="">                                                                        
+                                                            </td>  
+                                                        </tr>   
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="3" class=""><div class="pull-right" >Total Amount: </div>
+                                                            </th>
+                                                            <th>
+                                                                <div id="" class=" ">
+                                                                    <input type="text" readonly id="totalAddAmountDis" name="totalAddAmountDis" class="totalAddAmountDis form-control" required placeholder="Amount">
+                                                                    <input type="hidden" readonly id="totalAddAmount" name="totalAddAmount" class="totalAddAmount form-control" required placeholder="Amount">
+                                                                </div>
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th colspan="4" class="">
+                                                                <div class="form-group">
+                                                                    <div class="col-md-3">
+                                                                    </div>
+                                                                    <label class="control-label col-md-2" for="first-name">Total Budget:
+                                                                    </label>
+                                                                    <div class="col-md-5 " id="">
+                                                                        input(type="hidden"  readonly value=`${proj.decimal_appropriatedBudget}` id="decimal_appropriatedBudget" name="decimal_appropriatedBudget" class="decimal_appropriatedBudget form-control col-md-3 col-xs-12")
+                                                                        input(type="text"  readonly value=`${"Php " + proj.decimal_appropriatedBudget.toLocaleString()}` id="decimal_appropriatedBudgetDis" name="decimal_appropriatedBudgetDis" class="decimal_appropriatedBudgetDis form-control col-md-3 col-xs-12")
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-3">
+                                                                    </div>
+                                                                    <label class="control-label col-md-2" for="first-name">Total Expense:
+                                                                    </label>
+                                                                    <div class="col-md-5 totalExpense" id="totalExpense">
+                                                                        <input type="hidden" readonly id="ovtotalExpense" name="ovtotalExpense" class="ovtotalExpense  form-control col-md-7 col-xs-12" required placeholder="Amount">
+                                                                        <input type="text" readonly id="ovtotalExpenseDis" name="ovtotalExpenseDis" class="ovtotalExpenseDis  form-control col-md-7 col-xs-12" required placeholder="Amount">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-3">
+                                                                    </div>
+                                                                    <label class="control-label col-md-2 allign-right" for="first-name">Remaining Budget <br/>(Total Budget - Total Expense)
+                                                                    </label>
+                                                                    <div class="col-md-5 totalExpense" id="totalExpense">
+                                                                        <input type="text" readonly id="ovRemainingBudget" name="ovRemainingBudget" class="ovRemainingBudget  form-control col-md-7 col-xs-12" required placeholder="Amount">
+                                                                    </div>
+                                                                </div>
+                                                            </th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                                <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="1" rowspan="" class="">
+                                                                <center class=""> Category
+                                                                </center>
+                                                            </th>
+                                                            <th colspan="1" rowspan="" class=""> Category Budget (project budget)
+                                                            </th>
+                                                            <th colspan="1" rowspan="" class=""> Category Budget Percentage
+                                                            </th>
+                                                            <th colspan="1" rowspan="" class=""> Divided Remaining Budget (Base on percentage)
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th colspan="1" rowspan="" class="">
+                                                            each cat5 in categPerc.catID
+                                                                input(type="hidden"  readonly value=`${cat5}` id="categoryID" name="categoryID" class="categoryID form-control")
+                                                            each cat in categPerc.catName
+                                                                <center class="">
+                                                                    input(type="text"  readonly value=`${cat}` id="perc" name="perc" class="perc form-control")
+                                                                </center>
+                                                            </th>
+                                                            <th colspan="1" rowspan="" class="">
+                                                            each cat3 in categPerc.catAllBud
+                                                                <center class="">
+                                                                    input(type="text" readonly value=`Php ${cat3}` id="perc" name="perc" class="perc form-control")
+                                                                </center>
+                                                            </th>
+                                                            <th colspan="1" rowspan="" class="">
+                                                            each cat2 in categPerc.percentage
+                                                                <center class="">
+                                                                    input(type="text" readonly value=`${cat2}` id="categoryPercentage" name="categoryPercentage" class="categoryPercentage form-control")
+                                                                </center>
+                                                            </th>
+                                                            <th colspan="1" rowspan="" class="">
+                                                            each cat2 in categPerc.percentage
+                                                                <center class="">
+                                                                    <input type="text" readonly id="remainingCatDis" name="remainingCatDis" class="remainingCatDis  form-control" required placeholder="Amount">
+                                                                    <input type="hidden" readonly id="remainingCat" name="remainingCat" class="remainingCat  form-control" required placeholder="Amount">
+                                                                </center>
+                                                            </th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            button.btn.btn-success.mb-1.pull-right(id="submit-liq" class="submit-liq"): span.fa.fa-plus Submit Liquidated Expense
+                                            </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
         <!-- END STATISTIC-->
         <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
@@ -125,6 +304,186 @@ block content
         script.
 
             $(document).ready(function () {
+                
+                $(".addUnit_Price, .addQuanity").on("change", function() {
+                        var quan = [];
+                        var uprice = [];
+                        var totAmount = [];
+                        var totalamount =0;
+                        var generalTotal = 0;
+                        var Amt =0;
+                        var addAmt=0;
+                        var categPerc = [];
+                        var categremBal = [];
+                    
+                        $(".addQuanity").each(function (){
+                            if( !$(this).val()){
+                                //- continue;
+                                quan.push(0);
+
+                            }
+                            else {
+                                quan.push($(this).val());
+                            }
+                        });
+                        $(".addUnit_Price").each(function (){
+                            if( !$(this).val()){
+                                //- continue;
+                                uprice.push(0);
+                            }
+                            else {
+                                uprice.push($(this).val());
+                            }
+                        });
+                        console.log("LENGTH");
+                        console.log(quan.length);
+                        for(var i = 0 ; i < 5 ; i++) {
+                            console.log(i);
+
+                            console.log(quan[i]);
+                            console.log(uprice[i]);
+
+                            console.log([i+1]+"- Quantity:"+quan[i]+" Unit Price:"+uprice[i]);
+                            totAmount[i] = (quan[i]*uprice[i]);
+                            console.log(totAmount[i]);
+                            $(".addAmount").eq(i).val(totAmount[i]);
+                            $(".addAmountDis").eq(i).val("Php " +totAmount[i].toLocaleString());
+
+                            totalamount += totAmount[i];
+                            console.log(totalamount);
+                            $(".totalAddAmount").val(totalamount);
+                            $(".totalAddAmountDis").val("Php " +totalamount.toLocaleString());
+                        }
+
+                        addAmt = parseInt($('.totalAddAmount').val())
+                        console.log("addAmt");
+                        console.log(addAmt);
+                        Amt =  parseInt($('.totalamount').val())
+                        console.log("Amt");
+                        console.log(Amt);
+                        console.log("Yeeey!");
+                        generalTotal = Amt + addAmt;
+                        console.log("generalTotal");
+                        console.log(generalTotal);
+                        $(".ovtotalExpense").val(generalTotal);
+                        $(".ovtotalExpenseDis").val("Php "+generalTotal.toLocaleString());
+                        //- $(".totalExpense").html(generalTotal);
+                        appBud =  parseInt($('.decimal_appropriatedBudget').val())
+                        console.log("appBud");
+                        console.log(appBud);
+                        remain = appBud - generalTotal;
+                        console.log("remain");
+                        console.log(remain);
+                        //- $(".decimal_appropriatedBudget").val("Php " + appBud.toLocaleString());
+                        $(".ovRemainingBudget").val("Php " + remain.toLocaleString());
+                        rem = $('.ovRemainingBudget').val()
+                        console.log("rem");
+                        console.log(rem);
+                        $(".categoryPercentage").each(function (){
+                            categPerc.push($(this).val());
+                        });
+                        for(var j = 0; j < categPerc.length; j++)
+                        {
+                            console.log(categPerc[j]);
+                            categremBal[j] = remain*categPerc[j];
+                            categremBal[j] = categremBal[j]/100;
+                            console.log(categremBal[j]);
+                            $(".remainingCat").eq(j).val(categremBal[j]);
+                            $(".remainingCatDis").eq(j).val("Php " +categremBal[j].toLocaleString());
+                        }
+                });
+
+                $(".decimal_unitPrice, .Unit_Quantity").on("change", function() {
+                        var quan = [];
+                        var uprice = [];
+                        var totAmount = [];
+                        var totalamount =0;
+                        var generalTotal = 0;
+                        var Amt =0;
+                        var addAmt=0;
+                        var categPerc = [];
+                        var categremBal = [];
+                    
+                        $(".Unit_Quantity").each(function (){
+                            if( !$(this).val()){
+                                //- continue;
+                                quan.push($(this).val());
+
+                            }
+                            else {
+                                quan.push($(this).val());
+                            }
+                        });
+                        $(".decimal_unitPrice").each(function (){
+                            if( !$(this).val()){
+                                //- continue;
+                                quan.push($(this).val());
+                            }
+                            else {
+                                uprice.push($(this).val());
+                            }
+                        });
+                        for(var i = 0 ; i < quan.length ; i++) {
+
+                                console.log(quan[i]);
+                                console.log(uprice[i]);
+
+                            console.log([i+1]+"- Quantity:"+quan[i]+" Unit Price:"+uprice[i]);
+                            totAmount[i] = (quan[i]*uprice[i]);
+                            console.log(totAmount[i]);
+                            $(".total_amount").eq(i).val(totAmount[i]);
+                            $(".total_amountDis").eq(i).val("Php " +totAmount[i].toLocaleString());
+
+                            totalamount += totAmount[i];
+                            console.log(totalamount);
+                            $(".totalamount").val(totalamount);
+                            $(".totalamountDis").val("Php " + totalamount.toLocaleString());
+                            $("#totalRemBal").html("Php " + totalamount);
+                        }
+                        console.log("Yeeey!");
+                        console.log(totalamount);
+                        
+                        addAmt = parseInt($('.totalAddAmount').val())
+                        console.log("addAmt");
+                        console.log(addAmt);
+                        Amt =  parseInt($('.totalamount').val())
+                        console.log("Amt");
+                        console.log(Amt);
+                        generalTotal = Amt + addAmt;
+                        console.log("generalTotal");
+                        console.log(generalTotal);
+                        $(".ovtotalExpense").val(generalTotal);
+
+                        appBud =  parseInt($('.decimal_appropriatedBudget').val())
+                        console.log("appBud");
+                        console.log(appBud);
+                        remain = appBud - generalTotal;
+                        console.log("remain");
+                        console.log(remain);
+                        //- $(".decimal_appropriatedBudget").val("Php " + appBud.toLocaleString());
+                        $(".ovRemainingBudget").val("Php " + remain.toLocaleString());
+                        rem = $('.ovRemainingBudget').val()
+                        console.log("rem");
+                        console.log(rem);
+                        $(".categoryPercentage").each(function (){
+                            categPerc.push($(this).val());
+                        });
+                        for(var j = 0; j < categPerc.length; j++)
+                        {
+                            console.log(categPerc[j]);
+                            categremBal[j] = remain*categPerc[j];
+                            categremBal[j] = categremBal[j]/100;
+                            console.log(categremBal[j]);
+                            $(".remainingCat").eq(j).val(categremBal[j]);
+                        }
+
+
+                        //- $(".totalExpense").html(generalTotal);
+                });
+                $('.submit-liq').on('click',function (e) {
+                        var form = $(this).parents('form');
+                        $(form).submit();
+                });  
 
                 $('#finproj').on('click',function (e) {
                     e.preventDefault();
@@ -147,6 +506,7 @@ block content
                             }                        
                             })
                     });
+
                 $('#printliq').click(function(e){
                     e.preventDefault();
                     $('#noPRINT').attr('style', 'display:none;')

@@ -5,6 +5,7 @@ router.use(authMiddleware.hasAuthOffice);
 
 router.use('/home', require('./home/routes'));
 router.use('/maintenance', require('./maintenance/routes'));
+router.use('/annualbudget', require('./annualbudget/routes'));
 router.use('/problems', require('./problems/routes'));
 router.use('/proposals', require('./proposals/routes'));
 router.use('/projects', require('./projects/routes'));

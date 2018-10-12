@@ -144,13 +144,19 @@ block content
                                                 <br>
                                                 <label for="checkbox1" class="form-check-label ">
                                                     each req in requirements
-                                                        input(type="checkbox" onchange="getRequirement()" onclick="getRequirement()" class="ap-reqName" id="ap-requirementid" name="requirementID[]" value=`${req.int_requirementID}` )
-                                                        <text class="reqNames">
+                                                        input(type="hidden" id="ap-requirementid" name="requirementID[]" value=`${req.int_requirementID}` )
+                                                        <h3><text class="reqNames">
                                                             value= " " + req.varchar_requirementName
-                                                        </text>
-                                                        
-                                                        input(type="text" class="ap-reqLoc form-control" id="ap-requirementloc" name="requirementLoc[]" disabled)
-                                                        
+                                                        </h3></text>
+                                                        <br>
+                                                        <label for="ap-civilstat" class="form-control-label"><strong>Requirements Status: <small>(Passed or Incomplete)</small></strong><span style="color:red;"> *</span></label>
+                                                        <select class="form-control" id="ap-reqstat" name="apply_reqstat" onchange="getreqstat()">
+                                                            <option disabled="disabled" selected="selected">Choose..</option>
+                                                            <option value="Passed">Passed</option>
+                                                            <option value="Incomplete">Incomplete</option>
+                                                        </select>
+                                                        <label for="ap-requirementloc" class="form-control-label"><strong>Requirements File Location: </strong><span style="color:red;"> *</span></label>
+                                                        input(type="text" class="ap-reqLoc form-control" id="ap-requirementloc" name="requirementLoc")
                                                         <br>
                                                 </label>
                                                 //- <input type="hidden" id="ap-uncheck" class="ap-uncheck" name="apply_uncheck[]">
@@ -535,6 +541,15 @@ block content
 
             document.getElementById("result-projRequirement").innerHTML = names;
             
+        }
+
+        function getreqstat()
+        {
+            if (document.getElementById("ap-reqstat").value === "Passed") {
+                document.getElementById("ap-requirementloc").disable='true';
+            } else {
+                document.getElementById("ap-requirementloc").disable='false';
+            }
         }
 
         //- FUNCTION TO DELAY INPUTTED DATAS

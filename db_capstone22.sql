@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2018 at 10:51 AM
+-- Generation Time: Oct 08, 2018 at 12:39 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.0.21
 
@@ -64,7 +64,10 @@ CREATE TABLE `tbl_applicantbenefit` (
 INSERT INTO `tbl_applicantbenefit` (`int_appbeneID`, `int_projectID`, `text_benefitName`, `int_benefitQuantity`, `char_itemUnit`) VALUES
 (1, 11, 'Milk', 1, 'box'),
 (2, 12, 'GAMOT', 5, 'pc'),
-(3, 12, 'gatas', 1, 'undefined');
+(3, 12, 'gatas', 1, 'undefined'),
+(4, 13, 'Paracetamol', 20, 'pc'),
+(5, 13, 'Lagundi Capsule', 8, 'undefined'),
+(6, 13, 'Biogesic', 15, 'undefined');
 
 -- --------------------------------------------------------
 
@@ -197,6 +200,14 @@ CREATE TABLE `tbl_barangaybeneficiary` (
   `text_remarks` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_barangaybeneficiary`
+--
+
+INSERT INTO `tbl_barangaybeneficiary` (`int_brgybeneID`, `int_applicationID`, `varchar_FName`, `varchar_MName`, `varchar_LName`, `text_signaturePath`, `datetime_received`, `text_remarks`) VALUES
+(1, 21, 'maricar', 'Dionisio', 'Oriel', '', '2018-10-06 16:32:27', 'Received'),
+(2, 21, 'John Carlo', 'Dionisio', 'Oriel', '', '2018-10-06 16:32:27', 'sdlaknfkjasd');
+
 -- --------------------------------------------------------
 
 --
@@ -217,8 +228,8 @@ CREATE TABLE `tbl_barangayreleasing` (
 --
 
 INSERT INTO `tbl_barangayreleasing` (`int_brgyreleaseID`, `int_projectID`, `int_barangayID`, `date_startRelease`, `date_endRelease`, `enum_barangayReleaseStatus`) VALUES
-(1, 5, 5, NULL, NULL, 'Releasing'),
-(2, 5, 2, NULL, NULL, 'Releasing'),
+(1, 5, 5, NULL, '2018-10-06', 'Closed'),
+(2, 5, 2, NULL, '2018-10-06', 'Closed'),
 (3, 3, 5, NULL, NULL, 'Releasing'),
 (4, 3, 2, NULL, NULL, 'Releasing'),
 (5, 11, 9, NULL, '2018-10-06', 'Closed'),
@@ -329,8 +340,14 @@ INSERT INTO `tbl_expense` (`int_expenseID`, `int_projectID`, `text_expenseDescri
 (8, 11, 'Flyers', NULL, '2.00', NULL, '1000.00', 500),
 (9, 11, 'Food Expense', NULL, '150.00', NULL, '15000.00', 100),
 (10, 11, 'Other Expense', NULL, '40.00', NULL, '2400.00', 60),
-(11, 12, 'Benefit Expense', 123, '86.00', '10578.00', '10320.00', 120),
-(12, 12, 'Foods', 100, '50.00', '5000.00', '2250.00', 45);
+(11, 12, 'Benefit Expense', 123, '86.00', '10578.00', '10578.00', 123),
+(12, 12, 'Foods', 100, '50.00', '5000.00', '6150.00', 123),
+(13, 12, 'Flyers', NULL, '123.00', NULL, '15129.00', 123),
+(14, 12, 'jdfsiaj', NULL, '123.00', NULL, '15129.00', 123),
+(15, 12, 'akfskd', NULL, '123.00', NULL, '15129.00', 123),
+(16, 13, 'Benefit Expense', 250, '355.00', '88750.00', NULL, NULL),
+(17, 13, 'Tarpaulin', 50, '1200.00', '60000.00', NULL, NULL),
+(18, 13, 'Flyers', 500, '3.00', '1500.00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -442,7 +459,10 @@ INSERT INTO `tbl_intentstatement` (`int_statementID`, `int_barangayID`, `int_cat
 (17, 2, 3, NULL, 'From Bagong Silang', 'sjnsknxksxnksxksxnsk', '2018-10-06', 'Abs', '782 ksklsmcks', 'Submitted'),
 (18, 9, 1, 10, 'Eyeglasses Giving', 'Kase karamihan sa barangay namin ay senior citizen.', '2018-10-06', 'Kristine Mae Gamayo', '256 Ilaya', 'Solved'),
 (19, 9, 2, 11, 'Free Grocery', 'Libreng grocery para sa bayan', '2018-10-06', 'Teresa Inocencio', 'Addition Hills', 'Solved'),
-(20, 5, 1, 12, 'Pregnancy Check up and freebies', 'para matulungan ang mga buntis', '2018-10-06', 'jenhel Keeanu Santos', 'eaekhekjfa', 'Solved');
+(20, 5, 1, 12, 'Pregnancy Check up and freebies', 'para matulungan ang mga buntis', '2018-10-06', 'jenhel Keeanu Santos', 'eaekhekjfa', 'Solved'),
+(21, 2, 3, 13, 'Application No.1 (Resident)', 'For testing of application.', '2018-10-07', 'Abigale Del Rosario', '233 Bagong Silang', 'Solved'),
+(22, 2, 1, NULL, 'Application No.2 (Household)', 'Testing for application.', '2018-10-07', 'Abs Dela Rosa', '523 Bagong Silang', 'Submitted'),
+(23, 2, 2, NULL, 'Application No.3 (Barangay)', 'Testing for application.', '2018-10-07', 'Abbygale Dela Cruz', '578 Bagong Silang', 'Submitted');
 
 -- --------------------------------------------------------
 
@@ -542,7 +562,8 @@ INSERT INTO `tbl_projectapplicationtype` (`int_proapptypeID`, `int_projectID`, `
 (6, 9, 'Resident'),
 (7, 10, 'Resident'),
 (8, 11, 'Resident'),
-(9, 12, 'Resident');
+(9, 12, 'Resident'),
+(10, 13, 'Resident');
 
 -- --------------------------------------------------------
 
@@ -614,7 +635,11 @@ INSERT INTO `tbl_projectbeneficiary` (`int_projbeneID`, `int_linkID`, `int_benef
 (65, 11, 2, 'Project'),
 (66, 11, 7, 'Project'),
 (67, 20, 8, 'Intent Statement'),
-(68, 12, 8, 'Project');
+(68, 12, 8, 'Project'),
+(69, 21, 11, 'Intent Statement'),
+(70, 22, 1, 'Intent Statement'),
+(71, 23, 3, 'Intent Statement'),
+(72, 13, 1, 'Project');
 
 -- --------------------------------------------------------
 
@@ -644,7 +669,8 @@ INSERT INTO `tbl_projectcategory` (`int_projcategID`, `int_projectID`, `int_cate
 (9, 9, 1),
 (10, 10, 1),
 (11, 11, 2),
-(12, 12, 1);
+(12, 12, 1),
+(13, 13, 3);
 
 -- --------------------------------------------------------
 
@@ -683,14 +709,15 @@ INSERT INTO `tbl_projectdetail` (`int_projectID`, `int_cityID`, `varchar_project
 (2, 1, 'Full body check up and medicine kit giving', 'Nowadays residents have different kind of minor disease.', 'Full body check up for the beneficiaries of this project and medicine kit for them', 'To help the residents, and for them to be ready.', 600, '100000.00', '2018-10-24', '2018-12-01', '2018-12-06', '2018-12-12', '2018-12-25', '2018-10-01', NULL, NULL, NULL, 'Created', NULL),
 (3, 1, 'Distribution of School Supplies', 'Determined by the last survey it is true that children in our city can\'t barely have a new school supplies', 'School supplies will be given equally and fairly to the beneficiaries of this project.', 'To help the children/youth.', 1000, '1000000.00', '2018-11-30', '2019-01-15', '2019-01-24', '2019-01-21', '2019-01-08', '2018-10-17', NULL, NULL, NULL, 'Releasing', NULL),
 (4, 1, 'Seminar about family planning and freebies giving', 'Due to the last survey, it seems that residents are not aware about family planning.', 'Each beneficiary will be given an equal service for this.', 'To help the residents know about family planning.', 1000, '10000000.00', '2019-01-09', '2019-03-10', '2019-03-20', '2019-03-25', '2019-04-25', '2018-09-25', NULL, NULL, NULL, 'Ongoing', NULL),
-(5, 1, 'Feeding Program', 'We observed that the children from orphanages are facing a financial crisis.', 'This project intends to help the poor children on orphanages that are currently facing a financial problems and this is one of the solution that we think to solve the problem.', 'The goal of this project is to provide a temporary food supplies to the orphanage in our barnagay', 2100, '15000000.00', '2019-04-27', '2019-06-01', '2019-06-10', '2019-06-15', '2019-06-25', '2018-10-01', NULL, NULL, NULL, 'Releasing', NULL),
+(5, 1, 'Feeding Program', 'We observed that the children from orphanages are facing a financial crisis.', 'This project intends to help the poor children on orphanages that are currently facing a financial problems and this is one of the solution that we think to solve the problem.', 'The goal of this project is to provide a temporary food supplies to the orphanage in our barnagay', 2100, '15000000.00', '2019-04-27', '2019-06-01', '2019-06-10', '2019-06-15', '2019-06-25', '2018-10-01', NULL, NULL, NULL, 'Closed Releasing', NULL),
 (6, 1, 'Food Supplies Giving', 'The orphanage of our barangay are currently facing financial problems', 'This project intends to help the children on orphanage', 'Aims to give temporary supplies for the orphanage', 1000, '1500000.00', '2019-02-08', '2019-03-15', '2019-03-30', '2019-04-04', '2019-04-10', '2018-09-09', NULL, NULL, NULL, 'Releasing', NULL),
 (7, 1, 'Medical check up', 'Due to our observation in the our community about health.', 'Check up for the residents', 'To help the residents ', 1000, '1200000.00', '2019-01-10', '2019-02-28', '2019-03-10', '2019-03-20', '2019-03-30', '2018-09-01', NULL, NULL, NULL, 'Releasing', NULL),
 (8, 1, ' Monthly check up   ', 'We propose to have a monthly check up', 'Monthly check up', 'To help the residents', 1000, '1200000.00', '2019-02-01', '2019-04-03', '2019-04-19', '2019-04-25', '2019-05-05', '2018-08-25', NULL, NULL, NULL, 'Releasing', NULL),
 (9, 1, ' Full body check up and medicine kit giving   ', 'Due to recent outbreak of fever', 'outbreak solution', 'solve outbreak', 100, '35900.00', '2018-10-06', '2018-10-08', '2018-10-18', '2018-10-21', '2018-10-26', '2018-10-06', NULL, NULL, NULL, 'Created', NULL),
 (10, 1, ' Eyeglasses Giving   ', 'Kase karamihan sa barangay namin ay senior citizen.', 'Eye Glasses giving', 'Para magkaron ng salamin ang ibang residente.', 500, '1725750.00', '2018-10-07', '2018-10-24', '2018-10-31', '2018-10-31', '2018-11-03', '2018-10-06', NULL, NULL, NULL, 'Created', NULL),
 (11, 1, ' Free Grocery   ', 'Libreng grocery para sa bayan', 'Giving of grocery', 'To give free grocery to those in need', 150, '27750.00', '2018-10-12', '2018-10-18', '2018-10-31', '2018-11-01', '2018-12-01', '2018-10-06', NULL, NULL, NULL, 'Finished', NULL),
-(12, 1, ' Pregnancy Check up and freebies   ', 'para matulungan ang mga buntis', 'adfasdfaf', 'para', 123, '15578.00', '2018-10-06', '2018-10-10', '2018-10-11', '2018-10-12', '2018-10-19', '2018-10-06', NULL, NULL, NULL, 'Closed Releasing', NULL);
+(12, 1, ' Pregnancy Check up and freebies   ', 'para matulungan ang mga buntis', 'adfasdfaf', 'para', 123, '15578.00', '2018-10-06', '2018-10-10', '2018-10-11', '2018-10-12', '2018-10-19', '2018-10-06', NULL, NULL, NULL, 'Finished', NULL),
+(13, 1, ' Application No.1 (Resident)   ', 'For testing of application.', 'Kase', 'Kase', 250, '150250.00', '2018-10-09', '2018-10-20', '2018-10-28', '2018-10-28', '2018-10-31', '2018-10-07', '2018-10-08', NULL, NULL, 'Ongoing', NULL);
 
 -- --------------------------------------------------------
 
@@ -725,7 +752,15 @@ INSERT INTO `tbl_projectreason` (`int_projectReasonID`, `int_projectID`, `text_p
 (16, 11, 'trial', 'Close Releasing'),
 (17, 12, 'asdjhaj af', 'Start Application'),
 (18, 12, 'asda', 'Start Releasing'),
-(19, 12, 'qwrqw', 'Close Releasing');
+(19, 12, 'qwrqw', 'Close Releasing'),
+(20, 5, 'hkhkjhkh', 'Close Releasing'),
+(21, 5, 'jasdfk.jsdank', 'Close Releasing'),
+(22, 13, 'Advanceee', 'Start Application'),
+(23, 13, 'kaseee', 'Start Application'),
+(24, 13, 'kasee\r\n\r\n', 'Start Application'),
+(25, 13, 'bhb\r\n', 'Start Application'),
+(26, 13, 'bhjb', 'Start Application'),
+(27, 13, 'jscnkscn\r\n', 'Start Application');
 
 -- --------------------------------------------------------
 
@@ -765,7 +800,9 @@ INSERT INTO `tbl_projectrequirement` (`int_projreqID`, `int_requirementID`, `int
 (19, 14, 10),
 (20, 1, 11),
 (21, 14, 11),
-(22, 14, 12);
+(22, 14, 12),
+(23, 1, 13),
+(24, 14, 13);
 
 -- --------------------------------------------------------
 
@@ -1072,7 +1109,7 @@ ALTER TABLE `tbl_annualbudget`
 -- AUTO_INCREMENT for table `tbl_applicantbenefit`
 --
 ALTER TABLE `tbl_applicantbenefit`
-  MODIFY `int_appbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `int_appbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `tbl_application`
 --
@@ -1092,7 +1129,7 @@ ALTER TABLE `tbl_barangay`
 -- AUTO_INCREMENT for table `tbl_barangaybeneficiary`
 --
 ALTER TABLE `tbl_barangaybeneficiary`
-  MODIFY `int_brgybeneID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `int_brgybeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tbl_barangayreleasing`
 --
@@ -1117,7 +1154,7 @@ ALTER TABLE `tbl_city`
 -- AUTO_INCREMENT for table `tbl_expense`
 --
 ALTER TABLE `tbl_expense`
-  MODIFY `int_expenseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `int_expenseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `tbl_familybackground`
 --
@@ -1132,7 +1169,7 @@ ALTER TABLE `tbl_financialcontribution`
 -- AUTO_INCREMENT for table `tbl_intentstatement`
 --
 ALTER TABLE `tbl_intentstatement`
-  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `int_statementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `tbl_notification`
 --
@@ -1147,32 +1184,32 @@ ALTER TABLE `tbl_officialsaccount`
 -- AUTO_INCREMENT for table `tbl_projectapplicationtype`
 --
 ALTER TABLE `tbl_projectapplicationtype`
-  MODIFY `int_proapptypeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `int_proapptypeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `tbl_projectbeneficiary`
 --
 ALTER TABLE `tbl_projectbeneficiary`
-  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `int_projbeneID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 --
 -- AUTO_INCREMENT for table `tbl_projectcategory`
 --
 ALTER TABLE `tbl_projectcategory`
-  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `int_projcategID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `tbl_projectdetail`
 --
 ALTER TABLE `tbl_projectdetail`
-  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `int_projectID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `tbl_projectreason`
 --
 ALTER TABLE `tbl_projectreason`
-  MODIFY `int_projectReasonID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `int_projectReasonID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `tbl_projectrequirement`
 --
 ALTER TABLE `tbl_projectrequirement`
-  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `int_projreqID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `tbl_requirement`
 --

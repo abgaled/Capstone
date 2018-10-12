@@ -1,0 +1,59 @@
+extends ../../home/views/navbar.pug
+
+block content
+	<link href="/cityadmin/vendors/nprogress/nprogress.css" rel="stylesheet">
+	<link href="/cityadmin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+		
+	//- <!-- page content -->
+	<div class="right_col" role="main">
+	
+		<div class="x_panel">
+			<div class="x_title">
+				<h2><i class="fa fa-files-o"></i> Applicants Requirements</h2>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_header">
+			each proj in tbl_project
+				<h2>Project Name:
+					value= proj.varchar_projectName
+				</h2>
+				<h4>Project Description:
+					value= proj.text_projectDescription
+				</h4>
+				<hr>
+			</div>
+			<div class="x_content">
+			each app in tbl_applicants
+				<h2>Applicant Name:
+					value= " "+app.varchar_lastName +", "+ app.varchar_firstName + " " + app.varchar_middleName
+				</h2>				
+				<hr>
+			</div>
+			<div>
+			<form method="POST" action="/barangay/projects/updaterequirements">
+				<h4>Requirements:
+				<br>
+				<br>
+				each req in tbl_requirements
+					<div class=form-row>
+						<div class="form-group col-md-4 col-sm-12">
+							input(type="hidden" name="apply_reqid" value=`${req.int_requirementID}`)
+							<ul>
+								value= req.varchar_requirementName
+							</ul>
+							if(req.enum_appreqStatus == "Passed")
+								input(type="text" id="ap-requirement" name="apply_requirement" value=`${req.varchar_fileLocation}` class="middle col-sm-11 form-control ")
+								input(type="hidden" id="ap-reqstatus" name="apply_reqstatus" value="Passed" class="middle col-sm-11 form-control ")
+							if(req.enum_appreqStatus == "Incomplete")
+								input(type="text" id="ap-requirement" name="apply_requirement" value=`${req.varchar_fileLocation}` class="middle col-sm-11 form-control ")
+								<small style="color:red;">(Please provide the information in order to submit his/her application.)</small>
+								input(type="hidden" id="ap-reqstatus" name="apply_reqstatus" value="Passed" class="middle col-sm-11 form-control ")
+						</div>
+					</div>
+			</div>
+			<div class=form-row>
+				button.btn.btn-info.btn-lg(type="submit" id="btn-update-requirements" class="btn-update-requirements" class="pull-right"): span.fa.fa-arrow-circle Update
+			</div>
+			</form>
+		</div>
+	</div>

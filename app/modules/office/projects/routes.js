@@ -23,61 +23,6 @@ router.get('/',(req, res) => {
     console.log('OFFICE: ONGOING PROJECT');
     console.log('=================================');
 
-    var queryReleasing =`SELECT *
-    FROM tbl_projectdetail 
-    WHERE enum_projectStatus = "Releasing"`
-    db.query(queryReleasing, (err, releasingPROJECTS, fields ) => 
-    {
-        if (err) console.log(err);
-        var RELproj = releasingPROJECTS;
-        console.log("RELproj");
-        console.log(RELproj);
-
-        for (var i = 0; i < RELproj.length;i++)
-        {
-            var queryBarReleasingclose =`SELECT COUNT(*) AS closeBarRel, int_projectID
-            FROM tbl_barangayreleasing
-            WHERE enum_barangayReleaseStatus = "Closed"
-            AND int_projectID = ${RELproj[i].int_projectID} `
-            var countBarClose;
-            var querybarReleasing;
-            console.log(RELproj[i].int_projectID);
-            
-            db.query(queryBarReleasingclose, (err, closedReleasing ) => 
-            {
-                if (err) console.log(err);
-                countBarClose = closedReleasing;
-                console.log("countBarClose");
-                console.log(countBarClose);
-                
-                console.log(countBarClose[0].int_projectID);
-
-                db.query(`SELECT COUNT(*) AS BarRel
-                FROM tbl_barangayreleasing
-                WHERE int_projectID = ${countBarClose[0].int_projectID}`, (err, barReleasing ) => 
-                {
-                    if (err) console.log(err);
-                    var countBar = barReleasing;
-                    console.log("countBar");
-                    console.log(countBar);
-                    console.log("countBarClose");
-                    console.log(countBarClose);
-
-                    if(countBar[0].BarRel == countBarClose[0].closeBarRel)
-                    {
-                        db.query(`UPDATE tbl_projectdetail
-                        SET enum_projectStatus = 'Closed Releasing' 
-                        WHERE int_projectID = ${countBarClose[0].int_projectID}`, (err, closedprojectReleasing ) => 
-                        {
-                            if (err) console.log(err);
-                            console.log(closedprojectReleasing);
-                        });
-                    }
-                });
-            });
-        }
-    });
-
     var queryString4 =`SELECT offacc.int_userID
         FROM tbl_officialsaccount offacc JOIN tbl_city C 
             ON offacc.int_officialsID=C.int_cityID
@@ -143,7 +88,7 @@ router.get('/',(req, res) => {
                             }
                         }
                     }
-        
+                    console.log(proj);
                     res.render('office/projects/views/projects',{
                         tbl_project:results,
                         slotcount:proj
@@ -160,9 +105,9 @@ router.get('/:int_projectID/viewproj',(req, res) => {
     console.log('=================================');
 
     //-projectDetail
-    var queryString =`SELECT * 
-        FROM tbl_projectdetail
-        WHERE int_projectID = "${req.params.int_projectID}"`
+    var queryString =`SELECT * FROM tbl_projectdetail pd
+    JOIN tbl_projectapplicationtype pat ON pat.int_projectID = pd.int_projectID
+        WHERE pd.int_projectID = "${req.params.int_projectID}"`
 
     var queryString2 =`SELECT varchar_requirementName
         FROM tbl_requirement R JOIN tbl_projectrequirement PR
@@ -205,8 +150,8 @@ router.get('/:int_projectID/viewproj',(req, res) => {
             results[i].date_targetStartRelease = moment(results[i].date_targetStartRelease).format('MMMM DD[,] YYYY');
             results[i].date_targetEndRelease = moment(results[i].date_targetEndRelease).format('MMMM DD[,] YYYY');
             results[i].date_targetClosing = moment(results[i].date_targetClosing).format('MMMM DD[,] YYYY');
-            results[i].date_startApplication = moment(results[i].date_startApplication).format('MMMM DD[,] YYYY');
-            results[i].date_endApplication = moment(results[i].date_endApplication).format('MMMM DD[,] YYYY');
+            results[i].date_actualStartApp = moment(results[i].date_actualStartApp).format('MMMM DD[,] YYYY');
+            results[i].date_actualEndApp = moment(results[i].date_actualEndApp).format('MMMM DD[,] YYYY');
             results[i].date_startReleaseDate = moment(results[i].date_startReleaseDate).format('MMMM DD[,] YYYY');
             results[i].date_endReleaseDate = moment(results[i].date_endReleaseDate).format('MMMM DD[,] YYYY');
             results[i].date_projectClose = moment(results[i].date_projectClose).format('MMMM DD[,] YYYY');
@@ -344,7 +289,7 @@ router.post('/:int_projectID/viewproj/accept',(req, res) => {
     console.log("BUTTON ACCEPT ID:"+ req.body.int_applicationID);
 
     var queryString1 =`UPDATE tbl_application
-    SET enum_applicationStatus = 'Approved' 
+    SET enum_applicationStatus = 'Approved'
     WHERE int_applicationID = ${req.body.int_applicationID}`
 
     db.query(queryString1, (err, results1, fields) => {
@@ -391,27 +336,6 @@ router.post('/:int_projectID/viewproj/reject',(req, res) => {
 
         res.redirect(`/office/projects/${req.params.int_projectID}/viewproj`);
     });
-});
-
-router.post('/confirmcheck',(req, res) => {
-    console.log('=================================');
-    console.log('OFFICE: CONFIRM CHECK');
-    console.log('=================================');
-    console.log(req.body.PROJECT_idcheq)
-    console.log(req.body.chequeNumber)
-
-    var confirmCheck = `UPDATE tbl_proposalapproval
-        SET enum_propappStatus = 'Received'
-        WHERE varchar_checkNumber = ${req.body.chequeNumber}
-        AND int_projectID = ${req.body.PROJECT_idcheq}`
-            
-        
-        db.query(confirmCheck, (err, results1, fields) => {
-
-                
-            res.redirect(`/office/projects`);
-            
-        });
 });
 
 // AJAX GET DETAILS VIEW DETAILS PROJECT - VIEW APPLICANT DETAILS
@@ -550,18 +474,18 @@ router.get('/:int_projectID/viewapp',(req, res) => {
                     console.log("=====SESSION SESRELEASINGPROJECTID=====");
                     console.log(req.session.office.sesReleasingProjectID);
 
-                    var queryString2 =`SELECT * FROM tbl_project proj
-                    JOIN tbl_projectproposal propr ON propr.int_projectID = proj.int_projectID
+                    var queryString4 =`SELECT * FROM tbl_projectdetail proj
+                    JOIN tbl_projectapplicationtype propr ON propr.int_projectID = proj.int_projectID
                     WHERE proj.int_projectID = "${req.params.int_projectID}"`
 
-                    var queryString3 =`SELECT * FROM tbl_applicantbenefit proj
+                    var queryString5 =`SELECT * FROM tbl_applicantbenefit proj
                     JOIN tbl_projectdetail appben ON proj.int_projectID = appben.int_projectID
                     WHERE proj.int_projectID = "${req.params.int_projectID}"`
 
-                    db.query(queryString2, (err, results2, fields) => {
+                    db.query(queryString4, (err, results2, fields) => {
                         console.log(results2);
                         if (err) console.log(err);
-                        db.query(queryString3, (err, results3, fields) => {
+                        db.query(queryString5, (err, results3, fields) => {
                             console.log(results3);
                             if (err) console.log(err);
                     
@@ -577,16 +501,86 @@ router.get('/:int_projectID/viewapp',(req, res) => {
         });
     });
 });
+router.get('/:int_applicationID/viewbarben',(req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: PROJECT - VIEW BARANGAY BENEFICIARY');
+    console.log('=================================');
+    console.log(req.params.int_applicationID);
 
+    var projectQuery = `SELECT * FROM tbl_projectdetail pd
+    JOIN tbl_application app ON pd.int_projectID = app.int_projectID
+    WHERE int_applicationID = "${req.params.int_applicationID}"`
+
+    var barangayQuery = `SELECT * FROM tbl_application app
+    JOIN tbl_barangay bar ON app.int_barangayID = bar.int_barangayID
+    WHERE int_applicationID = "${req.params.int_applicationID}"`
+
+    var queryString =`SELECT * FROM tbl_barangaybeneficiary
+    WHERE int_applicationID = "${req.params.int_applicationID}"` 
+
+    db.query(queryString, (err, results1, fields) => {
+        console.log(results1);
+        if (err) console.log(err);
+
+        db.query(projectQuery, (err, projectresults, fields) => {
+            console.log(projectresults);
+            if (err) console.log(err);
+
+            db.query(barangayQuery, (err, barangayresults, fields) => {
+                console.log(barangayresults);
+                if (err) console.log(err);
+
+                res.render('office/projects/views/viewBarBen', 
+                {
+                    tbl_ben:results1,
+                    tbl_project:projectresults,
+                    tbl_barangay:barangayresults
+                });
+            });
+        });
+    });
+});
 
 // AJAX GET DETAILS ONGOING PROJECT - VIEW APPLICANT DETAILS
 router.post('/:int_projectID/viewapp/ajaxapplicantdetails',(req,res) => {
     console.log('=================================');
-    console.log('OFFICE: PROJECT ONGOING-VIEW APPLICATION-AJAX GET DETAILS (POST)');
+    console.log('BARANGAY: RELEASING-VIEW RESIDENT APPLICATION-AJAX GET DETAILS (POST)');
     console.log('=================================');
     console.log(`${req.body.ajApplicationID}`);
 
     var queryString = `SELECT * FROM tbl_personalinformation pi
+    JOIN tbl_application ap 
+    ON pi.int_applicationID=ap.int_applicationID 
+    WHERE pi.int_applicationID=${req.body.ajApplicationID}`
+
+
+    db.query(queryString,(err, results, fields) => {
+        if (err) console.log(err);
+
+        console.log(results);
+
+        var date_results = results;
+
+        for (var i = 0; i < date_results.length;i++){
+            date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
+        }
+
+        var resultss = results[0];
+
+        console.log("===================RESULTSS")
+        console.log(resultss)
+
+        return res.send({tbl_application:resultss});
+    });
+});
+
+router.post('/:int_projectID/viewapp/ajaxapplicanthouseholddetails',(req,res) => {
+    console.log('=================================');
+    console.log('BARANGAY: RELEASING-VIEW HOUSEHOLD APPLICATION-AJAX GET DETAILS (POST)');
+    console.log('=================================');
+    console.log(`${req.body.ajApplicationID}`);
+
+    var queryString = `SELECT * FROM tbl_householdapplication pi
     JOIN tbl_application ap 
     ON pi.int_applicationID=ap.int_applicationID 
     WHERE pi.int_applicationID=${req.body.ajApplicationID}`
@@ -634,10 +628,11 @@ router.post('/startproj', (req, res) => {
     console.log('=================================');
     console.log('OFFICE: Project - 1 Startproject POST');
     console.log('=================================');
-    
-    var queryString1 = `UPDATE tbl_project SET
-    enum_projectStatus = 'Ongoing'
-    WHERE tbl_project.int_projectID=${req.body.int_projectID}`
+    console.log(currentDate);
+    var queryString1 = `UPDATE tbl_projectdetail SET
+    enum_projectStatus = 'Ongoing',
+    date_actualStartApp = '${currentDate}'
+    WHERE tbl_projectdetail.int_projectID=${req.body.int_projectID}`
             
     db.query(queryString1, (err, results) => {        
         if (err) throw err;
@@ -686,10 +681,9 @@ router.post('/openlateapplication', (req, res) => {
         if (err) throw err;
         console.log(results);
 
-
         var queryString1 = `UPDATE tbl_projectdetail SET
         enum_projectStatus = 'Ongoing',
-        date_actualStartApp = "${currentDate}"
+        date_actualStartApp = '${currentDate}'
         WHERE tbl_projectdetail.int_projectID = ${req.body.projectID}`
                 
         db.query(queryString1, (err, results2) => {        
@@ -700,7 +694,6 @@ router.post('/openlateapplication', (req, res) => {
         });
     });
 });
-
 
 // AJAX GET DETAILS FINISHED PROJECT - VIEW APPLICANT DETAILS
 router.post('/finishedproject/:int_projectID/viewapp/ajaxapplicantdetails',(req,res) => {
@@ -769,35 +762,202 @@ router.post('/ajaxgetprojectdetails',(req,res) => {
         });
 });
 
+router.post('/:int_projectID/viewproj/ajaxgetcloseprojectdetails',(req,res) => {
+    console.log('=================================');
+    console.log('OFFICE: OPEN PROJECT APPLICATION-PREVIOUS-AJAX GET DETAILS (POST)');
+    console.log('=================================');
+    console.log(`${req.body.ajProjectID}`);
+
+            var queryString =`SELECT * FROM tbl_projectdetail
+            WHERE tbl_projectdetail.int_projectID = ${req.body.ajProjectID}`
+
+            db.query(queryString,(err, results, fields) => {
+                if (err) console.log(err);
+
+                console.log(results);
+
+                var date_results = results;
+
+                for (var i = 0; i < date_results.length;i++){
+                    date_results[i].date_targetEndApp= moment(date_results[i].date_targetEndApp).format('MMMM DD[,] YYYY');
+                    date_results[i].date_targetStartRelease= moment(date_results[i].date_targetStartRelease).format('MMMM DD[,] YYYY');
+                    console.log(`${date_results[i].date_targetEndApp}`);
+                }
+
+                var resultss = results[0];
+
+                console.log("===================RESULTSS")
+                console.log(resultss)
+
+                return res.send({tbl_project1:resultss});
+        });
+}); 
 router.post('/closeproj', (req, res) => {
     console.log('=================================');
     console.log('OFFICE: Project finproj POST');
     console.log('=================================');
-    resultIndex = `${req.body.projID}`;
+    resultIndex = `${req.body.int_projectID}`;
 
     console.log(resultIndex);
     var queryString1 = `UPDATE tbl_projectdetail SET
-    enum_projectStatus = 'Closed Application'
-    WHERE tbl_projectdetail.int_projectID = ${req.body.projID}`
+    enum_projectStatus = 'Closed Application',
+    date_actualEndApp = '${currentDate}'
+    WHERE tbl_projectdetail.int_projectID = ${req.body.int_projectID}`
             
     db.query(queryString1, (err, results) => {        
         if (err) throw err;
         res.redirect('/office/projects');
     });
 });
+router.post('/closelateapplication', (req, res) => {
+    console.log('=================================');
+    console.log('OFFICE: Application open');
+    console.log('=================================');
+    resultIndex = `${req.body.projectID}`;
+
+    console.log(resultIndex);
+            
+    var queryString = `INSERT INTO \`tbl_projectreason\` 
+    (\`int_projectID\`, 
+    \`text_projectReason\`,
+    \`enum_projectPhase\`)
+    VALUES
+    ("${req.body.projectID}",
+    "${req.body.projectReason}",
+    "Close Application");`;
+
+db.query(queryString, (err, results) => {        
+    if (err) throw err;
+    console.log(results);
+
+    var queryString1 = `UPDATE tbl_projectdetail SET
+    enum_projectStatus = 'Closed Application',
+    date_actualEndApp = '${currentDate}'
+    WHERE tbl_projectdetail.int_projectID = ${req.body.projectID}`
+                
+        db.query(queryString1, (err, results2) => {        
+            if (err) throw err;
+            console.log(results);
+
+            res.redirect('/office/projects');
+        });
+    });
+});
+
+
+router.post('/openreleasing', (req, res) => {
+    console.log('=================================');
+    console.log('BARANGAY: Releasing open');
+    console.log('=================================');
+    resultIndex = `${req.body.projectID}`;
+
+    console.log(resultIndex);
+    var queryString1 = `UPDATE tbl_projectdetail SET
+    enum_projectStatus = 'Releasing',
+    date_actualStartRelease = "${currentDate}"
+    WHERE int_projectID = ${req.body.rint_projectID}`
+
+    var queryProject = 'SELECT DISTINCT int_barangayID from tbl_application WHERE int_projectID = 1'
+    
+    db.query(queryString1, (err, results) => {        
+        if (err) throw err;
+        console.log(results);
+
+        db.query(queryProject, (err, resultsPROJECTS) => {        
+            if (err) throw err;
+            console.log(resultsPROJECTS);
+
+            var projects = resultsPROJECTS;
+            for (var i = 0; i < projects.length;i++)
+            {
+                var queryINSERTBarR = `INSERT INTO \`tbl_barangayreleasing\` 
+                (\`int_projectID\`, 
+                \`int_barangayID\`)
+                VALUES
+                ("${req.body.rint_projectID}",
+                "${projects[i].int_barangayID}");`;
+                db.query(queryINSERTBarR, (err, resultsREL) => {        
+                    if (err) throw err;
+                    console.log(resultsREL);
+                });
+            }
+
+            res.redirect('/office/projects');
+        });
+    });
+});
+
+
+
+router.post('/openlatereleasing', (req, res) => {
+    console.log('=================================');
+    console.log('BARANGAY: Releasing open');
+    console.log('=================================');
+    resultIndex = req.body.rprojectID;
+
+    console.log(resultIndex);
+            
+    var queryString = `INSERT INTO \`tbl_projectreason\`
+        (\`int_projectID\`, 
+        \`text_projectReason\`,
+        \`enum_projectPhase\`)
+        VALUES
+        ("${req.body.rprojectID}",
+        "${req.body.rprojectReason}",
+        "Start Releasing");`;
+
+        db.query(queryString, (err, results) => {        
+            if (err) throw err;
+            console.log(results);
+
+            var queryString1 = `UPDATE tbl_projectdetail SET
+            enum_projectStatus = 'Releasing'
+            WHERE tbl_projectdetail.int_projectID = ${req.body.rprojectID}`
+
+            var queryProject = `SELECT DISTINCT int_barangayID from tbl_application 
+            WHERE int_projectID = ${req.body.rprojectID}`
+            
+            db.query(queryString1, (err, results) => {        
+                if (err) throw err;
+                console.log(results);
+
+                db.query(queryProject, (err, resultsPROJECTS) => {        
+                    if (err) throw err;
+                    console.log(resultsPROJECTS);
+
+                    var projects = resultsPROJECTS;
+                    for (var i = 0; i < projects.length;i++)
+                    {
+                        var queryINSERTBarR = `INSERT INTO \`tbl_barangayreleasing\`
+                        (\`int_projectID\`, 
+                        \`int_barangayID\`)
+                        VALUES
+                        ("${req.body.rprojectID}",
+                        "${projects[i].int_barangayID}");`;
+                        db.query(queryINSERTBarR, (err, resultsREL) => {        
+                            if (err) throw err;
+                            console.log(resultsREL);
+                        });
+                    }
+
+                    
+                    db.query(queryString1, (err, results2) => {        
+                        if (err) throw err;
+
+                        res.redirect('/office/projects');
+                });
+            });
+        });
+    });
+});
+ 
+
 
 router.get('/:int_projectID/liquidation',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: ONGOING PROJECT - LIQUIDATION');
     console.log('=================================');
 
-    // var queryString = `UPDATE tbl_project SET
-    // enum_projectStatus = 'Finished'
-    // WHERE tbl_project.int_projectID = "${req.body.int_projectID}"`
-
-    // db.query(queryString, (err, results, fields) => {
-    //     console.log(results);
-    // });
 
     var queryString1 =`SELECT * FROM tbl_expense ex
         JOIN tbl_projectdetail proj ON ex.int_projectID = proj.int_projectID
@@ -814,29 +974,71 @@ router.get('/:int_projectID/liquidation',(req, res) => {
         FROM tbl_expense
         WHERE int_projectID = "${req.params.int_projectID}"`
 
-        var queryString6 =`SELECT (SELECT decimal_actualBudget FROM tbl_projectdetail
+        var queryString6 =`SELECT (SELECT decimal_actualAmount FROM tbl_projectdetail
             WHERE int_projectID = "${req.params.int_projectID}")-(SUM(decimal_actualAmount)) AS "budgetbalance" 
             FROM tbl_expense
             WHERE int_projectID = "${req.params.int_projectID}"`
 
-    db.query(queryString1, (err, results1, fields) => {
-        console.log(results1)
-        db.query(queryString2, (err, results2, fields) => { 
-            console.log(results2)
-            db.query(queryString3, (err, results3, fields) => {
-                console.log(results3)
-                db.query(queryString4, (err, results4, fields) => {
-                    console.log(results4)
-                    db.query(queryString6, (err, results6, fields) => {
-                        console.log(results6)
-                
-                        res.render('office/projects/views/liquidation',
-                        {
-                            tbl_expenses:results1,
-                            tbl_project:results2,
-                            totalest:results3,
-                            total:results4,
-                            tbl_rembal:results6
+        var queryString7 =`SELECT COUNT(*) AS appCount FROM tbl_application proj
+        WHERE proj.int_projectID = "${req.params.int_projectID}"
+        AND (enum_applicationStatus = "Received")`
+    db.query(queryString7, (err, results7, fields) => {
+        console.log(results7)
+        db.query(queryString1, (err, results1, fields) => {
+            console.log(results1)
+            db.query(queryString2, (err, results2, fields) => { 
+                console.log(results2)
+                db.query(queryString3, (err, results3, fields) => {
+                    console.log(results3)
+                    db.query(queryString4, (err, results4, fields) => {
+                        console.log(results4)
+                        db.query(queryString6, (err, results6, fields) => {
+                            console.log(results6)
+
+                            var queryString8 =`SELECT pc.decimal_allotedBudget, pc.int_projcategID, cat.varchar_categoryName FROM tbl_projectcategory pc
+                            JOIN tbl_category cat ON pc.int_categoryID = cat.int_categoryID
+                            WHERE pc.int_projectID = "${req.params.int_projectID}"`
+                            db.query(queryString8, (err, results8, fields) => {
+                                var categbud = results8;
+                                console.log(categbud)
+                                var projBud = 0.00;
+                                for(var i =0; i < categbud.length; i++)
+                                {
+                                    console.log(i)
+                                    console.log(categbud[i].decimal_allotedBudget)
+                                    projBud += categbud[i].decimal_allotedBudget;
+                                }
+                                console.log(projBud)
+                                var oneP = projBud/100;
+                                console.log(oneP)
+                                var percent = [];
+                                var categoryName = [];
+                                var categoryID = [];
+                                var categoryAllotedBudget = []
+                                for(var i =0; i < categbud.length; i++)
+                                {
+                                    console.log(i)
+                                    console.log(categbud[i].decimal_allotedBudget)
+                                    percent[i] = categbud[i].decimal_allotedBudget/oneP;
+                                    percent[i]= Math.round(percent[i]);
+                                    categoryName[i] = categbud[i].varchar_categoryName;
+                                    categoryID[i] = categbud[i].int_projcategID;
+                                    categoryAllotedBudget[i] = categbud[i].decimal_allotedBudget;
+                                }
+                                console.log(percent)
+                                var categoryPercentage = {percentage:percent , catName:categoryName , catID:categoryID , catAllBud:categoryAllotedBudget};
+                                console.log(categoryPercentage)
+                                res.render('office/projects/views/liquidation',
+                                {
+                                    tbl_expenses:results1,
+                                    tbl_project:results2,
+                                    totalest:results3,
+                                    total:results4,
+                                    tbl_rembal:results6,
+                                    tbl_appCount:results7,
+                                    categPerc:categoryPercentage
+                                });
+                            });
                         });
                     });
                 });
@@ -845,25 +1047,169 @@ router.get('/:int_projectID/liquidation',(req, res) => {
     });
 });
 
-router.post('/endproj', (req, res) => {
+router.post('/sendliquidation', (req, res) => {
     console.log('=================================');
-    console.log('OFFICE: Project finproj POST');
+    console.log('OFFICE: Project send liq POST');
     console.log('=================================');
-    resultIndex = `${req.body.projID}`;
+    console.log("int_projectID");
+    console.log(req.body.int_projectID);
 
-    console.log(resultIndex);
-    var queryString1 = `UPDATE tbl_projectdetail SET
-    enum_projectStatus = 'Finished'
-    WHERE tbl_projectdetail.int_projectID = ${req.body.projID}`
+    var expenseID = req.body.int_expenseID;
+    console.log("expenseID");
+    console.log(expenseID);
+
+    var total_amount = req.body.total_amount;
+    console.log("total_amount");
+    console.log(total_amount);
+    
+
+    var addAmount = req.body.addAmount;
+    console.log("addAmount");
+    console.log(addAmount);
+
+    var Quantity = req.body.Unit_Quantity;
+    console.log("Quantity");
+    console.log(Quantity);
+
+    for(var i=0;i<total_amount.length;i++)
+    {
+        console.log(i);
+        var queryString1 = `UPDATE tbl_expense SET
+        decimal_actualAmount = ${total_amount[i]},
+        int_actualQuantity = ${Quantity[i]}
+        WHERE tbl_expense.int_expenseID = ${expenseID[i]}`
+        db.query(queryString1, (err, results) => {        
+            if (err) throw err;
+            console.log(results);
+        });
+    }
+    var addEx_desc = req.body.addEx_desc;
+    console.log("addEx_desc");
+    console.log(addEx_desc);
+
+    var addUnit_Price = req.body.addUnit_Price;
+    console.log("addUnit_Price");
+    console.log(addUnit_Price);
+
+    var addQuanity = req.body.addQuanity;
+    console.log("addQuanity");
+    console.log(addQuanity);
+
+    for(var i=0;i<addAmount.length;i++)
+    {
+        console.log(addEx_desc[i] || addUnit_Price[i] || addQuanity[i]);
+        console.log(addUnit_Price[i]);
+        console.log(addQuanity[i]);
+        if(addEx_desc[i] == 0)
+        { 
+            console.log("WALANG LAMAN");
+        }
+        else{
+            var insertEXPENSE = `INSERT INTO \`tbl_expense\`
+                (
+                    \`int_projectID\`,
+                    \`decimal_unitPrice\`,
+                    \`text_expenseDescription\`,
+                    \`decimal_actualAmount\`,
+                    \`int_actualQuantity\`
+                )
+                VALUES
+                (
+                    "${req.body.int_projectID}",
+                    "${addUnit_Price[i]}",
+                    "${addEx_desc[i]}",
+                    "${addAmount[i]}",
+                    "${addQuanity[i]}"
+                )`;
+            db.query(insertEXPENSE, (err, results2) => {        
+                if (err) throw err;
+                console.log(results2);
+            });
+            console.log("MAY LAMAN");
+        }
+        
+    }
+    var catID = req.body.categoryID;
+    console.log("catID");
+    console.log(catID);
+
+    var remCat = req.body.remainingCat;
+    console.log("remCat");
+    console.log(remCat);
+    
+    var counter = 0;
+    for(var l=0;l<catID.length;l++)
+    {
+        console.log("y");
+        console.log(y);
+        console.log("catID" + l);
+        console.log(catID[l]);
+        console.log(l);
+
+        var queryString2 = `SELECT * FROM tbl_categorybudget cb
+        JOIN tbl_projectcategory pc ON cb.int_categoryID = pc.int_categoryID
+        JOIN tbl_annualbudget ab ON cb.int_budgetID = ab.int_budgetID
+        WHERE pc.int_projcategID = ${catID[l]}
+        AND ab.date_budgetYear = ${y}`
+
+        db.query(queryString2, (err, results2) => {        
+            if (err) throw err;
             
-    db.query(queryString1, (err, results) => {        
+            categBudget = results2;
+            console.log("categBudget");
+            console.log(categBudget);
+                for(var j=0;j<categBudget.length;j++)
+                {
+            
+                    remCat[counter]=parseFloat(remCat[counter]);
+                    console.log("remCat" + counter);
+                    console.log(remCat[counter]);
+                    categBudget[j].decimal_categRemaining=parseFloat(categBudget[j].decimal_categRemaining);
+                    console.log("categBudget[j].decimal_categRemaining");
+                    console.log(categBudget[j].decimal_categRemaining);
+
+                    var remaining = categBudget[j].decimal_categRemaining + remCat[counter];
+                    console.log("remaining");
+                    console.log(remaining);
+
+                    var queryString4 = `UPDATE tbl_categorybudget SET
+                    decimal_categRemaining = ${remaining}
+                    WHERE int_categbudID = ${categBudget[j].int_categbudID}`
+                    db.query(queryString4, (err, results4) => { 
+                        console.log(results4);
+                    });
+                    counter++;
+                }
+        });
+        
+    }
+    
+
+    var totExpense = req.body.ovtotalExpense;
+    console.log("totExpense");
+    console.log(totExpense);
+    var queryString3 = `UPDATE tbl_projectdetail SET
+        decimal_actualBudget = ${totExpense}
+        WHERE int_projectID = ${req.body.int_projectID}`
+        db.query(queryString3, (err, results3) => {        
+            if (err) throw err;
+            console.log(results3);
+        });
+    var queryEND = `UPDATE tbl_projectdetail SET
+    enum_projectStatus = 'Finished'
+    WHERE tbl_projectdetail.int_projectID = ${req.body.int_projectID}`
+    db.query(queryEND, (err, resultse) => {        
         if (err) throw err;
+        console.log(resultse);
         res.redirect('/office/projects');
     });
 });
 
+console.log('=================================');
+console.log('CREATE PROJECT');
+console.log('=================================');
 
-// PINACOPY NI JAKE
+
 
 router.get('/createproject',(req, res) => {
     console.log('=================================');
@@ -1277,201 +1623,6 @@ router.post('/createproject',(req, res) => {
             }
             res.redirect('/office/projects');
         });
-    });
-});
-
-
-router.post('/openreleasing', (req, res) => {
-    console.log('=================================');
-    console.log('BARANGAY: Releasing open');
-    console.log('=================================');
-    resultIndex = `${req.body.projectID}`;
-
-    console.log(resultIndex);
-    var queryString1 = `UPDATE tbl_projectdetail SET
-    enum_projectStatus = 'Releasing',
-    date_actualStartRelease = "${currentDate}"
-    WHERE int_projectID = ${req.body.rint_projectID}`
-
-    var queryProject = 'SELECT DISTINCT int_barangayID from tbl_application WHERE int_projectID = 1'
-    
-    db.query(queryString1, (err, results) => {        
-        if (err) throw err;
-        console.log(results);
-
-        db.query(queryProject, (err, resultsPROJECTS) => {        
-            if (err) throw err;
-            console.log(resultsPROJECTS);
-
-            var projects = resultsPROJECTS;
-            for (var i = 0; i < projects.length;i++)
-            {
-                var queryINSERTBarR = `INSERT INTO \`tbl_barangayreleasing\` 
-                (\`int_projectID\`, 
-                \`int_barangayID\`)
-                VALUES
-                ("${req.body.rint_projectID}",
-                "${projects[i].int_barangayID}");`;
-                db.query(queryINSERTBarR, (err, resultsREL) => {        
-                    if (err) throw err;
-                    console.log(resultsREL);
-                });
-            }
-
-            res.redirect('/office/projects');
-        });
-    });
-});
-
-
-
-router.post('/openlatereleasing', (req, res) => {
-    console.log('=================================');
-    console.log('BARANGAY: Releasing open');
-    console.log('=================================');
-    resultIndex = req.body.rprojectID;
-
-    console.log(resultIndex);
-            
-    var queryString = `INSERT INTO \`tbl_projectreason\`
-        (\`int_projectID\`, 
-        \`text_projectReason\`,
-        \`enum_projectPhase\`)
-        VALUES
-        ("${req.body.rprojectID}",
-        "${req.body.rprojectReason}",
-        "Start Releasing");`;
-
-        db.query(queryString, (err, results) => {        
-            if (err) throw err;
-            console.log(results);
-
-            var queryString1 = `UPDATE tbl_projectdetail SET
-            enum_projectStatus = 'Releasing'
-            WHERE tbl_projectdetail.int_projectID = ${req.body.rprojectID}`
-
-            var queryProject = `SELECT DISTINCT int_barangayID from tbl_application 
-            WHERE int_projectID = ${req.body.rprojectID}`
-            
-            db.query(queryString1, (err, results) => {        
-                if (err) throw err;
-                console.log(results);
-
-                db.query(queryProject, (err, resultsPROJECTS) => {        
-                    if (err) throw err;
-                    console.log(resultsPROJECTS);
-
-                    var projects = resultsPROJECTS;
-                    for (var i = 0; i < projects.length;i++)
-                    {
-                        var queryINSERTBarR = `INSERT INTO \`tbl_barangayreleasing\`
-                        (\`int_projectID\`, 
-                        \`int_barangayID\`)
-                        VALUES
-                        ("${req.body.rprojectID}",
-                        "${projects[i].int_barangayID}");`;
-                        db.query(queryINSERTBarR, (err, resultsREL) => {        
-                            if (err) throw err;
-                            console.log(resultsREL);
-                        });
-                    }
-
-                    
-                    db.query(queryString1, (err, results2) => {        
-                        if (err) throw err;
-
-                        res.redirect('/office/projects');
-                });
-            });
-        });
-    });
-});
- 
-
-router.post('/closeproj', (req, res) => {
-    console.log('=================================');
-    console.log('OFFICE: Project finproj POST');
-    console.log('=================================');
-    resultIndex = `${req.body.projID}`;
-
-    console.log(resultIndex);
-    var queryString1 = `UPDATE tbl_project SET
-    enum_projectStatus = 'Closed'
-    WHERE tbl_project.int_projectID = ${req.body.projID}`
-            
-    db.query(queryString1, (err, results) => {        
-        if (err) throw err;
-        res.redirect('/office/projects');
-    });
-});
-
-
-router.get('/:int_projectID/liquidation',(req, res) => {
-    console.log('=================================');
-    console.log('OFFICE: ONGOING PROJECT - LIQUIDATION');
-    console.log('=================================');
-
-
-    var queryString1 =`SELECT * FROM tbl_expense ex
-        JOIN tbl_projectdetail proj ON ex.int_projectID = proj.int_projectID
-        WHERE ex.int_projectID = "${req.params.int_projectID}"`
-
-        var queryString2 =`SELECT * FROM tbl_projectdetail proj
-        WHERE proj.int_projectID = "${req.params.int_projectID}"`
-
-        var queryString3 =`SELECT SUM(decimal_estimatedAmount) AS "total_estimatedexpense" 
-        FROM tbl_expense
-        WHERE int_projectID = "${req.params.int_projectID}"`
-
-        var queryString4 =`SELECT SUM(decimal_actualAmount) AS "total_expense" 
-        FROM tbl_expense
-        WHERE int_projectID = "${req.params.int_projectID}"`
-
-        var queryString6 =`SELECT (SELECT decimal_actualAmount FROM tbl_projectdetail
-            WHERE int_projectID = "${req.params.int_projectID}")-(SUM(decimal_actualAmount)) AS "budgetbalance" 
-            FROM tbl_expense
-            WHERE int_projectID = "${req.params.int_projectID}"`
-
-    db.query(queryString1, (err, results1, fields) => {
-        console.log(results1)
-        db.query(queryString2, (err, results2, fields) => { 
-            console.log(results2)
-            db.query(queryString3, (err, results3, fields) => {
-                console.log(results3)
-                db.query(queryString4, (err, results4, fields) => {
-                    console.log(results4)
-                    db.query(queryString6, (err, results6, fields) => {
-                        console.log(results6)
-                
-                        res.render('office/projects/views/liquidation',
-                        {
-                            tbl_expenses:results1,
-                            tbl_project:results2,
-                            totalest:results3,
-                            total:results4,
-                            tbl_rembal:results6
-                        });
-                    });
-                });
-            });
-        });
-    });
-});
-
-router.post('/endproj', (req, res) => {
-    console.log('=================================');
-    console.log('OFFICE: Project finproj POST');
-    console.log('=================================');
-    resultIndex = `${req.body.projID}`;
-
-    console.log(resultIndex);
-    var queryString1 = `UPDATE tbl_project SET
-    enum_projectStatus = 'Finished'
-    WHERE tbl_project.int_projectID = ${req.body.projID}`
-            
-    db.query(queryString1, (err, results) => {        
-        if (err) throw err;
-        res.redirect('/office/projects');
     });
 });
 

@@ -400,116 +400,30 @@ router.post('/:int_projectID/apply/resident',(req,res) => {
 
                         console.log(personalinfo);
 
-                        var countReqProj =`SELECt * FROM tbl_projectrequirement 
-                        WHERE int_projectID =${req.params.int_projectID}`
-
-                        db.query(countReqProj,(err, countReq, fields) => {
-                            if (err) console.log(err);
-                            
-                        
-                        // INSERT TABLE APPLICATION REQUIREMENT
                         var requirements = req.body.requirementID;
-                        var requirementsloc = req.body.requirementLoc;
 
-                        console.log("==============REQUIREMENT=============");
-                        console.log(requirements)
-                        console.log("==============REQUIREMENT LOCATION=============");
-                        console.log(requirementsloc)
-
-                    for(k = 0 ; k < countReq.length; k++){
-                        for(i = 0 ; i < requirements.length ; i++)
+                        for(j = 0 ; j < requirements.length ; j++)
                         {
-                            for(j = 0 ; j < requirements[i].length ; j++)
-                            {
-                            var appreqQuery = `INSERT INTO tbl_applicationrequirement
-                                (
-                                    \`int_applicationID\`,
-                                    \`int_requirementID\`,
-                                    \`varchar_fileLocation\`,
-                                    \`enum_appreqStatus\`
-                                )
-                                VALUES
-                                (
-                                    ${int_applicationID},
-                                    ${requirements[i]},
-                                    "${requirementsloc[i]}",
-                                    "Passed"
-                                )`;
-                            
-                            }
-                            // FOR LOOP REQS FILE PATH (j)
-                       
-                        
-                    
-                            db.query(appreqQuery,(err, appreqResult, fields) => {
-                                if(err) console.log(err);
+                            var insertRequirement = `INSERT INTO tbl_applicationrequirement
+                                (\`int_applicationID\`,
+                                \`int_requirementID\`,
+                                \`varchar_fileLocation\`,
+                                \`enum_appreqStatus\`) 
+                                VALUES 
+                                (${int_applicationID},
+                                ${req.body.requirementID[j]},
+                                "${req.body.requirementLoc[j]}",
+                                "${req.body.apply_reqstat[j]}")`
 
-                               // START QUERY FOR NOT PASSED REQUIREMENTID
-
-                            
-
-                            var queryIncID = `SELECT int_requirementID
-                            FROM tbl_projectrequirement
-                            WHERE tbl_projectrequirement.int_requirementID 
-                            NOT IN 
-                                (
-                                SELECT int_requirementID
-                                FROM tbl_applicationrequirement
-                                WHERE int_applicationID = ${int_applicationID}
-                                AND enum_appreqStatus = "Passed"
-                                )
-                            AND tbl_projectrequirement.int_projectID = ${req.params.int_projectID};`;
-                        
-                            db.query(queryIncID ,(err, incRequirements, fields) => {
-                                if(err) console.log(err);
-
-                                if(incRequirements.length > 0 ){
-
-                                    var incReqID = incRequirements;
-
-
-                                    for(c = 0 ; c < incReqID.length; c++){
-                                    var appreqIncQuery = `INSERT INTO tbl_applicationrequirement
-                                    (
-                                        \`int_applicationID\`,
-                                        \`int_requirementID\`,
-                                        \`enum_appreqStatus\`
-                                    )
-                                    VALUES
-                                    (
-                                        ${int_applicationID},
-                                        ${incReqID[c].int_requirementID},
-                                        "Incomplete"
-                                    )`;
-
-                                    
-                                    console.log("=========INCOMPLETE REQS ID========")
-                                    console.log(incReqID[c].int_requirementID);
-                                    console.log("=========END INCOMPLETE REQS ID========")
-
-
-                                    }
-                                    // FOR LOOP APPREQ INC
-                                    db.query(appreqIncQuery ,(err, finalReqResult, fields) => {
-                                        if(err) console.log(err);
-            
-                                    });
-                                    // DB QUERY APPREQ INC ("INCOMPLETE")
-                                }
-                                // IF INTREQS > 0
+                            db.query(insertRequirement,(err, requirements, fields) => {
+                                if (err) console.log(err);
+                                console.log("DONE INSERT REQUIREMENT")
                             });
-                            // DB QUERY SELECT INC REQS
-                        });
-                        // DB QUERY APPREC (INSERT "PASSED ")
-                    }
-                    // FOR LOOP COUNT THE PROJECT REQS (k)
-                }
-                // FOR LOOP REQS.LENGTH(i)   
+                            // DB QUERY INSERT REQUIREMENT
+                        }
+                        res.redirect('/barangay/projects');
                     });
-                    // DB QUERY COUNT PROJECT REQS
-                    res.redirect('/barangay/projects');
-                });
-                // DB QUERY INSERT PERSONAL INFO
+                    // DB QUERY INSERT PERSONAL INFO
             });
         });
     });
@@ -773,24 +687,6 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
                 date_results[i].date_projectEnd = moment(date_results[i].date_projectEnd).format('MM-DD-YYYY');
             }
 
-            
-
-            var notificationQuery = `SELECT * FROM tbl_notification 
-            JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
-            WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
-            AND enum_notifStatus = "New"
-            ORDER BY tbl_notification.int_notifID DESC`
-
-            db.query(notificationQuery,(err, notifications) => {
-                if (err) console.log(err);
-                console.log('=================================');
-                console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
-                console.log('=================================');
-                console.log(notifications)
-            
-                var countrow = notifications.length;
-
-
                 // QUERY APPLICATIONS (RESIDENTS)
                 var applicantsQuery = `SELECT * FROM tbl_application app 
                     JOIN tbl_personalinformation pi
@@ -830,20 +726,115 @@ router.get('/:int_projectID/registeredapplicants',(req, res) => {
                             console.log('=================================');
 
                 
-                            res.render('barangay/projects/views/applicationlist',{
-                                tbl_project:results1,
-                                tbl_applicants:applicants,
-                                tbl_barangay:barangay,
-                                tbl_household:household,
-                                notifications:notifications,
-                                numbernotif:countrow});
+                                res.render('barangay/projects/views/applicationlist',{
+                                    tbl_project:results1,
+                                    tbl_applicants:applicants,
+                                    tbl_barangay:barangay,
+                                    tbl_household:household});
+                           
                         });
                     });
                 });
-            });
+            
         });
     });
 });
+
+// BUTTON - APPLICATIONS ---->> REQUIREMENTS
+router.get('/:int_projectID/registeredapplicants/requirements/:int_applicationID',(req, res) => {
+    console.log('=================================');
+    console.log('BARANGAY: PROJECTS-REGISTERED APPLICANTS-REQUIREMENTS');
+    console.log('=================================');
+
+    var barangayQuery = `SELECT tbl_barangay.int_barangayID 
+    FROM tbl_barangay 
+    JOIN tbl_officialsaccount
+    ON tbl_barangay.int_barangayID = tbl_officialsaccount.int_officialsID
+    WHERE tbl_officialsaccount.int_userID = ${req.session.barangay.int_userID}`;
+    
+    db.query(barangayQuery, (err, brgyID, fields) => {
+        console.log('============================')
+        console.log(brgyID[0].int_barangayID);
+        console.log("======REQUIREMENT SELECTED======")
+    
+        barangayID = brgyID[0].int_barangayID;
+        console.log(barangayID);
+    
+        var queryString1 = `SELECT * FROM tbl_projectdetail
+            JOIN tbl_projectapplicationtype
+            ON tbl_projectdetail.int_projectID = tbl_projectapplicationtype.int_projectID
+            WHERE tbl_projectdetail.int_projectID = ${req.params.int_projectID}`
+
+        db.query(queryString1,(err, results1) => {
+
+            var date_results = results1;
+
+            for (var i = 0; i < date_results.length;i++){
+                date_results[i].date_projectEnd = moment(date_results[i].date_projectEnd).format('MM-DD-YYYY');
+            }
+
+                // QUERY APPLICATIONS (RESIDENTS)
+                var applicantsQuery = `SELECT * FROM tbl_application app 
+                    JOIN tbl_personalinformation pi
+                    ON app.int_applicationID=pi.int_applicationID
+                    WHERE app.int_projectID = ${req.params.int_projectID}
+                    AND app.int_barangayID = ${barangayID}
+                    AND app.int_applicationID = ${req.params.int_applicationID}`
+
+                    db.query(applicantsQuery,(err, applicants) => {
+                        if (err) console.log(err);
+                        console.log('=================================');
+                        console.log('BARANGAY: REGISTERED APPLICANTS - GET APPLICANTS (Resident)');
+                        console.log('=================================');
+
+                        // QUERY APPLiCATION REQUIREMENTS
+                        var requirementsQuery = `SELECT * FROM tbl_application app 
+                        JOIN tbl_applicationrequirement ar
+                        ON app.int_applicationID=ar.int_applicationID
+                        JOIN tbl_requirement re
+                        ON ar.int_requirementID = re.int_requirementID
+                        WHERE app.int_applicationID = ${req.params.int_applicationID}`
+
+                        db.query(requirementsQuery,(err, requirements) => {
+                            if (err) console.log(err);
+
+                            console.log("===========REQUIREMENTS=========")
+                            console.log(requirements)
+                     
+                
+                            res.render('barangay/projects/views/requirements',{
+                                tbl_project:results1,
+                                tbl_applicants:applicants,
+                                tbl_requirements:requirements});     
+                        });  
+                    });  
+        });
+    });
+});
+
+router.post('/updaterequirements',(req, res) => {
+    console.log('=================================');
+    console.log('BARANGAY: PROJECTS-REGISTERED APPLICANTS-REQUIREMENTS (POST)');
+    console.log('=================================');
+
+    var queryString = `UPDATE tbl_applicationrequirement 
+    SET
+    int_requirementID = ${req.body.apply_reqid},
+    varchar_fileLocation = "${req.body.apply_requirement}",
+    enum_appreqStatus = "${req.body.apply_reqstatus}"
+    WHERE tbl_applicationrequirement.int_applicationID = ${req.body.apply_reqid}`;
+
+    for(j = 0 ; j < requirements.length ; j++)
+        {
+            db.query(insertRequirement,(err, requirements, fields) => {
+                if (err) console.log(err);
+                console.log("DONE UPDATE REQUIREMENT")
+            });
+                            
+        }
+});
+
+
 
 // AJAX GET DETAILS VIEW DETAILS PROJECT - VIEW APPLICANT DETAILS
 router.post('/:int_projectID/registeredapplicants/ajaxapplicantdetails',(req,res) => {
@@ -874,9 +865,68 @@ router.post('/:int_projectID/registeredapplicants/ajaxapplicantdetails',(req,res
         console.log("===================RESULTSS")
         console.log(resultss)
 
-        return res.send({tbl_application:resultss});
+            return res.send({tbl_application:resultss});
+        
     });
 });
+
+// // AJAX GET DETAILS VIEW DETAILS PROJECT - VIEW APPLICANT DETAILS
+// router.post('/:int_projectID/registeredapplicants/ajaxrequirementsdetails',(req,res) => {
+//     console.log('=================================');
+//     console.log('BARANGAY: RESIDENT APPLICATION REQUIREMENTS');
+//     console.log('=================================');
+//     console.log(`${req.body.ajappID}`);
+
+//     var queryString = `SELECT * FROM tbl_personalinformation pi
+//     JOIN tbl_application ap 
+//     ON pi.int_applicationID=ap.int_applicationID 
+//     WHERE pi.int_applicationID=${req.body.ajappID}`
+
+
+//     db.query(queryString,(err, results, fields) => {
+//         if (err) console.log(err);
+
+//         console.log(results);
+
+//         var date_results = results;
+
+//         for (var i = 0; i < date_results.length;i++){
+//             date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
+//         }
+
+//         var resultss = results[0];
+
+//         console.log("===================RESULTSS")
+//         console.log(resultss)
+
+//         var queryRequirements = `SELECT * FROM tbl_application ap
+//         JOIN tbl_applicationrequirement ar 
+//         ON ap.int_applicationID=ar.int_applicationID 
+//         JOIN tbl_requirement re
+//         ON ar.int_requirementID = re.int_requirementID
+//         WHERE ap.int_applicationID=${req.body.ajappID}`
+
+
+//         db.query(queryRequirements,(err, requirements, fields) => {
+//             if (err) console.log(err);
+            
+//             var reqArray =[]
+
+//             console.log("SELECT REQUIREMENTS")
+//             console.log(requirements);
+            
+//             for(i=0; i <requirements.length; i++){
+//                 console.log("REQUIREMENT NAME:")
+//                 console.log(requirements[i].varchar_requirementName);
+
+//                 // reqArray.requirements[i];
+//             }
+//             // console.log()
+
+//             return res.send({tbl_requirements:requirements});
+//         });
+//     });
+// });
 
 router.post('/:int_projectID/registeredapplicants/ajaxhouseholddetails',(req,res) => {
     console.log('=================================');

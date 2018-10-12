@@ -1,0 +1,39 @@
+extends ../../home/views/navbar.pug
+
+block content
+        <div class="right_col" role="main">
+        each project in tbl_project
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><i class="fa fa-users"></i>
+                        value= project.varchar_projectName +" (Beneficiary List) - in "
+                        each bar in tbl_barangay
+                            value= bar.varchar_barangayName 
+                    </h2>
+                    
+                    a(href=`/office/projects/${project.int_projectID}/viewapp` id="viewapp" class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle  
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <table class="table table-bordered" id="datatable" cellspacing="0">
+                        thead
+                            tr
+                                th Last Name
+                                th First Name
+                                th Middle Name (Optional)
+                                th Date & time Received
+                                th Remarks
+                        <tbody>
+                        each barBen in tbl_ben
+                            tr
+                                td 
+                                    value= barBen.varchar_LName
+                                td  
+                                    value= barBen.varchar_FName
+                                td
+                                    value= barBen.varchar_MName
+                                td
+                                    value= barBen.datetime_received
+                                td
+                                    value= barBen.text_remarks
+                </div>

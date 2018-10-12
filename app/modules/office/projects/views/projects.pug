@@ -34,7 +34,9 @@ block content
                                                             value=project.varchar_projectName
                                                         </td>
                                                         <td>
-                                                            value=project.int_allotedSlot
+                                                        each slot in slotcount 
+                                                            if slot.projID == project.int_projectID
+                                                                value=slot.slotCount
                                                         </td>
                                                         
                                                         <td>
@@ -222,7 +224,7 @@ block content
                                                         $.each(tbl_project1, function (index, value) {
                                                             console.log(value);
                                                             if(value.enum_projectStatus == "Created"){
-                                                                if(value.date_targetStartApp != currentdate){
+                                                                if(value.date_targetStartApp != currdate){
                                                                     $('#startprojectModal').modal('show');
                                                                     document.getElementById("projectID").value = Id
                                                                     document.getElementById("aj-projectDate").innerHTML = value.date_targetStartApp
