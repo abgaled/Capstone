@@ -30,17 +30,18 @@ block content
 				<hr>
 			</div>
 			<div>
-			<form method="POST" action="/barangay/projects/updaterequirements">
+			<form method="POST" action="/barangay/projects/updaterequirements" id="updateRequirement">
 				<h4>Requirements:
 				<br>
 				<br>
 				each req in tbl_requirements
 					<div class=form-row>
-						<div class="form-group col-md-4 col-sm-12">
-							input(type="hidden" name="apply_reqid" value=`${req.int_requirementID}`)
-							<ul>
+						<div class="form-group col-md-6 col-sm-12">
+							input(type="hidden" name="apply_reqid[]" value=`${req.int_requirementID}`)
+							input(type="hidden" name="apply_appid" value=`${req.int_applicationID}`)
+							<p>
 								value= req.varchar_requirementName
-							</ul>
+							</p>
 							if(req.enum_appreqStatus == "Passed")
 								input(type="text" id="ap-requirement" name="apply_requirement" value=`${req.varchar_fileLocation}` class="middle col-sm-11 form-control ")
 								input(type="hidden" id="ap-reqstatus" name="apply_reqstatus" value="Passed" class="middle col-sm-11 form-control ")
@@ -57,3 +58,27 @@ block content
 			</form>
 		</div>
 	</div>
+
+	script.
+
+		$(document).ready(function () {
+
+			$('#btn-update-requirements').on('click',function (e) {
+				var form = $(this).parents('form');
+				e.preventDefault(); //prevent submit                             
+				swal({
+						title: 'Are you sure?',
+						text: "You want to update the requirements of this application?",
+						type: 'info',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Yes, update it!'
+						}).then((result) => {
+							if (result.value) {
+								$('#updateRequirement').submit();
+							}                        
+						})
+			});  
+			
+		});

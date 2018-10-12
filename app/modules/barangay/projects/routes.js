@@ -51,8 +51,7 @@ router.get('/',(req, res) => {
     var queryString1 = `SELECT * FROM tbl_projectdetail 
     JOIN tbl_projectapplicationtype
     ON tbl_projectdetail.int_projectID = tbl_projectapplicationtype.int_projectID
-    WHERE tbl_projectdetail.enum_projectStatus = "Ongoing" 
-    OR tbl_projectdetail.enum_projectStatus = "Closed Releasing"`
+    WHERE tbl_projectdetail.enum_projectStatus = "Ongoing"`
 
     db.query(queryString1,(err, results1) => {
 
@@ -817,21 +816,23 @@ router.post('/updaterequirements',(req, res) => {
     console.log('BARANGAY: PROJECTS-REGISTERED APPLICANTS-REQUIREMENTS (POST)');
     console.log('=================================');
 
-    var queryString = `UPDATE tbl_applicationrequirement 
-    SET
-    int_requirementID = ${req.body.apply_reqid},
-    varchar_fileLocation = "${req.body.apply_requirement}",
-    enum_appreqStatus = "${req.body.apply_reqstatus}"
-    WHERE tbl_applicationrequirement.int_applicationID = ${req.body.apply_reqid}`;
+    var arrayAppID = req.body.apply_appid;
 
-    for(j = 0 ; j < requirements.length ; j++)
+        for(j = 0 ; j < arrayAppID.length ; j++)
         {
-            db.query(insertRequirement,(err, requirements, fields) => {
+            var updateRequirement = `UPDATE tbl_applicationrequirement 
+            SET
+            varchar_fileLocation = "${req.body.apply_requirement[j]}",
+            enum_appreqStatus = "${req.body.apply_reqstatus[j]}"
+            WHERE tbl_applicationrequirement.int_applicationID = ${req.body.apply_appid[j]}
+            AND int_requirementID = ${req.body.apply_reqid[j]} `;
+
+            db.query(updateRequirement,(err, updatedreq, fields) => {
                 if (err) console.log(err);
                 console.log("DONE UPDATE REQUIREMENT")
-            });
-                            
+            });                
         }
+        res.redirect('/barangay/projects');
 });
 
 
@@ -996,160 +997,6 @@ router.get('/registeredapplicants/:int_projectID/list', (req, res) => {
                 numbernotif:countrow});
         });
     });
-});
-
-
-router.get('/:int_projectID/liquidation',(req, res) => {
-    console.log('=================================');
-    console.log('BARANGAY: ONGOING PROJECT - LIQUIDATION');
-    console.log('=================================');
-
-    // var queryString = `UPDATE tbl_project SET
-    // enum_projectStatus = 'Finished'
-    // WHERE tbl_project.int_projectID = "${req.body.int_projectID}"`
-
-    // db.query(queryString, (err, results, fields) => {
-    //     console.log(results);
-    // });
-    var queryNOTIF = `SELECT * FROM tbl_notification 
-    JOIN tbl_user ON tbl_notification.int_notifSenderID = tbl_user.int_userID 
-    WHERE tbl_notification.int_notifReceiverID=${req.session.barangay.int_userID}
-    AND enum_notifStatus = "New"
-    ORDER BY tbl_notification.int_notifID DESC`
-
-    db.query(queryNOTIF,(err, notifications) => {
-        if (err) console.log(err);
-        console.log('=================================');
-        console.log('BARANGAY: NOTIFICATIONS - GET NOTIFICATIONS - DATA');
-        console.log('=================================');
-        console.log(notifications)
-
-        var queryString1 =`SELECT * FROM tbl_expense ex
-        JOIN tbl_projectdetail proj ON ex.int_projectID = proj.int_projectID
-        WHERE ex.int_projectID = "${req.params.int_projectID}"`
-
-        var queryString2 =`SELECT * FROM tbl_projectdetail proj
-        WHERE proj.int_projectID = "${req.params.int_projectID}"`
-
-        var queryString3 =`SELECT SUM(decimal_estimatedAmount) AS "total_estimatedexpense" 
-        FROM tbl_expense
-        WHERE int_projectID = "${req.params.int_projectID}"`
-
-        var queryString4 =`SELECT SUM(decimal_actualAmount) AS "total_expense" 
-        FROM tbl_expense
-        WHERE int_projectID = "${req.params.int_projectID}"`
-
-        // var queryString6 =`SELECT (SELECT decimal_amount FROM tbl_checkapproval
-        //     WHERE int_projectID = "${req.params.int_projectID}")-(SUM(decimal_actualAmount)) AS "budgetbalance" 
-        //     FROM tbl_expense
-        //     WHERE int_projectID = "${req.params.int_projectID}"`
-
-            db.query(queryString1, (err, results1, fields) => {
-                console.log(results1)
-                db.query(queryString2, (err, results2, fields) => { 
-                    console.log(results2)
-                    db.query(queryString3, (err, results3, fields) => {
-                        console.log(results3)
-                        db.query(queryString4, (err, results4, fields) => {
-                            console.log(results4)
-                            // db.query(queryString6, (err, results6, fields) => { 
-                                // console.log(results6)
-                    
-        
-                            res.render('barangay/projects/views/liquidation',
-                            {
-                                tbl_expenses:results1,
-                                tbl_project:results2,
-                                totalest:results3,
-                                total:results4,
-                                // tbl_rembal:results6,
-                                notifications:notifications
-                            });
-                        // });
-                    });
-                });
-            });
-        });
-    });
-});
-
-router.post('/senliquidation', (req, res) => {
-    console.log('=================================');
-    console.log('BARANGAY: Project finproj POST');
-    console.log('=================================');
-
-    console.log(req.body.int_projectID);
-
-    var desc = req.body.expenseDesc;
-    console.log(desc);
-
-    var expenseID = req.body.int_expenseID;
-    console.log(expenseID);
-
-    var total_amount = req.body.total_amount;
-    console.log(total_amount);
-
-    var Quantity = req.body.Unit_Quantity;
-    console.log(Quantity);
-
-    var unitPrice = req.body.decimal_unitPrice;
-    console.log(unitPrice);
-
-    console.log(expenseID.length);
-    console.log(total_amount.length);
-    for(var i=0;i<total_amount.length;i++)
-    {
-        console.log(expenseID[i]);
-        console.log(total_amount[i]);
-        console.log(Quantity[i]);
-
-        if(i<expenseID.length)
-        {
-            console.log(i);
-            var queryString1 = `UPDATE tbl_expense SET
-            decimal_actualAmount = ${total_amount[i]},
-            int_actualQuantity = ${Quantity[i]}
-            WHERE tbl_expense.int_expenseID = ${expenseID[i]}`
-            db.query(queryString1, (err, results) => {        
-                if (err) throw err;
-            });
-        }
-        else if(total_amount[i]!= ""){
-            
-            console.log(i);
-            console.log(desc[i-expenseID.length]);
-            console.log("hello");
-            var insertEXPENSE = `INSERT INTO \`tbl_expense\`
-            (
-                \`int_projectID\`,
-                \`decimal_unitPrice\`,
-                \`text_expenseDescription\`,
-                \`decimal_actualAmount\`,
-                \`int_actualQuantity\`
-            )
-            VALUES
-            (
-                "${req.body.int_projectID}",
-                "${unitPrice[i]}",
-                "${desc[i-expenseID.length]}",
-                "${total_amount[i]}",
-                "${Quantity[i]}"
-            )`;
-            db.query(insertEXPENSE, (err, addEx) => {        
-                if (err) throw err;
-                console.log(addEx);
-            });
-        }
-    }
-
-    // var queryString1 = `UPDATE tbl_expense SET
-    // enum_projectStatus = 'Finished'
-    // WHERE tbl_project.int_projectID = ${req.body.projID}`
-            
-    // db.query(queryString1, (err, results) => {        
-    //     if (err) throw err;
-        res.redirect('/barangay/projects');
-    // });
 });
 
 

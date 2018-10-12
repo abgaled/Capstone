@@ -845,6 +845,7 @@ db.query(queryString, (err, results) => {
 });
 
 
+
 router.post('/openreleasing', (req, res) => {
     console.log('=================================');
     console.log('BARANGAY: Releasing open');
@@ -853,8 +854,7 @@ router.post('/openreleasing', (req, res) => {
 
     console.log(resultIndex);
     var queryString1 = `UPDATE tbl_projectdetail SET
-    enum_projectStatus = 'Releasing',
-    date_actualStartRelease = "${currentDate}"
+    enum_projectStatus = 'Releasing'
     WHERE int_projectID = ${req.body.rint_projectID}`
 
     var queryProject = 'SELECT DISTINCT int_barangayID from tbl_application WHERE int_projectID = 1'
@@ -1196,7 +1196,8 @@ router.post('/sendliquidation', (req, res) => {
             console.log(results3);
         });
     var queryEND = `UPDATE tbl_projectdetail SET
-    enum_projectStatus = 'Finished'
+    enum_projectStatus = 'Finished',
+    date_actualClosing = "${currentDate}"
     WHERE tbl_projectdetail.int_projectID = ${req.body.int_projectID}`
     db.query(queryEND, (err, resultse) => {        
         if (err) throw err;
@@ -1208,7 +1209,6 @@ router.post('/sendliquidation', (req, res) => {
 console.log('=================================');
 console.log('CREATE PROJECT');
 console.log('=================================');
-
 
 
 router.get('/createproject',(req, res) => {
@@ -1246,6 +1246,11 @@ router.get('/createproject',(req, res) => {
         FROM tbl_unitmeasure
         WHERE enum_unitStatus="Active"`;
 
+    var queryString8 = `SELECT PB.* 
+        FROM tbl_projectbeneficiary PB JOIN tbl_intentstatement ISS 
+            ON PB.int_linkID=ISS.int_statementID 
+        WHERE enum_beneficiaryLink = 'Intent Statement'`;
+
     db.query(queryString, (err, results, fields) => {
         if (err) console.log(err);
         
@@ -1268,15 +1273,19 @@ router.get('/createproject',(req, res) => {
                             db.query(queryString7, (err, results7, fields) => {
                                 if (err) console.log(err);
 
-                                res.render('office/projects/views/createproject', 
-                                {
-                                    tbl_category: results,
-                                    tbl_beneficiary:results2,
-                                    tbl_requirement:results3,
-                                    tbl_barangay:results4,
-                                    tbl_problemstatement:results5,
-                                    tbl_location:results6,
-                                    tbl_unitmeasure: results7
+                                db.query(queryString8, (err, results8, fields) => {
+                                    if (err) console.log(err);
+
+                                    res.render('office/projects/views/createproject', 
+                                    {
+                                        tbl_category: results,
+                                        tbl_beneficiary:results2,
+                                        tbl_requirement:results3,
+                                        tbl_barangay:results4,
+                                        tbl_problemstatement:results5,
+                                        tbl_location:results6,
+                                        tbl_unitmeasure: results7
+                                    });
                                 });
                             });
                         });
@@ -1342,7 +1351,11 @@ router.post('/createproject',(req, res) => {
     console.log(closeProj);
     console.log("PROJECT BUDGET:")
     var estimatedbudget = req.body.estimatedbudget;
+    var appCategBudget = req.body.appCategBudget;
+    var appropriatedBudget = req.body.appropriatedBudget;
     console.log(estimatedbudget);
+    console.log(appCategBudget);
+    console.log(appropriatedBudget);
     console.log("PROJECT CATEGORY:")
     var categ = req.body.projectlist;
     console.log(categ);
@@ -1372,6 +1385,7 @@ router.post('/createproject',(req, res) => {
         \`date_targetEndRelease\`,
         \`date_targetClosing\`,
         \`decimal_estimatedBudget\`,
+        \`decimal_appropriatedBudget\`,
         \`date_createdDate\`,
         \`enum_projectStatus\`
     )
@@ -1390,6 +1404,7 @@ router.post('/createproject',(req, res) => {
         "${req.body.endRel}",
         "${req.body.closeProj}",
         "${req.body.estimatedbudget}",
+        "${req.body.appropriatedBudget}",
         CURDATE(),
         "Created"
     )`;
@@ -1507,26 +1522,26 @@ router.post('/createproject',(req, res) => {
             //     if(err) console.log(err);
 
                 // var categ = categResult;
-                console.log(categ);
+                // console.log(categ);
                 
-                for(var l = 0 ; l < categ.length ; l++)
-                {
-                    console.log(l);
-                    var insertTimeline = `INSERT INTO \`tbl_projectcategory\`
-                        (
-                            \`int_categoryID\`,
-                            \`int_projectID\`
-                        )
+                // for(var l = 0 ; l < categ.length ; l++)
+                // {
+                //     console.log(l);
+                //     var insertTimeline = `INSERT INTO \`tbl_projectcategory\`
+                //         (
+                //             \`int_categoryID\`,
+                //             \`int_projectID\`
+                //         )
                             
-                            VALUES(
-                            "${categ[l]}",
-                            "${toproject.int_projectID}"
-                        );`;
+                //             VALUES(
+                //             "${categ[l]}",
+                //             "${toproject.int_projectID}"
+                //         );`;
     
-                    db.query(insertTimeline, (err, tblprojectrequirement, fields) => {        
-                        if (err) throw err;
-                    });
-                }
+                //     db.query(insertTimeline, (err, tblprojectrequirement, fields) => {        
+                //         if (err) throw err;
+                //     });
+                // }
             // });
 
             // INSERT APPLICATION TYPE
@@ -1559,29 +1574,29 @@ router.post('/createproject',(req, res) => {
             console.log(beneName.length);
 
 
-            for(var p = 0 ; p < (beneName.length-1) ; p++ ) 
-            {
-                console.log(p);
-                var insertBenefits = `INSERT INTO \`tbl_applicantbenefit\`
-                    (
-                        \`text_benefitName\`,
-                        \`int_benefitQuantity\`,
-                        \`int_projectID\`,
-                        \`char_itemUnit\`
-                    )
+            // for(var p = 0 ; p < (beneName.length-1) ; p++ ) 
+            // {
+            //     console.log(p);
+            //     var insertBenefits = `INSERT INTO \`tbl_applicantbenefit\`
+            //         (
+            //             \`text_benefitName\`,
+            //             \`int_benefitQuantity\`,
+            //             \`int_projectID\`,
+            //             \`char_itemUnit\`
+            //         )
                     
-                    VALUES
-                    (
-                        "${beneName[p]}",
-                        "${beneQuantity[p]}",
-                        "${toproject.int_projectID}",
-                        "${beneUnit[p]}"
-                    )`;
+            //         VALUES
+            //         (
+            //             "${beneName[p]}",
+            //             "${beneQuantity[p]}",
+            //             "${toproject.int_projectID}",
+            //             "${beneUnit[p]}"
+            //         )`;
 
-                db.query(insertBenefits, (err, inserResult, fields) => {        
-                    if (err) throw err;
-                });
-            }
+            //     db.query(insertBenefits, (err, inserResult, fields) => {        
+            //         if (err) throw err;
+            //     });
+            // }
 
             // INSERT PROJECT ESTIMATED EXPENSES
             console.log("==============INSERT PROJECT ESTIMATED EXPENSES====================");
@@ -1623,6 +1638,40 @@ router.post('/createproject',(req, res) => {
             }
             res.redirect('/office/projects');
         });
+    });
+});
+
+router.post('/createproject/ajaxBeneficiary', (req, res) => {
+
+    var beneList = [];
+    var beneficiaries = "";
+
+    var statement = req.body.statementID;
+
+    for(var a = 0 ; a < statement.length ; a++) {
+        if( a == (statement.length - 1)){
+            beneficiaries += statement[a];
+        }
+        else {
+            beneficiaries += statement[a]+",";
+        }
+    }
+
+    console.log(beneficiaries);
+
+    var stateBeneQuery = `SELECT varchar_beneficiaryName
+        FROM tbl_beneficiary B JOIN tbl_projectbeneficiary PB
+        ON B.int_beneficiaryID=PB.int_beneficiaryID
+        JOIN tbl_intentstatement ISS ON PB.int_linkID=ISS.int_statementID
+        WHERE enum_beneficiaryLink='Intent Statement' AND ISS.int_statementID IN (${beneficiaries})`;
+    
+    db.query(stateBeneQuery, (err, stateBeneResult, fields) => {
+        if(err) console.log(err);
+        for (var l = 0; l < stateBeneResult.length ; l++) {
+            beneList.push(stateBeneResult[l].varchar_beneficiaryName);
+        }
+        console.log(beneList);
+        return res.send({tbl_beneficiary: beneList});
     });
 });
 
