@@ -1,0 +1,55 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h1>PROJECTS</h1>
+                    </div>     
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Project Name</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each project in tbl_project
+                                                    <tr>
+                                                        <td>
+                                                            value=project.varchar_projectName
+                                                        </td>
+                                                        <td>
+                                                            value=project.enum_projectStatus
+                                                        </td>
+                                                        <td >
+                                                            <div class="pull-right">
+                                                                a(href=`/budget/projects/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-info btn-sm "): span.fa.fa-eye View Details
+                                                                if project.enum_projectStatus !="Created"
+                                                                    a(href=`/budget/projects/${project.int_projectID}/viewapp` id="viewapp" class="btn btn-primary btn-sm"): span.fa.fa-list View Applications
+                                                                if project.enum_projectStatus == "Finished"
+                                                                    a(href=`/budget/projects/${project.int_projectID}/liquidation` id="liquidation" class="btn btn-dark btn-sm"): span.fa.fa-eye View Liquidation Report
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

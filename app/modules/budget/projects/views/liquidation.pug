@@ -1,0 +1,260 @@
+<head>
+    <link rel="icon" href="/icons/cityprologo.png" type="image/png" />
+
+    <title>City Project Application and Beneficiary Releasing</title>
+    <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+    
+
+    <!-- Bootstrap -->
+    <link href="/cityadmin/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/cityadmin/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/cityadmin/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/cityadmin/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+	
+    <!-- bootstrap-progressbar -->
+    <link href="/cityadmin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="/cityadmin/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="/cityadmin/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- date-tables -->
+    <link href="/cityadmin/vendors/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <script src="/cityadmin/vendors/datatables/jquery.dataTables.js"></script>
+
+    <script src="/cityadmin/vendors/datatables/dataTables.bootstrap4.js"></script>
+
+    <script src="/cityadmin/build/js/sb-admin-datatables.min.js"></script>
+
+    //- SWEET ALERT
+    <script src="/asset_sweetalert/src/sweetalert2.all.min.js"></script>
+    link(rel="stylesheet", href="/assets/css/printjs.min.css")
+    
+
+    <!-- Custom Theme Style -->
+    <link href="/cityadmin/build/css/custom.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                each proj in tbl_project
+                    <div class="noPRINT"  id="noPRINT">
+                        a(href=`/budget/projects` class="btn btn-danger btn-lg pull-right fa"): span.fa.fa-times-circle  
+                        <button id="printReceiptButton" type="button" disabled class= "btn float-right pull-right  btn-lg btn-inverse fa fa-print">&nbsp;&nbsp; Print Receipt
+                        <button id="signReceiptButton" type="button" class= "btn float-right btn-lg btn-inverse pull-right fa fa-pencil">&nbsp;&nbsp; Sign Receipt
+                    </div> 
+                    <div class="x_title" >
+                        <h4 class="">Office of the Congresswomen Alexandria Gonzales</h4>
+                            <h5 class="">
+                                value="(" + proj.varchar_projectName + ")"
+                                <div class="pull-right" id="dateNow">
+                                    
+                                </div>
+                            </h5>
+                    </div>             
+                    <div class="content-wrapper">
+                        <div class="container-fluid">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                input(type="hidden" value=`${proj.int_projectID}` id="int_projectID" name="int_projectID" class="int_projectID")
+                                                <table class="table " id="" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="2"><center>Budget Received:</center></th>
+                                                            <th colspan="3"></th>
+                                                            <th>Php 
+                                                                value= proj.decimal_appropriatedBudget.toLocaleString()
+                                                                input(type="hidden" value=`${proj.decimal_appropriatedBudget}` id="decimal_appropriatedBudget" name="decimal_appropriatedBudget" class="decimal_appropriatedBudget")
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th colspan="6">Less: Expense Paid</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th><center>Expenses Item</center></th>
+                                                            <th>Unit Price</th>
+                                                            <th>QTY</th>
+                                                            <th>Amount</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        each exp in tbl_expenses
+                                                            <tr class="tr-shadow">
+                                                                input(type="hidden" value=`${exp.int_expenseID}` id="int_expenseID" name="int_expenseID" class="int_expenseID")
+                                                                <td>
+                                                                    value=exp.text_expenseDescription
+                                                                </td>
+                                                                <td class='' >Php #{exp.decimal_unitPrice.toLocaleString()} 
+                                                                    input(type="hidden" value=`${exp.decimal_unitPrice}` id="decimal_unitPrice" name="decimal_unitPrice" class="decimal_unitPrice")
+                                                                </td>
+                                                                <td>
+                                                                    value= exp.int_actualQuantity
+                                                                </td>
+                                                                <td>Php 
+                                                                    value= exp.decimal_actualAmount.toLocaleString()
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                            </tr>        
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>Total Expense</th>
+                                                            <th colspan="4" class=""><div class="pull-right" ></div>
+                                                            </th>
+                                                            <th>Php 
+                                                                value= proj.decimal_actualBudget.toLocaleString()
+                                                                input(type="hidden" value=`${proj.decimal_actualBudget}` id="decimal_actualBudget" name="decimal_actualBudget" class="decimal_actualBudget")
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Excess(Deficit)Cash</th>
+                                                            <th colspan="4" class=""><div class="pull-right" ></div>
+                                                            </th>
+                                                            <th><div id="deficitCash" class="deficitCash">
+
+                                                                </div>
+                                                                //- value= proj.decimal_actualBudget.toLocaleString()
+                                                            </th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        .m-h-50
+                                            .row
+                                                .col-md-12
+                                                    .row
+                                                        .pull-right
+                                                            <div style='margin-left:355px'>Noted By:
+                                                            </div>
+                                                            <div style='margin-left:355px'>
+                                                                img.tenantPirma(style='width:250px;height:80px')
+                                                            </div>
+                                                            <div style='margin-left:355px'>
+                                                                | ___________________________________  
+                                                            </div>
+                                                             <div style='margin-left:405px' class="signNamee" id="signNamee">
+                                                            </div>
+                                            hr
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+    <div class="modal fade bs-example-modal-sm" id="modalBeneficiarySignature" abindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form class="form-horizontal form-label-left" method="POST" action='#' id="formAddUOM" >
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">Beneficiary Signature
+                        </span></h4>
+                        <div class="col-md-12">
+                            <center>
+                                <canvas id="signaturePadBeneficiary" class="signature-pad" style="margin: auto; border: 2px solid #d2b48c" width='600', height='300'></canvas>
+                                
+                                <div class="form-group">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <label class="control-label col-md-2" for="first-name">Name:
+                                    </label>
+                                    <div class="col-md-7 totalExpense" id="totalExpense">
+                                        <input type="text" id="nameSign" name="nameSign" class="nameSign  form-control col-md-7 col-xs-12" required placeholder="Amount">
+                                    </div>
+                                </div>
+                                    <button id="undo" class= "btn"> Undo
+                                    <button id="benSign" type="button" class= "btn float-right"> Submit 
+                            </center>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+        <script src="/cityadmin/vendors/jquery/dist/jquery.min.js"></script>
+        <script src="/asset_validation/dist/jquery.validate.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="/cityadmin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- Custom Theme Scripts -->
+        <script src="/cityadmin/build/js/custom.min.js"></script>
+        script(src='/assets/js/signaturePad.js')
+        script(src='/assets/js/rasterizeHTML.js')
+        script(src='/assets/js/jspdf.js')
+        script(src='/assets/js/printjs.min.js')
+    
+
+
+        script.
+            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            n =  new Date();
+            y = n.getFullYear();
+            m = n.getMonth() + 1;
+            d = n.getDate();
+            mon = months[n.getMonth()];
+            //- currentdate = y + "-" + m + "-" + d;
+            currdate =  mon + " " + d + ", " + y;
+            currentdate =  m + "-" + d + "-" + y;
+
+            $(document).ready(function () {   
+                var AppBud =  parseInt($('.decimal_appropriatedBudget').val())
+                var ActBud =  parseInt($('.decimal_actualBudget').val())
+                var remBud = AppBud - ActBud;
+                $(".deficitCash").html("Php "+ remBud.toLocaleString());
+                $("#dateNow").html(currdate);
+                var canvas = document.getElementById("signaturePadBeneficiary");
+                console.log("")
+                var signaturePad = new SignaturePad(canvas, {backgroundColor: 'rgb(255, 255, 255)'});
+                var printCanvas = document.getElementById("printCanvas");
+
+                $('#signReceiptButton').click(function(){
+                    $('#modalBeneficiarySignature').modal('show');
+                });
+                $('#undo').click(function(e){
+                    e.preventDefault()
+                    signaturePad.clear()
+                });
+                $('#benSign').click(function(){
+                    var nameSign = document.getElementById("nameSign").value;
+                    console.log(nameSign);
+                    if (signaturePad.isEmpty()){
+                        swal({
+                            title: 'No Signature',
+                            icon: 'error',
+                            text: 'Please provide signature below.',
+                            button: 'Okay',
+                        })
+                    }
+                    else{
+                        var data = signaturePad.toDataURL("image/jpeg")
+                        $('.tenantPirma').attr('src', `${data}`);
+                        $('#modalBeneficiarySignature').modal('hide');
+                        $('#printReceiptButton').attr('disabled', false);
+                        $('#closebutton').attr('disabled', false);
+                        $("#signNamee").html(nameSign);
+                    }
+                });
+                
+                $('#printReceiptButton').click(function(){
+                    $('.noPrint').attr('style', 'display:none;')
+                    javascript:window.print()
+                    $('.noPrint').attr('style', 'display:show;')
+                });
+            });

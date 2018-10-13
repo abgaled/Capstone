@@ -929,6 +929,7 @@ block content
                 m[0] = m[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
                 $('#ap-appbudget').val("PHP "+m.join("."));
+                $('#ap-apbudget').val(appBudgetAmount);
             });
         });
 
@@ -1109,7 +1110,7 @@ block content
                 appBudget += "<div class='form-group'><label class='control-label col-md-3 col-sm-3 col-xs-3'>"+appcateg[b]+"</label><div class='col-md-7 col-sm-9 col-xs-9'><input type='number' name='appCategBudget[]' class='form-control ap-appbudgets'></div></div>";
             }
 
-            appBudget += "<div class='form-group'><label class='control-label col-md-3 col-sm-3 col-xs-3'>Total Appropriate Budget</label><div class='col-md-7 col-sm-9 col-xs-9'><input type='text' class='form-control' id='ap-appbudget' name='appropriatedBudget' readonly></div></div>";
+            appBudget += "<div class='form-group'><label class='control-label col-md-3 col-sm-3 col-xs-3'>Total Appropriate Budget</label><div class='col-md-7 col-sm-9 col-xs-9'><input type='number' id='ap-apbudget' name='appropriatedBudget' hidden><input type='text' class='form-control' id='ap-appbudget' name='' readonly></div></div>";
 
             if(category!=0){
                 document.getElementById("result-projCategory").innerHTML = categList;
@@ -1210,7 +1211,7 @@ block content
                         appBudget += "<div class='form-group'><label class='control-label col-md-3 col-sm-3 col-xs-3'>"+result[i]+"</label><div class='col-md-7  col-sm-9 col-xs-9'><input type='number' name='appCategBudget[]' class='form-control ap-appbudgets'></div></div>";
                     }
 
-                    appBudget += "<div class='form-group'><label class='control-label col-md-3 col-sm-3 col-xs-3'>Total Appropriate Budget</label><div class='col-md-7 col-sm-9 col-xs-9'><input type='text' class='form-control' id='ap-appbudget' name='appropriatedBudget' readonly></div></div>";
+                    appBudget += "<div class='form-group'><label class='control-label col-md-3 col-sm-3 col-xs-3'>Total Appropriate Budget</label><div class='col-md-7 col-sm-9 col-xs-9'><input type='number' id='ap-apbudget' name='appropriatedBudget' hidden><input type='text' class='form-control' id='ap-appbudget' name='' readonly></div></div>";
 
                     document.getElementById("result-projStatement").innerHTML = statement_name_selected;
                     document.getElementById("ap-projectcateg-intent").innerHTML = statement_categList;

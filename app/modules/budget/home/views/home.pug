@@ -5,5 +5,27 @@ block content
     //- <!-- page content -->
     <div class="right_col" role="main">
         <h1>Budget - Home</h1>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                        each onproj in tbl_projCount
+                            <div class="count">
+                                value= onproj.openApplicationCount
+                            </div>
+                        <h3>Current <br>Ongoing Application</h3>
+                        <p>As of this day</p>
+                        </div>
+                    </div>
             
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-file"></i></div>
+                        each releasing in tbl_release
+                            <div class="count">
+                                value= releasing.releasingCount
+                            </div>
+                        <h3>Current <br>Releasing Projects</h3>
+                        <p>As of this day</p>
+                        </div>
+                    </div>
     </div>

@@ -1452,33 +1452,31 @@ router.post('/createproject',(req, res) => {
             // INSERT PROJECT BENEFICIARIES
             console.log("==============INSERT PROJECT BENEFICIARIES====================");
 
-            console.log(beneficiaries);
-            console.log(beneficiaries.length);
 
-            for(var j = 0 ; j < beneficiaries.length ; j++ ) 
-            {
-                console.log(j);
-                console.log(beneficiaries[j]);
+            // for(var j = 0 ; j < beneficiaries.length ; j++ ) 
+            // {
+            //     console.log(j);
+            //     console.log(beneficiaries[j]);
                 
-                var insertBeneficiaries = `INSERT INTO \`tbl_projectbeneficiary\`
-                    (
-                        \`int_linkID\`,
-                        \`int_beneficiaryID\`,
-                        \`enum_beneficiaryLink\`
-                    )
+            //     var insertBeneficiaries = `INSERT INTO \`tbl_projectbeneficiary\`
+            //         (
+            //             \`int_linkID\`,
+            //             \`int_beneficiaryID\`,
+            //             \`enum_beneficiaryLink\`
+            //         )
 
-                    VALUES
-                    (
-                        "${toproject.int_projectID}",
-                        "${beneficiaries[j]}",
-                        "Project"
-                    )`;
+            //         VALUES
+            //         (
+            //             "${toproject.int_projectID}",
+            //             "${beneficiaries[j]}",
+            //             "Project"
+            //         )`;
 
-                db.query(insertBeneficiaries, (err, insertResult) => {        
-                    if (err) throw err;
-                    console.log(insertResult);
-                });
-            }
+            //     db.query(insertBeneficiaries, (err, insertResult) => {        
+            //         if (err) throw err;
+            //         console.log(insertResult);
+            //     });
+            // }
 
 
 
@@ -1574,29 +1572,29 @@ router.post('/createproject',(req, res) => {
             console.log(beneName.length);
 
 
-            // for(var p = 0 ; p < (beneName.length-1) ; p++ ) 
-            // {
-            //     console.log(p);
-            //     var insertBenefits = `INSERT INTO \`tbl_applicantbenefit\`
-            //         (
-            //             \`text_benefitName\`,
-            //             \`int_benefitQuantity\`,
-            //             \`int_projectID\`,
-            //             \`char_itemUnit\`
-            //         )
+            for(var p = 0 ; p < (beneName.length-1) ; p++ ) 
+            {
+                console.log(p);
+                var insertBenefits = `INSERT INTO \`tbl_applicantbenefit\`
+                    (
+                        \`text_benefitName\`,
+                        \`int_benefitQuantity\`,
+                        \`int_projectID\`,
+                        \`char_itemUnit\`
+                    )
                     
-            //         VALUES
-            //         (
-            //             "${beneName[p]}",
-            //             "${beneQuantity[p]}",
-            //             "${toproject.int_projectID}",
-            //             "${beneUnit[p]}"
-            //         )`;
+                    VALUES
+                    (
+                        "${beneName[p]}",
+                        "${beneQuantity[p]}",
+                        "${toproject.int_projectID}",
+                        "${beneUnit[p]}"
+                    )`;
 
-            //     db.query(insertBenefits, (err, inserResult, fields) => {        
-            //         if (err) throw err;
-            //     });
-            // }
+                db.query(insertBenefits, (err, inserResult, fields) => {        
+                    if (err) throw err;
+                });
+            }
 
             // INSERT PROJECT ESTIMATED EXPENSES
             console.log("==============INSERT PROJECT ESTIMATED EXPENSES====================");
@@ -1640,6 +1638,8 @@ router.post('/createproject',(req, res) => {
         });
     });
 });
+
+
 
 router.post('/createproject/ajaxBeneficiary', (req, res) => {
 

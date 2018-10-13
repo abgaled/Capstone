@@ -1,0 +1,539 @@
+extends ../../home/views/navbar.pug
+
+block content
+        <link href="/cityadmin/vendors/nprogress/nprogress.css" rel="stylesheet">
+        <link href="/cityadmin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+        //- <!-- page content -->
+        <div class="right_col" role="main">
+        each project in tbl_project
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><i class="fa fa-users"></i>
+                        value= project.varchar_projectName +" (Beneficiary List) - per "
+                        value= project.enum_applicationType 
+                    </h2>
+                    a(href=`/budget/projects` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle  
+                    <div class="clearfix"></div>
+                </div>
+                if project.enum_applicationType == "Barangay"
+                    <div class="x_content">
+                        <table class="table table-bordered" id="datatable" cellspacing="0">
+                            thead
+                                tr
+                                    th Barangay Name
+                                    th Alloted Slot
+                                    th Actions
+                            <tbody>
+                            each bar in tbl_application2
+                                tr
+                                    td 
+                                        value= bar.varchar_barangayName
+                                    td  
+                                        value= bar.int_slot
+                                    td
+                                        a(href=`/budget/projects/${bar.int_applicationID}/viewbarben` id="viewbarben" class="btn btn-info"): span.fa.fa-eye View Beneficiaries
+                        
+                    </div>
+                if project.enum_applicationType == 'Resident'      
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#tab_content1" id="resident-tab" role="tab" data-toggle="tab" aria-expanded="true">ALL</a>
+                            </li>
+                            <li role="presentation"><a href="#tab_content2" id="household-tab" role="tab" data-toggle="tab" aria-expanded="true">Claimed</a>
+                            </li>
+                            <li role="presentation"><a href="#tab_content3" id="barangay-tab" role="tab" data-toggle="tab" aria-expanded="true">Unclaimed</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="myTabContent" class="tab-content">
+                        <br>
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <div class="x_content">
+                                <div class="container">
+                                    <div class="table-responsive m-b-40">
+                                        <table id="datatable" class="table table-borderless table-data3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Beneficiary's Name</th>
+                                                    <th>Gender</th>
+                                                    <th>Civil Status</th>
+                                                    <th>Contact Number</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            each applicant in tbl_application
+                                                <tr>    
+                                                    <td>
+                                                        value=applicant.varchar_firstName+" "+applicant.varchar_middleName+" "+applicant.varchar_lastName
+                                                    </td>
+                                                    <td>
+                                                        value=applicant.enum_gender
+                                                    </td>
+                                                    <td>
+                                                        value=applicant.enum_civilStatus
+                                                    </td>
+                                                    <td>
+                                                        value=applicant.varchar_contactNumber
+                                                    </td>
+                                                    <td>
+                                                        value=applicant.enum_applicationStatus
+                                                    </td>
+                                                    <td>
+                                                        //- a(href=`/office/releasing/beneficiary/${app2.int_applicationID}/viewAppDet` id="viewAppDet" class="btn btn-primary btn-xs btn-block"): span Application Details
+                                                        button.btn.btn-info.btn-sm.mb-1(id="btn-view-application" class="btn-view-application btn-block" value= applicant.int_applicationID): span.fa.fa-eye Beneficiary Details
+                                                    </td>
+                                                </tr>            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade in" id="tab_content2" aria-labelledby="home-tab">
+                            <div class="x_content">
+                                <div class="container">
+                                    <div class="table-responsive m-b-40">
+                                        <table id="datatable" class="table table-borderless table-data3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Beneficiary's Name</th>
+                                                    <th>Gender</th>
+                                                    <th>Civil Status</th>
+                                                    <th>Contact Number</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody> 
+                                            each applicant in tbl_application
+                                                if applicant.enum_applicationStatus == 'Received'
+                                                    <tr>    
+                                                        <td>
+                                                            value=applicant.varchar_firstName+" "+applicant.varchar_middleName+" "+applicant.varchar_lastName
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.enum_gender
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.enum_civilStatus
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.varchar_contactNumber
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.enum_applicationStatus
+                                                        </td>
+                                                        <td>
+                                                            button.btn.btn-info.btn-sm.mb-1(id="btn-view-application" class="btn-view-application btn-block" value= applicant.int_applicationID): span.fa.fa-eye Beneficiary Details         
+                                                        </td>
+                                                    </tr>            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade  in" id="tab_content3" aria-labelledby="home-tab">
+                            <div class="x_content">
+                                <div class="container">
+                                    <div class="table-responsive m-b-40">
+                                        <table id="datatable" class="table table-borderless table-data3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Beneficiary's Name</th>
+                                                    <th>Gender</th>
+                                                    <th>Civil Status</th>
+                                                    <th>Contact Number</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>  
+                                            each applicant in tbl_application
+                                                if applicant.enum_applicationStatus == 'Approved'
+                                                    <tr>    
+                                                        <td>
+                                                            value=applicant.varchar_firstName+" "+applicant.varchar_middleName+" "+applicant.varchar_lastName
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.enum_gender
+                                                        </td>
+                                                        <td>
+                                                                value=applicant.enum_civilStatus
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.varchar_contactNumber
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.enum_applicationStatus
+                                                        </td>
+                                                        <td>
+                                                            button.btn.btn-info.btn-sm.mb-1(id="btn-view-res-application" class="btn-view-application btn-block" value= applicant.int_applicationID): span.fa.fa-eye Beneficiary Details
+                                                        </td>
+                                                    </tr>            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    //- =======================================
+                    //-                 HOUSEHOLD
+                    //- =======================================
+
+                if project.enum_applicationType == 'Household'          
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#tab_content1" id="resident-tab" role="tab" data-toggle="tab" aria-expanded="true">ALL</a>
+                            </li>
+                            <li role="presentation"><a href="#tab_content2" id="household-tab" role="tab" data-toggle="tab" aria-expanded="true">Claimed</a>
+                            </li>
+                            <li role="presentation"><a href="#tab_content3" id="barangay-tab" role="tab" data-toggle="tab" aria-expanded="true">Unclaimed</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="myTabContent" class="tab-content">
+                        <br>
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <div class="x_content">
+                                <div class="container">
+                                    <div class="table-responsive m-b-40">
+                                        <table id="datatable" class="table table-borderless table-data3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Family Name</th>
+                                                    <th>Home Address</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            each applicant in tbl_household
+                                                <tr>    
+                                                    <td>
+                                                        value= applicant.varchar_familyName
+                                                    </td>
+                                                    <td>
+                                                        value=applicant.text_homeAddress
+                                                    </td>
+                                                    <td>
+                                                        value=applicant.enum_applicationStatus
+                                                    </td>
+                                                    <td>
+                                                        button.btn.btn-info.btn-sm.mb-1(id="btn-view-household" class="btn-view-household btn-block" value= applicant.int_applicationID): span.fa.fa-eye Beneficiary Details
+                                                    </td>
+                                                </tr>            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade in" id="tab_content2" aria-labelledby="home-tab">
+                            <div class="x_content">
+                                <div class="container">
+                                    <div class="table-responsive m-b-40">
+                                        <table id="datatable" class="table table-borderless table-data3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Family Name</th>
+                                                    <th>Home Address</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            each applicant in tbl_household
+                                                if applicant.enum_applicationStatus == 'Received'
+                                                    <tr>    
+                                                        <td>
+                                                            value= applicant.varchar_familyName
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.text_homeAddress
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.enum_applicationStatus
+                                                        </td>
+                                                        <td>
+                                                            button.btn.btn-info.btn-sm.mb-1(id="btn-view-household" class="btn-view-household btn-block" value= applicant.int_applicationID): span.fa.fa-eye Beneficiary Details
+                                                        </td>
+                                                    </tr>            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade  in" id="tab_content3" aria-labelledby="home-tab">
+                            <div class="x_content">
+                                <div class="container">
+                                    <div class="table-responsive m-b-40">
+                                        <table id="datatable" class="table table-borderless table-data3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Family Name</th>
+                                                    <th>Home Address</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            each applicant in tbl_household
+                                                if applicant.enum_applicationStatus == 'Approved'
+                                                    <tr>    
+                                                        <td>
+                                                            value= applicant.varchar_familyName
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.text_homeAddress
+                                                        </td>
+                                                        <td>
+                                                            value=applicant.enum_applicationStatus
+                                                        </td>
+                                                        <td>
+                                                            button.btn.btn-info.btn-sm.mb-1(id="btn-view-household" class="btn-view-household btn-block" value= applicant.int_applicationID): span.fa.fa-eye Beneficiary Details
+                                                        </td>
+                                                    </tr>            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        
+            </div>
+        </div>
+        <div class="modal fade bs-example-modal-lg" id="modalviewapplication" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">View Resident Application Details</span></h4> 
+                        <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-lastname">Last Name:
+                            </label>
+                            <div class="col-md-9" id="aj-lastname">
+                        
+                            </div>
+                            <br>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-firstname">First Name:
+                            </label>
+                            <div class="col-md-9" id="aj-firstname" >
+                        
+                            </div>
+                            <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-middlename">Middle Name:
+                                </label>
+                                <div class="col-md-9" id="aj-middlename">
+                        
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-birthdate">Birthdate:
+                                </label>
+                                <div class="col-md-9" id="aj-birthdate">
+                        
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-gender">Gender:
+                                </label>
+                                <div class="col-md-9" id="aj-gender">
+                        
+                                </div>
+                                <br>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-year">Year of Residency:
+                            </label>
+                            <div class="col-md-9" id="aj-year">
+                        
+                            </div>
+                            <br>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-civil">Civil Status:
+                            </label>
+                            <div class="col-md-9" id="aj-civil">
+                
+                            </div>
+                            <br>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-contact">Contact Number:
+                            </label>
+                            <div class="col-md-9" id="aj-contact">
+                        
+                            </div>
+                            <br>
+                        </div>
+                        //- <div class="item form-group">
+                        //-     <label class="control-label col-md-2" for="aj-email">Email Address:
+                        //-     </label>
+                        //-     <div class="col-md-9" id="aj-email">
+                        
+                        //-     </div>
+                        //-     <br>
+                        //- </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        //- =======================================
+        //-             MODAL HOUSEHOLD
+        //- =======================================
+
+        <div class="modal fade bs-example-modal-lg" id="modalviewHOUSEHOLD" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><span class="section">View Household Application Details</span></h4> 
+                        <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-familyName">Family Name:
+                            </label>
+                            <div class="col-md-9" id="aj-familyName">
+                        
+                            </div>
+                            <br>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-2" for="aj-homeAddress">Home Address:
+                            </label>
+                            <div class="col-md-9" id="aj-homeAddress" >
+                        
+                            </div>
+                            <br>
+                        </div>
+                        <div class="item form-group">
+                                <label class="control-label col-md-2" for="aj-homeStatus">House Status:
+                                </label>
+                                <div class="col-md-9" id="aj-homeStatus">
+                        
+                                </div>
+                                <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            
+            <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+            
+            script.
+                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                n =  new Date();
+                y = n.getFullYear();
+                m = n.getMonth() + 1;
+                d = n.getDate();
+                mon = months[n.getMonth()];
+                currentdate = m + "-" + d + "-" + y;
+                currdate =  mon + " " + d + ", " + y;
+                $(document).ready(function () {
+                    //- button resident view details
+                    $('.btn-view-application').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#modalviewapplication').modal('show');
+                    ajaxGet();
+
+                    function ajaxGet(){
+                    console.log("========Id");
+                    console.log(Id);
+                    console.log("========Id");
+
+                    $.ajax({
+                        type : "POST",
+                        url : window.location + "/ajaxapplicantdetails",
+                        data: {ajApplicationID: Id},
+                        dataType: "json",
+                        success: function(tbl_application){
+
+                            $.each(tbl_application, function (index, value) {
+                                console.log(value.varchar_emailAddress)
+
+                                document.getElementById("aj-lastname").innerHTML = value.varchar_lastName    
+                                document.getElementById("aj-firstname").innerHTML = value.varchar_firstName
+                                document.getElementById("aj-middlename").innerHTML = value.varchar_middleName
+                                document.getElementById("aj-birthdate").innerHTML = value.date_birthDate
+                                document.getElementById("aj-gender").innerHTML = value.enum_gender
+                                document.getElementById("aj-year").innerHTML = value.year_applicantResidency
+                                document.getElementById("aj-civil").innerHTML = value.enum_civilStatus
+                                document.getElementById("aj-contact").innerHTML = value.varchar_contactNumber
+                                //- document.getElementByID("aj-email").innerHTML = value.varchar_emailAddress
+                                    
+                                console.log("Success: " );
+                            });                             
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });	
+                    }
+                    }); 
+                    $('.btn-view-household').click(function (e) {
+                        e.preventDefault()
+                        var Id = $(this).val();
+                        console.log("================================Id(Class)")
+                        console.log(Id);
+                        console.log("================================Id(Class)")
+                        $('#modalviewHOUSEHOLD').modal('show');
+                        ajaxGet();
+
+                        function ajaxGet(){
+                        console.log("========Id");
+                        console.log(Id);
+                        console.log("========Id");
+
+                        $.ajax({
+                            type : "POST",
+                            url : window.location + "/ajaxapplicanthouseholddetails",
+                            data: {ajApplicationID: Id},
+                            dataType: "json",
+                            success: function(tbl_application){
+
+                                $.each(tbl_application, function (index, value) {
+
+                                    document.getElementById("aj-familyName").innerHTML = value.varchar_familyName 
+                                    document.getElementById("aj-homeAddress").innerHTML = value.text_homeAddress
+                                    document.getElementById("aj-homeStatus").innerHTML = value.enum_houseStatus
+                                    document.getElementById("aj-projID").value = value.int_projectID
+                                    console.log("Success: " );
+                                });                             
+                            },
+                            error : function(e) {
+                                console.log("ERROR: ", e);
+                            }
+                        });	
+                    }
+                    }); 
+                    $('.but-viewBen').on('click',function (e) {
+                        var form = $(this).parents('form');
+                        e.preventDefault(); //prevent submi
+                        $('#formbarBeneficiary').submit();     
+                    });  
+                });

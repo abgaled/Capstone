@@ -1,0 +1,223 @@
+extends ../../home/views/navbar.pug
+
+block content
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                each project in tbl_projectdetail
+                    <div class="x_title">
+                        <h2>Project Details<small>Date Created: 
+                        value= "(" + project.date_createdDate + ")"
+                        </small></h2>
+                        a(href=`/budget/projects` class="btn btn-danger btn-s pull-right"): span.fa.fa-times-circle  
+                        <small class="pull-right">Status: 
+                        value=project.enum_projectStatus
+                        </small>
+                    <div class="clearfix"></div>
+                </div>
+                    <div class="x_content">
+                    each project in tbl_projectdetail
+                        <table class="table jambo_table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Problem</th>
+                                <th colspan="3">
+                                
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Problem to be solved:</th>
+                                <td colspan="3">
+                                each statement in tbl_problemstatement
+                                    value=statement.varchar_statementTitle
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" colspan="3"></th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>Basic Information</th>
+                                <th colspan="3">   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Project Title:</th>
+                                <td colspan="3">
+                                    <p>
+                                        value=project.varchar_projectName
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Category:</th>
+                                <td colspan="3">
+                                each cat in tbl_projectcategory
+                                    value=cat.varchar_categoryName
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Project Rationale:</th>
+                                <td colspan="3">
+                                value=project.text_projectRationale
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Project Description:</th>
+                                <td colspan="3">
+                                value=project.text_projectDescription
+                                </td>
+                            </tr>
+                            <tr>
+                            <th scope="row">Project Objective:</th>
+                                <td colspan="3">
+                                value=project.text_projectObjective
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" colspan="3"></th>
+                                <td>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Beneficiary</th>
+                                <th colspan="3">   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Target Beneficiary:</th>
+                                    <td colspan="3">
+                                    each prbf in tbl_projectbeneficiary
+                                        value=prbf.varchar_beneficiaryName
+                                        <br/>
+                                    </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Alloted Slot:</th>
+                                <td colspan="3">
+                                value=project.int_allotedSlot
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td colspan="3">
+                                </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Requirements</th>
+                                <th colspan="3">   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Requirements to be passed:</th>
+                                <td colspan="3">
+                                each prjreq in tbl_projectrequirement
+                                    value=prjreq.varchar_requirementName
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td colspan="3"></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Timeline</th>
+                                <th colspan="3">   </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Target Start of Application: </th>
+                                <td>
+                                    value=project.date_targetStartApp
+                                </td>
+                                <th scope="row">Actual Start of Application: </th>
+                                <td>
+                                    if project.date_actualStartApp != 'Invalid date'
+                                        value=project.date_actualStartApp
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Target Closing of Application: </th>
+                                <td>
+                                value=project.date_targetEndApp
+                                </td>
+                                <th scope="row">Actual Closing of Application: </th>
+                                <td>
+                                    if project.date_actualCloseApp != 'Invalid date'
+                                        value=project.date_actualCloseApp
+                                </td>
+                            </tr>
+                            <tr>
+                            <tr>
+                                <th scope="row">Target Start of Releasing: </th>
+                                <td>
+                                value=project.date_targetStartRelease
+                                </td>
+                                <th scope="row">Actual Start of Releasing: </th>
+                                <td>*barangay based*
+                                    if project.date_actualStartRelease != 'Invalid date'
+                                        value=project.date_actualStartRelease
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Target End of Releasing: </th>
+                                <td>
+                                value=project.date_targetEndRelease
+                                </td>
+                                <th scope="row">Actual Closing of Releasing: </th>
+                                <td>*barangay based*
+                                    if project.date_actualEndRelease != 'Invalid date'
+                                        value=project.date_actualEndRelease 
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Target Closing of Project: </th>
+                                <td>
+                                value=project.date_targetClosing
+                                </td>
+                                <th scope="row">Actual Closing of Project: </th>
+                                <td>
+                                    if project.date_actualClosing != 'Invalid date'
+                                        value=project.date_actualClosing
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td><td></td><td></td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr >
+                                <th>Budget</th>
+                                <th>   </th><th></th><th></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Actual Budget:</th>
+                                <td>₱ 
+                                    value=project.decimal_appropriatedBudget.toLocaleString()
+                                </td><td></td><td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
