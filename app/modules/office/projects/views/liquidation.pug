@@ -8,17 +8,12 @@ block content
                 each proj in tbl_project
                     <div class=""  id="noPRINT">
                         a(href=`/office/projects` class="btn btn-danger btn-lg pull-right fa"): span.fa.fa-times-circle  
-                        <form id="formcloseproj" name="formcloseproj" method="POST" action='/office/projects/endproj'>
-                            <input hidden id="projID" name="projID">
-                            button.btn.btn-danger.btn-s.mb-1(id="finproj" value= proj.int_projectID class="finproj pull-right" ): span.fa End Project
-                        </form>
                     </div> 
                     <div class="x_title" >
                         <h1 class="text-center">Project - Liquidation</h1>
                             <h4 class="text-center">
                                 value="(" + proj.varchar_projectName + ")"
                             </h4>
-                            button.btn.btn-success.mb-1(id="add_expense" class="add_expense"): span.fa.fa-plus Add additional Expense
                     </div>             
                     <div class="content-wrapper">
                         <div class="container-fluid">
@@ -60,7 +55,8 @@ block content
                                                                     value= exp.int_estimatedQuantity
                                                                 </td>
                                                                 <td>Php 
-                                                                    value= exp.decimal_estimatedAmount.toLocaleString()
+                                                                    if exp.decimal_estimatedAmount != null
+                                                                        value= exp.decimal_estimatedAmount.toLocaleString()
                                                                 </td>
                                                                 <td>
                                                                 each app in tbl_appCount
@@ -494,7 +490,7 @@ block content
                                     
                             swal({
                             title: 'Are you sure?',
-                            text: "You sure to close/end the project?.",
+                            text: "You sure to close application of project?.",
                             type: 'info',
                             showCancelButton: true,
                             confirmButtonColor: '#3085d6',
