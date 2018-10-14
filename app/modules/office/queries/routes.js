@@ -3,23 +3,27 @@ var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 
-router.get('/',(req, res) => {
-    console.log('=================================');
-    console.log('OFFICE: QUERIES');
-    console.log('=================================');
+// router.get('/',(req, res) => {
+//     console.log('=================================');
+//     console.log('OFFICE: QUERIES');
+//     console.log('=================================');
 
-    var queryString =`SELECT * FROM tbl_projectdetail
-    WHERE NOT enum_projectStatus = "Finished"`;
+//     var queryString =`SELECT * FROM tbl_projectdetail
+//     WHERE NOT enum_projectStatus = "Finished"`;
 
-    db.query(queryString, (err, results, fields) => {
-        console.log(results);
-        if (err) console.log(err);
+//     db.query(queryString, (err, results, fields) => {
+//         console.log(results);
+//         if (err) console.log(err);
         
-        res.render('office/queries/views/queries', {
-            tbl_ongoing: results
-        }); 
-    });
+//         res.render('office/queries/views/queries', {
+//             tbl_ongoing: results
+//         }); 
+//     });
 
+// });
+
+router.get('/', (req, res) => {
+    res.render('office/queries/views/queries1');
 });
 
 router.get('/finishedprojects',(req, res) => {

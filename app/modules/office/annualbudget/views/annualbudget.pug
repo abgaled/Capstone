@@ -25,6 +25,7 @@ block content
                                                         <th>YEAR</th>
                                                         <th>Budget Alloted</th>
                                                         <th>Remaining Budget</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -38,6 +39,10 @@ block content
                                                         </td>
                                                         <td>₱ 
                                                             value= budget.decimal_annualRemaining.toLocaleString()
+                                                        </td>
+                                                        <td> 
+                                                            a(href=`/office/maintenance/brgyaccnt/#/brgyuser` id="barangayID" name="barangayID" class="btn btn-info btn-s"): span.fa.fa-eye  View Budget Details
+                                                       
                                                         </td>
                                                     </tr>
                                                 each budg in nextyear

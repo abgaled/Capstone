@@ -7,49 +7,44 @@ block content
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x-title">
-                        <h1>Reports</h1>
+                        <h1>Queries</h1>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x-content">
                         <div class="form-row">
-                            <div class="form-group has-feedback col-lg-5 col-md-5 col-sx-12 col-xs-12">
-                                <label class="control-label"> Report Search </label>
+                            <div class="form-group has-feedback col-lg-4 col-md-4 col-sx-12 col-xs-12">
+                                <label class="control-label"> Query Search </label>
                                 <select class="form-control has-feedback-left">
-                                    <option> Monthly Prooject Status Report </option>
-                                    <option> Liquidation  Report </option>
-                                    <option> Monthly Budget Summary Report </option>
+                                    <option> Project </option>
+                                    <option> Application </option>
                                 </select>
                                 <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
                             </div>
-                            //- <div class="form-group has-feedback col-lg-5 col-md-5 col-sx-12 col-xs-12">
-                            //-     <label  class="control-label"> Date Range </label>
-                            //-     <input type="text"  name="reservation" id="reservation" class="form-control has-feedback-left" value="01/01/2016 - 01/25/2016" />
-                            //-     <span class="fa fa-calendar form-control-feedback left" sria-hidden="true"></span>
-                            //- </div>
-                            <div class="form-group has-feedback col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                <label  class="control-label"> Month </label>
-                                <select class="form-control has-feedback-left">
-                                    <option> January </option>
-                                    <option> February </option>
-                                    <option> March </option>
-                                </select>
+                            <div class="form-group has-feedback col-lg-4 col-md-4 col-sx-12 col-xs-12">
+                                <label  class="control-label"> Date Range </label>
+                                <input type="text"  name="reservation" id="reservation" class="form-control has-feedback-left" value="01/01/2016 - 01/25/2016" />
                                 <span class="fa fa-calendar form-control-feedback left" sria-hidden="true"></span>
                             </div>
                             <div class="form-group has-feedback col-lg-2 col-md-2 col-sx-12 col-xs-12">
-                                <div class="">
-                                    <label  class="control-label"> Year </label>
-                                    <select class="form-control has-feedback-left">
-                                        <option> 2018 </option>
-                                        <option> 2017 </option>
-                                        <option> 2016 </option>
-                                    </select>
-                                    <span class="fa fa-calendar form-control-feedback left" sria-hidden="true"></span>
-                                </div>
+                                <label  class="control-label"> Status </label>
+                                <select class="form-control has-feedback-left">
+                                    <option> Created </option>
+                                    <option> Ongoing </option>
+                                </select>
+                                <span class="fa fa-calendar form-control-feedback left" sria-hidden="true"></span>
                             </div>
+                            //- <div class="form-group has-feedback col-lg-2 col-md-2 col-sx-12 col-xs-12">
+                            //-     <label class="control-label"> Order </label>
+                            //-     <select class="form-control has-feedback-left">
+                            //-         <option> Ascending </option>
+                            //-         <option> Descending </option>
+                            //-     </select>
+                            //-     <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
+                            //- </div>
                             <div class="form-group col-lg-2 col-md-2 col-sx-12 col-xs-12">
                                 <div class="">
                                     <label  class="control-label"> Action </label>
-                                    <button class="btn btn-info form-control"> Generate Report </button>
+                                    <button class="btn btn-info form-control"> Generate Excel </button>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +52,7 @@ block content
                         <div class="form-row">
                             <div class="x_panel" style="margin-top: 15px">
                                 <div class="x-title">
-                                    <h4>Monthly Prooject Status Report</h4>
+                                    <h4>Projectscmd</h4>
                                     <div class="clearfix"></div>
                                     <hr style="margin-top: 0"/>
                                 </div>
@@ -97,7 +92,3 @@ block content
             </div>
         </form>
     </div>
-
-//- .script
-
-//-     $('document').ready(function() {});
