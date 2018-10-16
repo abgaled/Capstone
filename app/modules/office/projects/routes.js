@@ -1712,17 +1712,11 @@ router.post('/createproject',(req, res) => {
                     });
                 }
             }
-            var updateAnnual = `UPDATE tbl_annualbudget
-                SET decimal_annualRemaining = decimal_annualRemaining - ${appropriatedBudget}
-                WHERE int_cityID = ${cityID.int_cityID}`;
-            
-                db.query(updateAnnual, (err, updateAnnualRes) => {
-                    if(err) console.log(err);
-                    res.redirect('/office/projects');
-            })
+            res.redirect('/office/projects');
         });
     });
 });
+
 
 
 router.post('/createproject/ajaxBeneficiary', (req, res) => {
@@ -1757,7 +1751,6 @@ router.post('/createproject/ajaxBeneficiary', (req, res) => {
         console.log(beneList);
         return res.send({tbl_beneficiary: beneList});
     });
-    
 });
 
 module.exports = router;
