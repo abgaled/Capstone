@@ -1,9 +1,8 @@
 extends ../../home/views/navbar.pug
 
 block content
-    //- <!-- page content -->
-    <div class="right_col" role="main">
-        <form method="" action="">
+        //- <!-- page content -->
+        <div class="right_col" role="main">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x-title">
@@ -11,77 +10,100 @@ block content
                         <div class="clearfix"></div>
                     </div>
                     <div class="x-content">
-                        <div class="form-row">
-                            <div class="form-group has-feedback col-lg-5 col-md-5 col-sx-12 col-xs-12">
-                                <label class="control-label"> Report Search </label>
-                                <select class="form-control has-feedback-left">
-                                    <option> Monthly Prooject Status Report </option>
-                                    <option> Liquidation  Report </option>
-                                    <option> Monthly Budget Summary Report </option>
-                                </select>
-                                <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
-                            </div>
-                            //- <div class="form-group has-feedback col-lg-5 col-md-5 col-sx-12 col-xs-12">
-                            //-     <label  class="control-label"> Date Range </label>
-                            //-     <input type="text"  name="reservation" id="reservation" class="form-control has-feedback-left" value="01/01/2016 - 01/25/2016" />
-                            //-     <span class="fa fa-calendar form-control-feedback left" sria-hidden="true"></span>
-                            //- </div>
-                            <div class="form-group has-feedback col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                <label  class="control-label"> Month </label>
-                                <select class="form-control has-feedback-left">
-                                    <option> January </option>
-                                    <option> February </option>
-                                    <option> March </option>
-                                </select>
-                                <span class="fa fa-calendar form-control-feedback left" sria-hidden="true"></span>
-                            </div>
-                            <div class="form-group has-feedback col-lg-2 col-md-2 col-sx-12 col-xs-12">
-                                <div class="">
-                                    <label  class="control-label"> Year </label>
-                                    <select class="form-control has-feedback-left">
-                                        <option> 2018 </option>
-                                        <option> 2017 </option>
-                                        <option> 2016 </option>
+                        <form class="form-horizontal form-label-left" method="POST" action='#' id="formNxtBudget" >
+                            <div class="form-row">
+                                <div class="form-group has-feedback col-lg-4 col-md-4 col-sx-12 col-xs-12">
+                                    <label class="control-label"> Report Search </label>
+                                    <select class="form-control has-feedback-left" id="reportType">
+                                        <option value="1"> Monthly Project Status Report </option>
+                                        <option value="2"> Liquidation  Report </option>
+                                        <option value="3"> Monthly Budget Summary Report </option>
                                     </select>
-                                    <span class="fa fa-calendar form-control-feedback left" sria-hidden="true"></span>
+                                    <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                                //- <div class="form-group has-feedback col-lg-5 col-md-5 col-sx-12 col-xs-12">
+                                //-     <label  class="control-label"> Date Range </label>
+                                //-     <input type="text"  name="reservation" id="reservation" class="form-control has-feedback-left" value="01/01/2016 - 01/25/2016" />
+                                //-     <span class="fa fa-calendar form-control-feedback left" sria-hidden="true"></span>
+                                //- </div>
+                                <div class="form-group has-feedback col-lg-2 col-md-2 col-sx-12 col-xs-12">
+                                    <div class="">
+                                        <label  class="control-label"> Status </label>
+                                        <select class="form-control " id="reportStatus">
+                                            <option value="Ongoing"> Ongoing </option>
+                                            <option value="Releasing"> Releasing </option>
+                                            <option value="Finished"> Finished </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group has-feedback col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    <label  class="control-label"> Month </label>
+                                    <select class="form-control " id="reportMonth">
+                                        <option value="1"> January </option>
+                                        <option value="2"> February </option>
+                                        <option value="3"> March </option>
+                                        <option value="4"> April </option>
+                                        <option value="5"> May </option>
+                                        <option value="6"> June </option>
+                                        <option value="7"> July </option>
+                                        <option value="8"> August </option>
+                                        <option value="9"> September </option>
+                                        <option value="10"> October </option>
+                                        <option value="11"> November </option>
+                                        <option value="12"> December </option>
+                                    </select>
+                                </div>
+                                <div class="form-group has-feedback col-lg-2 col-md-2 col-sx-12 col-xs-12">
+                                    <div class="">
+                                        <label  class="control-label"> Year </label>
+                                        <select class="form-control has-feedback-left" id="reportYear">
+                                            <option value="2018"> 2018 </option>
+                                            <option value="2017"> 2017 </option>
+                                            <option value="2016"> 2016 </option>
+                                        </select>
+                                        <span class="fa fa-calendar form-control-feedback left" sria-hidden="true"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group col-lg-2 col-md-2 col-sx-12 col-xs-12">
+                                    <div class="">
+                                        <label  class="control-label"> Action </label>
+                                        button.btn.btn-success.mb-1(id="btn_generateReport" class="btn_generateReport"): span.fa Generate Report 
+                                        //- <button type="submit" id="btn_generate" class="btn btn-primary float-right" position="center" style="background-color#21BA45;color:whitesmoke;border:none;">Generate Report</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group col-lg-2 col-md-2 col-sx-12 col-xs-12">
-                                <div class="">
-                                    <label  class="control-label"> Action </label>
-                                    <button class="btn btn-info form-control"> Generate Report </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="x_panel" style="margin-top: 15px">
-                                <div class="x-title">
-                                    <h4>Monthly Prooject Status Report</h4>
-                                    <div class="clearfix"></div>
-                                    <hr style="margin-top: 0"/>
-                                </div>
-                                <div class="x-content">
-                                    <div class="content-wrapper">
-                                        <div class="container-fluid">
-                                            <div class="card mb-4">
-                                                <div class="card-header">
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered" id="datatable" cellspacing="0">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Project Name</th>
-                                                                        <th>Alloted Slot</th>
-                                                                        //- <th>Available Slot</th>
-                                                                        <th>Status</th>
-                                                                        <th>Actions</th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                        </form>
+                        
+                        <div class="content-wrapper">
+                            <div class="container-fluid">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered" id="datatable" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Project Name</th>
+                                                            <th>Project Rationale</th>
+                                                            <th>Alloted Slot</th>
+                                                            <th>Budget</th>
+                                                            //- <th>Available Slot</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -91,13 +113,56 @@ block content
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                
-            </div>
-        </form>
-    </div>
+        <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+        script.
+            $(document).ready(function () {
+                $('#btn_generateReport').click(function (e) {
+                    $("tbody").empty();
+                    console.log("reportType");
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#modalviewbudget').modal('show');
+                    var form = $(this).parents('form');
+                    var reportType= $('#reportType').val();
+                    console.log(reportType);
+                    var reportMonth= $('#reportMonth').val();
+                    console.log(reportMonth);
+                    var reportYear= $('#reportYear').val();
+                    console.log(reportYear);
+                    var reportStatus= $('#reportStatus').val();
+                    console.log(reportStatus);
+                    ajaxGet();
 
-//- .script
+                    function ajaxGet(){
+                    console.log("========Id");
+                    console.log("========Id");
 
-//-     $('document').ready(function() {});
+                    $.ajax({
+                        type : "POST",
+                        url : window.location + "/reportquery",
+                        data: { rtype: reportType, rmonth:reportMonth, ryear:reportYear, rstatus:reportStatus},
+                        dataType: "json",
+                        success: function(tbl_project){
+                            $.each(tbl_project, function (index, project) {
+                                console.log(project);
+                                for(var i=0;i<project.length;i++)
+                                {
+                                    $("tbody").append("<tr><td>"+project[i].varchar_projectName+"</td><td>"+project[i].text_projectRationale+"</td><td>"+project[i].decimal_appropriatedBudget+"</td><td>"+project[i].int_allotedSlot+"</td></tr>");
+                                }
+                                console.log("Success: " );
+                            });
+
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });	
+                    } 
+
+                });
+            });

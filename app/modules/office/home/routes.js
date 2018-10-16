@@ -31,8 +31,8 @@ router.get('/',(req, res) => {
     FROM tbl_projectdetail
     WHERE enum_projectStatus = "Ongoing"`
 
-    db.query(queryString, (err, results, fields) => {
-    console.log(results);
+    db.query(queryString, (err, resultsopen, fields) => {
+    console.log(resultsopen);
     if (err) console.log(err);
 
         var queryString2 =`SELECT COUNT(*) AS releasingCount
@@ -60,14 +60,89 @@ router.get('/',(req, res) => {
                 db.query(queryString4, (err, results4, fields) => {
                 console.log(results4);
                 if (err) console.log(err);
+                var budgetYear=[];
+                var appMonth=[];
+                
+                var budgetQuery =`SELECT * FROM tbl_annualbudget WHERE date_budgetYear = ?`
+            
+                db.query(budgetQuery,[y-3],(err, results, fields) => {
+                    if (err) console.log(err);
+                    console.log(results);
+                    var Y2015 = results[0]
+                    if(results[0]!=null)
+                        budgetYear.push(Y2015.decimal_annualBudget)
+                    else
+                        budgetYear.push("0");
+                    db.query(budgetQuery,[y-2],(err, results, fields) => {
+                        if (err) console.log(err);
+                        console.log(results);
+                        var Y2016 = results[0]
+                        if(results[0]!=null)
+                            budgetYear.push(Y2016.decimal_annualBudget)
+                        else
+                            budgetYear.push("0");
+                        db.query(budgetQuery,[y-1],(err, results, fields) => {
+                            if (err) console.log(err);
+                            console.log(results);
+                            var Y2017 = results[0]
+                            if(results[0]!=null)
+                                budgetYear.push(Y2017.decimal_annualBudget)
+                            else
+                                budgetYear.push("0");
+                            db.query(budgetQuery,[y],(err, results, fields) => {
+                                if (err) console.log(err);
+                                console.log(results);
+                                var Y2018 = results[0]
+                                if(results[0]!=null)
+                                    budgetYear.push(Y2018.decimal_annualBudget)
+                                else
+                                    budgetYear.push("0");
+                                db.query(budgetQuery,[y+1],(err, results, fields) => {
+                                    if (err) console.log(err);
+                                    console.log(results);
+                                    var Y2019 = results[0]
+                                    if(results[0]!=null)
+                                        budgetYear.push(Y2019.decimal_annualBudget)
+                                    else
+                                        budgetYear.push("0");
+                console.log(budgetYear[4]);
+                                
+                var applicationQuery =`SELECT COUNT(app.int_applicationID) as countt FROM tbl_application app
+                JOIN tbl_projectdetail pd ON app.int_projectID = pd.int_projectID
+                WHERE month(app.datetime_submittedDate) ="${m}" && app.enum_applicationStatus = ? && pd.enum_projectStatus = "Finished"`
+                db.query(applicationQuery,["Pending"],(err, results, fields) => {
+                    if (err) console.log(err);
+                    console.log(results);
+                    var app = results[0]
+                    appMonth.push(app.countt)       
+                    db.query(applicationQuery,["Approved"],(err, results, fields) => {
+                        if (err) console.log(err);
+                        console.log(results);
+                        var app = results[0]
+                        appMonth.push(app.countt)   
+                        db.query(applicationQuery,["Rejected"],(err, results, fields) => {
+                            if (err) console.log(err);
+                            console.log(results);
+                            var app = results[0]
+                            appMonth.push(app.countt)           
 
-                    res.render('office/home/views/home',
+                    return res.render('office/home/views/home',
                     {
-                        tbl_projCount:results,
+                        tbl_projCount:resultsopen,
                         tbl_release:results2,
                         tbl_problem:results3,
-                        tbl_app:results4
+                        tbl_app:results4,
+                        budgetYear:budgetYear,
+                        appMonth:appMonth
                     });
+                        });
+                    });
+                });
+                    });
+                });
+            });
+        });
+    });
                 });
             });
         });

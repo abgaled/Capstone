@@ -59,9 +59,13 @@ block content
                                                                         value= exp.decimal_estimatedAmount.toLocaleString()
                                                                 </td>
                                                                 <td>
-                                                                each app in tbl_appCount
                                                                     if exp.text_expenseDescription == "Benefit Expense"
-                                                                        input(type="number" readonly value=`${app.appCount}` id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control")
+                                                                        if proj.enum_applicationType == "Barangay"
+                                                                            each bbcount in tbl_barcount
+                                                                                input(type="number" readonly value=`${bbcount.barCount}` id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control")
+                                                                        if proj.enum_applicationType == "Resident" || proj.enum_applicationType == "Household"
+                                                                            each app in tbl_appCount
+                                                                                input(type="number" readonly value=`${app.appCount}` id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control")
                                                                     else
                                                                         <input type="number"  value=`${app.appCount}`  id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity">                                                                        
                                                                 </td>
@@ -80,7 +84,8 @@ block content
                                                             </th>
                                                             <th>Php 
                                                             each tot in totalest
-                                                                value=tot.total_estimatedexpense.toLocaleString()
+                                                                if tot.total_estimatedexpense != null
+                                                                    value=tot.total_estimatedexpense.toLocaleString()
                                                             </th>
                                                             <th colspan="1" class=""><div class="pull-right" >Total Amount: </div>
                                                             </th>
@@ -233,7 +238,8 @@ block content
                                                                     <label class="control-label col-md-2 allign-right" for="first-name">Remaining Budget <br/>(Total Budget - Total Expense)
                                                                     </label>
                                                                     <div class="col-md-5 totalExpense" id="totalExpense">
-                                                                        <input type="text" readonly id="ovRemainingBudget" name="ovRemainingBudget" class="ovRemainingBudget  form-control col-md-7 col-xs-12" required placeholder="Amount">
+                                                                        <input type="hidden" readonly id="ovRemainingBudget" name="ovRemainingBudget" class="ovRemainingBudget  form-control col-md-7 col-xs-12" required placeholder="Amount">
+                                                                        <input type="text" readonly id="ovRemainingBudgetDis" name="ovRemainingBudgetDis" class="ovRemainingBudgetDis  form-control col-md-7 col-xs-12" required placeholder="Amount">
                                                                     </div>
                                                                 </div>
                                                             </th>
@@ -371,7 +377,8 @@ block content
                         console.log("remain");
                         console.log(remain);
                         //- $(".decimal_appropriatedBudget").val("Php " + appBud.toLocaleString());
-                        $(".ovRemainingBudget").val("Php " + remain.toLocaleString());
+                        $(".ovRemainingBudget").val(remain);
+                        $(".ovRemainingBudgetDis").val("Php " + remain.toLocaleString());
                         rem = $('.ovRemainingBudget').val()
                         console.log("rem");
                         console.log(rem);
@@ -457,7 +464,8 @@ block content
                         console.log("remain");
                         console.log(remain);
                         //- $(".decimal_appropriatedBudget").val("Php " + appBud.toLocaleString());
-                        $(".ovRemainingBudget").val("Php " + remain.toLocaleString());
+                        $(".ovRemainingBudget").val(remain);
+                        $(".ovRemainingBudgetDis").val("Php " + remain.toLocaleString());
                         rem = $('.ovRemainingBudget').val()
                         console.log("rem");
                         console.log(rem);

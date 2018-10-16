@@ -1,56 +1,159 @@
 extends ./navbar.pug
 
 block content
-            <!-- /top navigation -->
-                
-            <!-- page content -->
-            <div class="right_col" role="main">
+    <div class="right_col" role="main">
+        <form method="" action="">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
                     //-each project in tbl_projCount
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                        <div class="icon"><i class="fa fa-envelope"></i></div>
-                        each prob in tbl_problem
-                            <div class="count">
-                                value= prob.latestprobStatement
+                    <div class="x-content">
+                        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-envelope"></i></div>
+                            each prob in tbl_problem
+                                <div class="count">
+                                    value= prob.latestprobStatement
+                                </div>
+                            <h3>New <br>Statement of Intent</h3>
+                            <p>From last week</p>
                             </div>
-                        <h3>New <br>Statement of Intent</h3>
-                        <p>From last week</p>
+                        </div>
+                        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                            each onproj in tbl_projCount
+                                <div class="count">
+                                    value= onproj.openApplicationCount
+                                </div>
+                            <h3>Current <br>Ongoing Application</h3>
+                            <p>As of this day</p>
+                            </div>
+                        </div>
+                        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-paper-plane-o"></i></div>
+                            each app in tbl_app
+                                <div class="count">
+                                    value= app.latestapplication
+                                </div>
+                            <h3>New<br> Applications</h3>
+                            <p>From last week</p>
+                            </div>
+                        </div>
+                        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-file"></i></div>
+                            each releasing in tbl_release
+                                <div class="count">
+                                    value= releasing.releasingCount
+                                </div>
+                            <h3>Current <br>Releasing Projects</h3>
+                            <p>As of this day</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
-                        each onproj in tbl_projCount
-                            <div class="count">
-                                value= onproj.openApplicationCount
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Annual Budget<small></small></h2>
+                                <div class="clearfix"></div>
                             </div>
-                        <h3>Current <br>Ongoing Application</h3>
-                        <p>As of this day</p>
+                            <div class="x_content">
+                                <canvas id="bar_Chart"></canvas>
+                            </div>
                         </div>
                     </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                        <div class="icon"><i class="fa fa-paper-plane-o"></i></div>
-                        each app in tbl_app
-                            <div class="count">
-                                value= app.latestapplication
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Application<small id="month"></small></h2>
+                                <div class="clearfix"></div>
                             </div>
-                        <h3>New<br> Applications</h3>
-                        <p>From last week</p>
+                            <div class="x_content">
+                                <canvas id="pie_Chart"></canvas>
+                            </div>
                         </div>
                     </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                        <div class="icon"><i class="fa fa-file"></i></div>
-                        each releasing in tbl_release
-                            <div class="count">
-                                value= releasing.releasingCount
-                            </div>
-                        <h3>Current <br>Releasing Projects</h3>
-                        <p>As of this day</p>
-                        </div>
-                    </div>
+                </div>
             </div>
+            p(hidden)#budgetYear #{budgetYear}
+            p(hidden)#appMonth #{appMonth}
+        </form>
+    </div>
                 
 
-            
+        <script src="/cityadmin/vendors/Chart.js/dist/Chart.min.js"></script>
+        <script src="/cityadmin/vendors/Chart.js/dist/chartjs-plugin-labels.min.js"></script>
+        <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+        
+        script.
+            window.onload = function() {
+                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                n =  new Date();
+                y = n.getFullYear();
+                m = n.getMonth() + 1;
+                d = n.getDate();
+                mon = months[n.getMonth()];
+                //- currentdate = y + "-" + m + "-" + d;
+                currdate =  mon + " " + d + ", " + y;
+                currentdate =  m + "-" + d + "-" + y;
+                $("#month").html("for the month of " + mon);
+
+                var budget= document.getElementById('budgetYear').innerHTML;
+                var app= document.getElementById('appMonth').innerHTML;
+                
+                budget = budget.split(',')
+                app = app.split(',')
+
+                var approval = {
+                    labels: ['2015', '2016', '2017', '2018', '2019'],
+                    datasets: [{
+                            label: "Budget",
+                            fill: false,
+                            borderColor: "#f2af3e",
+                            backgroundColor: "#f2af3e",
+                            pointBackgroundColor: "#f2af3e",
+                            pointHoverBackgroundColor: "#000",
+                            pointHoverBorderColor: "#f2af3e",
+                            data:[budget[0],budget[1],budget[2],budget[3],budget[4]]
+                    }]
+
+                }
+                var canvas = document.getElementById("bar_Chart");
+
+                var ctx = canvas.getContext("2d");	
+                var myNewChart = new Chart(ctx , {
+                    type: "bar",
+                    data: approval,
+                    responsive: true,
+                    
+                });
+
+                var pie_Chart = document.getElementById("pie_Chart");
+                var data = 
+                {
+                    datasets: 
+                    [{
+                        data: [app[0], app[1], app[2]],
+                        backgroundColor: 
+                        [
+                            "#f2af3e",
+                            "#52b99f",
+                            "#ec533e"
+                        ],
+                        label: 'My dataset' // for legend   
+                                        
+                    }],
+                    labels: [
+                        "Pending",
+                        "Approved",
+                        "Rejected"
+                    ]
+                };
+                
+                var pieChart = new Chart(pie_Chart, {
+                    data: data,
+                    type: 'pie',
+                });
+
+            }

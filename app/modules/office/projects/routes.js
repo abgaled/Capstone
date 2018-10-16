@@ -1019,6 +1019,7 @@ router.get('/:int_projectID/liquidation',(req, res) => {
         WHERE ex.int_projectID = "${req.params.int_projectID}"`
 
         var queryString2 =`SELECT * FROM tbl_projectdetail proj
+        JOIN tbl_projectapplicationtype pat ON proj.int_projectID = pat.int_projectID
         WHERE proj.int_projectID = "${req.params.int_projectID}"`
 
         var queryString3 =`SELECT SUM(decimal_estimatedAmount) AS "total_estimatedexpense" 
@@ -1083,15 +1084,25 @@ router.get('/:int_projectID/liquidation',(req, res) => {
                                 console.log(percent)
                                 var categoryPercentage = {percentage:percent , catName:categoryName , catID:categoryID , catAllBud:categoryAllotedBudget};
                                 console.log(categoryPercentage)
-                                res.render('office/projects/views/liquidation',
-                                {
-                                    tbl_expenses:results1,
-                                    tbl_project:results2,
-                                    totalest:results3,
-                                    total:results4,
-                                    tbl_rembal:results6,
-                                    tbl_appCount:results7,
-                                    categPerc:categoryPercentage
+                                
+                                var queryBarCount =`SELECT COUNT(*) AS barCount FROM tbl_barangaybeneficiary bb
+                                JOIN tbl_application app ON app.int_applicationID = bb.int_applicationID
+                                WHERE app.int_projectID = "${req.params.int_projectID}"`
+
+                                db.query(queryBarCount, (err, resultsbar, fields) => {
+                                    console.log(resultsbar)
+
+                                    res.render('office/projects/views/liquidation',
+                                    {
+                                        tbl_expenses:results1,
+                                        tbl_project:results2,
+                                        totalest:results3,
+                                        total:results4,
+                                        tbl_rembal:results6,
+                                        tbl_appCount:results7,
+                                        categPerc:categoryPercentage,
+                                        tbl_barcount:resultsbar
+                                    });
                                 });
                             });
                         });
@@ -1101,6 +1112,7 @@ router.get('/:int_projectID/liquidation',(req, res) => {
         });
     });
 });
+
 
 router.post('/sendliquidation', (req, res) => {
     console.log('=================================');
@@ -1712,11 +1724,17 @@ router.post('/createproject',(req, res) => {
                     });
                 }
             }
-            res.redirect('/office/projects');
+            var updateAnnual = `UPDATE tbl_annualbudget
+                SET decimal_annualRemaining = decimal_annualRemaining - ${appropriatedBudget}
+                WHERE int_cityID = ${cityID.int_cityID}`;
+            
+                db.query(updateAnnual, (err, updateAnnualRes) => {
+                    if(err) console.log(err);
+                    res.redirect('/office/projects');
+            })
         });
     });
 });
-
 
 
 router.post('/createproject/ajaxBeneficiary', (req, res) => {
@@ -1751,6 +1769,7 @@ router.post('/createproject/ajaxBeneficiary', (req, res) => {
         console.log(beneList);
         return res.send({tbl_beneficiary: beneList});
     });
+    
 });
 
 module.exports = router;
