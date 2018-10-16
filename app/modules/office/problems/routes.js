@@ -7,9 +7,7 @@ var moment = require("moment");
 router.get('/',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROBLEM STATEMENT-SUBMITTED');
-    console.log('=================================');
-
-    
+    console.log('=================================');   
 
     var queryString = `SELECT *
         FROM tbl_intentstatement PS JOIN tbl_category C
@@ -24,7 +22,70 @@ router.get('/',(req, res) => {
             results[i].date_createdDate = moment(results[i].date_createdDate).format('MMMM DD[,] YYYY');
         }
 
-        res.render('office/problems/views/problems',{tbl_problemstatement:results});
+        var statusSubmitted = `SELECT *
+        FROM tbl_intentstatement PS JOIN tbl_category C
+        ON PS.int_categoryID=C.int_categoryID
+        JOIN tbl_barangay B ON B.int_barangayID=PS.int_barangayID
+        WHERE PS.enum_problemStatus = "Submitted"`;
+
+        db.query(statusSubmitted,(err, submitted, fields) => {
+            if (err) console.log(err);
+            
+
+            for(var i = 0 ; i < submitted.length ; i++) {
+                submitted[i].date_createdDate = moment(submitted[i].date_createdDate).format('MMMM DD[,] YYYY');
+            }
+
+            var statusAcknowledged = `SELECT *
+            FROM tbl_intentstatement PS JOIN tbl_category C
+            ON PS.int_categoryID=C.int_categoryID
+            JOIN tbl_barangay B ON B.int_barangayID=PS.int_barangayID
+            WHERE PS.enum_problemStatus = "Acknowledged"`;
+
+            db.query(statusAcknowledged,(err, acknowledged, fields) => {
+                if (err) console.log(err);
+                
+                for(var i = 0 ; i < acknowledged.length ; i++) {
+                    acknowledged[i].date_createdDate = moment(acknowledged[i].date_createdDate).format('MMMM DD[,] YYYY');
+                }
+
+                var statusRejected = `SELECT *
+                FROM tbl_intentstatement PS JOIN tbl_category C
+                ON PS.int_categoryID=C.int_categoryID
+                JOIN tbl_barangay B ON B.int_barangayID=PS.int_barangayID
+                WHERE PS.enum_problemStatus = "Rejected"`;
+
+                db.query(statusRejected,(err, rejected, fields) => {
+                    if (err) console.log(err);
+                    
+                    for(var i = 0 ; i < rejected.length ; i++) {
+                        rejected[i].date_createdDate = moment(rejected[i].date_createdDate).format('MMMM DD[,] YYYY');
+                    }
+
+                    var statusSolved = `SELECT *
+                    FROM tbl_intentstatement PS JOIN tbl_category C
+                    ON PS.int_categoryID=C.int_categoryID
+                    JOIN tbl_barangay B ON B.int_barangayID=PS.int_barangayID
+                    WHERE PS.enum_problemStatus = "Solved"`;
+
+                    db.query(statusSolved,(err, solved, fields) => {
+                        if (err) console.log(err);
+                        
+                        for(var i = 0 ; i < solved.length ; i++) {
+                            solved[i].date_createdDate = moment(solved[i].date_createdDate).format('MMMM DD[,] YYYY');
+                        }
+
+                        res.render('office/problems/views/problems',{
+                            tbl_problemstatement:results,
+                            tbl_submitted:submitted,
+                            tbl_acknowledged:acknowledged,
+                            tbl_rejected:rejected,
+                            tbl_solved:solved
+                            });
+                    });
+                });
+            });
+        });
     });
 
 });

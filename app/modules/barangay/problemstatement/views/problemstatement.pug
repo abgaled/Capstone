@@ -10,37 +10,220 @@ block content
         <button class="btn btn-primary btn-lg" id="addproblem" type="button" data-toggle="modal" data-target="#modaladdproblem"><span class="fa fa-plus"></span> Add</button></h1>
     </center>
     <hr>
-    <div class="container">
-        <div class="table-responsive m-b-40">
-                <table id="datatable" class="table table-borderless table-data3">
-                    <thead>
-                        <tr>
-                            <th>Statement Title</th>
-                            <th>Created Date</th>
-                            <th>Status</th>
-                            <th>Action/s</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    each problem in tbl_problemstatement
-                        <tr class="tr-shadow">
-                            <td>
-                                value=problem.varchar_statementTitle
-                            </td>
-                            <td>
-                                value=problem.date_createdDate
-                            </td>
-                            <td>
-                                value=problem.enum_problemStatus
-                            </td>
-                            <td>
-                                button.btn.btn-success.mb-1(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID): span.fa.fa-eye View
-                            </td>
-                        </tr>        
-                    </tbody>
-                </table>
+        <div class="container">
+            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#tab_content1" id="all-tab" role="tab" data-toggle="tab" aria-expanded="true">ALL</a>
+                    </li>
+                    <li role="presentation"><a href="#tab_content2" id="submitted-tab" role="tab" data-toggle="tab" aria-expanded="true">Submitted</a>
+                    </li>
+                    <li role="presentation"><a href="#tab_content3" id="acknowledged-tab" role="tab" data-toggle="tab" aria-expanded="true">Acknowledged</a>
+                    </li>
+                    <li role="presentation"><a href="#tab_content4" id="rejected-tab" role="tab" data-toggle="tab" aria-expanded="true">Rejected</a>
+                    </li>
+                    <li role="presentation"><a href="#tab_content5" id="solved-tab" role="tab" data-toggle="tab" aria-expanded="true">Solved</a>
+                    </li>
+                </ul>
+                
+                    <div id="myTabContent" class="tab-content">
+                        
+                            //- START OF 1ST TAB (ALL)
+                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="all-tab">
+                                <div class="x_content">
+                                    <div class="container">
+                                        <div class="table-responsive m-b-40">
+                                            <table id="datatable1" class="table table-borderless table-data3">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Statement Title</th>
+                                                        <th>Created Date</th>
+                                                        <th>Status</th>
+                                                        <th>Action/s</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each problem in tbl_problemstatement
+                                                    <tr class="tr-shadow">
+                                                        <td>
+                                                            value=problem.varchar_statementTitle
+                                                        </td>
+                                                        <td>
+                                                            value=problem.date_createdDate
+                                                        </td>
+                                                        <td>
+                                                            value=problem.enum_problemStatus
+                                                        </td>
+                                                        <td>
+                                                            button.btn.btn-success.mb-1(id="btn-view-prob" class="btn-view-problem" value= problem.int_statementID): span.fa.fa-eye View
+                                                        </td>
+                                                    </tr>        
+                                                </tbody>
+                                            </table>
+                                        //- <!-- END DATA TABLE-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            //- END OF 1ST TAB
+                    
+                        
+                            //- START OF 2ND TAB (Submitted)
+                            <div role="tabpanel" class="tab-pane fade in" id="tab_content2" aria-labelledby="submitted-tab">
+                                <div class="x_content">
+                                    <div class="container">
+                                        <div class="table-responsive m-b-40">
+                                            <table id="datatable2" class="table table-borderless table-data3">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Statement Title</th>
+                                                        <th>Created Date</th>
+                                                        <th>Status</th>
+                                                        <th>Action/s</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each sub in tbl_submitted
+                                                    <tr class="tr-shadow">
+                                                        <td>
+                                                            value=sub.varchar_statementTitle
+                                                        </td>
+                                                        <td>
+                                                            value=sub.date_createdDate
+                                                        </td>
+                                                        <td>
+                                                            value=sub.enum_problemStatus
+                                                        </td>
+                                                        <td>
+                                                            button.btn.btn-success.mb-1(id="btn-view-prob" class="btn-view-problem" value= sub.int_statementID): span.fa.fa-eye View
+                                                        </td>
+                                                    </tr>        
+                                                </tbody>
+                                            </table>
+                                        //- <!-- END DATA TABLE-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            //- END OF 2ND TAB
+
+                        
+                            //- START OF 3RD TAB (Acknowledged)
+                            <div role="tabpanel" class="tab-pane fade in" id="tab_content3" aria-labelledby="acknowledged-tab">
+                                <div class="x_content">
+                                    <div class="container">
+                                        <div class="table-responsive m-b-40">
+                                            <table id="datatable3" class="table table-borderless table-data3">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Statement Title</th>
+                                                        <th>Created Date</th>
+                                                        <th>Status</th>
+                                                        <th>Action/s</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                each ack in tbl_acknowledged
+                                                    <tr class="tr-shadow">
+                                                        <td>
+                                                            value=ack.varchar_statementTitle
+                                                        </td>
+                                                        <td>
+                                                            value=ack.date_createdDate
+                                                        </td>
+                                                        <td>
+                                                            value=ack.enum_problemStatus
+                                                        </td>
+                                                        <td>
+                                                            button.btn.btn-success.mb-1(id="btn-view-prob" class="btn-view-problem" value= ack.int_statementID): span.fa.fa-eye View
+                                                        </td>
+                                                    </tr>        
+                                                </tbody>
+                                            </table>
+                                        //- <!-- END DATA TABLE-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            //- END OF 3RD TAB		
+
+                        
+                            //- START OF 4TH TAB (Rejected)
+                            <div role="tabpanel" class="tab-pane fade in" id="tab_content4" aria-labelledby="rejected-tab">
+                                <div class="x_content">
+                                    <div class="container">
+                                        <table id="datatable4" class="table table-borderless table-data3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Statement Title</th>
+                                                    <th>Created Date</th>
+                                                    <th>Status</th>
+                                                    <th>Action/s</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            each rej in tbl_rejected
+                                                <tr class="tr-shadow">
+                                                    <td>
+                                                        value=rej.varchar_statementTitle
+                                                    </td>
+                                                    <td>
+                                                        value=rej.date_createdDate
+                                                    </td>
+                                                    <td>
+                                                        value=rej.enum_problemStatus
+                                                    </td>
+                                                    <td>
+                                                        button.btn.btn-success.mb-1(id="btn-view-prob" class="btn-view-problem" value= rej.int_statementID): span.fa.fa-eye View
+                                                    </td>
+                                                </tr>        
+                                            </tbody>
+                                        </table>
+                                        //- <!-- END DATA TABLE-->
+                                    </div>
+                                </div>
+                            </div>
+                            //- END OF 4TH TAB	
+
+                            //- START OF 5TH TAB (Solved)
+                            <div role="tabpanel" class="tab-pane fade in" id="tab_content5" aria-labelledby="solved-tab">
+                                <div class="x_content">
+                                    <div class="container">
+                                        <table id="datatable5" class="table table-borderless table-data3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Statement Title</th>
+                                                    <th>Created Date</th>
+                                                    <th>Status</th>
+                                                    <th>Action/s</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            each sol in tbl_solved
+                                                <tr class="tr-shadow">
+                                                    <td>
+                                                        value=sol.varchar_statementTitle
+                                                    </td>
+                                                    <td>
+                                                        value=sol.date_createdDate
+                                                    </td>
+                                                    <td>
+                                                        value=sol.enum_problemStatus
+                                                    </td>
+                                                    <td>
+                                                        button.btn.btn-success.mb-1(id="btn-view-prob" class="btn-view-problem" value= sol.int_statementID): span.fa.fa-eye View
+                                                    </td>
+                                                </tr>        
+                                            </tbody>
+                                        </table>
+                                        //- <!-- END DATA TABLE-->
+                                    </div>
+                                </div>
+                            </div>
+                            //- END OF 5TH TAB			
+                    </div> 
+            </div>	
         </div>
-    //- <!-- END DATA TABLE-->
+
     </div>
     </div>
     </div>
@@ -115,6 +298,12 @@ block content
     </div>
 
     script.
+        $('#datatable1').dataTable();
+        $('#datatable2').dataTable();
+        $('#datatable3').dataTable();
+        $('#datatable4').dataTable();
+        $('#datatable5').dataTable();
+
         //- SCRIPT FOR INPUT DATE
             n =  new Date();
             y = n.getFullYear();
@@ -239,6 +428,8 @@ block content
         //- SCRIPT GET INT_STATEMENTID (VIEW MODAL)
 
             $(document).ready(function () {
+                //- CODE FOR DATATABLE
+                $('table.display').DataTable();
 
                 $(document).on('click', '.btn-view-problem', function (e) {
                     e.preventDefault()
@@ -320,8 +511,8 @@ block content
                         confirmButtonText: 'Yes, submit it!'
                     }).then((result) => {
                         if (result.value) {
-                            swal("Success!", "This problem statement has successfully submitted", "success");
                             $('#formaddproblem').submit();
+                        
                         }                        
                     })
                 });

@@ -89,10 +89,65 @@ router.get('/',(req, res) => {
                         }
                     }
                     console.log(proj);
-                    res.render('office/projects/views/projects',{
-                        tbl_project:results,
-                        slotcount:proj
-                    });
+
+                    var statusCreated = `SELECT * 
+                        FROM tbl_projectdetail
+                        WHERE enum_projectStatus = "Created"`
+                        
+                        db.query(statusCreated, (err, created, fields) => {
+                            if (err) console.log(err);
+
+                            var statusCreated = `SELECT * 
+                            FROM tbl_projectdetail
+                            WHERE enum_projectStatus = "Ongoing"`
+
+                            db.query(statusCreated, (err, ongoing, fields) => {
+                                if (err) console.log(err);
+
+                                var statusClosedApplication = `SELECT * 
+                                FROM tbl_projectdetail
+                                WHERE enum_projectStatus = "Closed Application"`
+                                
+                                db.query(statusClosedApplication, (err, closedapp, fields) => {
+                                    if (err) console.log(err);
+                                    
+                                    var statusReleasing= `SELECT * 
+                                    FROM tbl_projectdetail
+                                    WHERE enum_projectStatus = "Releasing"`
+                                    
+                                    db.query(statusReleasing, (err, releasing, fields) => {
+                                        if (err) console.log(err);
+
+                                        var statusClosedReleasing= `SELECT * 
+                                        FROM tbl_projectdetail
+                                        WHERE enum_projectStatus = "Closed Releasing"`
+                                        
+                                        db.query(statusClosedReleasing, (err, closedreleasing, fields) => {
+                                            if (err) console.log(err);
+
+                                            var statusFinished= `SELECT * 
+                                            FROM tbl_projectdetail
+                                            WHERE enum_projectStatus = "Finished"`
+                                            
+                                            db.query(statusFinished, (err, finished, fields) => {
+                                                if (err) console.log(err);
+
+                                                res.render('office/projects/views/projects',{
+                                                    tbl_project:results,
+                                                    slotcount:proj,
+                                                    tbl_created:created,
+                                                    tbl_ongoing:ongoing,
+                                                    tbl_closedapp:closedapp,
+                                                    tbl_releasing:releasing,
+                                                    tbl_closedreleasing:closedreleasing,
+                                                    tbl_finished:finished
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
                 });
             });
         });

@@ -14,7 +14,7 @@ router.get('/',(req,res) => {
     var barangayQuery = `SELECT * 
         FROM tbl_barangay br
         JOIN tbl_officialsaccount offacc
-            ON br.int_barangayID = offacc.int_officialsID
+        ON br.int_barangayID = offacc.int_officialsID
         WHERE offacc.int_userID = ${req.session.barangay.int_userID}`
 
     db.query(barangayQuery, (err, barangay, fields) => {        
@@ -73,13 +73,74 @@ router.get('/',(req,res) => {
                         console.log('=================================');
                         console.log(results3);
                         
+                        // START OF TABS QUERY (SOI STATUS)
+                        var statusSubmitted = `SELECT * 
+                        FROM tbl_intentstatement 
+                        WHERE enum_problemStatus = "Submitted"
+                        AND int_barangayID = ${barangayFinal.int_barangayID}`
+
+                        db.query(statusSubmitted,(err, submitted) => {
+            
+                            if (err) console.log(err);
+
+                            for (var i = 0; i < submitted.length;i++){
+                                submitted[i].date_createdDate = moment(submitted[i].date_createdDate).format('MMMM DD[,] YYYY');
+                            }
+
+                            var statusAcknowledged = `SELECT * 
+                            FROM tbl_intentstatement 
+                            WHERE enum_problemStatus = "Acknowledged"
+                            AND int_barangayID = ${barangayFinal.int_barangayID}`
+
+                            db.query(statusAcknowledged,(err, acknowledged) => {
+                
+                                if (err) console.log(err);
+
+                                for (var i = 0; i < acknowledged.length;i++){
+                                    acknowledged[i].date_createdDate = moment(acknowledged[i].date_createdDate).format('MMMM DD[,] YYYY');
+                                }
+
+                                var statusRejected = `SELECT * 
+                                FROM tbl_intentstatement 
+                                WHERE enum_problemStatus = "Rejected"
+                                AND int_barangayID = ${barangayFinal.int_barangayID}`
+    
+                                db.query(statusRejected,(err, rejected) => {
+                    
+                                    if (err) console.log(err);
+
+                                    for (var i = 0; i < rejected.length;i++){
+                                        rejected[i].date_createdDate = moment(rejected[i].date_createdDate).format('MMMM DD[,] YYYY');
+                                    }
+
+                                    var statusSolved = `SELECT * 
+                                    FROM tbl_intentstatement 
+                                    WHERE enum_problemStatus = "Solved"
+                                    AND int_barangayID = ${barangayFinal.int_barangayID}`
         
-                        res.render('barangay/problemstatement/views/problemstatement',{
-                            tbl_problemstatement:results,
-                            tbl_projectcategory:results2,
-                            tbl_beneficiary:results3,
-                            notifications:notifications,
-                            numbernotif:countrow});
+                                    db.query(statusSolved,(err, solved) => {
+                                        
+                                        if (err) console.log(err);
+
+                                        for (var i = 0; i < solved.length;i++){
+                                            solved[i].date_createdDate = moment(solved[i].date_createdDate).format('MMMM DD[,] YYYY');
+                                        }
+                            
+            
+                                        res.render('barangay/problemstatement/views/problemstatement',{
+                                            tbl_problemstatement:results,
+                                            tbl_projectcategory:results2,
+                                            tbl_beneficiary:results3,
+                                            tbl_submitted:submitted,
+                                            tbl_acknowledged:acknowledged,
+                                            tbl_rejected:rejected,
+                                            tbl_solved:solved,
+                                            notifications:notifications,
+                                            numbernotif:countrow});
+                                    });
+                                });
+                            });
+                        });
                     });
                 });
             });

@@ -61,7 +61,7 @@ block content
                                                                 <td>
                                                                 each app in tbl_appCount
                                                                     if exp.text_expenseDescription == "Benefit Expense"
-                                                                        input(type="number" value=`${app.appCount}` id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control")
+                                                                        input(type="number" readonly value=`${app.appCount}` id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control")
                                                                     else
                                                                         <input type="number"  value=`${app.appCount}`  id="Unit_Quantity" name="Unit_Quantity" class="Unit_Quantity form-control" required placeholder="Enter Quantity">                                                                        
                                                                 </td>
@@ -301,7 +301,7 @@ block content
 
             $(document).ready(function () {
                 
-                $(".addUnit_Price, .addQuanity").on("change", function() {
+                $(".addUnit_Price, .addQuanity, .decimal_unitPrice, .Unit_Quantity").on("change", function() {
                         var quan = [];
                         var uprice = [];
                         var totAmount = [];
@@ -389,7 +389,7 @@ block content
                         }
                 });
 
-                $(".decimal_unitPrice, .Unit_Quantity").on("change", function() {
+                $(".addUnit_Price, .addQuanity, .decimal_unitPrice, .Unit_Quantity").on("change", function() {
                         var quan = [];
                         var uprice = [];
                         var totAmount = [];
@@ -413,10 +413,10 @@ block content
                         $(".decimal_unitPrice").each(function (){
                             if( !$(this).val()){
                                 //- continue;
-                                quan.push($(this).val());
+                                uprice.push($(this).val());
                             }
                             else {
-                                uprice.push($(this).val());
+                                uprice.push($(this).val()); 
                             }
                         });
                         for(var i = 0 ; i < quan.length ; i++) {
@@ -449,7 +449,7 @@ block content
                         console.log("generalTotal");
                         console.log(generalTotal);
                         $(".ovtotalExpense").val(generalTotal);
-
+                        $(".ovtotalExpenseDis").val("Php "+generalTotal.toLocaleString());
                         appBud =  parseInt($('.decimal_appropriatedBudget').val())
                         console.log("appBud");
                         console.log(appBud);
@@ -471,6 +471,7 @@ block content
                             categremBal[j] = categremBal[j]/100;
                             console.log(categremBal[j]);
                             $(".remainingCat").eq(j).val(categremBal[j]);
+                            $(".remainingCatDis").eq(j).val("Php " +categremBal[j].toLocaleString());
                         }
 
 
