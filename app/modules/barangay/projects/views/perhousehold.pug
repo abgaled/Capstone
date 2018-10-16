@@ -2,125 +2,195 @@ extends ../../home/views/navbar.pug
 
 block content
     <div class="right_col" role="main">
-        <div class="">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        each project in tbl_project
-                            <center>
-                                <h1>APPLICATION FORM</h1>
-                                <h5>Type of Application: Household</h5>
-                                <h4>
-                                    value=project.varchar_projectName
-                                </h4>
-                                <small>
-                                    value="(" + project.text_projectObjective + ")"
-                                </small>
-                            </center>
+        <div class="x_panel">
+            <div class="x_title">
+                each project in tbl_project
+                    <center>
+                        <h1>APPLICATION FORM</h1>
+                        <h5>Type of Application: Barangay</h5>
+                        <h4>
+                            value=project.varchar_projectName
+                        </h4>
+                        <small>
+                            value="(" + project.text_projectObjective + ")"
+                        </small>
+                    </center>
+                
+                <div class="clearfix"></div>
+            </div>
+            <form id="regForm" action="apply/household" method="POST" class="form-horizontal form-label-left">
+                <div class="x_content">
+                    <!-- Smart Wizard -->
+                <form method="POST" action="apply/household">
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                        <ul class="wizard_steps">
+                            <li>
+                                <a href="#basicinfotab">
+                                    <span class="step_no">1</span>
+                                    <span class="step_descr"> Step 1<br />
+                                        <small>Basic Information</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#summary">
+                                    <span class="step_no">2</span>
+                                    <span class="step_descr"> Step 2<br />
+                                        <small>Requirements Needed</small>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab" id="basicinfotab">
+                            <hr/>
+                            <h3>BASIC INFORMATION</h3>
+                            <div class="x_panel">
+                            
+                            
+                                <div class="x_content">
+                                    <div class="form-row">
+                                            <div class="form-group col-md-4 col-sm-12">
+                                                <label for="ap-famname" class="form-control-label">Family Name:</label>
+                                                    <input type="text" id="ap-famname" name="apply_famname" placeholder="Type here ..." class="names col-sm-11 form-control ">
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="ap-famaddress" class="form-control-label">Home Address:</label>
+                                                    <input type="text" id="ap-famaddress" name="apply_famaddress" placeholder="Type here ..." class="names col-sm-11 form-control ">
+                                            </div>
+                                            <div class="form-group col-md-2 col-sm-12">
+                                            <label for="ap-fname" class="form-control-label">House Status:</label>
+                                            <select name ="apply_famhouse" class="form-control">
+                                                <option value = "Owned">Owned</option>
+                                                <option value = "Rent">Rent</option>
+                                                <option value = "Rent to own">Rent to own</option>
+                                                <option value = "Squater">Squater</option>
+                                            </select>
+                                            </div>
+                                        
+                                    </div>
+                                    <br>
+                                    <hr>
+                            
+                                    <div>
+                                        <button id="btnAddAddress" class="btn btn-primary btn-md" type="button" style="float:right;">Add Family Member</button>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <div class="table-responsive">
+                                        <table id="datatable-fixed-header expenseTable" class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <th width="15%">First Name</th>
+                                                    <th width="15%">Last Name</th>
+                                                    <th width="15%">Middle Name</th>
+                                                    <th width="15%">Civil Status</th>
+                                                    <th width="20%">Educational Attainment<br><small>(Highest)</small></th>
+                                                    <th width="20%">Occupation</th>
+                                                </tr>
+                                                <tr class="family-row familyCounter">
+                                                    <td><input type="text" name="famfname[]" class="form-control" style="width:100%"/></td>
+                                                    <td><input type="text" name="famlname[]" class="form-control" style="width:100%"/></td>
+                                                    <td><input type="text" name="fammname[]" class="form-control" style="width:100%"/></td>
+                                                    <td>
+                                                        <select name ="famcivil[]" class="form-control" style="width:100%">
+                                                            <option value = "Single">Single</option>
+                                                            <option value = "Married">Married</option>
+                                                            <option value = "Widowed">Widowed</option>
+                                                            <option value = "Divorce/Separated">Divorce/Separated</option>
+                                                        </select>
+                                                    </td> <td><input type="text" name="fameduc[]" class="form-control" style="width:100%"/></td>
+                                                    <td><input type="text" name="famoccu[]" class="form-control" style="width:100%" /></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr>
+                                    
+                                    <div><button id="btnAddContributor" class="btn btn-primary btn-md" type="button" style="float:right;">Add Financial Contributor</button></div>
+                                    <br>
+                                    <br>    
+                                    <br>
+                                        <div class="table-responsive">
+                                            <table id="datatable-fixed-header expenseTable" class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th width="30%">Purpose of Financial Contribution<br><small> (e.g. educational assistance)</small></th>
+                                                        <th width="15%">Relationship</th>
+                                                        <th width="15%">Frequency of Contribution</th>
+                                                        <th width="15%">Annual Contribution</th>
+                                                    </tr>
+                                                    <tr class="contributor-row contributorCounter">
+                                                        <td><input type="text" name="famconpurpose[]" class="form-control" style="width:100%" /></td>
+                                                        <td><input type="text" name="famconrel[]" class="form-control" style="width:100%" /></td>
+                                                        <td>
+                                                            <select class="form-control" name="famconfrequency[]" class="form-control" style="width:100%">
+                                                                <option value="Monthly">Monthly</option>
+                                                                <option value="Quarterly">Quarterly</option>
+                                                                <option value="Semi Annual">Semi Annual</option>
+                                                                <option value="Annual">Annual</option>
+                                                                <option value="Irregular">Irregular</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="number" name="famconannual[]" class="financial-contributor form-control" style="width:100%" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div style="float:right;">
+                                            <label style="font-weight:bold;font-size:19;">TOTAL: </label><span>&nbsp<input type="number" id="totalIncome" name="apply_famincome" readonly/></span>
+                                        </div>
+                                    
+                                    <br>
+                                    <hr>
                         
-                        <div class="clearfix"></div>
-                    </div>
-                    <form method="POST" action="apply/household">
-                        <div class="x_content">
-                            <div class="form-row">
-                                    <div class="form-group col-md-4 col-sm-12">
-                                        <label for="ap-famname" class="form-control-label">Family Name:</label>
-                                            <input type="text" id="ap-famname" name="apply_famname" placeholder="Type here ..." class="names col-sm-11 form-control ">
-                                    </div>
-                                    <div class="form-group col-md-6 col-sm-12">
-                                        <label for="ap-famaddress" class="form-control-label">Home Address:</label>
-                                            <input type="text" id="ap-famaddress" name="apply_famaddress" placeholder="Type here ..." class="names col-sm-11 form-control ">
-                                    </div>
-                                    <div class="form-group col-md-2 col-sm-12">
-                                    <label for="ap-fname" class="form-control-label">House Status:</label>
-                                    <select name ="apply_famhouse" class="form-control">
-                                        <option value = "Owned">Owned</option>
-                                        <option value = "Rent">Rent</option>
-                                        <option value = "Rent to own">Rent to own</option>
-                                        <option value = "Squater">Squater</option>
-                                    </select>
-                                    </div>
-                                
-                            </div>
-                            <br>
-                            <hr>
-                    
-                            <div>
-                                <button id="btnAddAddress" class="btn btn-primary btn-md" type="button" style="float:right;">Add Family Member</button>
-                            </div>
-                            <br>
-                            <br>
-                            <br>
-                            <div class="table-responsive">
-                                <table id="datatable-fixed-header expenseTable" class="table">
-                                    <tbody>
-                                        <tr>
-                                            <th width="15%">First Name</th>
-                                            <th width="15%">Last Name</th>
-                                            <th width="15%">Middle Name</th>
-                                            <th width="15%">Civil Status</th>
-                                            <th width="20%">Educational Attainment<br><small>(Highest)</small></th>
-                                            <th width="20%">Occupation</th>
-                                        </tr>
-                                        <tr class="family-row familyCounter">
-                                            <td><input type="text" name="famfname[]" class="form-control" style="width:100%"/></td>
-                                            <td><input type="text" name="famlname[]" class="form-control" style="width:100%"/></td>
-                                            <td><input type="text" name="fammname[]" class="form-control" style="width:100%"/></td>
-                                            <td>
-                                                <select name ="famcivil[]" class="form-control" style="width:100%">
-                                                    <option value = "Single">Single</option>
-                                                    <option value = "Married">Married</option>
-                                                    <option value = "Widowed">Widowed</option>
-                                                    <option value = "Divorce/Separated">Divorce/Separated</option>
-                                                </select>
-                                            </td> <td><input type="text" name="fameduc[]" class="form-control" style="width:100%"/></td>
-                                            <td><input type="text" name="famoccu[]" class="form-control" style="width:100%" /></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <hr>
-                            
-                            <div><button id="btnAddContributor" class="btn btn-primary btn-md" type="button" style="float:right;">Add Financial Contributor</button></div>
-                            <br>
-                            <br>    
-                            <br>
-                                <div class="table-responsive">
-                                    <table id="datatable-fixed-header expenseTable" class="table">
-                                        <tbody>
-                                            <tr>
-                                                <th width="30%">Purpose of Financial Contribution<br><small> (e.g. educational assistance)</small></th>
-                                                <th width="15%">Relationship</th>
-                                                <th width="15%">Frequency of Contribution</th>
-                                                <th width="15%">Annual Contribution</th>
-                                            </tr>
-                                            <tr class="contributor-row contributorCounter">
-                                                <td><input type="text" name="famconpurpose[]" class="form-control" style="width:100%" /></td>
-                                                <td><input type="text" name="famconrel[]" class="form-control" style="width:100%" /></td>
-                                                <td>
-                                                    <select class="form-control" name="famconfrequency[]" class="form-control" style="width:100%">
-                                                        <option value="Monthly">Monthly</option>
-                                                        <option value="Quarterly">Quarterly</option>
-                                                        <option value="Semi Annual">Semi Annual</option>
-                                                        <option value="Annual">Annual</option>
-                                                        <option value="Irregular">Irregular</option>
-                                                    </select>
-                                                </td>
-                                                <td><input type="number" name="famconannual[]" class="financial-contributor form-control" style="width:100%" /></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
-                                <div style="float:right;">
-                                    <label style="font-weight:bold;font-size:19;">TOTAL: </label><span>&nbsp<input type="number" id="totalIncome" name="apply_famincome" readonly/></span>
-                                </div>
-                            
-                            <br>
-                            <hr>
-                            <div><button class="btn btn-success btn-lg" type="submit" style="float:right;">Register</button></div>
                         </div>
-                    </form>
-                </div>
+                            
+                        </div>
+                        //- END OF FIRST TAB
+
+                        //- SUMMARY OF APPLICATION
+                        <div class="tab" id="summary">
+                        <hr/>
+                            <h3>REQUIREMENTS</h3>
+                            <small>Below are the list of the requirements that the applicant needed to comply.</small>
+
+
+                            <div class="table-responsive m-b-40">
+                                <tr>
+                                    <div class="form-check">
+                                        <label for="Requirements"></label>
+                                        <br>
+                                        <label for="checkbox1" class="form-check-label ">
+                                            each req in requirements
+                                                input(type="hidden" id="ap-requirementid" name="requirementID[]" value=`${req.int_requirementID}` )
+                                                <h3><text class="reqNames">
+                                                    value= " " + req.varchar_requirementName
+                                                </h3></text>
+                                                <br>
+                                                <label for="ap-civilstat" class="form-control-label"><strong>Requirements Status: <small>(Passed or Incomplete)</small></strong><span style="color:red;"> *</span></label>
+                                                <select class="form-control" id="ap-reqstat" name="apply_reqstat" onchange="getreqstat()">
+                                                    <option disabled="disabled" selected="selected">Choose..</option>
+                                                    <option value="Passed">Passed</option>
+                                                    <option value="Incomplete">Incomplete</option>
+                                                </select>
+                                                <label for="ap-requirementloc" class="form-control-label"><strong>Requirements File Location: </strong></label>
+                                                input(type="text" class="ap-reqLoc form-control" id="ap-requirementloc" name="requirementLoc")
+                                                <br>
+                                        </label>
+                                        //- <input type="hidden" id="ap-uncheck" class="ap-uncheck" name="apply_uncheck[]">
+                                    </div>
+                                </tr>                   
+                            </div>
+                                   
+                        </div> 
+                        //- END OF SUMMARY OF APPLICATION
+
+                    </div>
+                    <!-- End SmartWizard Content -->
+                </form>
             </div>
         </div>
     </div>

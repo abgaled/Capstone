@@ -642,6 +642,28 @@ router.post('/:int_projectID/apply/household',(req,res) => {
                                 });
                             }
 
+                            var requirements = req.body.requirementID;
+
+                            for(k = 0 ; k < requirements.length ; k++)
+                            {
+                                var insertRequirement = `INSERT INTO tbl_applicationrequirement
+                                    (\`int_applicationID\`,
+                                    \`int_requirementID\`,
+                                    \`varchar_fileLocation\`,
+                                    \`enum_appreqStatus\`) 
+                                    VALUES 
+                                    (${int_applicationID},
+                                    ${req.body.requirementID[k]},
+                                    "${req.body.requirementLoc[k]}",
+                                    "${req.body.apply_reqstat[k]}")`
+
+                                db.query(insertRequirement,(err, requirements, fields) => {
+                                    if (err) console.log(err);
+                                    console.log("DONE INSERT REQUIREMENT")
+                                });
+                                // DB QUERY INSERT REQUIREMENT
+                            }
+
                             res.redirect('/barangay/projects');
                         });
             });

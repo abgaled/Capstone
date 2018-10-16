@@ -41,8 +41,7 @@ block content
                                                             value= budget.decimal_annualRemaining.toLocaleString()
                                                         </td>
                                                         <td> 
-                                                            a(href=`/office/maintenance/brgyaccnt/#/brgyuser` id="barangayID" name="barangayID" class="btn btn-info btn-s"): span.fa.fa-eye  View Budget Details
-                                                       
+                                                            button.btn.btn-success.mb-1(id="btn-view-budget" class="btn-view-budget" value= budget.int_budgetID): span.fa.fa-eye View   
                                                         </td>
                                                     </tr>
                                                 each budg in nextyear
@@ -111,6 +110,80 @@ block content
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade bs-example-modal-lg" id="modalviewbudget" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-body">
+                
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><span class="section">View Budget Details</span></h4> 
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="budgetYear">YEAR:
+                            </label>
+                            <div class="col-md-9 budgetYear" id="budgetYear">
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="givenBudget">Total Budget:
+                            </label>
+                            <div class="col-md-9 givenBudget" id="givenBudget" >
+                
+                            </div>
+                            <br>
+                    </div>
+                    <div class="item form-group">
+                            <label class="control-label col-md-2" for="remBudget">Remaining Budget:
+                            </label>
+                            <div class="col-md-9 remBudget" id="remBudget">
+                
+                            </div>
+                            <br>
+                    </div>
+                        <table class="table table-striped " id="datatable" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Budget</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            each category in tbl_category
+                                <tr>
+                                    <td>
+                                        value= category.varchar_categoryName
+                                        input(type="hidden" id="categID" name="categID" required="required" value=`${category.int_categoryID}` )
+                                    </td>
+                                    <td>
+                                        <div  class="categBudget">
+                                        
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    //- <div>
+                    //- <div class="item form-group">
+                    //-         <label class="control-label col-md-2" for="projectrelend">End of Application (Target Date):
+                    //-         </label>
+                    //-         <div class="col-md-9" id="projectrelend">
+                
+                    //-         </div>
+                            
+                    //- </div>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="float:right;">Close</button>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -217,6 +290,54 @@ block content
                         }
                     });	
                 }       
+            });
+            
+            $('.btn-view-budget').click(function (e) {
+                    e.preventDefault()
+                    var Id = $(this).val();
+                    console.log("================================Id(Class)")
+                    console.log(Id);
+                    console.log("================================Id(Class)")
+                    $('#modalviewbudget').modal('show');
+                    ajaxGet();
+
+                    function ajaxGet(){
+                    console.log("========Id");
+                    console.log(Id);
+                    console.log("========Id");
+
+                    $.ajax({
+                        type : "POST",
+                        url : window.location + "/ajaxbudgetdetails",
+                        data: { ajBudgetID: Id},
+                        dataType: "json",
+                        success: function(tbl_budget){
+
+                        console.log(tbl_budget)
+                        var counter =0;
+                            $.each(tbl_budget, function (index, value) {
+                                console.log(value.length);
+
+                                document.getElementById("budgetYear").innerHTML = value[0].date_budgetYear    
+                                document.getElementById("givenBudget").innerHTML = "Php " +  value[0].decimal_annualBudget.toLocaleString();
+                                document.getElementById("remBudget").innerHTML = "Php " +  value[0].decimal_annualRemaining.toLocaleString();
+                                for(var i=0;i<value.length;i++)
+                                {   
+                                    console.log(i);
+                                    console.log(value[i].decimal_categBudget);
+                                    $(".categBudget").html(value[i].decimal_categBudget);
+                                }
+                                console.log("Success: " );
+                                
+                            });
+                                                        
+                            
+                        },
+                        error : function(e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });	
+                    }
             });
             //- $(function() {
             //-     $("#formNxtBudget").validate({

@@ -1261,11 +1261,7 @@ router.post('/sendliquidation', (req, res) => {
     });
 });
 
-console.log('=================================');
-console.log('CREATE PROJECT');
-console.log('=================================');
-
-
+// CREATE PROJECT
 router.get('/createproject',(req, res) => {
     console.log('=================================');
     console.log('OFFICE: PROPOSALS');

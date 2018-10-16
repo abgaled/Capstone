@@ -46,11 +46,19 @@ router.get('/annualbudget',(req, res) => {
                 if (err) console.log(err);
                 console.log(results3);
 
-                res.render('office/annualbudget/views/annualbudget', 
-                {
-                    tbl_annualbudget: results,
-                    nextyear:results2,
-                    tbl_category:results3
+                var queryString4 =`SELECT * FROM tbl_categorybudget`
+            
+                db.query(queryString4, (err, results4, fields) => {
+                    if (err) console.log(err);
+                    console.log(results4);
+
+                    res.render('office/annualbudget/views/annualbudget', 
+                    {
+                        tbl_annualbudget: results,
+                        nextyear:results2,
+                        tbl_category:results3,
+                        tbl_categorybudget:results4
+                    });
                 });
             });
         });
@@ -136,6 +144,28 @@ router.post('/annualbudget/budgetdetails',(req,res) => {
         console.log(results)
         var resultsss = results[0];
         console.log(resultsss)
+
+        return res.send({tbl_budget:results});
+    });
+});
+router.post('/annualbudget/ajaxbudgetdetails',(req,res) => {
+    console.log('=================================');
+    console.log('BARANGAY: PROJECTS-AJAX GET DETAILS (POST)');
+    console.log('=================================');
+    console.log(`${req.body.ajBudgetID}`);
+
+    
+    var queryString = `SELECT * FROM tbl_categorybudget cb
+    JOIN tbl_annualbudget ab ON ab.int_budgetID = cb.int_budgetID
+    WHERE cb.int_budgetID = "${req.body.ajBudgetID}"`
+
+
+    db.query(queryString,(err, results, fields) => {
+        if (err) console.log(err);
+
+
+        console.log("=====RESULTSS=====")
+        console.log(results)
 
         return res.send({tbl_budget:results});
     });
