@@ -77,11 +77,11 @@ block content
                                                             <span class="fa fa-home form-control-feedback left" aria-hidden="true"></span>
                                                         </div>
                                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                                            <input type="email" class="form-control has-feedback-left" name="officeEmail" id="officeEmail" placeholder="Email Address">
+                                                            <input type="email" class="form-control has-feedback-left" onkeyup="getemail()" name="officeEmail" id="officeEmail" placeholder="Email Address">
                                                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                                                         </div>
                                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                                            <input type="number" class="form-control has-feedback-left" name="officeContact" id="officeContact" placeholder="Contact Number">
+                                                            <input type="number" class="form-control has-feedback-left" min="0" name="officeContact" id="officeContact" placeholder="Contact Number">
                                                             <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
                                                         </div>
                                                         <div class="form-group pull-right">
@@ -102,6 +102,52 @@ block content
 
 
         script.
+
+            function getemail() {
+                    //- delay(function(){
+
+                    var email = document.getElementById("officeEmail").value;
+                    console.log(email);
+
+                            console.log("========Email");
+                            console.log(email);
+                            console.log("========End Email");
+
+                            $.ajax({
+                                type : "POST",
+                                url : "/office/maintenance/checkemail",
+                                data: { checkEmail: email},
+                                dataType: "json",
+                                success: function(record){
+
+                                if (record.record == true){
+                                    console.log("Success: True" );
+                                    swal({
+                                        title: 'Already Used.',
+                                        text: "This email address is not available.",
+                                        type: 'error',
+                                        confirmButtonColor: '#3085d6',
+                                    
+                        
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            
+                                            document.getElementById("officeEmail").value = "";
+                                        
+                                        }                        
+                                    })
+                                                
+                                        
+                                    console.log(record.record)
+                                
+                                }
+                                },
+                                error : function(e) {
+                                    console.log("ERROR: ", e);
+                                }
+                            });	
+                    //- }, 700 );
+                }
 
             $(document).ready(function () {
 

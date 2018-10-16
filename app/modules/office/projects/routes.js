@@ -25,7 +25,7 @@ router.get('/',(req, res) => {
 
     var queryString4 =`SELECT offacc.int_userID
         FROM tbl_officialsaccount offacc JOIN tbl_city C 
-            ON offacc.int_officialsID=C.int_cityID
+        ON offacc.int_officialsID=C.int_cityID
         WHERE offacc.int_userID=${req.session.office.int_userID}`
 
     db.query(queryString4, (err, cityResult, fields ) => {
@@ -1240,23 +1240,50 @@ router.post('/sendliquidation', (req, res) => {
     }
     
 
+    var totremaining = req.body.ovRemainingBudget;
+    console.log("totremaining");
+    console.log(totremaining);
+
+    var querytotremaining = `SELECT * FROM tbl_annualbudget ab
+        WHERE ab.date_budgetYear = ${y}`
+        db.query(querytotremaining, (err, resultsrem) => {        
+            if (err) throw err;
+            console.log(resultsrem);
+            var tot = resultsrem;
+            var totalrem = tot[0].decimal_annualRemaining + (parseFloat(totremaining));
+
+            var queryStringTOTALREM = `UPDATE tbl_annualbudget SET
+                decimal_annualRemaining = ${totalrem}
+                WHERE date_budgetYear = ${y}`
+                
+            db.query(queryStringTOTALREM, (err, resultrem) => {        
+                if (err) throw err;
+                console.log(resultrem);
+            });
+        });
+    
     var totExpense = req.body.ovtotalExpense;
     console.log("totExpense");
     console.log(totExpense);
+
     var queryString3 = `UPDATE tbl_projectdetail SET
         decimal_actualBudget = ${totExpense}
         WHERE int_projectID = ${req.body.int_projectID}`
+
         db.query(queryString3, (err, results3) => {        
             if (err) throw err;
             console.log(results3);
         });
+
     var queryEND = `UPDATE tbl_projectdetail SET
     enum_projectStatus = 'Finished',
     date_actualClosing = "${currentDate}"
     WHERE tbl_projectdetail.int_projectID = ${req.body.int_projectID}`
+
     db.query(queryEND, (err, resultse) => {        
         if (err) throw err;
         console.log(resultse);
+
         res.redirect('/office/projects');
     });
 });
@@ -1685,11 +1712,17 @@ router.post('/createproject',(req, res) => {
                     });
                 }
             }
-            res.redirect('/office/projects');
+            var updateAnnual = `UPDATE tbl_annualbudget
+                SET decimal_annualRemaining = decimal_annualRemaining - ${appropriatedBudget}
+                WHERE int_cityID = ${cityID.int_cityID}`;
+            
+                db.query(updateAnnual, (err, updateAnnualRes) => {
+                    if(err) console.log(err);
+                    res.redirect('/office/projects');
+            })
         });
     });
 });
-
 
 
 router.post('/createproject/ajaxBeneficiary', (req, res) => {
@@ -1724,6 +1757,7 @@ router.post('/createproject/ajaxBeneficiary', (req, res) => {
         console.log(beneList);
         return res.send({tbl_beneficiary: beneList});
     });
+    
 });
 
 module.exports = router;

@@ -84,11 +84,11 @@ block content
                                                             <span class="fa fa-home form-control-feedback left" aria-hidden="true"></span>
                                                         </div>
                                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                                            <input type="email" class="form-control has-feedback-left" name="barangayEmail" id="barangayEmail" placeholder="Email Address">
-                                                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                                            <input type="email" class="form-control has-feedback-left" onkeyup="getemail()" name="barangayEmail" id="barangayEmail" placeholder="Email Address">
+                                                            <span class="fa fa-envelope form-control-feedback left"  aria-hidden="true"></span>
                                                         </div>
                                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                                            <input type="number" class="form-control has-feedback-left" name="barangayContact" id="barangayContact" placeholder="Contact Number">
+                                                            <input type="number" min="0" class="form-control has-feedback-left" name="barangayContact" id="barangayContact" placeholder="Contact Number">
                                                             <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
                                                         </div>
                                                         <div class="form-group pull-right">
@@ -106,10 +106,58 @@ block content
                                 </div>
         <!-- END STATISTIC-->
                 
+       
         <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
-
+        <script src="/asset_validation/dist/jquery.validate.min.js"></script>
 
         script.
+
+            
+                function getemail() {
+                    //- delay(function(){
+
+                    var email = document.getElementById("barangayEmail").value;
+                    console.log(email);
+
+                            console.log("========Email");
+                            console.log(email);
+                            console.log("========End Email");
+
+                            $.ajax({
+                                type : "POST",
+                                url : "/office/maintenance/checkemail",
+                                data: { checkEmail: email},
+                                dataType: "json",
+                                success: function(record){
+
+                                if (record.record == true){
+                                    console.log("Success: True" );
+                                    swal({
+                                        title: 'Already Used.',
+                                        text: "This email address is not available.",
+                                        type: 'error',
+                                        confirmButtonColor: '#3085d6',
+                                    
+                        
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            
+                                            document.getElementById("barangayEmail").value = "";
+                                        
+                                        }                        
+                                    })
+                                                
+                                        
+                                    console.log(record.record)
+                                
+                                }
+                                },
+                                error : function(e) {
+                                    console.log("ERROR: ", e);
+                                }
+                            });	
+                    //- }, 700 );
+                }
 
             $(document).ready(function () {
 

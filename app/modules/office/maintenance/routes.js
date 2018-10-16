@@ -791,54 +791,67 @@ router.post('/budgetaccnt',(req, res) => {
             db.query(getCityID, (err, results3, fields) => {        
                 if (err) throw err;
 
+                var cityID = results3[0].int_cityID;
+
+                var queryBudgetuser = `INSERT INTO \`tbl_officialsaccount\` (
+                    \`int_userID\`,
+                    \`int_officialsID\`)
+                    VALUES(
+                    "${tobrgy.int_userID}",
+                    "${cityID}");`;
+
+                    db.query(queryBudgetuser, (err, results4, fields) => {        
+                        if (err) throw err;
+
                     
-                    // START OF NODE MAILER
-                    nodemailer.createTestAccount((err, account) => {
-                        // create reusable transporter object using the default SMTP transport
-                        var transporter = nodemailer.createTransport({
-                            service: 'gmail',
-                            auth: {
-                                   user: 'cityprojmsoffice@gmail.com',
-                                   pass: 'cityprojmsofficeoffice'
-                            },
-                            tls: {
-                                rejectUnauthorized: false
-                            }
-                           });
-                    
-                        // setup email data with unicode symbols
-                        let mailOptions = {
-                            from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
-                            to: `${req.body.budgetEmail}`, // list of receivers
-                            subject: 'City Project Application and Beneficiary Releasing Management System - Budget Office Account Details', // Subject line
-                            html: `<b>Welcome to City Project Application and Beneficiary Releasing Managament System. 
-                            <br>The following information will be your current login details.
-                            </b> <p>You can edit/update your information anytime, once you login using these account details.
-                            <hr> Email: ${req.body.budgetEmail} 
-                            <br> Password: ${req.body.budgetPassword} <hr><br> Thank You!` // html body
-                        };
-                        console.log("==================================");
-                        console.log("SENDING TO:");
-                        console.log(req.body.budgetEmail);
-                        console.log("==================================");
-                    
-                        // send mail with defined transport object
-                        transporter.sendMail(mailOptions, (error, info) => {
-                            if (error) {
-                                return console.log(error);
-                            }
-                            console.log('Message sent: %s', info.messageId);
-                            // Preview only available when sending through an Ethereal account
-                            // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-                    
-                            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-                            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                        // START OF NODE MAILER
+                        nodemailer.createTestAccount((err, account) => {
+                            // create reusable transporter object using the default SMTP transport
+                            var transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    user: 'cityprojmsoffice@gmail.com',
+                                    pass: 'cityprojmsofficeoffice'
+                                },
+                                tls: {
+                                    rejectUnauthorized: false
+                                }
                             });
-                            
-                        });
-                        // END OF NODE MAILER
-                        res.redirect('/office/maintenance/budgetaccnt');
-                    
+                        
+                            // setup email data with unicode symbols
+                            let mailOptions = {
+                                from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
+                                to: `${req.body.budgetEmail}`, // list of receivers
+                                subject: 'City Project Application and Beneficiary Releasing Management System - Budget Office Account Details', // Subject line
+                                html: `<b>Welcome to City Project Application and Beneficiary Releasing Managament System. 
+                                <br>The following information will be your current login details.
+                                </b> <p>You can edit/update your information anytime, once you login using these account details.
+                                <hr> Email: ${req.body.budgetEmail} 
+                                <br> Password: ${req.body.budgetPassword} <hr><br> Thank You!` // html body
+                            };
+                            console.log("==================================");
+                            console.log("SENDING TO:");
+                            console.log(req.body.budgetEmail);
+                            console.log("==================================");
+                        
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, (error, info) => {
+                                if (error) {
+                                    return console.log(error);
+                                }
+                                console.log('Message sent: %s', info.messageId);
+                                // Preview only available when sending through an Ethereal account
+                                // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                        
+                                // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+                                // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                                });
+                                
+                            });
+                            // END OF NODE MAILER
+                            res.redirect('/office/maintenance/budgetaccnt');
+                        
+                    });
                 });
         });
 
@@ -934,6 +947,17 @@ router.post('/officeaccnt',(req, res) => {
             db.query(getCityID, (err, results3, fields) => {        
                 if (err) throw err;
 
+                var cityID = results3[0].int_cityID;
+
+                var queryOfficeuser = `INSERT INTO \`tbl_officialsaccount\` (
+                    \`int_userID\`,
+                    \`int_officialsID\`)
+                    VALUES(
+                    "${tobrgy.int_userID}",
+                    "${cityID}");`;
+
+                    db.query(queryOfficeuser, (err, results4, fields) => {        
+                        if (err) throw err;
                     
                     // START OF NODE MAILER
                     nodemailer.createTestAccount((err, account) => {
@@ -981,7 +1005,7 @@ router.post('/officeaccnt',(req, res) => {
                         });
                         // END OF NODE MAILER
                         res.redirect('/office/maintenance/officeaccnt');
-                    
+                    });
                 });
         });
 
@@ -1285,5 +1309,46 @@ router.post('/unitofmeasure/:int_unitMeasureID/edituom', (req, res) => {
 });
 });
 
+
+// AJAX!!!! CHECK EMAIL
+// AJAX - CHECK EMAIL 
+router.post('/checkemail',(req,res) => {
+    console.log('=================================');
+    console.log('OFFICE: MAINTENANCE-AJAX CHECK EMAIL IF EXISTING (POST)');
+    console.log('=================================');
+    console.log(`${req.body.checkEmail}`);
+
+    var queryString = `SELECT * FROM tbl_user
+        WHERE tbl_user.varchar_userEmailAddress = "${req.body.checkEmail}"`
+
+        db.query(queryString,(err, results, fields) => {
+            if (err) console.log(err);   
+            
+
+        console.log("=======CHECK IF THERE'S AN APPLICATION======");
+        console.log(results)
+        console.log("=======CHECK IF THERE'S AN APPLICATION======");
+
+        if(results.length > 0 ){
+            
+            console.log("MAY RECORD");
+
+            var record = true;
+
+            return res.send({check_app:results,record:record});
+        }
+
+        else{
+            console.log("WALANG RECORD");
+            
+            var record = false;
+            
+            return res.send({check_app:results,record:record});
+                    
+            
+        }
+        // END OF ELSE
+    });
+});
 
 module.exports = router;

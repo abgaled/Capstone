@@ -13,9 +13,9 @@ block content
                 <div class="container-fluid">
                     <div class="" role="tabpanel" data-example-id="togglable-tabs">
                         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#tab_content1" id="all-tab" role="tab" data-toggle="tab" aria-expanded="true">ALL</a>
-                            </li>
-                            <li role="presentation"><a href="#tab_content2" id="created-tab" role="tab" data-toggle="tab" aria-expanded="true">Created</a>
+                            //- <li role="presentation" class="active"><a href="#tab_content1" id="all-tab" role="tab" data-toggle="tab" aria-expanded="true">ALL</a>
+                            //- </li>
+                            <li role="presentation" class="active"><a href="#tab_content2" id="created-tab" role="tab" data-toggle="tab" aria-expanded="true">Created</a>
                             </li>
                             <li role="presentation"><a href="#tab_content3" id="ongoing-tab" role="tab" data-toggle="tab" aria-expanded="true">Ongoing</a>
                             </li>
@@ -30,70 +30,70 @@ block content
                         </ul>
                         
                             <div id="myTabContent" class="tab-content">
-                                    //- START OF 1ST TAB (ALL)
-                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="all-tab">
-                                        <div class="x_content">
-                                            <div class="container">
-                                                <div class="table-responsive m-b-40">
-                                                    <table class="table table-bordered" id="datatable1" cellspacing="0">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Project Name</th>
-                                                                <th>Alloted Slot</th>
-                                                                //- <th>Available Slot</th>
-                                                                <th>Status</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        each project in tbl_project
-                                                            <tr>
-                                                                <td>
-                                                                    value=project.varchar_projectName
-                                                                </td>
-                                                                <td>
-                                                                each slot in slotcount 
-                                                                    if slot.projID == project.int_projectID
-                                                                        value=slot.slotCount
-                                                                </td>
+                                    //- //- START OF 1ST TAB (ALL)
+                                    //- <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="all-tab">
+                                    //-     <div class="x_content">
+                                    //-         <div class="container">
+                                    //-             <div class="table-responsive m-b-40">
+                                    //-                 <table class="table table-bordered" id="datatable1" cellspacing="0">
+                                    //-                     <thead>
+                                    //-                         <tr>
+                                    //-                             <th>Project Name</th>
+                                    //-                             <th>Alloted Slot</th>
+                                    //-                             //- <th>Available Slot</th>
+                                    //-                             <th>Status</th>
+                                    //-                             <th>Actions</th>
+                                    //-                         </tr>
+                                    //-                     </thead>
+                                    //-                     <tbody>
+                                    //-                     each project in tbl_project
+                                    //-                         <tr>
+                                    //-                             <td>
+                                    //-                                 value=project.varchar_projectName
+                                    //-                             </td>
+                                    //-                             <td>
+                                    //-                             each slot in slotcount 
+                                    //-                                 if slot.projID == project.int_projectID
+                                    //-                                     value=slot.slotCount
+                                    //-                             </td>
                                                                 
-                                                                <td>
-                                                                    if project.enum_projectStatus == "ClosedRel"
-                                                                        <p>Closed Releasing</p>
-                                                                    else
-                                                                        value=project.enum_projectStatus
-                                                                </td>
-                                                                <td>
-                                                                    a(href=`/office/projects/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-primary btn-sm btn-block "): span.fa View Details & Applications
-                                                                    if project.enum_projectStatus != "Created" && project.enum_projectStatus != "Releasing" && project.enum_projectStatus != 'Closed Application'
-                                                                        a(href=`/office/projects/${project.int_projectID}/viewapp` id="viewapp" class="btn btn-info btn-sm btn-block"): span.fa View Beneficiaries
-                                                                    if project.enum_projectStatus == "Created"
-                                                                        button.btn.btn-success.btn-sm.btn-block(id="btn-open"  value= project.int_projectID class="btn-open"): span.fa.fa-open Open Project
-                                                                        <form hidden id="formprojectOPEN" method="POST" action='/office/projects/startproj' name="formprojectOPEN">
-                                                                            <input id="int_projectID" name="int_projectID" type="hidden" >
-                                                                        </form>
-                                                                    if project.enum_projectStatus == "Closed Releasing"
-                                                                        a(href=`/office/projects/${project.int_projectID}/liquidation` id="liquidation" class="btn btn-dark btn-sm btn-block"): span.fa Liquidate
+                                    //-                             <td>
+                                    //-                                 if project.enum_projectStatus == "ClosedRel"
+                                    //-                                     <p>Closed Releasing</p>
+                                    //-                                 else
+                                    //-                                     value=project.enum_projectStatus
+                                    //-                             </td>
+                                    //-                             <td>
+                                    //-                                 a(href=`/office/projects/${project.int_projectID}/viewproj` id="viewproj" class="btn btn-primary btn-sm btn-block "): span.fa View Details & Applications
+                                    //-                                 if project.enum_projectStatus != "Created" && project.enum_projectStatus != "Releasing" && project.enum_projectStatus != 'Closed Application'
+                                    //-                                     a(href=`/office/projects/${project.int_projectID}/viewapp` id="viewapp" class="btn btn-info btn-sm btn-block"): span.fa View Beneficiaries
+                                    //-                                 if project.enum_projectStatus == "Created"
+                                    //-                                     button.btn.btn-success.btn-sm.btn-block(id="btn-open"  value= project.int_projectID class="btn-open"): span.fa.fa-open Open Project
+                                    //-                                     <form hidden id="formprojectOPEN" method="POST" action='/office/projects/startproj' name="formprojectOPEN">
+                                    //-                                         <input id="int_projectID" name="int_projectID" type="hidden" >
+                                    //-                                     </form>
+                                    //-                                 if project.enum_projectStatus == "Closed Releasing"
+                                    //-                                     a(href=`/office/projects/${project.int_projectID}/liquidation` id="liquidation" class="btn btn-dark btn-sm btn-block"): span.fa Liquidate
                                                                     
-                                                                    if project.enum_projectStatus == 'Closed Application'
-                                                                        button.btn.btn-success.btn-block(id="btn-release"  value= project.int_projectID class="btn-release"): span.fa.fa-open Open Releasing
-                                                                        <form hidden id="formReleasingOPEN" method="POST" action='/office/projects/openreleasing' name="formReleasingOPEN">
-                                                                            input(type="text" value=`${project.int_projectID}` id="rint_projectID" name="rint_projectID")
-                                                                        </form>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                //- <!-- END DATA TABLE-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    //- END OF 1ST TAB
+                                    //-                                 if project.enum_projectStatus == 'Closed Application'
+                                    //-                                     button.btn.btn-success.btn-block(id="btn-release"  value= project.int_projectID class="btn-release"): span.fa.fa-open Open Releasing
+                                    //-                                     <form hidden id="formReleasingOPEN" method="POST" action='/office/projects/openreleasing' name="formReleasingOPEN">
+                                    //-                                         input(type="text" value=`${project.int_projectID}` id="rint_projectID" name="rint_projectID")
+                                    //-                                     </form>
+                                    //-                             </td>
+                                    //-                         </tr>
+                                    //-                     </tbody>
+                                    //-                 </table>
+                                    //-             //- <!-- END DATA TABLE-->
+                                    //-             </div>
+                                    //-         </div>
+                                    //-     </div>
+                                    //- </div>
+                                    //- //- END OF 1ST TAB
                             
                                 
                                     //- START OF 2ND TAB (Created)
-                                    <div role="tabpanel" class="tab-pane fade in" id="tab_content2" aria-labelledby="created-tab">
+                                    <div role="tabpanel" class="tab-pane active in" id="tab_content2" aria-labelledby="created-tab">
                                         <div class="x_content">
                                             <div class="container">
                                                 <div class="table-responsive m-b-40">
@@ -227,7 +227,7 @@ block content
                                                             </td>
                                                             <td>
                                                                 a(href=`/office/projects/${closedapp.int_projectID}/viewproj` id="viewproj" class="btn btn-primary btn-sm btn-block "): span.fa View Details & Applications
-                                                                if project.enum_projectStatus == 'Closed Application'
+                                                                if closedapp.enum_projectStatus == 'Closed Application'
                                                                     button.btn.btn-success.btn-block(id="btn-release"  value= closedapp.int_projectID class="btn-release"): span.fa.fa-open Open Releasing
                                                                     <form hidden id="formReleasingOPEN" method="POST" action='/office/projects/openreleasing' name="formReleasingOPEN">
                                                                         input(type="text" value=`${closedapp.int_projectID}` id="rint_projectID" name="rint_projectID")

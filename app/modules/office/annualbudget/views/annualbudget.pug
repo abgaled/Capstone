@@ -257,9 +257,25 @@ block content
 
                             $.each(tbl_budget, function (index, budget) {
                                 console.log(budget);
-                                console.log(budget[0].date_budgetYear);
+                                //- console.log(budget[0].date_budgetYear);
                                 console.log(yr);
-                                if(budget[0].date_budgetYear != yr)
+                                if(budget[0]==null)
+                                {
+                                    swal({
+                                    title: 'Are you sure?',
+                                    text: "You will record the budget for next year.",
+                                    type: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, record it!'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            $('#formNxtBudget').submit();
+                                        }                 
+                                    })
+                                }
+                                else if(budget[0].date_budgetYear != yr)
                                 {
                                     console.log("PWEDE");
                                     swal({
