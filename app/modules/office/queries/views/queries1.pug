@@ -7,11 +7,16 @@ block content
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x-title">
+                        <div class="noPrint"  id="noPRINT">
+                            //- a(href=`/budget/projects` class="btn btn-danger btn-lg pull-right fa"): span.fa.fa-times-circle  
+                            <button id="printReceiptButton" type="button" class= "btn float-right pull-right  btn-lg btn-inverse fa fa-print">&nbsp;&nbsp; Print Receipt
+                            //- <button id="signReceiptButton" type="button" class= "btn float-right btn-lg btn-inverse pull-right fa fa-pencil">&nbsp;&nbsp; Sign Receipt
+                        </div> 
                         <h1>Queries</h1>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x-content">
-                        <div class="form-row">
+                        <div class="form-row noPrint">
                             <div class="form-group has-feedback col-lg-12 col-md-12 col-sx-12 col-xs-12">
                                 <label class="control-label"> Query Search </label>
                                 <select class="form-control has-feedback-left" id='query-select'>
@@ -425,6 +430,9 @@ block content
     <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
     <script src="/assets/jquery/jquery-3.3.1.jquery.min.js"></script>
     <script src="/assets/js/jquery.multi-select.js"></script>
+    script(src='/assets/js/jspdf.js')
+    script(src='/assets/js/printjs.min.js')
+    
 
     script.
 
@@ -476,5 +484,12 @@ block content
                     $('#intentbrgy-solved').show();
                     $('#ongoingProj, #createdproj, #releasingproj, #finishedproj, #receivedbene, #appongoing, #intentbrgy-ack, #intentbrgy').hide();
                 }
+            });
+            
+            $('#printReceiptButton').click(function(){
+                $('.noPrint').attr('style', 'display:none;')
+                javascript:window.print(print)
+                $('#formprint').submit();
+                $('.noPrint').attr('style', 'display:show;')
             });
         });

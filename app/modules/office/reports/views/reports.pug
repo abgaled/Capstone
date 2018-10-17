@@ -6,12 +6,17 @@ block content
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x-title">
+                        <div class="noPrint"  id="noPRINT">
+                            //- a(href=`/budget/projects` class="btn btn-danger btn-lg pull-right fa"): span.fa.fa-times-circle  
+                            <button id="printReceiptButton" type="button" class= "btn float-right pull-right  btn-lg btn-inverse fa fa-print">&nbsp;&nbsp; Print Receipt
+                            //- <button id="signReceiptButton" type="button" class= "btn float-right btn-lg btn-inverse pull-right fa fa-pencil">&nbsp;&nbsp; Sign Receipt
+                        </div> 
                         <h1>Reports</h1>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x-content">
                         <form class="form-horizontal form-label-left" method="POST" action='#' id="formNxtBudget" >
-                            <div class="form-row">
+                            <div class="form-row noPrint">
                                 <div class="form-group has-feedback col-lg-4 col-md-4 col-sx-12 col-xs-12">
                                     <label class="control-label"> Report Search </label>
                                     <select class="form-control has-feedback-left" id="reportType">
@@ -116,6 +121,8 @@ block content
         </div>
 
         <script src="/newassets/vendor/jquery-3.2.1.min.js"></script>
+        script(src='/assets/js/jspdf.js')
+        script(src='/assets/js/printjs.min.js')
         script.
             $(document).ready(function () {
                 $('#btn_generateReport').click(function (e) {
@@ -164,5 +171,10 @@ block content
                     });	
                     } 
 
+                });
+                 $('#printReceiptButton').click(function(){
+                    $('.noPrint').attr('style', 'display:none;')
+                    javascript:window.print()
+                    $('.noPrint').attr('style', 'display:show;')
                 });
             });
