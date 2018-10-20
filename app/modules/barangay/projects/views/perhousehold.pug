@@ -7,7 +7,7 @@ block content
                 each project in tbl_project
                     <center>
                         <h1>APPLICATION FORM</h1>
-                        <h5>Type of Application: Barangay</h5>
+                        <h5>Type of Application: Household</h5>
                         <h4>
                             value=project.varchar_projectName
                         </h4>
@@ -15,8 +15,6 @@ block content
                             value="(" + project.text_projectObjective + ")"
                         </small>
                     </center>
-                
-                <div class="clearfix"></div>
             </div>
             <form id="regForm" action="apply/household" method="POST" class="form-horizontal form-label-left">
                 <div class="x_content">
@@ -47,38 +45,48 @@ block content
                             <h3>BASIC INFORMATION</h3>
                             <div class="x_panel">
                             
-                            
+
                                 <div class="x_content">
                                     <div class="form-row">
-                                            <div class="form-group col-md-4 col-sm-12">
-                                                <label for="ap-famname" class="form-control-label">Family Name:</label>
-                                                    <input type="text" id="ap-famname" name="apply_famname" placeholder="Type here ..." class="names col-sm-11 form-control ">
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-12">
-                                                <label for="ap-famaddress" class="form-control-label">Home Address:</label>
-                                                    <input type="text" id="ap-famaddress" name="apply_famaddress" placeholder="Type here ..." class="names col-sm-11 form-control ">
-                                            </div>
-                                            <div class="form-group col-md-2 col-sm-12">
-                                            <label for="ap-fname" class="form-control-label">House Status:</label>
-                                            <select name ="apply_famhouse" class="form-control">
-                                                <option value = "Owned">Owned</option>
-                                                <option value = "Rent">Rent</option>
-                                                <option value = "Rent to own">Rent to own</option>
-                                                <option value = "Squater">Squater</option>
-                                            </select>
-                                            </div>
-                                        
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-famname" class="form-control-label">Family Name:</label>
+                                                <input type="text" id="ap-famname" name="apply_famname" placeholder="Type here ..." class="names col-sm-11 form-control ">
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label for="ap-famaddress" class="form-control-label">Home Address:</label>
+                                                <input type="text" id="ap-famaddress" name="apply_famaddress" placeholder="Type here ..." class="names col-sm-11 form-control ">
+                                        </div>
+                                        <div class="form-group col-md-2 col-sm-12">
+                                        <label for="ap-fname" class="form-control-label">House Status:</label>
+                                        <select name ="apply_famhouse" class="form-control">
+                                            <option value = "Owned">Owned</option>
+                                            <option value = "Rent">Rent</option>
+                                            <option value = "Rent to own">Rent to own</option>
+                                            <option value = "Squater">Squater</option>
+                                        </select>
+                                        </div>      
                                     </div>
-                                    <br>
-                                    <hr>
-                            
+                                    //- END OF FAMILY NAME, ADDRESS, TYPE OF HOUSE
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-repName" class="form-control-label">Representative Name:</label>
+                                                <input type="text" id="ap-repName" name="apply_repname" placeholder="Type here ..." class="names col-sm-11 form-control ">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-repEmail" class="form-control-label">Representative Email Address:</label>
+                                                <input type="text" id="ap-reprepEmail" name="apply_repemail" onkeyup="getemail()" placeholder="(ex. juanito@gmail.com)" class="names col-sm-11 form-control ">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label for="ap-repContact" class="form-control-label">Representative Contact Number:</label>
+                                                <input type="text" id="ap-repContact" name="apply_repcontact" data-inputmask="'mask' : '(+63) 999-999-9999'" class="names col-sm-11 form-control ">
+                                        </div>
+                                    </div>
+                                    
                                     <div>
                                         <button id="btnAddAddress" class="btn btn-primary btn-md" type="button" style="float:right;">Add Family Member</button>
                                     </div>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <div class="table-responsive">
+                                    
+                                    <div>
                                         <table id="datatable-fixed-header expenseTable" class="table">
                                             <tbody>
                                                 <tr>
@@ -220,43 +228,82 @@ block content
 
             $(document).on('change', '.financial-contributor', function() {
                 console.log('Change Detected');
-                //- var beneQuan = [];
+                
                 var contrib = [];
                 var totalAmount = 0;
 
-                //- $(".ap-benefitquantity").each(function() {
-                //-     beneQuan.push($(this).val());
-                //- });
-
+                parseFinancial = parseInt($('.financial-contributor').val())
+                
                 $(".financial-contributor").each(function() {
                     contrib.push($(this).val());
+                    
                 });
 
                 for(var i = 0 ; i < contrib.length ; i++) {
 
                     totalAmount += contrib[i];
                     console.log(totalAmount);
-                    
-                    //- var n= (beneQuan[i]*beneUPrice[i]).toString().split(".");
-                    //- n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    var m= totalAmount.toString().split(".");
-                    m[0] = m[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-                    
-                    //- $(".benefitAmount").eq(i).val(beneQuan[i]*beneUPrice[i]);
-                    //- $(".benefitAmounts").eq(i).val("PHP "+n.join("."));
-
-                    
-                    //- if(isNaN(beneQuan[i]*beneUPrice[i])){
-                    //-     $(".benefitAmounts").eq(i).value("0.00");
-                    //-     console.log("NaN detected");
-                    //- }
-                    //- else {
-                    //-     $(".benefitAmounts").eq(i).val(n.join("."));
-                    //- }
+                    parseFinancial = parseInt($('.financial-contributor').val())
+                    console.log("Parse Financial Contribution");
+                    console.log(parseFinancial); 
+                    parse = parseInt($(totalAmount).val())
+                    console.log(totalAmount)
 
                     $("#totalIncome").val(totalAmount);
-                    //- $("#totBeneBudgets").val("PHP "+m.join("."));
                 }
             });
+
         });
+        function getemail() {
+            //- delay(function(){
+
+            var email = document.getElementById("ap-reprepEmail").value;
+            console.log(email);
+
+            console.log("========Email");
+            console.log(email);
+            console.log("========End Email");
+
+            $.ajax({
+                type : "POST",
+                url : window.location + "/checkemailrepresentative",
+                data: { checkEmail: email},
+                dataType: "json",
+                success: function(record){
+
+                if (record.record == true){
+                    console.log("Success: True" );
+                   
+                        swal({
+                            title: 'Already Used',
+                            text: "This email address is already registered for this project.",
+                            type: 'error',
+                            confirmButtonColor: '#3085d6',
+                        
+            
+                        }).then((result) => {
+                            if (result.value) {
+                                
+                                document.getElementById("ap-reprepEmail").value = "";
+                            
+                            }                        
+                        })
+                        
+                    console.log(record.record)
+                }
+                else{
+                    console.log("Success: False" );
+                    console.log(record.record)
+                    
+                    
+                }   
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });	
+        //- }, 700 );
+        }
+
+        

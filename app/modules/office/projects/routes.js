@@ -3,6 +3,7 @@ var router = express.Router();
 var authMiddleware = require('../../auth/middlewares/auth');
 var db = require('../../../lib/database')();
 var moment = require('moment');
+var nodemailer = require('nodemailer');
 var cityID;
 
 
@@ -349,7 +350,142 @@ router.post('/:int_projectID/viewproj/accept',(req, res) => {
 
     db.query(queryString1, (err, results1, fields) => {
 
-        res.redirect(`/office/projects/${req.params.int_projectID}/viewproj`);
+        var queryDetails =`SELECT * FROM tbl_application ap
+        JOIN tbl_projectdetail pd
+        ON ap.int_projectID = pd.int_projectID
+        JOIN tbl_projectapplicationtype pat
+        ON ap.int_projectID = pat.int_projectID
+        WHERE ap.int_applicationID = ${req.body.int_applicationID}`
+
+        db.query(queryDetails, (err, details, fields) => {
+            
+            var resultDetails = details[0];
+            console.log(resultDetails); 
+
+            if(resultDetails.enum_applicationType == "Resident"){
+                console.log("==========APPLICATION TYPE: RESIDENT==========")
+
+                var queryResident =`SELECT * FROM tbl_application ap
+                JOIN tbl_projectdetail pd
+                ON ap.int_projectID = pd.int_projectID
+                JOIN tbl_personalinformation pi
+                ON ap.int_applicationID = pi.int_applicationID
+                WHERE ap.int_applicationID = ${req.body.int_applicationID}`
+
+                db.query(queryResident, (err, residentdetails, fields) => {
+
+                    var finalResidentDetails = residentdetails[0];
+
+                    // START OF NODE MAILER
+                    nodemailer.createTestAccount((err, account) => {
+                        // create reusable transporter object using the default SMTP transport
+                        var transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            auth: {
+                                user: 'cityprojmsoffice@gmail.com',
+                                pass: 'cityprojmsofficeoffice'
+                            },
+                            tls: {
+                                rejectUnauthorized: false
+                            }
+                        });
+                    
+                        // setup email data with unicode symbols
+                        let mailOptions = {
+                            from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
+                            to: `${finalResidentDetails.varchar_emailAddress}`, // list of receivers
+                            subject: 'City Project Application and Beneficiary Releasing Management System - Registration/Application Response', // Subject line
+                            html: `<p>Welcome to City Project Application and Beneficiary Releasing Management System</p>
+                            <br>Good day! <b>${finalResidentDetails.varchar_lastName}, ${finalResidentDetails.varchar_firstName} ${finalResidentDetails.varchar_middleName}</b>
+                            <br> 
+                            <p>We're here to inform you that your application for the <b>Project: ${finalResidentDetails.varchar_projectName}</b> has been <u><b>ACCEPTED</b></u>.</p>
+                            <hr>
+                            Please wait for further announcements and updates about the said project. Thank you!` // html body
+                        };
+                    
+                        // send mail with defined transport object
+                        transporter.sendMail(mailOptions, (error, info) => {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            console.log('Message sent: %s', info.messageId);
+                            // Preview only available when sending through an Ethereal account
+                            // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                    
+                            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+                            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                            });
+                            
+                        });
+                        // END OF NODE MAILER
+
+                    res.redirect(`/office/projects/${req.params.int_projectID}/viewproj`);
+                });
+            }
+
+            if(resultDetails.enum_applicationType == "Household"){
+                console.log("==========APPLICATION TYPE: HOUSEHOLD==========")
+
+                var queryHousehold =`SELECT * FROM tbl_application ap
+                JOIN tbl_projectdetail pd
+                ON ap.int_projectID = pd.int_projectID
+                JOIN tbl_projectapplicationtype pat
+                ON ap.int_projectID = pat.int_projectID
+                JOIN tbl_householdapplication ha
+                ON ha.int_applicationID = ap.int_applicationID
+                WHERE ap.int_applicationID = ${req.body.int_applicationID}`
+
+                db.query(queryHousehold, (err, householddetails, fields) => {
+
+                    var finalHouseDetails = householddetails[0];
+
+                        // START OF NODE MAILER
+                        nodemailer.createTestAccount((err, account) => {
+                        // create reusable transporter object using the default SMTP transport
+                        var transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            auth: {
+                                user: 'cityprojmsoffice@gmail.com',
+                                pass: 'cityprojmsofficeoffice'
+                            },
+                            tls: {
+                                rejectUnauthorized: false
+                            }
+                        });
+                    
+                        // setup email data with unicode symbols
+                        let mailOptions = {
+                            from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
+                            to: `${finalHouseDetails.varchar_representativeEmailAddress}`, // list of receivers
+                            subject: 'City Project Application and Beneficiary Releasing Management System - Registration/Application Response', // Subject line
+                            html: `<p>Welcome to City Project Application and Beneficiary Releasing Management System</p>
+                            <br>Good day! <b>${finalHouseDetails.varchar_representativeName}</b>,
+                            <br> 
+                            <p>We're here to inform you that your application for the <b>Project: ${finalHouseDetails.varchar_projectName}</b> has been <u><b>ACCEPTED</b></u>.</p>
+                            <hr>
+                            Please wait for further announcements and updates about the said project. Thank you!` // html body
+                        };
+                    
+                        // send mail with defined transport object
+                        transporter.sendMail(mailOptions, (error, info) => {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            console.log('Message sent: %s', info.messageId);
+                            // Preview only available when sending through an Ethereal account
+                            // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                    
+                            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+                            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                            });
+                            
+                        });
+                        // END OF NODE MAILER
+
+                    res.redirect(`/office/projects/${req.params.int_projectID}/viewproj`); 
+                });
+            }
+        });;
     });
 });
 
@@ -373,7 +509,78 @@ router.post('/brgy/accept',(req, res) => {
 
         db.query(queryString2, (err, results2, fields) => {
 
-            res.redirect(`/office/projects`);
+            console.log("==========APPLICATION TYPE: BARANGAY==========")
+
+                var queryBarangay =`SELECT * FROM tbl_application ap
+                JOIN tbl_projectdetail pd
+                ON ap.int_projectID = pd.int_projectID
+                JOIN tbl_projectapplicationtype pat
+                ON ap.int_projectID = pat.int_projectID
+                WHERE ap.int_applicationID = ${req.body.int_applicationID}`
+
+                db.query(queryBarangay, (err, barangaydetails, fields) => {
+
+                    var finalBarangayDetails = barangaydetails[0];
+
+                    var queryBarangayUser =`SELECT * FROM tbl_application ap
+                    JOIN tbl_officialsaccount oa
+                    ON oa.int_officialsID = ap.int_barangayID
+                    JOIN tbl_user us
+                    ON oa.int_userID = us.int_userID
+                    JOIN tbl_barangay ba
+                    ON ba.int_barangayID = oa.int_officialsID
+                    WHERE ap.int_applicationID = ${req.body.int_applicationID}`
+
+                    db.query(queryBarangayUser, (err, barangayuserdetails, fields) => {
+
+                        var finalBarangayUserDetails = barangayuserdetails[0];
+
+                        // START OF NODE MAILER
+                        nodemailer.createTestAccount((err, account) => {
+                            // create reusable transporter object using the default SMTP transport
+                            var transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    user: 'cityprojmsoffice@gmail.com',
+                                    pass: 'cityprojmsofficeoffice'
+                                },
+                                tls: {
+                                    rejectUnauthorized: false
+                                }
+                            });
+                        
+                            // setup email data with unicode symbols
+                            let mailOptions = {
+                                from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
+                                to: `${finalBarangayUserDetails.varchar_userEmailAddress}`, // list of receivers
+                                subject: 'City Project Application and Beneficiary Releasing Management System - Registration/Application Response', // Subject line
+                                html: `<p>Welcome to City Project Application and Beneficiary Releasing Management System</p>
+                                <br>Good day! <b>${finalBarangayUserDetails.text_userName}</b>,
+                                <br> 
+                                <p>We're here to inform you that your application for the <b>Project: ${finalBarangayDetails.varchar_projectName}</b> for <i><b>Barangay: ${finalBarangayUserDetails.varchar_barangayName}</i></b> has been <u><b>ACCEPTED</b></u>.</p>
+                                <hr>
+                                Please wait for further announcements and updates about the said project. Thank you!` // html body
+                            };
+                        
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, (error, info) => {
+                                if (error) {
+                                    return console.log(error);
+                                }
+                                console.log('Message sent: %s', info.messageId);
+                                // Preview only available when sending through an Ethereal account
+                                // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                        
+                                // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+                                // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                                });
+                                
+                            });
+                            // END OF NODE MAILER
+                            
+                            res.redirect(`/office/projects`);
+                    });
+                });    
         });
     });
 });
@@ -389,7 +596,220 @@ router.post('/:int_projectID/viewproj/reject',(req, res) => {
 
     db.query(queryString1, (err, results1, fields) => {
 
-        res.redirect(`/office/projects/${req.params.int_projectID}/viewproj`);
+        var queryDetails =`SELECT * FROM tbl_application ap
+        JOIN tbl_projectdetail pd
+        ON ap.int_projectID = pd.int_projectID
+        JOIN tbl_projectapplicationtype pat
+        ON ap.int_projectID = pat.int_projectID
+        WHERE ap.int_applicationID = ${req.body.int_applicationID}`
+
+        db.query(queryDetails, (err, details, fields) => {
+
+            var resultDetails = details[0];
+            console.log(resultDetails); 
+
+            if(resultDetails.enum_applicationType == "Resident"){
+                console.log("==========APPLICATION TYPE: RESIDENT==========")
+
+                var queryResident =`SELECT * FROM tbl_application ap
+                JOIN tbl_projectdetail pd
+                ON ap.int_projectID = pd.int_projectID
+                JOIN tbl_personalinformation pi
+                ON ap.int_applicationID = pi.int_applicationID
+                WHERE ap.int_applicationID = ${req.body.int_applicationID}`
+
+                db.query(queryResident, (err, residentdetails, fields) => {
+
+                    var finalResidentDetails = residentdetails[0];
+
+                    // START OF NODE MAILER
+                    nodemailer.createTestAccount((err, account) => {
+                        // create reusable transporter object using the default SMTP transport
+                        var transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            auth: {
+                                user: 'cityprojmsoffice@gmail.com',
+                                pass: 'cityprojmsofficeoffice'
+                            },
+                            tls: {
+                                rejectUnauthorized: false
+                            }
+                        });
+                    
+                        // setup email data with unicode symbols
+                        let mailOptions = {
+                            from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
+                            to: `${finalResidentDetails.varchar_emailAddress}`, // list of receivers
+                            subject: 'City Project Application and Beneficiary Releasing Management System - Registration/Application Response', // Subject line
+                            html: `<p>Welcome to City Project Application and Beneficiary Releasing Management System</p>
+                            <br>Good day! <b>${finalResidentDetails.varchar_lastName}, ${finalResidentDetails.varchar_firstName} ${finalResidentDetails.varchar_middleName}</b>
+                            <br> 
+                            <p>We're here to inform you that your application for the <b>Project: ${finalResidentDetails.varchar_projectName}</b> has been <u><b>REJECTED</b></u>.</p>
+                            The status of your application are based on the result of reviewing your submitted application.
+                            <hr>
+                            Thank you for understanding.` // html body
+                        };
+                    
+                        // send mail with defined transport object
+                        transporter.sendMail(mailOptions, (error, info) => {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            console.log('Message sent: %s', info.messageId);
+                            // Preview only available when sending through an Ethereal account
+                            // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                    
+                            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+                            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                            });
+                            
+                        });
+                        // END OF NODE MAILER
+
+                        res.redirect(`/office/projects/${req.params.int_projectID}/viewproj`);
+                });
+            }
+
+            if(resultDetails.enum_applicationType == "Household"){
+                console.log("==========APPLICATION TYPE: HOUSEHOLD==========")
+
+                var queryHousehold =`SELECT * FROM tbl_application ap
+                JOIN tbl_projectdetail pd
+                ON ap.int_projectID = pd.int_projectID
+                JOIN tbl_projectapplicationtype pat
+                ON ap.int_projectID = pat.int_projectID
+                JOIN tbl_householdapplication ha
+                ON ha.int_applicationID = ap.int_applicationID
+                WHERE ap.int_applicationID = ${req.body.int_applicationID}`
+
+                db.query(queryHousehold, (err, householddetails, fields) => {
+
+                    var finalHouseDetails = householddetails[0];
+
+                    // START OF NODE MAILER
+                    nodemailer.createTestAccount((err, account) => {
+                        // create reusable transporter object using the default SMTP transport
+                        var transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            auth: {
+                                user: 'cityprojmsoffice@gmail.com',
+                                pass: 'cityprojmsofficeoffice'
+                            },
+                            tls: {
+                                rejectUnauthorized: false
+                            }
+                        });
+                    
+                        // setup email data with unicode symbols
+                        let mailOptions = {
+                            from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
+                            to: `${finalHouseDetails.varchar_representativeEmailAddress}`, // list of receivers
+                            subject: 'City Project Application and Beneficiary Releasing Management System - Registration/Application Response', // Subject line
+                            html: `<p>Welcome to City Project Application and Beneficiary Releasing Management System</p>
+                            <br>Good day! <b>${finalHouseDetails.varchar_representativeName}</b>,
+                            <br> 
+                            <p>We're here to inform you that your application for the <b>Project: ${finalHouseDetails.varchar_projectName}</b> has been <u><b>REJECTED</b></u>.</p>
+                            The status of your application are based on the result of reviewing your submitted application.
+                            <hr>
+                            Thank you for understanding.` // html body
+                        };
+                    
+                        // send mail with defined transport object
+                        transporter.sendMail(mailOptions, (error, info) => {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            console.log('Message sent: %s', info.messageId);
+                            // Preview only available when sending through an Ethereal account
+                            // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                    
+                            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+                            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                            });
+                            
+                        });
+                        // END OF NODE MAILER
+
+                        res.redirect(`/office/projects/${req.params.int_projectID}/viewproj`);
+                });
+            }
+
+            if(resultDetails.enum_applicationType == "Barangay"){
+                console.log("==========APPLICATION TYPE: BARANGAY==========")
+
+                var queryBarangay =`SELECT * FROM tbl_application ap
+                JOIN tbl_projectdetail pd
+                ON ap.int_projectID = pd.int_projectID
+                JOIN tbl_projectapplicationtype pat
+                ON ap.int_projectID = pat.int_projectID
+                WHERE ap.int_applicationID = ${req.body.int_applicationID}`
+
+                db.query(queryBarangay, (err, barangaydetails, fields) => {
+
+                    var finalBarangayDetails = barangaydetails[0];
+
+                    var queryBarangayUser =`SELECT * FROM tbl_application ap
+                    JOIN tbl_officialsaccount oa
+                    ON oa.int_officialsID = ap.int_barangayID
+                    JOIN tbl_user us
+                    ON oa.int_userID = us.int_userID
+                    JOIN tbl_barangay ba
+                    ON ba.int_barangayID = oa.int_officialsID
+                    WHERE ap.int_applicationID = ${req.body.int_applicationID}`
+
+                    db.query(queryBarangayUser, (err, barangayuserdetails, fields) => {
+
+                        var finalBarangayUserDetails = barangayuserdetails[0];
+
+                        // START OF NODE MAILER
+                        nodemailer.createTestAccount((err, account) => {
+                            // create reusable transporter object using the default SMTP transport
+                            var transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    user: 'cityprojmsoffice@gmail.com',
+                                    pass: 'cityprojmsofficeoffice'
+                                },
+                                tls: {
+                                    rejectUnauthorized: false
+                                }
+                            });
+                        
+                            // setup email data with unicode symbols
+                            let mailOptions = {
+                                from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
+                                to: `${finalBarangayUserDetails.varchar_userEmailAddress}`, // list of receivers
+                                subject: 'City Project Application and Beneficiary Releasing Management System - Registration/Application Response', // Subject line
+                                html: `<p>Welcome to City Project Application and Beneficiary Releasing Management System</p>
+                                <br>Good day! <b>${finalBarangayUserDetails.text_userName}</b>,
+                                <br> 
+                                <p>We're here to inform you that your application for the <b>Project: ${finalBarangayDetails.varchar_projectName}</b> for <i><b>Barangay: ${finalBarangayUserDetails.varchar_barangayName}</i></b> has been <u><b>REJECTED</b></u>.</p>
+                                The status of your application are based on the result of reviewing your submitted application.
+                                <hr>
+                                Thank you for understanding.` // html body
+                            };
+                        
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, (error, info) => {
+                                if (error) {
+                                    return console.log(error);
+                                }
+                                console.log('Message sent: %s', info.messageId);
+                                // Preview only available when sending through an Ethereal account
+                                // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                        
+                                // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+                                // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                                });
+                                
+                            });
+                            // END OF NODE MAILER
+
+                            res.redirect(`/office/projects/${req.params.int_projectID}/viewproj`);
+                    });
+                });
+            }
+        });
     });
 });
 
@@ -426,34 +846,6 @@ router.post('/:int_projectID/viewproj/ajaxapplicantdetails',(req,res) => {
     });
 });
 
-// router.get('/:int_projectID/viewapp',(req, res) => {
-//     console.log('=================================');
-//     console.log('OFFICE: ONGOING PROJECT - VIEW APPLICATIONS');
-//     console.log('=================================');
-
-//     var queryString1 =`SELECT * FROM tbl_projectproposal pr
-//     JOIN tbl_project proj ON pr.int_projectID = proj.int_projectID
-//     WHERE pr.int_projectID = "${req.params.int_projectID}"`
-
-//     db.query(queryString1, (err, results1, fields) => {
-//         console.log("=========RESULTS1==========")
-//         console.log(results1);
-
-//         var queryString2 =`SELECT * FROM tbl_application ap
-//         JOIN tbl_personalinformation pi 
-//         ON ap.int_applicationID = pi.int_applicationID
-//         WHERE ap.int_projectID = "${req.params.int_projectID}"
-//         AND (ap.enum_applicationStatus = "Approved" OR ap.enum_applicationStatus = "Received")`
-
-//         db.query(queryString2, (err, results2, fields) => {
-    
-//             res.render('office/projects/views/viewapplication',{
-//                     tbl_project:results1,
-//                     tbl_application:results2
-//                 });
-//         });
-//     });
-// });
 
 router.post('/:int_projectID/viewproj/ajaxhouseholddetails',(req,res) => {
     console.log('=================================');
@@ -661,22 +1053,6 @@ router.post('/:int_projectID/viewapp/ajaxapplicanthouseholddetails',(req,res) =>
     });
 });
 
-// router.get('/:int_projectID/startproj', (req, res) => {
-//     console.log('=================================');
-//     console.log('OFFICE: Project - 1 Startproject GET');
-//     console.log('=================================');
-    
-//     var queryString =`SELECT * FROM tbl_project
-//     WHERE enum_projectStatus = 'Approved' 
-//     AND tbl_project.int_projectID=${req.params.int_projectID}`
-        
-//     db.query(queryString, (err, results, fields) => {
-//         console.log(results);
-//         if (err) console.log(err);
-    
-//         res.render(`office/projects/views/startproj`,{tbl_project:results});
-//     });
-// });
 
 //-start project
 router.post('/startproj', (req, res) => {
