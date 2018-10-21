@@ -573,12 +573,18 @@ router.post('/:int_projectID/apply/household',(req,res) => {
                         (\`int_applicationID\`,
                         \`varchar_familyName\`,
                         \`text_homeAddress\`,
+                        \`varchar_representativeName\`,
+                        \`varchar_representativeEmailAddress\`,
+                        \`varchar_representativeContact\`,
                         \`decimal_totalAnnualIncome\`, 
                         \`enum_houseStatus\`) 
                         VALUES 
                         (${int_applicationID},
                         "${req.body.apply_famname}",
                         "${req.body.apply_famaddress}",
+                        "${req.body.apply_repname}",
+                        "${req.body.apply_repemail}",
+                        "${req.body.apply_repcontact}",
                         "${req.body.apply_famincome}",
                         "${req.body.apply_famhouse}")`
 
@@ -893,64 +899,6 @@ router.post('/:int_projectID/registeredapplicants/ajaxapplicantdetails',(req,res
     });
 });
 
-// // AJAX GET DETAILS VIEW DETAILS PROJECT - VIEW APPLICANT DETAILS
-// router.post('/:int_projectID/registeredapplicants/ajaxrequirementsdetails',(req,res) => {
-//     console.log('=================================');
-//     console.log('BARANGAY: RESIDENT APPLICATION REQUIREMENTS');
-//     console.log('=================================');
-//     console.log(`${req.body.ajappID}`);
-
-//     var queryString = `SELECT * FROM tbl_personalinformation pi
-//     JOIN tbl_application ap 
-//     ON pi.int_applicationID=ap.int_applicationID 
-//     WHERE pi.int_applicationID=${req.body.ajappID}`
-
-
-//     db.query(queryString,(err, results, fields) => {
-//         if (err) console.log(err);
-
-//         console.log(results);
-
-//         var date_results = results;
-
-//         for (var i = 0; i < date_results.length;i++){
-//             date_results[i].date_birthDate = moment(date_results[i].date_birthDate).format('MM-DD-YYYY');
-//         }
-
-//         var resultss = results[0];
-
-//         console.log("===================RESULTSS")
-//         console.log(resultss)
-
-//         var queryRequirements = `SELECT * FROM tbl_application ap
-//         JOIN tbl_applicationrequirement ar 
-//         ON ap.int_applicationID=ar.int_applicationID 
-//         JOIN tbl_requirement re
-//         ON ar.int_requirementID = re.int_requirementID
-//         WHERE ap.int_applicationID=${req.body.ajappID}`
-
-
-//         db.query(queryRequirements,(err, requirements, fields) => {
-//             if (err) console.log(err);
-            
-//             var reqArray =[]
-
-//             console.log("SELECT REQUIREMENTS")
-//             console.log(requirements);
-            
-//             for(i=0; i <requirements.length; i++){
-//                 console.log("REQUIREMENT NAME:")
-//                 console.log(requirements[i].varchar_requirementName);
-
-//                 // reqArray.requirements[i];
-//             }
-//             // console.log()
-
-//             return res.send({tbl_requirements:requirements});
-//         });
-//     });
-// });
-
 router.post('/:int_projectID/registeredapplicants/ajaxhouseholddetails',(req,res) => {
     console.log('=================================');
     console.log('OFFICE: PROJECT VIEW DETAILS-VIEW APPLICATION-AJAX GET DETAILS (POST)');
@@ -1026,7 +974,8 @@ router.get('/registeredapplicants/:int_projectID/list', (req, res) => {
 // FORM VALIDATIONS 
 // =======================================================
 
-// (RESIDENT)
+
+//----------------- (RESIDENT) -----------------
 
 // AJAX - CHECK EMAIL 
 router.post('/:int_projectID/apply/checkemail',(req,res) => {
@@ -1042,37 +991,74 @@ router.post('/:int_projectID/apply/checkemail',(req,res) => {
         AND tbl_application.int_projectID = ${req.params.int_projectID}`
 
         db.query(queryString,(err, results, fields) => {
-            if (err) console.log(err);   
+            if (err) console.log(err);       
 
-            // var email = results[0];
-            // console.log("=======================BRGY ID")
-            // console.log(email);
-            // console.log("=======================BRGY ID END")
-            
+            console.log("=======CHECK IF THERE'S AN APPLICATION======");
+            console.log(results)
+            console.log("=======CHECK IF THERE'S AN APPLICATION======");
 
-                    console.log("=======CHECK IF THERE'S AN APPLICATION======");
-                    console.log(results)
-                    console.log("=======CHECK IF THERE'S AN APPLICATION======");
+            if(results.length > 0 ){
+                
+                console.log("MAY RECORD");
 
-                    if(results.length > 0 ){
+                var record = true;
+
+                return res.send({check_app:results,record:record});
+            }
+
+            else{
+                console.log("WALANG RECORD");
+                
+                var record = false;
+                
+                return res.send({check_app:results,record:record});
                         
-                        console.log("MAY RECORD");
+                
+            }
+            // END OF ELSE
+    });
+});
 
-                        var record = true;
 
-                        return res.send({check_app:results,record:record});
-                    }
+//----------------- (HOUSEHOLD) -----------------
+// AJAX - CHECK EMAIL
+router.post('/:int_projectID/apply/checkemailrepresentative',(req,res) => {
+    console.log('=================================');
+    console.log('BARANGAY: PROJECTS-AJAX CHECK EMAIL REPRESENTATIVE IF EXISTING (POST)');
+    console.log('=================================');
+    console.log(`${req.body.checkEmail}`);
 
-                    else{
-                        console.log("WALANG RECORD");
+    var queryString = `SELECT * FROM tbl_householdapplication
+        JOIN tbl_application
+        ON tbl_householdapplication.int_applicationID = tbl_application.int_applicationID
+        WHERE tbl_householdapplication.varchar_representativeEmailAddress = "${req.body.checkEmail}"
+        AND tbl_application.int_projectID = ${req.params.int_projectID}`
+
+        db.query(queryString,(err, results, fields) => {
+            if (err) console.log(err);       
+
+            console.log("=======CHECK IF THERE'S AN APPLICATION======");
+            console.log(results)
+            console.log("=======CHECK IF THERE'S AN APPLICATION======");
+
+            if(results.length > 0 ){
+                
+                console.log("MAY RECORD");
+
+                var record = true;
+
+                return res.send({check_app:results,record:record});
+            }
+
+            else{
+                console.log("WALANG RECORD");
+                
+                var record = false;
+                
+                return res.send({check_app:results,record:record});
                         
-                        var record = false;
-                        
-                        return res.send({check_app:results,record:record});
-                                
-                        
-                    }
-                    // END OF ELSE
+            }
+            // END OF ELSE
     });
 });
 

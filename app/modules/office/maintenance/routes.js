@@ -604,7 +604,7 @@ router.post('/brgyaccnt/:int_barangayID/brgyuser',(req, res) => {
                             from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
                             to: `${req.body.barangayEmail}`, // list of receivers
                             subject: 'City Project Application and Beneficiary Releasing Management System - Barangay Account Details', // Subject line
-                            html: `<b>Welcome to City Project Application and Beneficiary Releasing Managament System. 
+                            html: `<b>Welcome to City Project Application and Beneficiary Releasing Management System. 
                             <br>The following information will be your current login details.
                             </b> <p>You can edit/update your information anytime, once you login using these account details.
                             <hr> Email: ${req.body.barangayEmail} 
@@ -823,7 +823,7 @@ router.post('/budgetaccnt',(req, res) => {
                                 from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
                                 to: `${req.body.budgetEmail}`, // list of receivers
                                 subject: 'City Project Application and Beneficiary Releasing Management System - Budget Office Account Details', // Subject line
-                                html: `<b>Welcome to City Project Application and Beneficiary Releasing Managament System. 
+                                html: `<b>Welcome to City Project Application and Beneficiary Releasing Management System. 
                                 <br>The following information will be your current login details.
                                 </b> <p>You can edit/update your information anytime, once you login using these account details.
                                 <hr> Email: ${req.body.budgetEmail} 
@@ -978,7 +978,7 @@ router.post('/officeaccnt',(req, res) => {
                             from: '"City Project - Office" <cityprojmsoffice@gmail.com>', // sender address
                             to: `${req.body.officeEmail}`, // list of receivers
                             subject: 'City Project Application and Beneficiary Releasing Management System - Office Account Details', // Subject line
-                            html: `<b>Welcome to City Project Application and Beneficiary Releasing Managament System. 
+                            html: `<b>Welcome to City Project Application and Beneficiary Releasing Management System. 
                             <br>The following information will be your current login details.
                             </b> <p>You can edit/update your information anytime, once you login using these account details.
                             <hr> Email: ${req.body.officeEmail} 
